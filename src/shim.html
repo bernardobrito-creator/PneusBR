@@ -1,0 +1,305 @@
+<style>
+/* ---------- tela de entrada (somente no site) ---------- */
+.login{position:fixed;inset:0;z-index:90;background:var(--bar);color:var(--bar-ink);display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));overflow:auto}
+.login-card{width:min(400px,100%);background:var(--surface);color:var(--ink);border-radius:16px;padding:28px 26px;display:grid;gap:16px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.login-marca{display:flex;align-items:center;gap:12px}
+.login-marca .bars{display:inline-flex;align-items:stretch;gap:2px;height:26px;color:var(--ink)}
+.login-marca .bars i{display:block;background:currentColor;width:2px}
+.login-marca .bars i:nth-child(2){width:1px}.login-marca .bars i:nth-child(3){width:3px}.login-marca .bars i:nth-child(5){width:1px}
+.login-marca .bars i:last-child{background:var(--red);width:3px}
+.login-marca b{font-size:24px;font-weight:700;letter-spacing:-.03em}
+.login-marca b span{color:var(--red)}
+.login-card h2{margin:0;font-size:18px;letter-spacing:-.01em}
+.login-card p{margin:0;font-size:14px;color:var(--ink-2)}
+.login-card form{display:grid;gap:12px}
+.login-card .btn{width:100%;padding:11px 14px;font-size:15px}
+.login-erro{color:var(--red-ink);font-size:13.5px;min-height:1em}
+.login-rodape{font-size:12px;color:var(--muted);text-align:center}
+.pessoa{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.pessoa small{color:var(--muted);display:block}
+.pessoa .acoes{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+#a-equipe .toolbar{margin-top:10px}
+</style>
+<div class="login" id="login">
+  <div class="login-card">
+    <div class="login-marca"><span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Pneus<span>BR</span></b></div>
+    <div id="login-carregando"><p>Conectando…</p></div>
+    <form id="f-entrar" hidden autocomplete="on">
+      <h2>Entrar</h2>
+      <label class="f">E-mail<input class="inp" type="email" id="le-email" autocomplete="username" required></label>
+      <label class="f">Senha<input class="inp" type="password" id="le-senha" autocomplete="current-password" required></label>
+      <button class="btn primary" type="submit">Entrar</button>
+      <div class="login-erro" id="le-erro" role="alert"></div>
+    </form>
+    <form id="f-criar" hidden>
+      <h2>Primeiro acesso</h2>
+      <p>Crie o acesso da loja. Este e-mail e esta senha serão usados para entrar no sistema; guarde a senha em lugar seguro.</p>
+      <label class="f">Seu nome<input class="inp" id="lc-nome" autocomplete="name" placeholder="Ex.: Bernardo"></label>
+      <label class="f">E-mail da loja<input class="inp" type="email" id="lc-email" autocomplete="username" required></label>
+      <label class="f">Senha (mínimo 8 caracteres)<input class="inp" type="password" id="lc-senha" autocomplete="new-password" minlength="8" required></label>
+      <label class="f">Repita a senha<input class="inp" type="password" id="lc-senha2" autocomplete="new-password" minlength="8" required></label>
+      <button class="btn primary" type="submit">Criar acesso e entrar</button>
+      <div class="login-erro" id="lc-erro" role="alert"></div>
+    </form>
+    <div id="login-falha" hidden><p id="lf-msg"></p><button class="btn" type="button" id="lf-tentar" style="margin-top:12px">Tentar de novo</button></div>
+    <p class="login-rodape">Sistema de estoque, caixa e gestão da PneusBR</p>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(() => {
+'use strict';
+const SB_URL = 'https://mjojodmrckyzfhrbaswt.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1qb2pvZG1yY2t5emZocmJhc3d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NjM2ODYsImV4cCI6MjEwOTAzOTY4Nn0.m7tgEANtAcVyaIrZKwO9KfoaEFbSrGm2KwwSSInJjrU';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: true, storageKey: 'pbr-auth' } });
+
+/* ---------- camada de banco: mesma interface do banco do Claude, gravando no Supabase ---------- */
+const META = Object.freeze({ fromCache: false, hasPendingWrites: false });
+const OPS = { '>=': (a, b) => a >= b, '>': (a, b) => a > b, '<=': (a, b) => a <= b, '<': (a, b) => a < b, '==': (a, b) => a === b, '!=': (a, b) => a !== b };
+const subs = new Set();
+let canal = null, jaConectou = false;
+const dividir = p => { const i = p.lastIndexOf('/'); return [p.slice(0, i), p.slice(i + 1)]; };
+const passa = (s, data) => s.filtros.every(([f, op, v]) => { const x = data ? data[f] : undefined; return x !== undefined && OPS[op] ? OPS[op](x, v) : false; });
+function erroDb(e) {
+  const m = String((e && (e.message || e.msg)) || e || '');
+  const c = e && e.code;
+  if (c === '42501' || /row-level security|permission denied/i.test(m)) return { code: 'invalid_argument', message: m };
+  if (c === 'PGRST301' || /JWT|jwt expired|not authenticated/i.test(m)) return { code: 'revoked', message: m };
+  return { code: 'unavailable', message: m };
+}
+function montar(s, de, ate) {
+  let q = sb.from('docs').select('doc_id,data');
+  if (s.tipo === 'doc') return q.eq('path', s.path).range(de, ate);
+  q = q.eq('colecao', s.col);
+  for (const [f, op, v] of s.filtros) {
+    const c = 'data->>' + f;
+    q = op === '>=' ? q.gte(c, v) : op === '>' ? q.gt(c, v) : op === '<=' ? q.lte(c, v) : op === '<' ? q.lt(c, v) : op === '==' ? q.eq(c, v) : q.neq(c, v);
+  }
+  return q.order('doc_id').range(de, ate);
+}
+async function buscar(s) {
+  const out = new Map(), PG = 500;
+  for (let de = 0; ; de += PG) {
+    const { data, error } = await montar(s, de, de + PG - 1);
+    if (error) throw error;
+    for (const r of data) out.set(r.doc_id, r.data);
+    if (data.length < PG) break;
+  }
+  return out;
+}
+function snapCol(s) {
+  const docs = [...s.cache.keys()].sort().map(id => { const d = s.cache.get(id); return { id, exists: true, data: () => d, metadata: META }; });
+  const ch = [];
+  for (const d of docs) ch.push({ type: s.prev.has(d.id) ? 'modified' : 'added', doc: d });
+  for (const [id, d] of s.prev) if (!s.cache.has(id)) ch.push({ type: 'removed', doc: { id, exists: true, data: () => d, metadata: META } });
+  s.prev = new Map(s.cache);
+  return { docs, size: docs.length, empty: !docs.length, docChanges: () => ch, metadata: META };
+}
+function emitir(s) {
+  try {
+    if (s.tipo === 'doc') { const d = s.cache.get(s.id); s.next({ id: s.id, exists: d !== undefined, data: () => d, metadata: META }); }
+    else s.next(snapCol(s));
+  } catch (e) { console.error(e); }
+}
+function despachar(path, data) {
+  const [col, id] = dividir(path);
+  for (const s of subs) {
+    if (s.tipo === 'doc') { if (s.path !== path) continue; if (data === undefined) s.cache.delete(id); else s.cache.set(id, data); emitir(s); continue; }
+    if (s.col !== col) continue;
+    if (data === undefined || !passa(s, data)) { if (s.cache.has(id)) { s.cache.delete(id); emitir(s); } }
+    else { s.cache.set(id, data); emitir(s); }
+  }
+}
+async function ressincronizar() {
+  for (const s of [...subs]) { try { s.cache = await buscar(s); emitir(s); } catch (e) { /* tenta na próxima */ } }
+}
+function ligarCanal() {
+  if (canal) return;
+  canal = sb.channel('docs-' + Math.random().toString(36).slice(2))
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'docs' }, ev => {
+      const novo = ev.new && ev.new.path ? ev.new : null, velho = ev.old && ev.old.path ? ev.old : null;
+      const path = (novo || velho)?.path; if (!path) return;
+      despachar(path, ev.eventType === 'DELETE' ? undefined : novo.data);
+    })
+    .subscribe(status => {
+      if (status === 'SUBSCRIBED') { if (jaConectou) ressincronizar(); jaConectou = true; }
+    });
+}
+let escondidaEm = 0;
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') escondidaEm = Date.now();
+  else if (escondidaEm && Date.now() - escondidaEm > 60000) ressincronizar();
+});
+function assinatura(s, next, err) {
+  Object.assign(s, { cache: new Map(), prev: new Map(), next, err });
+  subs.add(s); ligarCanal();
+  buscar(s).then(m => { if (!subs.has(s)) return; s.cache = m; emitir(s); }).catch(e => { subs.delete(s); if (err) err(erroDb(e)); });
+  return () => subs.delete(s);
+}
+function colRef(col, filtros = []) {
+  const q = {
+    path: col,
+    where: (f, op, v) => colRef(col, [...filtros, [f, op, v]]),
+    orderBy: () => q, limit: () => q,
+    doc: id => docRef(col + '/' + (id || Math.random().toString(36).slice(2, 12))),
+    async add(data) { const r = q.doc(); await r.set(data); return r; },
+    async get() { try { const s = { tipo: 'col', col, filtros, prev: new Map() }; s.cache = await buscar(s); return snapCol(s); } catch (e) { throw erroDb(e); } },
+    onSnapshot: (next, err) => assinatura({ tipo: 'col', col, filtros }, next, err)
+  };
+  return q;
+}
+function docRef(path) {
+  const [col, id] = dividir(path);
+  const r = {
+    id, path,
+    async get() { try { const m = await buscar({ tipo: 'doc', path }); const d = m.get(id); return { id, exists: d !== undefined, data: () => d, metadata: META }; } catch (e) { throw erroDb(e); } },
+    async set(data) { const { error } = await sb.from('docs').upsert({ path, colecao: col, doc_id: id, data }); if (error) throw erroDb(error); despachar(path, data); },
+    async update(data) { const cur = await r.get(); if (!cur.exists) throw { code: 'invalid_argument', message: 'Documento não existe.' }; await r.set({ ...cur.data(), ...data }); },
+    async delete() { const { error } = await sb.from('docs').delete().eq('path', path); if (error) throw erroDb(error); despachar(path, undefined); },
+    onSnapshot: (next, err) => assinatura({ tipo: 'doc', path, id, filtros: [] }, next, err),
+    collection: sub => colRef(path + '/' + sub)
+  };
+  return r;
+}
+const db = { doc: docRef, collection: p => colRef(p) };
+
+/* ---------- planilha via função do servidor ---------- */
+let ultimoErroPlanilha = null;
+async function lerErroFuncao(error, padrao) {
+  try { const j = await error.context.json(); if (j && j.erro) return j.erro; } catch { }
+  if (/Failed to fetch|NetworkError/i.test(String(error && error.message))) return 'Sem conexão com a internet. Tente de novo em instantes.';
+  return padrao;
+}
+const mcp = {
+  async callTool(server, tool) {
+    if (tool === 'download_file_content') {
+      const { data, error } = await sb.functions.invoke('planilha', { body: {} });
+      if (error) { ultimoErroPlanilha = { code: 'formato', message: await lerErroFuncao(error, 'Não foi possível ler a planilha agora.') }; throw ultimoErroPlanilha; }
+      ultimoErroPlanilha = null;
+      return { content: [], payload: data };
+    }
+    throw ultimoErroPlanilha || { code: 'formato', message: 'Não foi possível ler a planilha agora.' };
+  }
+};
+
+/* ---------- downloads normais do navegador ---------- */
+const TIPOS = { csv: 'text/csv;charset=utf-8', html: 'text/html;charset=utf-8', json: 'application/json', txt: 'text/plain;charset=utf-8' };
+const downloads = {
+  async save({ filename, data }) {
+    const ext = String(filename).split('.').pop().toLowerCase();
+    const blob = data instanceof Blob ? data : new Blob([data], { type: TIPOS[ext] || 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    return { status: 'saved' };
+  }
+};
+
+/* ---------- conta e equipe ---------- */
+const PBR = window.PBR = { sb, eu: null };
+let resolverPronto;
+const pronto = new Promise(r => { resolverPronto = r; });
+window.claude = { use: n => pronto.then(c => c[n] || null) };
+
+function tela(qual, msg) {
+  $('#login').hidden = qual === null;
+  for (const id of ['login-carregando', 'f-entrar', 'f-criar', 'login-falha']) $('#' + id).hidden = id !== qual;
+  if (qual === 'login-falha') $('#lf-msg').textContent = msg || 'Não foi possível conectar.';
+  if (qual === 'f-entrar') { $('#le-erro').textContent = msg || ''; setTimeout(() => $('#le-email').focus(), 30); }
+  if (qual === 'f-criar') setTimeout(() => $('#lc-nome').focus(), 30);
+}
+async function prepararLogin(msg) {
+  tela('login-carregando');
+  const { data, error } = await sb.functions.invoke('acesso', { body: { acao: 'status' } });
+  if (error) { tela('login-falha', await lerErroFuncao(error, 'Não foi possível falar com o servidor. Confira a internet.')); return; }
+  tela(data && data.temDono ? 'f-entrar' : 'f-criar', msg);
+}
+async function iniciarSessao(sessao) {
+  tela('login-carregando');
+  const { data: me, error } = await sb.from('membros').select('nome,papel').eq('user_id', sessao.user.id).maybeSingle();
+  if (error) { tela('login-falha', 'Não foi possível carregar o seu acesso. Confira a internet.'); return; }
+  if (!me) { await sb.auth.signOut(); prepararLogin('Esta conta não tem acesso ao sistema. Peça ao dono para liberar.'); return; }
+  PBR.eu = { id: sessao.user.id, email: sessao.user.email, nome: me.nome || sessao.user.email, papel: me.papel };
+  tela(null);
+  resolverPronto({
+    db, mcp, downloads,
+    user: { id: async () => PBR.eu.id, can: async c => c === 'data.write' ? true : null, isOwner: async () => PBR.eu.papel === 'dono', canEdit: async () => PBR.eu.papel === 'dono', me: async () => ({ id: PBR.eu.id, name: PBR.eu.nome }) },
+    permissions: { state: async () => 'granted', request: async () => ({}), manage: async () => { } }
+  });
+}
+$('#f-entrar').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = e.submitter || $('#f-entrar button'); btn.disabled = true; $('#le-erro').textContent = '';
+  const { data, error } = await sb.auth.signInWithPassword({ email: $('#le-email').value.trim(), password: $('#le-senha').value });
+  btn.disabled = false;
+  if (error) { $('#le-erro').textContent = /invalid login/i.test(error.message) ? 'E-mail ou senha incorretos.' : /fetch|network/i.test(error.message) ? 'Sem conexão com a internet.' : error.message; return; }
+  iniciarSessao(data.session);
+});
+$('#f-criar').addEventListener('submit', async e => {
+  e.preventDefault();
+  const s1 = $('#lc-senha').value, s2 = $('#lc-senha2').value, email = $('#lc-email').value.trim();
+  if (s1 !== s2) { $('#lc-erro').textContent = 'As duas senhas não são iguais.'; return; }
+  const btn = e.submitter || $('#f-criar button'); btn.disabled = true; $('#lc-erro').textContent = '';
+  const { error } = await sb.functions.invoke('acesso', { body: { acao: 'criar-dono', nome: $('#lc-nome').value.trim(), email, senha: s1 } });
+  if (error) { btn.disabled = false; $('#lc-erro').textContent = await lerErroFuncao(error, 'Não foi possível criar o acesso.'); return; }
+  const { data, error: e2 } = await sb.auth.signInWithPassword({ email, password: s1 });
+  btn.disabled = false;
+  if (e2) { prepararLogin('Acesso criado. Entre com o e-mail e a senha.'); return; }
+  iniciarSessao(data.session);
+});
+$('#lf-tentar').addEventListener('click', () => boot());
+
+PBR.sair = async () => { await sb.auth.signOut(); location.reload(); };
+PBR.trocarSenha = async senha => { if (String(senha).length < 8) throw new Error('A senha precisa ter pelo menos 8 caracteres.'); const { error } = await sb.auth.updateUser({ password: senha }); if (error) throw new Error(/same/i.test(error.message) ? 'A nova senha é igual à atual.' : error.message); };
+async function acaoEquipe(body) { const { data, error } = await sb.functions.invoke('acesso', { body }); if (error) throw new Error(await lerErroFuncao(error, 'Não foi possível concluir.')); return data; }
+PBR.renderConta = async () => {
+  const box = $('#a-conta'); if (!box || !PBR.eu) return;
+  box.innerHTML = `<p style="margin:0;font-size:14px"><b>${esc(PBR.eu.nome)}</b> · ${esc(PBR.eu.email)} · ${PBR.eu.papel === 'dono' ? 'dono' : 'funcionário'}</p>
+    <div class="toolbar"><input class="inp" type="password" id="a-senha-nova" placeholder="Nova senha (mín. 8)" autocomplete="new-password" style="flex:1;min-width:180px"><button class="btn sm" type="button" data-acao="pbr-senha">Trocar minha senha</button></div>
+    <div class="toolbar"><button class="btn sm ghost" type="button" data-acao="pbr-sair">Sair desta conta</button></div>`;
+  const eq = $('#a-equipe'); if (!eq) return;
+  if (PBR.eu.papel !== 'dono') { eq.closest('section').hidden = true; return; }
+  eq.innerHTML = '<p class="muted" style="margin:0">Carregando…</p>';
+  try {
+    const { lista } = await acaoEquipe({ acao: 'listar' });
+    eq.innerHTML = (lista || []).map(p => `<div class="pessoa"><div><b>${esc(p.nome || p.email)}</b><small>${esc(p.email)} · ${p.papel === 'dono' ? 'dono' : 'funcionário'}${p.ultimo ? ' · entrou em ' + new Date(p.ultimo).toLocaleDateString('pt-BR') : ' · ainda não entrou'}</small></div>
+      <div class="acoes">${p.user_id !== PBR.eu.id ? `<button class="btn sm" type="button" data-acao="pbr-redef" data-id="${esc(p.user_id)}">Nova senha</button><button class="btn sm ghost" type="button" data-acao="pbr-remover" data-id="${esc(p.user_id)}">Remover</button>` : '<span class="muted" style="font-size:12.5px">você</span>'}</div></div>`).join('') +
+      `<div class="form-g3" style="margin-top:10px"><label class="f">Nome<input class="inp" id="a-p-nome"></label><label class="f">E-mail<input class="inp" type="email" id="a-p-email"></label><label class="f">Senha inicial<input class="inp" type="text" id="a-p-senha" placeholder="mín. 8"></label></div>
+      <div class="toolbar"><button class="btn sm primary" type="button" data-acao="pbr-add">Dar acesso a esta pessoa</button></div>`;
+  } catch (e) { eq.innerHTML = `<p class="erro-txt">${esc(e.message)}</p>`; }
+};
+function aviso(msg, erro) { const el = document.createElement('div'); el.className = 'toast' + (erro ? ' err' : ''); el.textContent = msg; $('#toasts').appendChild(el); setTimeout(() => el.remove(), erro ? 7000 : 3500); }
+document.addEventListener('click', async e => {
+  const a = e.target.closest('[data-acao^="pbr-"]'); if (!a) return;
+  const acao = a.dataset.acao;
+  try {
+    if (acao === 'pbr-sair') { await PBR.sair(); return; }
+    if (acao === 'pbr-senha') { await PBR.trocarSenha($('#a-senha-nova').value); $('#a-senha-nova').value = ''; aviso('Senha trocada.'); return; }
+    if (acao === 'pbr-add') { await acaoEquipe({ acao: 'criar-func', nome: $('#a-p-nome').value.trim(), email: $('#a-p-email').value.trim(), senha: $('#a-p-senha').value }); aviso('Acesso criado. Passe o e-mail e a senha para a pessoa.'); PBR.renderConta(); return; }
+    if (acao === 'pbr-redef') {
+      if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.insertAdjacentHTML('beforebegin', `<input class="inp" type="text" placeholder="nova senha" style="width:130px" data-redef="${esc(a.dataset.id)}">`); a.textContent = 'Salvar senha'; return; }
+      const inp = document.querySelector(`[data-redef="${CSS.escape(a.dataset.id)}"]`);
+      await acaoEquipe({ acao: 'senha', user_id: a.dataset.id, senha: inp ? inp.value : '' }); aviso('Senha redefinida.'); PBR.renderConta(); return;
+    }
+    if (acao === 'pbr-remover') {
+      if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.textContent = 'Confirmar remoção'; a.classList.add('red'); return; }
+      await acaoEquipe({ acao: 'remover', user_id: a.dataset.id }); aviso('Acesso removido.'); PBR.renderConta(); return;
+    }
+  } catch (err) { aviso(err.message || 'Não foi possível concluir.', true); }
+});
+
+async function boot() {
+  tela('login-carregando');
+  try {
+    const { data } = await sb.auth.getSession();
+    if (data && data.session) await iniciarSessao(data.session); else await prepararLogin();
+  } catch (e) { tela('login-falha', 'Não foi possível conectar. Confira a internet.'); }
+}
+sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT' && PBR.eu) location.reload(); });
+boot();
+
+if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => { });
+})();
+</script>
