@@ -340,15 +340,40 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
 .doc-lido{display:flex;gap:10px;align-items:flex-start;background:var(--surface-2);border-radius:10px;padding:10px 12px;font-size:13.5px}
 .doc-lido .mono{font-size:12px;overflow-wrap:anywhere}
 .parc-row td{background:var(--surface-2)}
-.cfg-lista{display:grid;gap:6px}
-.cfg-lista a{display:grid;grid-template-columns:38px minmax(0,1fr) auto 16px;gap:12px;align-items:center;padding:9px 10px;border:1px solid var(--line);border-radius:11px;text-decoration:none;color:var(--ink);background:var(--surface)}
-.cfg-lista a:hover{border-color:var(--line-2);background:var(--surface-2)}
-.cfg-lista a[aria-current="page"]{border-color:var(--red-line);box-shadow:inset 3px 0 0 var(--red)}
-.cfg-lista .ic{width:38px;height:38px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;color:var(--ink-2)}
-.cfg-lista a:hover .ic{background:var(--surface)}
-.cfg-lista b{display:block;font-weight:650;font-size:14.5px;letter-spacing:-.01em}
-.cfg-lista small{display:block;color:var(--muted);font-size:12.5px;line-height:1.3}
-.cfg-lista .seta{color:var(--muted);width:16px;height:16px}
+.cfg-icones{display:flex;flex-wrap:wrap;gap:8px}
+.cfg-icones a{position:relative;width:52px;height:52px;border-radius:13px;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);text-decoration:none}
+.cfg-icones a:hover{border-color:var(--line-2);background:var(--surface-2);color:var(--ink)}
+.cfg-icones a[aria-current="page"]{border-color:var(--red-line);color:var(--ink);box-shadow:inset 0 -3px 0 var(--red)}
+.cfg-icones svg.i{width:23px;height:23px}
+.cfg-icones .badge{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--red);color:var(--on-red);font:700 10.5px/18px var(--f-ui);text-align:center}
+.cfg-icones .cad{position:absolute;bottom:4px;right:4px;width:15px;height:15px;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--muted)}
+.cfg-icones .cad svg.i{width:11px;height:11px;stroke-width:2.2}
+.trava{max-width:420px;margin:48px auto;padding:30px 26px;display:grid;gap:12px;justify-items:center;text-align:center}
+.trava h1{margin:0;font-size:24px;letter-spacing:-.02em}
+.trava p{margin:0;color:var(--ink-2);font-size:14px}
+.trava form{display:flex;gap:8px;width:100%;margin-top:4px}
+.trava form .inp{flex:1;font-size:16px;letter-spacing:.08em}
+.trava-ic{width:58px;height:58px;border-radius:16px;background:var(--red-soft);display:grid;place-items:center;color:var(--red-ink)}
+.trava-ic svg.i{width:27px;height:27px}
+/* lucro e prejuízo por item (Faturamento) */
+.lp{display:grid}
+.lp-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.5fr) 118px;gap:14px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line)}
+.lp-row:last-child{border-bottom:0}
+.lp-row.sep{border-top:1px solid var(--line-2)}
+.lp-nome{min-width:0}
+.lp-nome b{display:block;font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lp-nome small{display:block;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lp-bar{display:grid;grid-template-columns:1fr 1fr;height:14px;position:relative}
+.lp-bar::after{content:"";position:absolute;left:50%;top:-6px;bottom:-6px;width:1px;background:var(--line-2)}
+.lp-bar .l{display:flex;justify-content:flex-end}
+.lp-bar i{display:block;height:100%}
+.lp-bar .l i{background:var(--red);border-radius:3px 0 0 3px}
+.lp-bar .r i{background:var(--ink-2);border-radius:0 3px 3px 0}
+.lp-v{text-align:right;font-variant-numeric:tabular-nums;font-weight:650;font-size:13.5px;white-space:nowrap}
+.lp-row.neg .lp-v{color:var(--red-ink)}
+.lp-tot{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13.5px;color:var(--muted)}
+.lp-tot b{color:var(--ink);font-variant-numeric:tabular-nums}
+@media (max-width:520px){ .lp-row{grid-template-columns:minmax(0,1fr) auto;gap:6px 10px} .lp-bar{grid-column:1 / -1;grid-row:2} }
 .migalha{display:inline-flex;align-items:center;gap:5px;border:0;background:none;padding:0;margin:0 0 4px;color:var(--muted);font-size:12.5px;font-weight:600;cursor:pointer}
 .migalha:hover{color:var(--red-ink)}
 .migalha svg.i{width:14px;height:14px}
@@ -431,6 +456,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
     <symbol id="ic-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
     <symbol id="ic-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
     <symbol id="ic-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/><path d="M12 14.5v2.5"/></symbol>
     <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
   </defs>
 </svg>
@@ -571,6 +597,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
       <div class="toolbar">
         <select class="inp" id="c-per" aria-label="Período"></select>
         <input class="inp" id="c-de" type="date" hidden aria-label="De"><input class="inp" id="c-ate" type="date" hidden aria-label="Até">
+        <button class="btn ghost" type="button" data-acao="bloquear"><svg class="i"><use href="#ic-lock"/></svg>Bloquear</button>
         <button class="btn primary" id="c-novo" type="button"><svg class="i"><use href="#ic-plus"/></svg>Lançamento</button>
       </div>
     </div>
@@ -600,17 +627,30 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   <section data-view="faturamento" hidden>
     <div class="sec-h">
       <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Faturamento</h1><p>Tudo o que foi vendido no período, à vista e a prazo: produtos e serviços.</p></div>
-      <div class="toolbar"><select class="inp" id="f-per" aria-label="Período"></select><input class="inp" id="f-de" type="date" hidden aria-label="De"><input class="inp" id="f-ate" type="date" hidden aria-label="Até"></div>
+      <div class="toolbar"><select class="inp" id="f-per" aria-label="Período"></select><input class="inp" id="f-de" type="date" hidden aria-label="De"><input class="inp" id="f-ate" type="date" hidden aria-label="Até"><button class="btn ghost" type="button" data-acao="bloquear"><svg class="i"><use href="#ic-lock"/></svg>Bloquear</button></div>
     </div>
     <div class="kpis k5 mb" id="f-kpis"></div>
     <div class="grid2">
       <div class="card chart"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px"><b>Faturamento por dia</b><span class="legend"><span><i style="background:var(--ink-2)"></i>Produtos</span><span><i style="background:var(--red)"></i>Serviços</span></span></div><div id="f-chart"></div></div>
       <div class="card bloco" id="f-meta"></div>
     </div>
+    <div class="card bloco mb" id="f-lp"></div>
     <div class="grid3">
       <div class="card bloco" id="f-cat"></div>
       <div class="card bloco" id="f-pg"></div>
       <div class="card bloco" id="f-dre"></div>
+    </div>
+  </section>
+
+  <!-- SENHA (Caixa e Faturamento) -->
+  <section data-view="trava" hidden>
+    <div class="card trava">
+      <span class="trava-ic"><svg class="i"><use href="#ic-lock"/></svg></span>
+      <h1 id="trava-titulo">Caixa</h1>
+      <p>Esta tela pede a senha da loja.</p>
+      <form id="trava-form" autocomplete="off"><input class="inp" id="trava-senha" type="password" placeholder="Senha" aria-label="Senha" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="btn primary" type="submit">Abrir</button></form>
+      <p class="erro-txt" id="trava-erro" hidden>Senha incorreta.</p>
+      <p class="muted" style="font-size:12.5px">A senha vale até você fechar esta aba do navegador. Caixa e Faturamento abrem juntos.</p>
     </div>
   </section>
 
@@ -707,6 +747,12 @@ const TELAS_CONFIG = [
   ['rotina', 'check', 'Rotina da empresa', 'Tarefas do dia, da semana, do mês e do ano']
 ];
 const ehTelaConfig = tab => TELAS_CONFIG.some(t => t[0] === tab);
+const TELAS_SENHA = ['caixa', 'faturamento'];
+const SENHA_TELAS = 'jm1zwz'; // resumo (hash36) da senha da loja
+let livresMem = false;
+function telasLivres() { try { return sessionStorage.getItem('pbr.livre') === '1'; } catch { return livresMem; } }
+function liberarTelas(sim) { livresMem = sim; try { if (sim) sessionStorage.setItem('pbr.livre', '1'); else sessionStorage.removeItem('pbr.livre'); } catch { } }
+const travada = tab => TELAS_SENHA.includes(tab) && !telasLivres();
 function pendentesRotinaHoje() { const l = rotinaLista().filter(i => i.freq === 'dia'); return Math.max(0, l.length - l.filter(i => rotinaFeito(i)).length); }
 const BASE_NOME = { custo: 'Custo × markup', 'custo-compra': 'Última compra × markup', mercado: 'Média de mercado', planilha: 'Preço de venda da planilha', manual: 'Preço manual', sem: 'Sem preço' };
 const SERV_SUGEST = ['Montagem de pneu', 'Balanceamento', 'Alinhamento', 'Rodízio de pneus', 'Conserto de pneu (remendo)', 'Troca de óleo (mão de obra)', 'Troca de pastilhas', 'Troca de amortecedor', 'Cambagem', 'Calibragem com nitrogênio'];
@@ -746,11 +792,21 @@ const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 const COMPACT = new Intl.NumberFormat('pt-BR', { notation: 'compact', maximumFractionDigits: 1 });
-const money = v => (v == null || !isFinite(v)) ? '—' : BRL.format(v);
-const sinal = v => (v > 0 ? '+' : v < 0 ? '−' : '') + BRL.format(Math.abs(v || 0));
+// Código da loja: os valores em R$ (menos o preço de venda) aparecem em letras. 1=T 2=R 3=E 4=P 5=N 6=I 7=A 8=Y 9=K 0=S
+const CODIGO = 'STREPNIAYK';
+const codificar = x => String(x).replace(/\d/g, d => CODIGO[d]);
+let revelar = false; // fica true só enquanto Caixa e Faturamento desenham, depois da senha
+const cod = x => revelar ? String(x) : codificar(x);
+function revelado(fn) { return (...a) => { const antes = revelar; revelar = telasLivres(); try { return fn(...a); } finally { revelar = antes; } }; }
+const moneyV = v => (v == null || !isFinite(v)) ? '—' : BRL.format(v); // preço de venda: sempre em número
+const money = v => (v == null || !isFinite(v)) ? '—' : cod(BRL.format(v));
+const sinal = v => (v > 0 ? '+' : v < 0 ? '−' : '') + cod(BRL.format(Math.abs(v || 0)));
+const ehVenda = it => (it.k === 'mov' && it.tipo === 'saida' && it.motivo === 'venda') || it.k === 'serv';
+const valorIt = (it, v) => ehVenda(it) ? moneyV(v) : money(v);
 const qn = v => (v == null || !isFinite(v)) ? '—' : Number(v).toLocaleString('pt-BR', { maximumFractionDigits: 3 });
 const pct = v => (v == null || !isFinite(v)) ? '—' : Number(v).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + '%';
-const mk = v => (v == null || !isFinite(v)) ? '—' : '× ' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 3 });
+const mk = v => (v == null || !isFinite(v)) ? '—' : '× ' + cod(Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 3 }));
+const pctC = v => (v == null || !isFinite(v)) ? '—' : cod(pct(v)); // margem e lucro em %: também em letras
 const r2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
 const r3 = v => Math.round((v + Number.EPSILON) * 1000) / 1000;
 const norm = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
@@ -1598,7 +1654,7 @@ VIEWS.registrar = () => {
   $('#motivos').innerHTML = MOTIVOS[S.modo].map(([v, n]) => `<button type="button" class="chip" data-motivo="${v}" aria-pressed="${S.motivo[S.modo] === v}">${n}</button>`).join('');
   const sv = servicosAtivos();
   $('#linha-serv').hidden = S.modo !== 'saida';
-  $('#serv-chips').innerHTML = sv.length ? sv.map(s => `<button type="button" class="chip" data-acao="reg-serv" data-id="${esc(s.id)}">${esc(s.nome)} <small>${s.preco ? money(s.preco) : 'sem preço'}</small></button>`).join('') : `<a class="chip" href="#servicos">${ico('plus')}Cadastrar serviços</a>`;
+  $('#serv-chips').innerHTML = sv.length ? sv.map(s => `<button type="button" class="chip" data-acao="reg-serv" data-id="${esc(s.id)}">${esc(s.nome)} <small>${s.preco ? moneyV(s.preco) : 'sem preço'}</small></button>`).join('') : `<a class="chip" href="#servicos">${ico('plus')}Cadastrar serviços</a>`;
   const mexeCaixa = efeitoCaixa(S.modo, S.motivo[S.modo], 1) !== 0 || S.modo === 'saida';
   $('#linha-pg').hidden = !mexeCaixa;
   $('#pagamentos').innerHTML = PAGAMENTOS.map(([v, n]) => `<button type="button" class="chip" data-pg="${v}" aria-pressed="${S.pg === v}">${n}</button>`).join('');
@@ -1652,8 +1708,8 @@ function renderUltimo() {
     </div>
     <div class="u-valor">
       <div class="u-qtd">${ehServ ? '' : (ent ? '+' : '−')}${qn(it.qtd)} ${ehServ ? 'vez(es)' : 'un.'}</div>
-      <div class="u-total">${money(it.total)}</div>
-      <div class="u-calc">${qn(it.qtd)} × ${money(it.vu)}${!it.vu ? ' · sem custo informado' : ''}</div>
+      <div class="u-total">${valorIt(it, it.total)}</div>
+      <div class="u-calc">${qn(it.qtd)} × ${valorIt(it, it.vu)}${!it.vu ? ' · sem custo informado' : ''}</div>
       ${p ? `<div class="u-est">Estoque agora: <b>${qn(p.estoque)}</b></div>` : ''}
     </div>
     ${editavel ? `<div class="u-acoes">
@@ -1670,7 +1726,7 @@ function renderVinc(q) {
   const ul = $('#vinc-res'); if (!ul) return;
   const res = q ? buscar(q, 8) : [];
   ul.hidden = !q;
-  ul.innerHTML = res.length ? res.map(p => `<li><button type="button" data-acao="vincular" data-k="${esc(p.k)}"><b>${esc(p.nome)}</b><small>${esc(nomeCurto(p))}${p.cod ? ' · cód. ' + esc(p.cod) : ''}${p.codigos.length ? ' · já tem ' + p.codigos.length + ' código(s)' : ''}</small><span class="p">${money(p.preco)}</span></button></li>`).join('')
+  ul.innerHTML = res.length ? res.map(p => `<li><button type="button" data-acao="vincular" data-k="${esc(p.k)}"><b>${esc(p.nome)}</b><small>${esc(nomeCurto(p))}${p.cod ? ' · cód. ' + esc(p.cod) : ''}${p.codigos.length ? ' · já tem ' + p.codigos.length + ' código(s)' : ''}</small><span class="p">${moneyV(p.preco)}</span></button></li>`).join('')
     : (q ? `<li class="muted" style="padding:8px 10px">Nenhum produto encontrado para "${esc(q)}".</li>` : '');
 }
 function descItemFita(it) {
@@ -1682,7 +1738,7 @@ function descItemFita(it) {
 function renderFita(its, t) {
   $('#fita-data').textContent = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'short' });
   const lista = its.slice(0, 80);
-  $('#fita-lista').innerHTML = lista.length ? lista.map(it => `<li class="f-item ${it._est ? 'est' : ''}"><span class="f-h">${fmtHora(it.t)}</span><span class="f-desc"><b title="${esc(it.nome || it.desc)}">${esc(it.nome || it.desc)}</b><small>${descItemFita(it)}</small></span><span class="f-v num">${it.caixa ? sinal(it.caixa) : money(it.total ?? it.valor)}</span>${btnUndo(it)}</li>`).join('')
+  $('#fita-lista').innerHTML = lista.length ? lista.map(it => `<li class="f-item ${it._est ? 'est' : ''}"><span class="f-h">${fmtHora(it.t)}</span><span class="f-desc"><b title="${esc(it.nome || it.desc)}">${esc(it.nome || it.desc)}</b><small>${descItemFita(it)}</small></span><span class="f-v num">${ehVenda(it) ? (it.caixa > 0 ? '+' : '') + moneyV(it.total) : it.caixa ? sinal(it.caixa) : money(it.total ?? it.valor)}</span>${btnUndo(it)}</li>`).join('')
     : `<li class="vazio">Nada registrado hoje ainda.<br>Cada leitura aparece aqui, com hora e valor.</li>`;
   $('#fita-tot').innerHTML = `<div><span>Produtos vendidos</span><b class="num">${money(t.vendas)}</b></div><div><span>Serviços</span><b class="num">${money(t.servTotal)}</b></div><div><span>Compras</span><b class="num">${money(t.compras)}</b></div><div><span>Outros lançamentos</span><b class="num">${sinal(t.receitas - t.despesas)}</b></div><div class="tot"><span>Saldo do caixa hoje</span><span class="num">${sinal(t.saldo)}</span></div>`;
 }
@@ -1695,7 +1751,7 @@ function abrirSug(q) {
   const res = [...buscarServ(qq, 3).map(s => ({ tipo: 'serv', id: s.id, nome: s.nome, sub: 'Serviço' + (s.cod ? ' · ' + s.cod : ''), preco: s.preco })), ...buscar(qq, 7).map(p => ({ tipo: 'prod', k: p.k, nome: p.nome, sub: `${nomeCurto(p)}${p.cod ? ' · cód. ' + p.cod : ''} · estoque ${qn(p.estoque)}`, preco: p.preco }))].slice(0, 8);
   sugSel.lista = res; sugSel.i = res.length ? 0 : -1;
   if (!res.length) { fecharSug(); return; }
-  ul.innerHTML = res.map((r, i) => `<li><button type="button" role="option" data-acao="sug" data-i="${i}" aria-selected="${i === 0}"><b>${esc(r.nome)}</b><small>${esc(r.sub)}</small><span class="p">${money(r.preco)}</span></button></li>`).join('');
+  ul.innerHTML = res.map((r, i) => `<li><button type="button" role="option" data-acao="sug" data-i="${i}" aria-selected="${i === 0}"><b>${esc(r.nome)}</b><small>${esc(r.sub)}</small><span class="p">${moneyV(r.preco)}</span></button></li>`).join('');
   const f = $('#scan-card .campo-scan');
   ul.style.top = (f.offsetTop + f.offsetHeight + 6) + 'px';
   ul.hidden = false;
@@ -1742,7 +1798,7 @@ VIEWS.produtos = () => {
       <td class="mono">${esc(p.cod || '—')}</td>
       <td class="num">${baixo ? `<span class="pill red">${qn(p.estoque)}</span>` : qn(p.estoque)}</td>
       <td class="num">${p.custo ? money(p.custo) : '<span class="muted">—</span>'}${p.custo ? `<span class="sub">${p.custoPl ? 'planilha' : 'últ. compra'}</span>` : ''}</td>
-      <td class="num"><b>${money(p.preco)}</b><span class="sub">${pillBase(p)}</span></td>
+      <td class="num"><b>${moneyV(p.preco)}</b><span class="sub">${pillBase(p)}</span></td>
       <td class="num">${p.estoque > 0 && p.preco ? money(p.estoque * p.preco) : '—'}</td></tr>`;
   }).join('');
 };
@@ -1756,7 +1812,7 @@ VIEWS.servicos = () => {
   $('#s-sugestoes').innerHTML = sugs.length && S.podeEscrever ? `<div class="card bloco mb"><b>Adicionar com um clique</b><p>Serviços comuns em loja de pneus. O preço você define depois, clicando no serviço.</p><div class="chips">${sugs.map(s => `<button type="button" class="chip" data-acao="serv-sug" data-nome="${esc(s)}">${ico('plus')}${esc(s)}</button>`).join('')}</div></div>` : '';
   const tb = $('#s-tab tbody');
   if (!lista.length) { tb.innerHTML = `<tr><td colspan="5" class="vazio-t">Nenhum serviço cadastrado. Use os botões acima ou "Novo serviço".</td></tr>`; return; }
-  tb.innerHTML = lista.map(s => { const o = t.porServ.get(s.id) || { qtd: 0, total: 0 }; return `<tr class="click" data-acao="abrir-servico" data-id="${esc(s.id)}"><td class="nome"><b>${esc(s.nome)}</b></td><td class="mono">${esc(s.cod || '—')}</td><td class="num">${s.preco ? money(s.preco) : '<span class="pill red">Sem preço</span>'}</td><td class="num">${qn(o.qtd)}</td><td class="num">${money(o.total)}</td></tr>`; }).join('');
+  tb.innerHTML = lista.map(s => { const o = t.porServ.get(s.id) || { qtd: 0, total: 0 }; return `<tr class="click" data-acao="abrir-servico" data-id="${esc(s.id)}"><td class="nome"><b>${esc(s.nome)}</b></td><td class="mono">${esc(s.cod || '—')}</td><td class="num">${s.preco ? moneyV(s.preco) : '<span class="pill red">Sem preço</span>'}</td><td class="num">${qn(o.qtd)}</td><td class="num">${money(o.total)}</td></tr>`; }).join('');
 };
 function abrirServico(id) {
   const s = id ? S.servicos.get(id) : null;
@@ -1772,7 +1828,7 @@ async function cartelaServicos() {
   const l = servicosAtivos().filter(s => s.cod);
   if (!l.length) { toast('Cadastre os serviços primeiro.', true); return; }
   try { await carregarScript(JSBARCODE_URL); } catch { toast('Não foi possível carregar o gerador de código de barras.', true); return; }
-  const cards = l.map(s => { let svg = ''; try { const el = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); window.JsBarcode(el, s.cod, { format: 'CODE128', height: 50, width: 2, fontSize: 13, margin: 0, lineColor: '#000' }); svg = el.outerHTML; } catch { } return `<div class="et"><div class="n">${esc(s.nome)}</div><div class="p">${s.preco ? money(s.preco) : ''}</div>${svg}</div>`; }).join('');
+  const cards = l.map(s => { let svg = ''; try { const el = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); window.JsBarcode(el, s.cod, { format: 'CODE128', height: 50, width: 2, fontSize: 13, margin: 0, lineColor: '#000' }); svg = el.outerHTML; } catch { } return `<div class="et"><div class="n">${esc(s.nome)}</div><div class="p">${s.preco ? moneyV(s.preco) : ''}</div>${svg}</div>`; }).join('');
   salvarArquivo(`cartela-servicos-${hoje()}.html`, docEtiquetas('Cartela de serviços', cards, 2));
 }
 
@@ -1819,10 +1875,10 @@ function atualizarFormula() {
   const T = S.T || taxas(), el = $('#formula'); if (!el) return;
   const direto = S.config.markupModo !== 'calculado';
   const f = v => (v / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
-  const ex = T.geral ? `<div class="muted">Ex.: um item que custou ${money(100)} sai por <b style="color:var(--ink)">${money(arredondar(100 * T.geral))}</b>. Margem bruta sobre o preço: ${pct(r2((1 - 1 / T.geral) * 100))}.</div>` : '';
+  const ex = T.geral ? `<div class="muted">Ex.: um item que custou ${money(100)} sai por <b style="color:var(--ink)">${money(arredondar(100 * T.geral))}</b>. Margem bruta sobre o preço: ${pctC(r2((1 - 1 / T.geral) * 100))}.</div>` : '';
   const doMes = S.config.markupModo === 'planilha';
   if (direto) el.innerHTML = T.geral ? `<div class="mono">Preço de venda = custo × markup${doMes ? ' do mês' : ''}</div><div class="big">= custo ${mk(T.geral)}</div>${doMes ? `<div class="muted">${T.mkPlanilha ? 'Markup do mês lido da planilha.' : 'Markup informado aqui (a planilha ainda não tem o do mês).'}</div>` : ''}${ex}` : `<div class="erro-txt">Informe um markup maior que zero (ex.: 1,80).</div>`;
-  else el.innerHTML = `<div class="mono">Markup = 1 ÷ (1 − fixos − variáveis − margem)</div><div class="mono">= 1 ÷ (1 − ${f(T.fixosPct)} − ${f(T.varPct)} − ${f(T.margem)})</div>${T.mkCalc ? `<div class="big">Preço = custo ${mk(T.mkCalc)}</div>${ex}<div class="muted">Custos fixos = ${pct(T.fixosPct)} do faturamento${T.fat ? '' : ' (informe o faturamento para incluí-los)'}.</div>` : `<div class="erro-txt">Fixos + variáveis + margem somam ${pct(T.soma)}. Precisa ficar abaixo de 95%.</div>`}`;
+  else el.innerHTML = `<div class="mono">Markup = 1 ÷ (1 − fixos − variáveis − margem)</div><div class="mono">= 1 ÷ (1 − ${cod(f(T.fixosPct))} − ${cod(f(T.varPct))} − ${cod(f(T.margem))})</div>${T.mkCalc ? `<div class="big">Preço = custo ${mk(T.mkCalc)}</div>${ex}<div class="muted">Custos fixos = ${pct(T.fixosPct)} do faturamento${T.fat ? '' : ' (informe o faturamento para incluí-los)'}.</div>` : `<div class="erro-txt">Fixos + variáveis + margem somam ${pct(T.soma)}. Precisa ficar abaixo de 95%.</div>`}`;
   const b = $('#fat-real');
   if (b) { const tt = totais(itensPeriodo(addDays(hoje(), -29), hoje())); b.textContent = tt.fat > 0 ? `Usar o faturamento real dos últimos 30 dias (${money(tt.fat)})` : ''; b.hidden = !(tt.fat > 0); b.dataset.v = String(r2(tt.fat)); }
   $$('[data-mkcat]').forEach(i => i.placeholder = T.geral ? fmtIn(r3(T.geral)) : '—');
@@ -1841,8 +1897,8 @@ function calcRapida(origem) {
   if (origem === 'k-preco') { if (c > 0 && p > 0) { mkv = p / c; $('#k-mk').value = fmtIn(r3(mkv)); } }
   else if (c > 0 && m > 0) { preco = c * m; $('#k-preco').value = fmtMoneyIn(r2(preco)); }
   const res = $('#k-res');
-  if (custo > 0 && preco > 0) res.innerHTML = `<span>Lucro bruto <b>${money(preco - custo)}</b></span><span>Margem sobre o preço <b>${pct(r2((preco - custo) / preco * 100))}</b></span><span>Markup <b>${mk(preco / custo)}</b></span>`;
-  else if (preco > 0 && mkv > 0) res.innerHTML = `<span>Para vender a ${money(preco)} com este markup, o custo máximo é <b>${money(preco / mkv)}</b></span>`;
+  if (custo > 0 && preco > 0) res.innerHTML = `<span>Lucro bruto <b>${money(preco - custo)}</b></span><span>Margem sobre o preço <b>${pctC(r2((preco - custo) / preco * 100))}</b></span><span>Markup <b>${mk(preco / custo)}</b></span>`;
+  else if (preco > 0 && mkv > 0) res.innerHTML = `<span>Para vender a ${moneyV(preco)} com este markup, o custo máximo é <b>${money(preco / mkv)}</b></span>`;
 }
 let cfgTimer;
 function mudarConfig(patch) {
@@ -1871,8 +1927,8 @@ function renderTabelaPrecos() {
     <td class="num">${money(p.custo)}${p.custo && !p.custoPl ? '<span class="sub">últ. compra</span>' : ''}</td>
     <td class="num">${mk(p.mk)}<span class="sub">${p.mkDe === 'produto' ? 'do produto' : p.mkDe === 'categoria' ? 'da categoria' : 'geral'}</span></td>
     <td class="num">${money(p.custoXmk)}</td>
-    <td class="num">${money(p.mercado)}${vsM != null ? `<span class="sub">${vsM >= 0 ? '+' : ''}${pct(r2(vsM))} vs mercado</span>` : ''}</td>
-    <td class="num"><b>${money(p.preco)}</b><span class="sub">${pillBase(p)}</span></td>
+    <td class="num">${money(p.mercado)}${vsM != null ? `<span class="sub">${vsM >= 0 ? '+' : ''}${pctC(r2(vsM))} vs mercado</span>` : ''}</td>
+    <td class="num"><b>${moneyV(p.preco)}</b><span class="sub">${pillBase(p)}</span></td>
     <td><span class="sub" style="margin:0;max-width:300px">${esc(p.origem || '—')}</span></td></tr>`;
   }).join('');
 }
@@ -1933,8 +1989,8 @@ VIEWS.movimentacoes = () => {
       <td>${pill}<span class="sub">${esc(it.k === 'caixa' ? (it.cat || '') : it.k === 'serv' ? '' : (MOTIVO_NOME[it.motivo] || ''))}${it.pg === 'prazo' ? ' · a prazo' : ''}${it._est ? ' · desfeito' : ''}</span></td>
       <td class="nome"><b>${esc(it.k === 'caixa' ? it.desc : it.nome)}</b><span class="sub">${esc(it.k === 'mov' ? [it.mod, it.cod ? 'cód. ' + it.cod : ''].filter(Boolean).join(' · ') : '')}</span></td>
       <td class="num">${temQtd ? (it.k === 'mov' ? (ent ? '+' : '−') : '') + qn(it.qtd) : ''}</td>
-      <td class="num">${temQtd ? money(it.vu) : ''}</td>
-      <td class="num">${money(temQtd ? it.total : it.valor)}</td>
+      <td class="num">${temQtd ? valorIt(it, it.vu) : ''}</td>
+      <td class="num">${temQtd ? valorIt(it, it.total) : money(it.valor)}</td>
       <td class="num">${it.caixa ? sinal(it.caixa) + `<span class="sub">${esc(PG_NOME[it.pg] || '')}</span>` : '<span class="muted">—</span>'}</td>
       <td>${btnUndo(it)}</td></tr>`;
   }).join('');
@@ -1959,7 +2015,7 @@ function renderCaixaDia() {
   }
   el.innerHTML = html;
 }
-function salvarCaixaDia(dados) { S.caixaDia = dados; fila('caixa/' + hoje(), 'set', () => S.caixaDia); renderCaixaDia(); renderBadges(); }
+function salvarCaixaDia(dados) { S.caixaDia = dados; fila('caixa/' + hoje(), 'set', () => S.caixaDia); if (!travada('caixa')) revelado(renderCaixaDia)(); renderBadges(); }
 VIEWS.caixa = () => {
   renderCaixaDia();
   const [de, ate] = lerPeriodo('c');
@@ -1998,7 +2054,7 @@ function grafico(itens, de, ate, fA, fB, nA, nB, espelhado) {
   const W = 760, H = espelhado ? 240 : 220, pl = 64, pr = 10, pt = 10, pb = 26, n = buckets.length, bw = (W - pl - pr) / n, top = niceMax(max);
   const ih = espelhado ? (H - pt - pb) / 2 : (H - pt - pb), y0 = pt + ih;
   const y = v => y0 - v / top * ih;
-  const fmtV = v => 'R$ ' + COMPACT.format(Math.abs(v));
+  const fmtV = v => cod('R$ ' + COMPACT.format(Math.abs(v)));
   let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(nA)} e ${esc(nB)} por ${umDia ? 'hora' : 'dia'}">`;
   const ticks = espelhado ? [top, top / 2, 0, -top / 2, -top] : [top, top / 2, 0];
   for (const v of ticks) { const yy = y(v); s += `<line x1="${pl}" x2="${W - pr}" y1="${yy}" y2="${yy}" stroke="var(--line)" stroke-width="1" ${v === 0 ? '' : 'stroke-dasharray="3 4"'}/><text x="${pl - 8}" y="${yy + 4}" text-anchor="end" font-size="11" fill="var(--muted)" font-family="var(--f-ui)">${v === 0 ? '0' : (v < 0 ? '−' : '') + fmtV(v)}</text>`; }
@@ -2032,8 +2088,9 @@ VIEWS.faturamento = () => {
     kpi('Produtos', money(t.vendas), `${qn(t.nVendas)} un. vendidas`) +
     kpi('Serviços', money(t.servTotal), `${qn(t.servQtd)} serviço(s)`) +
     kpi('Vendido a prazo', money(t.prazo), 'está em notas a receber') +
-    kpi('Lucro bruto', money(t.lucro + t.servTotal), t.fat ? `${pct(r2((t.lucro + t.servTotal) / t.fat * 100))} do faturamento` : '—');
+    kpi('Lucro bruto', money(t.lucro + t.servTotal), t.fat ? `${pctC(r2((t.lucro + t.servTotal) / t.fat * 100))} do faturamento` : '—');
   $('#f-chart').innerHTML = grafico(l.filter(it => (it.k === 'mov' && it.tipo === 'saida' && it.motivo === 'venda') || it.k === 'serv'), de, ate, it => it.k === 'mov' ? it.total : 0, it => it.k === 'serv' ? it.total : 0, 'Produtos', 'Serviços', false);
+  $('#f-lp').innerHTML = lucroPrejuizoHtml(l);
   const h = hoje(), iniMes = h.slice(0, 8) + '01', tm = totais(itensPeriodo(iniMes, h));
   const diasMes = new Date(Number(h.slice(0, 4)), Number(h.slice(5, 7)), 0).getDate(), diaAtual = Number(h.slice(8, 10));
   const proj = tm.fat / diaAtual * diasMes, meta = parseNum(S.config.metaMensal) || 0;
@@ -2059,6 +2116,44 @@ VIEWS.faturamento = () => {
     <dt class="tot">= Resultado</dt><dd class="tot">${sinal(t.fat - imp - t.cmv - t.despesas)}</dd></dl>
     ${t.semCusto ? `<p class="muted" style="font-size:12.5px">${money(t.semCusto)} em produtos vendidos sem custo informado entram sem custo. Registre o custo na entrada (compra) para o resultado ficar exato.</p>` : ''}${!T.impPct ? '<p class="muted" style="font-size:12.5px">Informe a alíquota de impostos em Preços → Calcular pelos custos.</p>' : ''}`;
 };
+
+// Lucro e prejuízo por item: venda − custo; prejuízo = venda abaixo do custo e perdas/avarias pelo custo
+function lucroPrejuizo(itens) {
+  const m = new Map(); let semCusto = 0, lucro = 0, prej = 0;
+  const add = (k, nome, sub, v, campo, q) => {
+    const o = m.get(k) || { nome, sub, liq: 0, vend: 0, perd: 0, serv: k[0] === 's' };
+    o.liq += v; o[campo] += q; m.set(k, o);
+    if (v >= 0) lucro += v; else prej += -v;
+  };
+  for (const it of itens) {
+    if (it._est) continue;
+    if (it.k === 'mov' && it.tipo === 'saida' && it.motivo === 'venda') {
+      if (!(it.cu > 0)) { semCusto++; continue; }
+      add('p' + it.pk, it.nome, it.mod, it.total - it.cu * it.qtd, 'vend', it.qtd);
+    } else if (it.k === 'mov' && it.tipo === 'saida' && it.motivo === 'perda') {
+      const c = (it.cu || it.vu || 0) * it.qtd; if (c > 0) add('p' + it.pk, it.nome, it.mod, -c, 'perd', it.qtd);
+    } else if (it.k === 'serv') add('s' + (it.sid || it.nome), it.nome, '', it.total, 'vend', it.qtd);
+  }
+  const l = [...m.values()].map(o => ({ ...o, liq: r2(o.liq) }));
+  const pos = l.filter(o => o.liq > 0).sort((a, b) => b.liq - a.liq).slice(0, 8);
+  const neg = l.filter(o => o.liq < 0).sort((a, b) => b.liq - a.liq).slice(-8);
+  return { pos, neg, lucro: r2(lucro), prej: r2(prej), semCusto };
+}
+function lucroPrejuizoHtml(itens) {
+  const d = lucroPrejuizo(itens), linhas = [...d.pos, ...d.neg];
+  const cab = `<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline"><h2>Lucro e prejuízo por item</h2><span class="legend"><span><i style="background:var(--ink-2)"></i>Lucro</span><span><i style="background:var(--red)"></i>Prejuízo</span></span></div>`;
+  if (!linhas.length) return cab + `<p class="muted">Nenhuma venda com custo informado, serviço ou perda no período.</p>${d.semCusto ? `<p class="muted" style="font-size:12.5px">${d.semCusto} venda(s) de produto sem custo informado não entram na conta.</p>` : ''}`;
+  const max = Math.max(...linhas.map(o => Math.abs(o.liq)), 0.01);
+  const sub = o => [o.serv ? 'serviço' : o.sub, o.vend ? `${qn(o.vend)} ${o.serv ? 'feito(s)' : 'vendido(s)'}` : '', o.perd ? `${qn(o.perd)} perdido(s)` : ''].filter(Boolean).join(' · ');
+  const row = (o, i) => { const w = Math.max(2, Math.abs(o.liq) / max * 100), n = o.liq < 0;
+    return `<div class="lp-row ${n ? 'neg' : ''} ${n && i === d.pos.length && i > 0 ? 'sep' : ''}"><div class="lp-nome"><b title="${esc(o.nome)}">${esc(o.nome)}</b><small>${esc(sub(o) || '—')}</small></div><div class="lp-bar" aria-hidden="true"><span class="l">${n ? `<i style="width:${w}%"></i>` : ''}</span><span class="r">${n ? '' : `<i style="width:${w}%"></i>`}</span></div><div class="lp-v">${sinal(o.liq)}</div></div>`; };
+  return cab + `<div class="lp-tot"><span>Lucro <b>${money(d.lucro)}</b></span><span>Prejuízo <b>${money(d.prej)}</b></span><span>Resultado <b>${sinal(d.lucro - d.prej)}</b></span></div>
+    <div class="lp">${linhas.map(row).join('')}</div>
+    <p class="muted" style="font-size:12.5px">Os 8 itens que mais deram lucro e os que mais deram prejuízo no período. Lucro = venda − custo; prejuízo = venda abaixo do custo e perdas ou avarias (pelo custo). Serviços entram inteiros como lucro, porque não têm custo cadastrado.${d.semCusto ? ` ${d.semCusto} venda(s) de produto sem custo informado ficaram de fora.` : ''}</p>`;
+}
+
+// Caixa e Faturamento: só desenham depois da senha, e aí mostram os números de verdade
+for (const tab of TELAS_SENHA) { const f = VIEWS[tab]; VIEWS[tab] = (...a) => travada(tab) ? undefined : revelado(f)(...a); }
 
 /* ================= Balanço geral ================= */
 VIEWS.balanco = () => {
@@ -2252,7 +2347,7 @@ function ndBusca(q) {
   if (!qq || qq.length < 2 || /^\d{6,}$/.test(qq)) { ul.hidden = true; return; }
   const res = [...(S.nd.col === 'receber' ? buscarServ(qq, 3).map(s => ({ t: 's', id: s.id, nome: s.nome, sub: 'Serviço', preco: s.preco })) : []), ...buscar(qq, 7).map(p => ({ t: 'p', id: p.k, nome: p.nome, sub: nomeCurto(p) + (p.cod ? ' · cód. ' + p.cod : ''), preco: S.nd.col === 'pagar' ? p.custo : p.preco }))];
   ul.hidden = !res.length;
-  ul.innerHTML = res.map(r => `<li><button type="button" data-acao="nd-add" data-t="${r.t}" data-id="${esc(r.id)}"><b>${esc(r.nome)}</b><small>${esc(r.sub)}</small><span class="p">${money(r.preco)}</span></button></li>`).join('');
+  ul.innerHTML = res.map(r => `<li><button type="button" data-acao="nd-add" data-t="${r.t}" data-id="${esc(r.id)}"><b>${esc(r.nome)}</b><small>${esc(r.sub)}</small><span class="p">${moneyV(r.preco)}</span></button></li>`).join('');
 }
 function abrirNota(col, id, parcAberta) {
   const n = colMap(col).get(id); if (!n) return;
@@ -2274,13 +2369,13 @@ function abrirNota(col, id, parcAberta) {
       ${n.parcelas.map((pc, i) => { const st = n.cancelada ? 'cancelada' : statusParc(pc); const [sn, sc] = ST_NOME[st]; return `<tr><td class="mono">${pc.n}/${n.parcelas.length}</td><td class="mono">${fmtData(pc.venc)}</td><td class="num">${money(pc.valor)}${pc.pago ? `<span class="sub">${money(pc.pago.valor)} em ${fmtDM(pc.pago.data)} · ${esc(PG_NOME[pc.pago.pg] || '')}</span>` : ''}</td><td><span class="pill ${sc}">${sn}</span></td><td class="num">${!pc.pago && !n.cancelada && S.podeEscrever ? `<button class="btn sm ${st === 'vencida' || st === 'hoje' ? 'red' : ''}" type="button" data-acao="parc-abrir" data-i="${i}">${isP ? 'Pagar' : 'Receber'}</button>` : ''}</td></tr>
         <tr class="parc-row" id="pf-${i}" ${parcAberta === i ? '' : 'hidden'}><td colspan="5"><div class="toolbar" style="align-items:flex-end"><label class="f">Data<input class="inp" type="date" id="pf-data-${i}" value="${hoje()}" max="${hoje()}"></label><label class="f">Forma<select class="inp" id="pf-pg-${i}">${FORMAS.map(([v, nn]) => `<option value="${v}" ${v === (isP ? 'banco' : 'pix') ? 'selected' : ''}>${nn}</option>`).join('')}</select></label><label class="f">Valor (R$)<input class="inp num" id="pf-valor-${i}" inputmode="decimal" value="${esc(fmtMoneyIn(pc.valor))}" style="width:120px"></label><button class="btn primary" type="button" data-acao="parc-ok" data-i="${i}">Confirmar</button></div></td></tr>`; }).join('')}
     </tbody></table></div></section>
-    ${n.itens?.length ? `<section><h3>Itens</h3><div class="tabela-wrap"><table class="t"><tbody>${n.itens.map(it => `<tr><td class="nome"><b>${esc(it.nome)}</b><span class="sub">${esc(it.tipo === 'serv' ? 'Serviço' : it.mod || '')}</span></td><td class="num">${qn(parseNum(it.qtd))}×</td><td class="num">${money(parseNum(it.vu))}</td><td class="num"><b>${money(r2((parseNum(it.qtd) || 0) * (parseNum(it.vu) || 0)))}</b></td></tr>`).join('')}</tbody></table></div>${n.movimentou ? `<p class="muted" style="font-size:13px;margin:0">${isP ? 'Estes itens deram entrada no estoque quando a nota foi salva.' : 'Estes itens saíram do estoque e entraram no faturamento quando a nota foi salva.'}</p>` : ''}</section>` : ''}
+    ${n.itens?.length ? `<section><h3>Itens</h3><div class="tabela-wrap"><table class="t"><tbody>${n.itens.map(it => `<tr><td class="nome"><b>${esc(it.nome)}</b><span class="sub">${esc(it.tipo === 'serv' ? 'Serviço' : it.mod || '')}</span></td><td class="num">${qn(parseNum(it.qtd))}×</td><td class="num">${(isP ? money : moneyV)(parseNum(it.vu))}</td><td class="num"><b>${(isP ? money : moneyV)(r2((parseNum(it.qtd) || 0) * (parseNum(it.vu) || 0)))}</b></td></tr>`).join('')}</tbody></table></div>${n.movimentou ? `<p class="muted" style="font-size:13px;margin:0">${isP ? 'Estes itens deram entrada no estoque quando a nota foi salva.' : 'Estes itens saíram do estoque e entraram no faturamento quando a nota foi salva.'}</p>` : ''}</section>` : ''}
     <div class="pn-acoes">${!n.cancelada && S.podeEscrever ? `<button class="btn ghost" type="button" data-acao="nota-cancelar" data-col="${col}" data-id="${esc(id)}">Cancelar nota</button>` : ''}${!isP && !n.cancelada ? `<button class="btn" type="button" data-acao="cobranca" data-id="${esc(id)}">${ico('copy')}Copiar mensagem de cobrança</button>` : ''}<span class="sp"></span><button class="btn primary" type="button" data-acao="fechar-drawer">Fechar</button></div>`, { tipo: 'nota', col, id }, true);
 }
 function textoCobranca(n) {
   const abertas = n.parcelas.filter(p => !p.pago);
   const loja = (S.config.loja || 'PneusBR').trim();
-  return `Olá, ${n.parte}! Aqui é da ${loja}. Passando para lembrar ${abertas.length > 1 ? 'das parcelas' : 'da parcela'} em aberto${n.descricao ? ` (${n.descricao})` : ''}:\n` + abertas.map(p => `• ${p.n}/${n.parcelas.length}: ${money(p.valor)}, vencimento ${fmtData(p.venc)}`).join('\n') + `\nTotal em aberto: ${money(abertas.reduce((s, p) => s + p.valor, 0))}. Qualquer dúvida, estamos à disposição. Obrigado!`;
+  return `Olá, ${n.parte}! Aqui é da ${loja}. Passando para lembrar ${abertas.length > 1 ? 'das parcelas' : 'da parcela'} em aberto${n.descricao ? ` (${n.descricao})` : ''}:\n` + abertas.map(p => `• ${p.n}/${n.parcelas.length}: ${moneyV(p.valor)}, vencimento ${fmtData(p.venc)}`).join('\n') + `\nTotal em aberto: ${moneyV(abertas.reduce((s, p) => s + p.valor, 0))}. Qualquer dúvida, estamos à disposição. Obrigado!`;
 }
 
 /* ================= Rotina ================= */
@@ -2362,14 +2457,14 @@ function atualizarDrawerCalc() {
   const linhas = [];
   if (p.custoPl) linhas.push(['Preço de compra (planilha)', money(p.custoPl)]);
   if (!p.custoPl && p.custoManual) linhas.push([p.avulso ? 'Preço de compra' : 'Preço da última compra', money(p.custoManual)]);
-  if (p.precoPl) linhas.push(['Preço de venda (planilha)', money(p.precoPl)]);
+  if (p.precoPl) linhas.push(['Preço de venda (planilha)', moneyV(p.precoPl)]);
   if (p.mercado) linhas.push(['Média de mercado (planilha)', money(p.mercado)]);
   linhas.push(['Markup em uso', `${mk(p.mk)} <span class="muted">(${p.mkDe === 'produto' ? 'deste produto' : p.mkDe === 'categoria' ? 'da categoria' : 'geral'})</span>`]);
   if (p.custoXmk) linhas.push(['Custo × markup', money(p.custoXmk)]);
-  linhas.push(['Preço de venda', `<b>${money(p.sugerido)}</b>`], ['Base', esc(BASE_NOME[p.base])]);
+  linhas.push(['Preço de venda', `<b>${moneyV(p.sugerido)}</b>`], ['Base', esc(BASE_NOME[p.base])]);
   if (p.base === 'mercado' && p.mk) linhas.push(['Custo máximo para manter o markup', money(p.mercado / p.mk)]);
-  if (p.precoManual != null) linhas.push(['Preço de venda em uso (manual)', `<b>${money(p.precoManual)}</b>`]);
-  if (p.custo && p.preco) linhas.push(['Lucro bruto por unidade', `${money(p.preco - p.custo)} (${pct(r2((p.preco - p.custo) / p.preco * 100))})`]);
+  if (p.precoManual != null) linhas.push(['Preço de venda em uso (manual)', `<b>${moneyV(p.precoManual)}</b>`]);
+  if (p.custo && p.preco) linhas.push(['Lucro bruto por unidade', `${money(p.preco - p.custo)} (${pctC(r2((p.preco - p.custo) / p.preco * 100))})`]);
   if (p0?.origem) linhas.push(['Origem do valor', `<span style="font-size:12.5px">${esc(p0.origem)}</span>`]);
   el.innerHTML = linhas.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('');
 }
@@ -2425,8 +2520,8 @@ function addCodDrawer() {
 function abrirAjustes() {
   const tema = ls.get('tema', 'auto'), nRot = pendentesRotinaHoje();
   abrirDrawer(`<div class="pn-h"><div><h2>Configurações</h2><div class="sub">Gestão da loja e preferências deste sistema.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
-    <section><h3>Gestão</h3><nav class="cfg-lista" aria-label="Telas de gestão">
-      ${TELAS_CONFIG.map(([tab, ic, nome, desc]) => `<a href="#${tab}" data-acao="fechar-drawer" ${S.tab === tab ? 'aria-current="page"' : ''}><span class="ic">${ico(ic)}</span><span><b>${esc(nome)}</b><small>${esc(desc)}</small></span>${tab === 'rotina' && nRot ? `<span class="pill solid-red">${nRot} hoje</span>` : '<span></span>'}<svg class="i seta"><use href="#ic-right"/></svg></a>`).join('')}
+    <section><h3>Gestão</h3><nav class="cfg-icones" aria-label="Telas de gestão">
+      ${TELAS_CONFIG.map(([tab, ic, nome]) => { const dica = nome + (tab === 'rotina' && nRot ? ` · ${nRot} tarefa${nRot > 1 ? 's' : ''} para hoje` : '') + (travada(tab) ? ' · pede senha' : ''); return `<a href="#${tab}" data-acao="fechar-drawer" data-tip="${esc(dica)}" aria-label="${esc(dica)}" ${S.tab === tab ? 'aria-current="page"' : ''}>${ico(ic)}${tab === 'rotina' && nRot ? `<span class="badge">${nRot > 99 ? '99+' : nRot}</span>` : ''}${travada(tab) ? `<span class="cad">${ico('lock')}</span>` : ''}</a>`; }).join('')}
     </nav></section>
     <section><h3>Aparência</h3><div class="tema-opts" role="radiogroup" aria-label="Tema">
       ${[['auto', 'Automático'], ['claro', 'Modo claro'], ['escuro', 'Modo noturno']].map(([v, n]) => `<button type="button" role="radio" data-acao="tema" data-v="${v}" aria-pressed="${tema === v}" aria-checked="${tema === v}"><span class="amostra ${v}"><i></i><span></span></span>${n}</button>`).join('')}
@@ -2438,6 +2533,7 @@ function abrirAjustes() {
       <p style="margin:0;font-size:13.5px">Seu acesso agora: <b>${S.temporario ? 'sem salvar' : S.podeEscrever ? 'pode registrar' : 'só leitura'}</b></p></section>
     <section><h3>Atalhos</h3><dl class="dl"><dt><kbd>F2</kbd></dt><dd>Modo Entrada</dd><dt><kbd>F4</kbd></dt><dd>Modo Saída</dd><dt><kbd>3*12071</kbd></dt><dd>3 unidades do item 12071</dd><dt><kbd>Esc</kbd></dt><dd>Limpa o campo / fecha o painel</dd></dl></section>
     <div class="pn-acoes"><span class="sp"></span><button class="btn primary" type="button" data-acao="salvar-ajustes">Salvar</button></div>`, { tipo: 'ajustes' });
+  $$('#drawer .cfg-icones [data-tip]').forEach(ligarTip);
 }
 
 /* ================= exportações ================= */
@@ -2473,7 +2569,7 @@ async function exportarEtiquetas() {
   const cards = l.map(p => {
     const code = p.cod || p.codigos[0]; let svg = '';
     if (code) { try { const el = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); window.JsBarcode(el, code, { format: 'CODE128', height: 38, width: 1.5, fontSize: 11, margin: 0, lineColor: '#000' }); svg = el.outerHTML; } catch { } }
-    return `<div class="et"><div class="n">${esc(p.nome)}</div><div class="m">${esc(nomeCurto(p))}</div><div class="p">${p.preco ? money(p.preco) : ''}</div>${svg}</div>`;
+    return `<div class="et"><div class="n">${esc(p.nome)}</div><div class="m">${esc(nomeCurto(p))}</div><div class="p">${p.preco ? moneyV(p.preco) : ''}</div>${svg}</div>`;
   }).join('');
   salvarArquivo(`etiquetas-${hoje()}.html`, docEtiquetas('Etiquetas', cards, 3));
 }
@@ -2483,9 +2579,15 @@ function mostrarTip(el) {
   const tip = $('#tip'), txt = el.dataset.tip; if (!txt) return;
   tip.textContent = txt; tip.hidden = false;
   const r = el.getBoundingClientRect();
-  tip.style.left = (r.right + 10) + 'px';
-  tip.style.top = (r.top + r.height / 2 - tip.offsetHeight / 2) + 'px';
+  if (el.closest('.drawer')) {
+    tip.style.left = Math.max(8, Math.min(window.innerWidth - tip.offsetWidth - 8, r.left + r.width / 2 - tip.offsetWidth / 2)) + 'px';
+    tip.style.top = (r.bottom + 8) + 'px';
+  } else {
+    tip.style.left = (r.right + 10) + 'px';
+    tip.style.top = (r.top + r.height / 2 - tip.offsetHeight / 2) + 'px';
+  }
 }
+function ligarTip(el) { el.addEventListener('mouseenter', () => mostrarTip(el)); el.addEventListener('mouseleave', esconderTip); el.addEventListener('focus', () => mostrarTip(el)); el.addEventListener('blur', esconderTip); }
 function esconderTip() { $('#tip').hidden = true; }
 
 /* ================= eventos ================= */
@@ -2493,7 +2595,9 @@ const ROTAS = ['registrar', 'produtos', 'servicos', 'precificacao', 'movimentaco
 function aplicarRota() {
   const h = (location.hash || '').replace('#', '');
   S.tab = ROTAS.includes(h) ? h : 'registrar';
-  $$('[data-view]').forEach(s => s.hidden = s.dataset.view !== S.tab);
+  const tv = travada(S.tab);
+  $$('[data-view]').forEach(s => s.hidden = s.dataset.view !== (tv ? 'trava' : S.tab));
+  if (tv) { $('#trava-titulo').textContent = TELAS_CONFIG.find(t => t[0] === S.tab)?.[2] || 'Tela protegida'; $('#trava-erro').hidden = true; $('#trava-senha').value = ''; setTimeout(() => { if (!$('#trava-senha').closest('[hidden]')) $('#trava-senha').focus(); }, 40); }
   $$('.rail a[data-tab]').forEach(a => { if (a.dataset.tab === S.tab) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   const g = $('#btn-ajustes'); if (ehTelaConfig(S.tab)) g.setAttribute('aria-current', 'page'); else g.removeAttribute('aria-current');
 }
@@ -2508,7 +2612,13 @@ function ligarUI() {
   window.addEventListener('hashchange', () => { esconderTip(); aplicarRota(); render(); if (S.tab === 'registrar') $('#scan').focus(); window.scrollTo(0, 0); });
 
   // dicas do trilho
-  $$('.rail [data-tip]').forEach(el => { el.addEventListener('mouseenter', () => mostrarTip(el)); el.addEventListener('mouseleave', esconderTip); el.addEventListener('focus', () => mostrarTip(el)); el.addEventListener('blur', esconderTip); });
+  $$('.rail [data-tip]').forEach(ligarTip);
+  $('#trava-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const v = $('#trava-senha').value.trim().toUpperCase();
+    if (hash36(v) === SENHA_TELAS) { liberarTelas(true); aplicarRota(); render(); toast('Caixa e Faturamento liberados até você fechar esta aba.'); }
+    else { $('#trava-erro').hidden = false; $('#trava-senha').select(); }
+  });
   $('.rail').addEventListener('scroll', esconderTip);
 
   const scan = $('#scan');
@@ -2587,6 +2697,7 @@ function ligarUI() {
       'tema': () => { const v = a.dataset.v; ls.set('tema', v); aplicarTema(v); $$('[data-acao="tema"]').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.v === v)); b.setAttribute('aria-checked', String(b.dataset.v === v)); }); },
       'salvar-ajustes': () => { ls.set('som', $('#a-som').checked); mudarConfig({ loja: $('#a-loja').value.trim() }); fecharDrawer(); render(); toast('Configurações salvas.'); },
       'abrir-config': () => abrirAjustes(),
+      'bloquear': () => { liberarTelas(false); aplicarRota(); render(); toast('Caixa e Faturamento bloqueados.'); },
       'serv-sug': () => { if (!S.podeEscrever) return; salvarServico('s' + rid(8), { nome: a.dataset.nome, preco: 0, cod: proximoCodServ(), ativo: true }); render(); toast(`${a.dataset.nome} adicionado. Clique nele para definir o preço.`); },
       'abrir-servico': () => abrirServico(a.dataset.id),
       'serv-salvar': () => {
