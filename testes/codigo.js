@@ -47,6 +47,12 @@ const temDigito = s => /\d/.test(String(s).replace(/R\$\s?/g, ''));
   out.c.ficha = await A.evaluate(() => document.querySelector('#d-calc').innerText.replace(/\t/g, ': ').split('\n').filter(Boolean));
   await A.keyboard.press('Escape'); await A.fill('#p-q', ''); await A.dispatchEvent('#p-q', 'input');
   // configurações: só ícones
+  out.c.travadasAntes = await A.evaluate(() => ['balanco', 'precificacao'].map(t => { location.hash = '#' + t; return t; }));
+  await A.evaluate(() => { location.hash = '#balanco'; }); await A.waitForTimeout(300);
+  out.c.balancoTravado = await A.evaluate(() => !document.querySelector('[data-view="trava"]').hidden && document.querySelector('#trava-titulo').textContent);
+  await A.evaluate(() => { location.hash = '#precificacao'; }); await A.waitForTimeout(300);
+  out.c.precosTravado = await A.evaluate(() => !document.querySelector('[data-view="trava"]').hidden && document.querySelector('#trava-titulo').textContent);
+  await A.evaluate(() => { location.hash = '#produtos'; }); await A.waitForTimeout(300);
   await A.click('#btn-ajustes'); await A.waitForTimeout(400);
   out.c.icones = await A.evaluate(() => [...document.querySelectorAll('.cfg-icones a')].map(a => ({ href: a.getAttribute('href'), texto: a.innerText.trim(), dica: a.dataset.tip })));
   await A.hover('.cfg-icones a[href="#caixa"]'); await A.waitForTimeout(200);
@@ -63,9 +69,14 @@ const temDigito = s => /\d/.test(String(s).replace(/R\$\s?/g, ''));
   await A.evaluate(() => { location.hash = '#faturamento'; }); await A.waitForTimeout(500);
   out.c.fat = await A.evaluate(() => ({ visivel: !document.querySelector('[data-view="faturamento"]').hidden, kpis: [...document.querySelectorAll('#f-kpis .kpi .v')].map(v => v.textContent), lp: [...document.querySelectorAll('#f-lp .lp-row')].map(r => r.innerText.replace(/\s+/g, ' ')), tot: document.querySelector('#f-lp .lp-tot')?.innerText.replace(/\s+/g, ' ') }));
   await A.screenshot({ path: path.join(SP, 'teste/c5-faturamento.png'), fullPage: true });
-  // balanço continua em letras
+  // balanço e preços: liberados junto, com números normais; produtos continua em letras
   await A.evaluate(() => { location.hash = '#balanco'; }); await A.waitForTimeout(400);
-  out.c.balanco = await A.evaluate(() => [...document.querySelectorAll('[data-view="balanco"] .kpi .v')].map(v => v.textContent));
+  out.c.balanco = await A.evaluate(() => ({ visivel: !document.querySelector('[data-view="balanco"]').hidden, kpis: [...document.querySelectorAll('[data-view="balanco"] .kpi .v')].map(v => v.textContent) }));
+  await A.screenshot({ path: path.join(SP, 'teste/c8-balanco.png') });
+  await A.evaluate(() => { location.hash = '#precificacao'; }); await A.waitForTimeout(400);
+  out.c.precos = await A.evaluate(() => ({ visivel: !document.querySelector('[data-view="precificacao"]').hidden, formula: document.querySelector('#formula').innerText.replace(/\s+/g, ' ').slice(0, 80), linha: document.querySelector('#pr-tab tbody tr')?.innerText.replace(/\s+/g, ' ') }));
+  await A.evaluate(() => { location.hash = '#produtos'; }); await A.waitForTimeout(300);
+  out.c.produtosDepois = await A.evaluate(() => document.querySelector('#p-resumo').innerText);
   // recarregar a mesma aba: continua liberado
   await A.reload(); await A.waitForTimeout(1800); await A.evaluate(() => { location.hash = '#caixa'; }); await A.waitForTimeout(300);
   out.c.aposRecarregar = await A.evaluate(() => !document.querySelector('[data-view="caixa"]').hidden);
