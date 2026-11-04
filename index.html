@@ -67,8 +67,8 @@ svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-widt
 .rail hr{width:28px;border:0;border-top:1px solid var(--bar-line);margin:7px 0}
 .rail a,.rail button.rb{position:relative;width:46px;height:44px;flex:none;border-radius:12px;display:grid;place-items:center;color:var(--bar-muted);background:none;border:0;cursor:pointer;text-decoration:none}
 .rail a:hover,.rail button.rb:hover{color:var(--bar-ink);background:var(--bar-hover)}
-.rail a[aria-current="page"]{color:var(--bar-ink);background:var(--bar-active)}
-.rail a[aria-current="page"]::before{content:"";position:absolute;left:-10px;top:11px;bottom:11px;width:3px;border-radius:0 3px 3px 0;background:var(--red)}
+.rail a[aria-current="page"],.rail button.rb[aria-current="page"]{color:var(--bar-ink);background:var(--bar-active)}
+.rail a[aria-current="page"]::before,.rail button.rb[aria-current="page"]::before{content:"";position:absolute;left:-10px;top:11px;bottom:11px;width:3px;border-radius:0 3px 3px 0;background:var(--red)}
 .rail svg.i{width:21px;height:21px}
 .rail .fim{margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:3px;padding-top:10px}
 .rail .badge{position:absolute;top:7px;right:7px;min-width:15px;height:15px;padding:0 4px;border-radius:8px;background:var(--red);color:var(--on-red);font:700 9.5px/15px var(--f-ui);text-align:center}
@@ -252,7 +252,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
 .bloco h3{font-size:12px;margin:4px 0 0;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
 .bloco p{margin:0;font-size:13.5px;color:var(--ink-2)}
 .plan-st{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13.5px}
-.cnt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.cnt{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
 .cnt div{background:var(--surface);padding:10px 12px}
 .cnt b{display:block;font-size:20px;font-variant-numeric:tabular-nums}
 .cnt small{color:var(--muted);font-size:12px}
@@ -351,6 +351,18 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
 .doc-lido{display:flex;gap:10px;align-items:flex-start;background:var(--surface-2);border-radius:10px;padding:10px 12px;font-size:13.5px}
 .doc-lido .mono{font-size:12px;overflow-wrap:anywhere}
 .parc-row td{background:var(--surface-2)}
+.cfg-lista{display:grid;gap:6px}
+.cfg-lista a{display:grid;grid-template-columns:38px minmax(0,1fr) auto 16px;gap:12px;align-items:center;padding:9px 10px;border:1px solid var(--line);border-radius:11px;text-decoration:none;color:var(--ink);background:var(--surface)}
+.cfg-lista a:hover{border-color:var(--line-2);background:var(--surface-2)}
+.cfg-lista a[aria-current="page"]{border-color:var(--red-line);box-shadow:inset 3px 0 0 var(--red)}
+.cfg-lista .ic{width:38px;height:38px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;color:var(--ink-2)}
+.cfg-lista a:hover .ic{background:var(--surface)}
+.cfg-lista b{display:block;font-weight:650;font-size:14.5px;letter-spacing:-.01em}
+.cfg-lista small{display:block;color:var(--muted);font-size:12.5px;line-height:1.3}
+.cfg-lista .seta{color:var(--muted);width:16px;height:16px}
+.migalha{display:inline-flex;align-items:center;gap:5px;border:0;background:none;padding:0;margin:0 0 4px;color:var(--muted);font-size:12.5px;font-weight:600;cursor:pointer}
+.migalha:hover{color:var(--red-ink)}
+.migalha svg.i{width:14px;height:14px}
 .tema-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .tema-opts button{border:1.5px solid var(--line-2);background:var(--surface);border-radius:12px;padding:12px 8px;cursor:pointer;display:grid;gap:8px;justify-items:center;font-weight:600;font-size:13.5px;color:var(--ink-2)}
 .tema-opts button[aria-pressed="true"]{border-color:var(--red);color:var(--ink)}
@@ -396,7 +408,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   .modo button{font-size:15px;padding:11px 6px}
   .modo kbd{display:none}
   .u-total{font-size:26px}
-  .cnt{grid-template-columns:minmax(0,1fr)}
+  .cnt{grid-template-columns:repeat(2,minmax(0,1fr))}
   .novo-lanc .campos,.caixa-dia{grid-template-columns:minmax(0,1fr)}
   .destaques{grid-template-columns:minmax(0,1fr)}
   .sec-h h1{font-size:22px}
@@ -442,18 +454,12 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   <a href="#registrar" data-tab="registrar" data-tip="Registrar (leitor)" aria-label="Registrar"><svg class="i"><use href="#ic-scan"/></svg></a>
   <a href="#produtos" data-tab="produtos" data-tip="Produtos e estoque" aria-label="Produtos e estoque"><svg class="i"><use href="#ic-box"/></svg></a>
   <a href="#servicos" data-tab="servicos" data-tip="Serviços" aria-label="Serviços"><svg class="i"><use href="#ic-wrench"/></svg></a>
-  <a href="#precificacao" data-tab="precificacao" data-tip="Preços e markup" aria-label="Preços e markup"><svg class="i"><use href="#ic-tag"/></svg></a>
   <a href="#movimentacoes" data-tab="movimentacoes" data-tip="Movimentações" aria-label="Movimentações"><svg class="i"><use href="#ic-swap"/></svg></a>
   <hr>
-  <a href="#caixa" data-tab="caixa" data-tip="Caixa" aria-label="Caixa"><svg class="i"><use href="#ic-cash"/></svg></a>
-  <a href="#faturamento" data-tab="faturamento" data-tip="Faturamento" aria-label="Faturamento"><svg class="i"><use href="#ic-trend"/></svg></a>
-  <a href="#balanco" data-tab="balanco" data-tip="Balanço geral" aria-label="Balanço geral"><svg class="i"><use href="#ic-scale"/></svg></a>
   <a href="#pagar" data-tab="pagar" data-tip="Notas a pagar" aria-label="Notas a pagar"><svg class="i"><use href="#ic-docout"/></svg><span class="badge" id="badge-pagar" hidden></span></a>
   <a href="#receber" data-tab="receber" data-tip="Notas a receber" aria-label="Notas a receber"><svg class="i"><use href="#ic-docin"/></svg><span class="badge" id="badge-receber" hidden></span></a>
-  <hr>
-  <a href="#rotina" data-tab="rotina" data-tip="Rotina da empresa" aria-label="Rotina da empresa"><svg class="i"><use href="#ic-check"/></svg><span class="badge" id="badge-rotina" hidden></span></a>
   <div class="fim">
-    <button class="rb" type="button" id="btn-ajustes" data-tip="Ajustes e tema" aria-label="Ajustes"><svg class="i"><use href="#ic-gear"/></svg><span class="sdot" id="rail-dot"></span></button>
+    <button class="rb" type="button" id="btn-ajustes" data-tip="Configurações" aria-label="Configurações: caixa, faturamento, balanço, preços, rotina e ajustes"><svg class="i"><use href="#ic-gear"/></svg><span class="badge" id="badge-rotina" hidden></span><span class="sdot" id="rail-dot"></span></button>
   </div>
 </nav>
 <div class="tip" id="tip" hidden></div>
@@ -519,7 +525,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
     </div>
     <div class="chips mb" id="p-grupos"></div>
     <p class="resumo" id="p-resumo"></p>
-    <div class="tabela-wrap"><table class="t" id="p-tab"><thead><tr><th>Produto</th><th>Cód.</th><th class="num">Estoque</th><th class="num">Preço</th><th>Base do preço</th><th class="num">Em estoque (venda)</th></tr></thead><tbody></tbody></table></div>
+    <div class="tabela-wrap"><table class="t" id="p-tab"><thead><tr><th>Produto</th><th>Cód.</th><th class="num">Estoque</th><th class="num">Preço de compra</th><th class="num">Preço de venda</th><th class="num">Em estoque (venda)</th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <!-- SERVIÇOS -->
@@ -538,7 +544,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   <!-- PREÇOS -->
   <section data-view="precificacao" hidden>
     <div class="sec-h">
-      <div><h1>Preços e markup</h1><p>Preço de venda = custo × markup. O custo vem da planilha de precificação (ou da última compra registrada). Itens sem custo usam a média de mercado da planilha.</p></div>
+      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Preços e markup</h1><p>O preço de venda vem da planilha de precificação (preço de custo × markup do mês). Quando a planilha não traz o preço de venda, o sistema calcula custo × markup; sem custo, usa a média de mercado.</p></div>
     </div>
     <div class="grid2">
       <div class="card bloco" id="param-card"></div>
@@ -550,10 +556,10 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
     <div class="toolbar mb">
       <input class="inp" id="pr-q" type="search" placeholder="Buscar produto" style="flex:1;min-width:200px">
       <select class="inp" id="pr-base" aria-label="Base do preço">
-        <option value="todos">Todas as bases</option><option value="custo">Custo × markup</option><option value="mercado">Média de mercado</option><option value="manual">Preço manual</option><option value="sem">Sem preço</option>
+        <option value="todos">Todas as bases</option><option value="planilha">Preço de venda da planilha</option><option value="custo">Custo × markup</option><option value="mercado">Média de mercado</option><option value="manual">Preço manual</option><option value="sem">Sem preço</option>
       </select>
     </div>
-    <div class="tabela-wrap"><table class="t" id="pr-tab"><thead><tr><th>Produto</th><th class="num">Custo</th><th class="num">Markup</th><th class="num">Custo × markup</th><th class="num">Média de mercado</th><th class="num">Preço em uso</th><th>Origem do valor</th></tr></thead><tbody></tbody></table></div>
+    <div class="tabela-wrap"><table class="t" id="pr-tab"><thead><tr><th>Produto</th><th class="num">Preço de compra</th><th class="num">Markup</th><th class="num">Custo × markup</th><th class="num">Média de mercado</th><th class="num">Preço de venda</th><th>Origem do valor</th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <!-- MOVIMENTAÇÕES -->
@@ -575,7 +581,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   <!-- CAIXA -->
   <section data-view="caixa" hidden>
     <div class="sec-h">
-      <div><h1>Caixa</h1><p>Dinheiro que entrou e saiu. Vendas a prazo só entram aqui quando a nota é recebida.</p></div>
+      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Caixa</h1><p>Dinheiro que entrou e saiu. Vendas a prazo só entram aqui quando a nota é recebida.</p></div>
       <div class="toolbar">
         <select class="inp" id="c-per" aria-label="Período"></select>
         <input class="inp" id="c-de" type="date" hidden aria-label="De"><input class="inp" id="c-ate" type="date" hidden aria-label="Até">
@@ -607,7 +613,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   <!-- FATURAMENTO -->
   <section data-view="faturamento" hidden>
     <div class="sec-h">
-      <div><h1>Faturamento</h1><p>Tudo o que foi vendido no período, à vista e a prazo: produtos e serviços.</p></div>
+      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Faturamento</h1><p>Tudo o que foi vendido no período, à vista e a prazo: produtos e serviços.</p></div>
       <div class="toolbar"><select class="inp" id="f-per" aria-label="Período"></select><input class="inp" id="f-de" type="date" hidden aria-label="De"><input class="inp" id="f-ate" type="date" hidden aria-label="Até"></div>
     </div>
     <div class="kpis k5 mb" id="f-kpis"></div>
@@ -625,7 +631,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   <!-- BALANÇO -->
   <section data-view="balanco" hidden>
     <div class="sec-h">
-      <div><h1>Balanço geral</h1><p>Como foi a semana: o que entrou, o que saiu, os campeões de venda e as contas da semana.</p></div>
+      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Balanço geral</h1><p>Como foi a semana: o que entrou, o que saiu, os campeões de venda e as contas da semana.</p></div>
       <div class="semana-nav"><button class="btn sm" type="button" data-acao="sem-ant" aria-label="Semana anterior"><svg class="i"><use href="#ic-left"/></svg></button><b id="b-semana"></b><button class="btn sm" type="button" data-acao="sem-prox" aria-label="Próxima semana"><svg class="i"><use href="#ic-right"/></svg></button><button class="btn sm ghost" type="button" data-acao="sem-hoje">Esta semana</button></div>
     </div>
     <div class="kpis mb" id="b-kpis"></div>
@@ -667,7 +673,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   <!-- ROTINA -->
   <section data-view="rotina" hidden>
     <div class="sec-h">
-      <div><h1>Rotina da empresa</h1><p>A lista do que uma pequena empresa precisa fazer todo dia, toda semana, todo mês e todo ano. Marque o que já foi feito; a marcação vale para o período atual e recomeça sozinha.</p></div>
+      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Rotina da empresa</h1><p>A lista do que uma pequena empresa precisa fazer todo dia, toda semana, todo mês e todo ano. Marque o que já foi feito; a marcação vale para o período atual e recomeça sozinha.</p></div>
       <div class="toolbar"><button class="btn" type="button" data-acao="rot-editar" id="rot-editar">Editar lista</button></div>
     </div>
     <div class="rot-grid" id="rot-grid"></div>
@@ -997,7 +1003,7 @@ const XLSX_URL = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js
 const JSBARCODE_URL = 'https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js';
 const GRUPOS = ['Pneus', 'Peças', 'Filtros', 'Óleos e fluidos', 'Ferramentas', 'Avulsos'];
 const CFG_PADRAO = {
-  loja: '', markupModo: 'direto', markup: 1.43, markupCat: {}, faturamento: 0, margem: 30, ajusteMercado: 0, arredondar: 'centavo', metaMensal: 0,
+  loja: '', markupModo: 'planilha', markup: 1.43, markupCat: {}, faturamento: 0, margem: 30, ajusteMercado: 0, arredondar: 'centavo', metaMensal: 0,
   variaveis: [{ id: 'imp', nome: 'Impostos sobre a venda', pct: 0 }, { id: 'maq', nome: 'Taxa da maquininha / cartão', pct: 0 }]
 };
 const MOTIVOS = {
@@ -1013,7 +1019,16 @@ const CATS = {
   despesa: ['Fornecedor', 'Aluguel', 'Energia e água', 'Internet e telefone', 'Salários', 'Impostos', 'Retirada (sangria)', 'Outras despesas']
 };
 const PERIODOS = [['hoje', 'Hoje'], ['ontem', 'Ontem'], ['7d', 'Últimos 7 dias'], ['30d', 'Últimos 30 dias'], ['mes', 'Este mês'], ['mesant', 'Mês passado'], ['ano', 'Este ano'], ['custom', 'Escolher datas']];
-const BASE_NOME = { custo: 'Custo × markup', 'custo-compra': 'Última compra × markup', mercado: 'Média de mercado', planilha: 'Preço da planilha', manual: 'Preço manual', sem: 'Sem preço' };
+const TELAS_CONFIG = [
+  ['caixa', 'cash', 'Caixa', 'Dinheiro que entrou e saiu, abertura e fechamento do dia'],
+  ['faturamento', 'trend', 'Faturamento', 'Vendas e serviços do período, meta do mês e lucro'],
+  ['balanco', 'scale', 'Balanço geral', 'A semana: o que entrou, o que saiu e o que mais vendeu'],
+  ['precificacao', 'tag', 'Preços e markup', 'Planilha de precificação, markup do mês e calculadora'],
+  ['rotina', 'check', 'Rotina da empresa', 'Tarefas do dia, da semana, do mês e do ano']
+];
+const ehTelaConfig = tab => TELAS_CONFIG.some(t => t[0] === tab);
+function pendentesRotinaHoje() { const l = rotinaLista().filter(i => i.freq === 'dia'); return Math.max(0, l.length - l.filter(i => rotinaFeito(i)).length); }
+const BASE_NOME = { custo: 'Custo × markup', 'custo-compra': 'Última compra × markup', mercado: 'Média de mercado', planilha: 'Preço de venda da planilha', manual: 'Preço manual', sem: 'Sem preço' };
 const SERV_SUGEST = ['Montagem de pneu', 'Balanceamento', 'Alinhamento', 'Rodízio de pneus', 'Conserto de pneu (remendo)', 'Troca de óleo (mão de obra)', 'Troca de pastilhas', 'Troca de amortecedor', 'Cambagem', 'Calibragem com nitrogênio'];
 const BANCOS = { '001': 'Banco do Brasil', '033': 'Santander', '104': 'Caixa', '237': 'Bradesco', '341': 'Itaú', '756': 'Sicoob', '748': 'Sicredi', '077': 'Inter', '260': 'Nubank', '336': 'C6 Bank', '212': 'Banco Original', '422': 'Safra', '041': 'Banrisul', '004': 'Banco do Nordeste', '070': 'BRB', '085': 'Ailos', '136': 'Unicred', '208': 'BTG Pactual', '290': 'PagBank', '323': 'Mercado Pago', '380': 'PicPay', '403': 'Cora', '197': 'Stone', '655': 'Votorantim', '745': 'Citibank', '399': 'HSBC', '633': 'Rendimento', '707': 'Daycoval', '746': 'Modal', '021': 'Banestes', '037': 'Banpará' };
 const UFS = { 11: 'RO', 12: 'AC', 13: 'AM', 14: 'RR', 15: 'PA', 16: 'AP', 17: 'TO', 21: 'MA', 22: 'PI', 23: 'CE', 24: 'RN', 25: 'PB', 26: 'PE', 27: 'AL', 28: 'SE', 29: 'BA', 31: 'MG', 32: 'ES', 33: 'RJ', 35: 'SP', 41: 'PR', 42: 'SC', 43: 'RS', 50: 'MS', 51: 'MT', 52: 'GO', 53: 'DF' };
@@ -1181,9 +1196,10 @@ function taxas() {
   const divisor = 1 - soma / 100;
   const mkCalc = divisor > 0.05 ? 1 / divisor : null;
   const mkDireto = parseNum(c.markup) > 0 ? parseNum(c.markup) : null;
-  const geral = c.markupModo === 'calculado' ? mkCalc : mkDireto;
+  const mkPlanilha = Number(m?.markupMes) > 0 ? Number(m.markupMes) : null;
+  const geral = c.markupModo === 'calculado' ? mkCalc : c.markupModo === 'planilha' ? (mkPlanilha || mkDireto) : mkDireto;
   const impPct = parseNum((c.variaveis || []).find(v => v.id === 'imp')?.pct) || 0;
-  return { fixosTotal, fat, fixosPct, varPct, margem, soma, divisor, mkCalc, mkDireto, geral, impPct };
+  return { fixosTotal, fat, fixosPct, varPct, margem, soma, divisor, mkCalc, mkDireto, mkPlanilha, geral, impPct };
 }
 function markupDe(p, T) {
   if (p.markup > 0) return { v: p.markup, de: 'produto' };
@@ -1206,7 +1222,7 @@ function calcPreco(p, T) {
   else if (custoRef > 0 && M.v > 0) { sug = custoRef * M.v; base = 'custo'; }
   else if (p.mercado > 0) { sug = p.mercado * (1 + (parseNum(S.config.ajusteMercado) || 0) / 100); base = 'mercado'; }
   else if (!p.avulso && p.custoManual > 0 && M.v > 0) { sug = p.custoManual * M.v; base = 'custo-compra'; }
-  p.sugerido = sug != null ? arredondar(sug) : null;
+  p.sugerido = sug == null ? null : base === 'planilha' ? r2(sug) : arredondar(sug);
   p.base = base;
   p.preco = p.precoManual != null ? p.precoManual : p.sugerido;
   p.fonte = p.precoManual != null ? 'manual' : base;
@@ -1606,9 +1622,24 @@ function lerXlsx(b64) {
   return interpretar(abas, 'xlsx');
 }
 function interpretar(abas, metodo) {
-  const linhas = [], fixos = [], chaves = new Set(), pesquisa = new Map();
+  const linhas = [], fixos = [], chaves = new Set(), pesquisa = new Map(), tabelas = [];
+  let markupMes = null;
   const cel = (r, i) => i >= 0 && r ? String(r[i] ?? '').trim() : '';
   const header = (rows, pred) => rows.findIndex(r => Array.isArray(r) && r.some(c => pred(norm(c))));
+  const colDe = H => f => H.findIndex(h => typeof f === 'function' ? f(h) : f.test(h));
+  const novaChave = k => { if (chaves.has(k)) { let n = 2; while (chaves.has(k + '-' + n)) n++; k = k + '-' + n; } chaves.add(k); return k; };
+  // célula "Markup do mês": o valor fica à direita do rótulo ou logo abaixo dele
+  const acharMarkup = rows => {
+    for (let y = 0; y < rows.length; y++) {
+      const r = rows[y]; if (!Array.isArray(r)) continue;
+      for (let x = 0; x < r.length; x++) {
+        if (!/^markup( do)? mes/.test(norm(r[x]))) continue;
+        const cands = [r[x + 1], r[x + 2], rows[y + 1]?.[x]];
+        for (const c of cands) { const v = parseNum(c); if (isFinite(v) && v > 0 && v < 20) return r3(v); }
+      }
+    }
+    return null;
+  };
   for (const nome of Object.keys(abas)) {
     if (!/pesquisa/.test(norm(nome))) continue;
     const rows = abas[nome]; const hi = header(rows, h => /^cod.*estoque/.test(h)); if (hi < 0) continue;
@@ -1635,13 +1666,17 @@ function interpretar(abas, metodo) {
         const v = parseNum(r?.[cV]);
         fixos.push({ cat: cel(r, cCat), nome: nomeF, valor: isFinite(v) && v > 0 ? r2(v) : 0 });
       }
+      if (markupMes == null) markupMes = acharMarkup(rows);
       continue;
     }
+    // aba de preços: Código de barras | Produto | Preço de custo | Preço de venda (sem coluna Modelo)
+    const hiT = rows.findIndex(r => Array.isArray(r) && r.some(c => { const h = norm(c); return h.length < 40 && /^(preco|valor|custo) de venda/.test(h); }) && r.some(c => /^(produto|nome|descricao)/.test(norm(c))));
+    if (hiT >= 0 && !rows[hiT].some(c => /^modelo/.test(norm(c)))) { tabelas.push({ nome, rows, hi: hiT }); const mm = acharMarkup(rows); if (mm) markupMes = mm; continue; }
     const hi = header(rows, h => h === 'produto'); if (hi < 0) continue;
     const H = rows[hi].map(norm);
-    const col = rx => H.findIndex(h => rx.test(h));
+    const col = colDe(H);
     const cP = col(/^produto$/), cM = col(/^modelo/), cB = col(/^marca/), cC = col(/cod.*estoque|^codigo( interno)?$/),
-      cCu = col(/custo/), cMe = col(/media.*mercado/), cV = col(/^valor/), cPr = col(/preco.*(venda|final|sugerido)/),
+      cCu = col(h => /custo/.test(h) && !/venda/.test(h)), cMe = col(/media.*mercado/), cV = col(/^valor/), cPr = col(/preco.*(venda|final|sugerido)|(custo|valor) de venda/),
       cE = col(/\bean\b|barras|gtin/), cO = col(/origem|motivo/);
     const aba = /nao encontrad/.test(nn) ? 'nao_encontrados' : 'produtos';
     for (let i = hi + 1; i < rows.length; i++) {
@@ -1650,9 +1685,7 @@ function interpretar(abas, metodo) {
       if (preenchidas <= 1 && nomeP.length > 40) continue;
       const cod = cel(r, cC).replace(/\.0$/, '');
       const modelo = cel(r, cM), marca = cel(r, cB);
-      let k = cod ? 'e' + segOk(cod) : 's' + hash36(norm(nomeP) + '|' + norm(modelo) + '|' + norm(marca));
-      if (chaves.has(k)) { let n = 2; while (chaves.has(k + '-' + n)) n++; k = k + '-' + n; }
-      chaves.add(k);
+      const k = novaChave(cod ? 'e' + segOk(cod) : 's' + hash36(norm(nomeP) + '|' + norm(modelo) + '|' + norm(marca)));
       const l = { k, nome: nomeP, modelo, marca, cod, custo: valorPos(r?.[cCu]), mercado: valorPos(r?.[cMe]), origem: cel(r, cO), aba };
       if (aba === 'nao_encontrados' && l.mercado == null && cV >= 0) { const v = valorPos(r?.[cV]); if (v != null) { l.mercado = v; l.origem = 'Valor informado na aba Não encontrados'; } }
       if (cPr >= 0) { const v = valorPos(r?.[cPr]); if (v != null) l.preco = v; }
@@ -1663,10 +1696,38 @@ function interpretar(abas, metodo) {
       linhas.push(l);
     }
   }
+  // liga cada linha da aba de preços ao produto: pelo cód. estoque, pelo código de barras ou pelo nome completo
+  const nk = x => norm(x).replace(/[^a-z0-9]+/g, ' ').trim();
+  const chaveNome = (nome, modelo, marca) => nk([nome, semMarcador(modelo), semMarcador(marca)].filter(Boolean).join(' '));
+  const ixCod = new Map(), ixEan = new Map(), ixNome = new Map();
+  const porNome = (n, l) => { if (n) ixNome.set(n, ixNome.has(n) && ixNome.get(n) !== l ? null : l); };
+  for (const l of linhas) { if (l.cod) ixCod.set(normCod(l.cod), l); if (l.ean) ixEan.set(l.ean, l); porNome(chaveNome(l.nome, l.modelo, l.marca), l); porNome(chaveNome(l.nome, l.modelo, ''), l); porNome(nk(l.nome), l); }
+  let nTabela = 0;
+  for (const t of tabelas) {
+    const col = colDe(t.rows[t.hi].map(norm));
+    const cN = col(/^(produto|nome|descricao)/), cC = col(/cod.*estoque/), cE = col(h => /barras|\bean\b|gtin/.test(h) || h === 'codigo'),
+      cPr = col(/venda/), cCu = col(h => /custo|compra/.test(h) && !/venda/.test(h));
+    if (cN < 0) continue;
+    for (let i = t.hi + 1; i < t.rows.length; i++) {
+      const r = t.rows[i], nomeP = cel(r, cN); if (!nomeP || /^total/.test(norm(nomeP))) continue;
+      const cod = cel(r, cC).replace(/\.0$/, ''), ean = normCod(cel(r, cE).replace(/\.0$/, ''));
+      let l = (cod && ixCod.get(normCod(cod))) || (ean && ixEan.get(ean)) || ixNome.get(nk(nomeP)) || null;
+      if (!l) {
+        l = { k: novaChave(cod ? 'e' + segOk(cod) : 's' + hash36(norm(nomeP) + '||')), nome: nomeP, modelo: '', marca: '', aba: 'produtos', origem: 'Aba ' + t.nome };
+        if (cod) { l.cod = cod; ixCod.set(normCod(cod), l); }
+        linhas.push(l); porNome(nk(nomeP), l);
+      }
+      const custo = valorPos(r?.[cCu]), preco = valorPos(r?.[cPr]);
+      if (custo != null) l.custo = custo;
+      if (preco != null) l.preco = preco;
+      if (ean) { l.ean = ean; ixEan.set(ean, l); }
+      nTabela++;
+    }
+  }
   if (!linhas.length) throw { code: 'formato', message: 'Não encontrei a coluna "Produto" em nenhuma aba da planilha.' };
   const totalFixos = r2(fixos.reduce((a, f) => a + f.valor, 0));
-  const contagem = { custo: linhas.filter(l => l.custo).length, mercado: linhas.filter(l => !l.custo && l.mercado).length, sem: linhas.filter(l => !l.custo && !l.mercado && !l.preco).length };
-  return { linhas, fixos, totalFixos, contagem, metodo };
+  const contagem = { venda: linhas.filter(l => l.preco).length, custo: linhas.filter(l => l.custo).length, mercado: linhas.filter(l => !l.custo && l.mercado).length, sem: linhas.filter(l => !l.custo && !l.mercado && !l.preco).length };
+  return { linhas, fixos, totalFixos, contagem, metodo, markupMes, abaPrecos: tabelas.map(t => t.nome).join(', ') || null, nTabela };
 }
 function acharBase64(o, d = 0) {
   if (o == null || d > 6) return null;
@@ -1740,12 +1801,12 @@ async function sincronizar(manual) {
   } finally { S.sync.rodando = false; render(); }
 }
 async function gravarPlanilha(dados) {
-  const assinatura = hash36(JSON.stringify([dados.linhas, dados.fixos]));
+  const assinatura = hash36(JSON.stringify([dados.linhas, dados.fixos, dados.markupMes || null]));
   const meta0 = S.planilha.meta;
   const TAM = 250, partes = [];
   for (let i = 0; i < dados.linhas.length; i += TAM) partes.push(dados.linhas.slice(i, i + TAM));
   const mudou = !meta0 || meta0.assinatura !== assinatura;
-  const meta = { lidaEm: Date.now(), assinatura, partes: partes.length, fixos: dados.fixos, totalFixos: dados.totalFixos, nLinhas: dados.linhas.length, contagem: dados.contagem, metodo: dados.metodo, fonte: PLANILHA_ID, mudouEm: mudou ? Date.now() : (meta0?.mudouEm || Date.now()) };
+  const meta = { lidaEm: Date.now(), assinatura, partes: partes.length, fixos: dados.fixos, totalFixos: dados.totalFixos, nLinhas: dados.linhas.length, contagem: dados.contagem, metodo: dados.metodo, markupMes: dados.markupMes || null, abaPrecos: dados.abaPrecos || null, nTabela: dados.nTabela || 0, fonte: PLANILHA_ID, mudouEm: mudou ? Date.now() : (meta0?.mudouEm || Date.now()) };
   if (S.db) {
     if (mudou) {
       for (let i = 0; i < partes.length; i++) await tentar(() => S.db.doc('planilha/p' + i).set({ linhas: partes[i] }));
@@ -1832,9 +1893,9 @@ function renderBadges() {
   const vr = parcelasDe('receber').filter(x => x.st === 'vencida').length;
   const set = (id, n) => { const el = $('#' + id); el.hidden = !n; el.textContent = n > 99 ? '99+' : String(n); };
   set('badge-pagar', vp); set('badge-receber', vr);
-  const lista = rotinaLista().filter(i => i.freq === 'dia');
-  const feitosHoje = lista.filter(i => rotinaFeito(i)).length;
-  set('badge-rotina', Math.max(0, lista.length - feitosHoje));
+  const nRot = pendentesRotinaHoje();
+  set('badge-rotina', nRot);
+  $('#btn-ajustes').dataset.tip = nRot ? `Configurações · ${nRot} tarefa${nRot > 1 ? 's' : ''} da rotina para hoje` : 'Configurações';
 }
 function kpi(eyebrow, v, small, cls) { return `<div class="kpi"><div class="eyebrow">${esc(eyebrow)}</div><div class="v ${cls || ''}">${v}</div>${small ? `<small>${small}</small>` : ''}</div>`; }
 function rankHtml(lista, vazio, valor, sub) {
@@ -1996,11 +2057,12 @@ VIEWS.produtos = () => {
   if (!l.length) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">${S.produtos.size ? 'Nenhum produto com esse filtro.' : 'Nenhum produto ainda. Leia a planilha em Preços para trazer a lista.'}</td></tr>`; return; }
   tb.innerHTML = l.map(p => {
     const baixo = p.estoque < 0 || (p.min != null && p.estoque <= p.min);
-    return `<tr class="click" data-acao="abrir-produto" data-k="${esc(p.k)}"><td class="nome"><b>${esc(p.nome)}</b><span class="sub">${esc(nomeCurto(p) || '—')}${p.codigos.length ? ` · ${p.codigos.length} cód. de barras` : ''}</span></td>
+    const nBarras = new Set([...p.codigos, ...(p.eanPl ? [p.eanPl] : [])].map(normCod)).size;
+    return `<tr class="click" data-acao="abrir-produto" data-k="${esc(p.k)}"><td class="nome"><b>${esc(p.nome)}</b><span class="sub">${esc(nomeCurto(p) || '—')}${nBarras ? ` · ${nBarras} cód. de barras` : ''}</span></td>
       <td class="mono">${esc(p.cod || '—')}</td>
       <td class="num">${baixo ? `<span class="pill red">${qn(p.estoque)}</span>` : qn(p.estoque)}</td>
-      <td class="num"><b>${money(p.preco)}</b></td>
-      <td>${pillBase(p)}</td>
+      <td class="num">${p.custo ? money(p.custo) : '<span class="muted">—</span>'}${p.custo ? `<span class="sub">${p.custoPl ? 'planilha' : 'últ. compra'}</span>` : ''}</td>
+      <td class="num"><b>${money(p.preco)}</b><span class="sub">${pillBase(p)}</span></td>
       <td class="num">${p.estoque > 0 && p.preco ? money(p.estoque * p.preco) : '—'}</td></tr>`;
   }).join('');
 };
@@ -2043,17 +2105,22 @@ function renderPlanCard() {
       <div class="toolbar"><a class="btn sm" href="${PLANILHA_URL}" target="_blank" rel="noopener">${ico('link')}Abrir</a><button class="btn sm primary" type="button" data-acao="sincronizar" ${S.sync.rodando || !S.podeEscrever ? 'disabled' : ''}>${ico('sync')}${S.sync.rodando ? 'Lendo…' : 'Ler planilha agora'}</button></div></div>
     <div class="plan-st">${m ? `<span>Última leitura: <b>${esc(fmtQuando(m.lidaEm))}</b></span><span>Mudou: <b>${esc(fmtQuando(m.mudouEm || m.lidaEm))}</b></span>` : '<span>Ainda não lida.</span>'}</div>
     ${S.sync.erro ? `<p class="erro-txt">${esc(msgErroPlanilha(S.sync.erro))}</p>` : ''}
-    <div class="cnt"><div><b>${c.custo ?? '—'}</b><small>com custo de compra</small></div><div><b>${c.mercado ?? '—'}</b><small>só média de mercado</small></div><div><b>${c.sem ?? '—'}</b><small>sem valor</small></div></div>
+    <div class="cnt"><div><b>${c.venda ?? '—'}</b><small>com preço de venda</small></div><div><b>${c.custo ?? '—'}</b><small>com preço de compra</small></div><div><b>${c.mercado ?? '—'}</b><small>só média de mercado</small></div><div><b>${c.sem ?? '—'}</b><small>sem valor</small></div></div>
+    ${m ? (m.abaPrecos ? `<p>Aba de preços: <b>${esc(m.abaPrecos)}</b> (${m.nTabela || 0} linhas). Markup do mês: <b>${m.markupMes ? mk(m.markupMes) : 'não encontrado'}</b>.</p>`
+      : `<p class="muted">A planilha ainda não tem a aba de preços (Código de barras, Produto, Preço de custo, Preço de venda). Até ela existir, o preço de venda é calculado aqui.</p>`) : ''}
     <div><div class="eyebrow" style="margin-bottom:6px">Custos fixos mensais (aba Custos Fixos)</div>
       ${fixosNZ.length ? `<ul class="fixos-list">${fixosNZ.map(f => `<li><span>${esc(f.nome)}</span><span class="num">${money(f.valor)}</span></li>`).join('')}</ul>` : `<p class="muted">Todos em R$ 0,00 na planilha. Preencha a coluna "Valor mensal" para que entrem no markup calculado.</p>`}
       <div style="display:flex;justify-content:space-between;margin-top:6px;font-weight:650"><span>Total</span><span class="num">${money(m?.totalFixos ?? 0)}</span></div></div>`;
 }
 function renderParamForm() {
-  const c = S.config, T = S.T || taxas(), direto = c.markupModo !== 'calculado';
+  const c = S.config, T = S.T || taxas(), modo = c.markupModo === 'calculado' ? 'calculado' : c.markupModo === 'planilha' ? 'planilha' : 'direto';
   const catVal = g => fmtIn(c.markupCat?.[g]);
+  const campoMk = rot => `<label class="f">${rot}<input class="inp num" id="c-mk" data-cfg="markup" inputmode="decimal" value="${esc(fmtIn(c.markup))}" placeholder="Ex.: 1,80" style="font-size:20px;font-weight:650"></label>`;
   $('#param-card').innerHTML = `<h2>Markup</h2>
-    <div class="seg" role="group" aria-label="Como definir o markup"><button type="button" data-acao="mk-modo" data-v="direto" aria-pressed="${direto}">Informar o markup</button><button type="button" data-acao="mk-modo" data-v="calculado" aria-pressed="${!direto}">Calcular pelos custos</button></div>
-    ${direto ? `<label class="f">Markup geral (multiplicador do custo)<input class="inp num" id="c-mk" data-cfg="markup" inputmode="decimal" value="${esc(fmtIn(c.markup))}" placeholder="Ex.: 1,80" style="font-size:20px;font-weight:650"></label>`
+    <div class="seg" role="group" aria-label="Como definir o markup">${[['planilha', 'Markup do mês (planilha)'], ['direto', 'Informar aqui'], ['calculado', 'Calcular pelos custos']].map(([v, n]) => `<button type="button" data-acao="mk-modo" data-v="${v}" aria-pressed="${modo === v}">${n}</button>`).join('')}</div>
+    ${modo === 'planilha' ? (T.mkPlanilha ? `<p>O markup do mês é lido da célula <b>Markup do mês</b> na aba de preços da planilha. Para mudar, altere a planilha e clique em "Ler planilha agora".</p>`
+        : `<p>A planilha ainda não tem a célula <b>Markup do mês</b>. Enquanto isso, o sistema usa o markup abaixo.</p>${campoMk('Markup usado enquanto a planilha não tiver o do mês')}`)
+    : modo === 'direto' ? campoMk('Markup geral (multiplicador do custo)')
       : `<div class="form-g"><label class="f">Faturamento mensal estimado (R$)<input class="inp num" data-cfg="faturamento" inputmode="decimal" value="${esc(fmtMoneyIn(c.faturamento))}" placeholder="0,00"></label><label class="f">Margem de lucro desejada (%)<input class="inp num" data-cfg="margem" inputmode="decimal" value="${esc(fmtIn(c.margem))}"></label></div>
       <button class="btn sm ghost" type="button" data-acao="fat-real" id="fat-real" style="justify-self:start"></button>
       <div><div class="eyebrow" style="margin-bottom:6px">Custos variáveis sobre a venda (%)</div><div style="display:grid;gap:6px">${(c.variaveis || []).map((v, i) => `<div class="var-row"><input class="inp" data-var="${i}" data-campo="nome" value="${esc(v.nome)}" aria-label="Nome do custo"><input class="inp num" data-var="${i}" data-campo="pct" inputmode="decimal" value="${esc(fmtIn(v.pct ?? 0))}" aria-label="Percentual"><button class="btn sm ghost" type="button" data-acao="var-del" data-i="${i}" aria-label="Remover">${ico('x')}</button></div>`).join('')}</div>
@@ -2073,7 +2140,8 @@ function atualizarFormula() {
   const direto = S.config.markupModo !== 'calculado';
   const f = v => (v / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
   const ex = T.geral ? `<div class="muted">Ex.: um item que custou ${money(100)} sai por <b style="color:var(--ink)">${money(arredondar(100 * T.geral))}</b>. Margem bruta sobre o preço: ${pct(r2((1 - 1 / T.geral) * 100))}.</div>` : '';
-  if (direto) el.innerHTML = T.geral ? `<div class="mono">Preço de venda = custo × markup</div><div class="big">= custo ${mk(T.geral)}</div>${ex}` : `<div class="erro-txt">Informe um markup maior que zero (ex.: 1,80).</div>`;
+  const doMes = S.config.markupModo === 'planilha';
+  if (direto) el.innerHTML = T.geral ? `<div class="mono">Preço de venda = custo × markup${doMes ? ' do mês' : ''}</div><div class="big">= custo ${mk(T.geral)}</div>${doMes ? `<div class="muted">${T.mkPlanilha ? 'Markup do mês lido da planilha.' : 'Markup informado aqui (a planilha ainda não tem o do mês).'}</div>` : ''}${ex}` : `<div class="erro-txt">Informe um markup maior que zero (ex.: 1,80).</div>`;
   else el.innerHTML = `<div class="mono">Markup = 1 ÷ (1 − fixos − variáveis − margem)</div><div class="mono">= 1 ÷ (1 − ${f(T.fixosPct)} − ${f(T.varPct)} − ${f(T.margem)})</div>${T.mkCalc ? `<div class="big">Preço = custo ${mk(T.mkCalc)}</div>${ex}<div class="muted">Custos fixos = ${pct(T.fixosPct)} do faturamento${T.fat ? '' : ' (informe o faturamento para incluí-los)'}.</div>` : `<div class="erro-txt">Fixos + variáveis + margem somam ${pct(T.soma)}. Precisa ficar abaixo de 95%.</div>`}`;
   const b = $('#fat-real');
   if (b) { const tt = totais(itensPeriodo(addDays(hoje(), -29), hoje())); b.textContent = tt.fat > 0 ? `Usar o faturamento real dos últimos 30 dias (${money(tt.fat)})` : ''; b.hidden = !(tt.fat > 0); b.dataset.v = String(r2(tt.fat)); }
@@ -2591,7 +2659,7 @@ function abrirProduto(k, novo) {
       <label class="f">Markup deste produto<input class="inp num" id="d-mk" inputmode="decimal" value="${esc(fmtIn(p?.markup))}" placeholder="${esc(mkPadrao ? fmtIn(r3(mkPadrao)) : '—')} (padrão)"></label></div>
       <dl class="dl" id="d-calc"></dl>
       ${p?.anuncios?.length ? `<div class="anuncios">Pesquisa de mercado: ${p.anuncios.map(money).join(' · ')}${p.busca ? ` · <a href="${esc(p.busca)}" target="_blank" rel="noopener">ver busca no Mercado Livre</a>` : ''}</div>` : ''}
-      <label class="f">Preço manual (R$)<input class="inp num" id="d-manual" inputmode="decimal" value="${esc(fmtMoneyIn(p?.precoManual))}" placeholder="vazio = custo × markup ou média de mercado"></label>
+      <label class="f">Preço de venda manual (R$)<input class="inp num" id="d-manual" inputmode="decimal" value="${esc(fmtMoneyIn(p?.precoManual))}" placeholder="vazio = preço de venda da planilha"></label>
     </section>
     <div class="pn-acoes">${p?.avulso ? `<button class="btn ghost" type="button" data-acao="excluir-avulso" data-k="${esc(p.k)}">Excluir</button>` : ''}<span class="sp"></span><button class="btn ghost" type="button" data-acao="fechar-drawer">Cancelar</button><button class="btn primary" type="button" data-acao="salvar-produto" ${S.podeEscrever ? '' : 'disabled'}>${novo && novo.registrar ? 'Salvar e registrar' : 'Salvar'}</button></div>`;
   abrirDrawer(html, { tipo: 'produto', k: p?.k || null, novo: novo || null, codigos: [...(p?.codigos || (codLido ? [codLido] : []))] });
@@ -2612,14 +2680,15 @@ function atualizarDrawerCalc() {
   const mki = parseNum($('#d-mk')?.value); p.markup = mki > 0 ? mki : null;
   calcPreco(p, S.T || taxas());
   const linhas = [];
-  if (p.custoPl) linhas.push(['Custo de compra (planilha)', money(p.custoPl)]);
-  if (!p.custoPl && p.custoManual) linhas.push([p.avulso ? 'Custo de compra' : 'Custo da última compra', money(p.custoManual)]);
+  if (p.custoPl) linhas.push(['Preço de compra (planilha)', money(p.custoPl)]);
+  if (!p.custoPl && p.custoManual) linhas.push([p.avulso ? 'Preço de compra' : 'Preço da última compra', money(p.custoManual)]);
+  if (p.precoPl) linhas.push(['Preço de venda (planilha)', money(p.precoPl)]);
   if (p.mercado) linhas.push(['Média de mercado (planilha)', money(p.mercado)]);
   linhas.push(['Markup em uso', `${mk(p.mk)} <span class="muted">(${p.mkDe === 'produto' ? 'deste produto' : p.mkDe === 'categoria' ? 'da categoria' : 'geral'})</span>`]);
   if (p.custoXmk) linhas.push(['Custo × markup', money(p.custoXmk)]);
-  linhas.push(['Preço sugerido', `<b>${money(p.sugerido)}</b>`], ['Base', esc(BASE_NOME[p.base])]);
+  linhas.push(['Preço de venda', `<b>${money(p.sugerido)}</b>`], ['Base', esc(BASE_NOME[p.base])]);
   if (p.base === 'mercado' && p.mk) linhas.push(['Custo máximo para manter o markup', money(p.mercado / p.mk)]);
-  if (p.precoManual != null) linhas.push(['Preço em uso (manual)', `<b>${money(p.precoManual)}</b>`]);
+  if (p.precoManual != null) linhas.push(['Preço de venda em uso (manual)', `<b>${money(p.precoManual)}</b>`]);
   if (p.custo && p.preco) linhas.push(['Lucro bruto por unidade', `${money(p.preco - p.custo)} (${pct(r2((p.preco - p.custo) / p.preco * 100))})`]);
   if (p0?.origem) linhas.push(['Origem do valor', `<span style="font-size:12.5px">${esc(p0.origem)}</span>`]);
   el.innerHTML = linhas.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('');
@@ -2674,8 +2743,11 @@ function addCodDrawer() {
 
 /* ================= ajustes ================= */
 function abrirAjustes() {
-  const tema = ls.get('tema', 'auto');
-  abrirDrawer(`<div class="pn-h"><div><h2>Ajustes</h2><div class="sub">Preferências deste sistema.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+  const tema = ls.get('tema', 'auto'), nRot = pendentesRotinaHoje();
+  abrirDrawer(`<div class="pn-h"><div><h2>Configurações</h2><div class="sub">Gestão da loja e preferências deste sistema.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+    <section><h3>Gestão</h3><nav class="cfg-lista" aria-label="Telas de gestão">
+      ${TELAS_CONFIG.map(([tab, ic, nome, desc]) => `<a href="#${tab}" data-acao="fechar-drawer" ${S.tab === tab ? 'aria-current="page"' : ''}><span class="ic">${ico(ic)}</span><span><b>${esc(nome)}</b><small>${esc(desc)}</small></span>${tab === 'rotina' && nRot ? `<span class="pill solid-red">${nRot} hoje</span>` : '<span></span>'}<svg class="i seta"><use href="#ic-right"/></svg></a>`).join('')}
+    </nav></section>
     <section><h3>Aparência</h3><div class="tema-opts" role="radiogroup" aria-label="Tema">
       ${[['auto', 'Automático'], ['claro', 'Modo claro'], ['escuro', 'Modo noturno']].map(([v, n]) => `<button type="button" role="radio" data-acao="tema" data-v="${v}" aria-pressed="${tema === v}" aria-checked="${tema === v}"><span class="amostra ${v}"><i></i><span></span></span>${n}</button>`).join('')}
     </div><p class="muted" style="margin:0;font-size:13px">Automático segue o tema do seu aparelho. A escolha vale para este navegador.</p></section>
@@ -2699,7 +2771,7 @@ async function salvarArquivo(nome, conteudo) {
 }
 function exportarProdutos() {
   const l = filtrarProdutos();
-  const linhas = [['Produto', 'Modelo', 'Marca', 'Cód. estoque', 'Códigos de barras', 'Estoque', 'Mínimo', 'Custo', 'Markup', 'Custo x markup', 'Média de mercado', 'Preço em uso', 'Base do preço'].join(';')];
+  const linhas = [['Produto', 'Modelo', 'Marca', 'Cód. estoque', 'Códigos de barras', 'Estoque', 'Mínimo', 'Preço de compra', 'Markup', 'Custo x markup', 'Média de mercado', 'Preço de venda', 'Base do preço'].join(';')];
   for (const p of l) linhas.push([p.nome, p.modelo, p.marca, p.cod, p.codigos.join(' '), qn(p.estoque), p.min ?? '', csvNum(p.custo), p.mk ? String(r3(p.mk)).replace('.', ',') : '', csvNum(p.custoXmk), csvNum(p.mercado), csvNum(p.preco), BASE_NOME[p.fonte]].map(csvCel).join(';'));
   salvarArquivo(`produtos-${hoje()}.csv`, '﻿' + linhas.join('\r\n'));
 }
@@ -2744,6 +2816,7 @@ function aplicarRota() {
   S.tab = ROTAS.includes(h) ? h : 'registrar';
   $$('[data-view]').forEach(s => s.hidden = s.dataset.view !== S.tab);
   $$('.rail a[data-tab]').forEach(a => { if (a.dataset.tab === S.tab) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  const g = $('#btn-ajustes'); if (ehTelaConfig(S.tab)) g.setAttribute('aria-current', 'page'); else g.removeAttribute('aria-current');
 }
 function ligarUI() {
   const perOpts = PERIODOS.map(([v, n]) => `<option value="${v}">${n}</option>`).join('');
@@ -2833,7 +2906,8 @@ function ligarUI() {
       'var-del': () => { S.config.variaveis = S.config.variaveis.filter((_, i) => i !== Number(a.dataset.i)); mudarConfig({}); renderParamForm(); },
       'fat-real': () => { mudarConfig({ faturamento: parseNum(a.dataset.v) || 0 }); renderParamForm(); },
       'tema': () => { const v = a.dataset.v; ls.set('tema', v); aplicarTema(v); $$('[data-acao="tema"]').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.v === v)); b.setAttribute('aria-checked', String(b.dataset.v === v)); }); },
-      'salvar-ajustes': () => { ls.set('som', $('#a-som').checked); mudarConfig({ loja: $('#a-loja').value.trim() }); fecharDrawer(); render(); toast('Ajustes salvos.'); },
+      'salvar-ajustes': () => { ls.set('som', $('#a-som').checked); mudarConfig({ loja: $('#a-loja').value.trim() }); fecharDrawer(); render(); toast('Configurações salvas.'); },
+      'abrir-config': () => abrirAjustes(),
       'serv-sug': () => { if (!S.podeEscrever) return; salvarServico('s' + rid(8), { nome: a.dataset.nome, preco: 0, cod: proximoCodServ(), ativo: true }); render(); toast(`${a.dataset.nome} adicionado. Clique nele para definir o preço.`); },
       'abrir-servico': () => abrirServico(a.dataset.id),
       'serv-salvar': () => {
