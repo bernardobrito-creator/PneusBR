@@ -571,6 +571,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   <section data-view="precificacao" hidden>
     <div class="sec-h">
       <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Preços e markup</h1><p>O preço de venda vem da planilha de precificação (preço de custo × markup do mês). Quando a planilha não traz o preço de venda, o sistema calcula custo × markup; sem custo, usa a média de mercado.</p></div>
+      <div class="toolbar"><button class="btn ghost" type="button" data-acao="bloquear"><svg class="i"><use href="#ic-lock"/></svg>Bloquear</button></div>
     </div>
     <div class="grid2">
       <div class="card bloco" id="param-card"></div>
@@ -664,7 +665,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
       <p>Esta tela pede a senha da loja.</p>
       <form id="trava-form" autocomplete="off"><input class="inp" id="trava-senha" type="password" placeholder="Senha" aria-label="Senha" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="btn primary" type="submit">Abrir</button></form>
       <p class="erro-txt" id="trava-erro" hidden>Senha incorreta.</p>
-      <p class="muted" style="font-size:12.5px">A senha vale até você fechar esta aba do navegador. Caixa e Faturamento abrem juntos.</p>
+      <p class="muted" style="font-size:12.5px">A senha vale até você fechar esta aba do navegador. Caixa, Faturamento, Balanço e Preços abrem juntos.</p>
     </div>
   </section>
 
@@ -672,7 +673,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   <section data-view="balanco" hidden>
     <div class="sec-h">
       <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Balanço geral</h1><p>Como foi a semana: o que entrou, o que saiu, os campeões de venda e as contas da semana.</p></div>
-      <div class="semana-nav"><button class="btn sm" type="button" data-acao="sem-ant" aria-label="Semana anterior"><svg class="i"><use href="#ic-left"/></svg></button><b id="b-semana"></b><button class="btn sm" type="button" data-acao="sem-prox" aria-label="Próxima semana"><svg class="i"><use href="#ic-right"/></svg></button><button class="btn sm ghost" type="button" data-acao="sem-hoje">Esta semana</button></div>
+      <div class="semana-nav"><button class="btn sm" type="button" data-acao="sem-ant" aria-label="Semana anterior"><svg class="i"><use href="#ic-left"/></svg></button><b id="b-semana"></b><button class="btn sm" type="button" data-acao="sem-prox" aria-label="Próxima semana"><svg class="i"><use href="#ic-right"/></svg></button><button class="btn sm ghost" type="button" data-acao="sem-hoje">Esta semana</button><button class="btn sm ghost" type="button" data-acao="bloquear"><svg class="i"><use href="#ic-lock"/></svg>Bloquear</button></div>
     </div>
     <div class="kpis mb" id="b-kpis"></div>
     <div class="destaques" id="b-dest"></div>
@@ -1067,10 +1068,10 @@ const TELAS_CONFIG = [
   ['rotina', 'check', 'Rotina da empresa', 'Tarefas do dia, da semana, do mês e do ano']
 ];
 const ehTelaConfig = tab => TELAS_CONFIG.some(t => t[0] === tab);
-const TELAS_SENHA = ['caixa', 'faturamento'];
+const TELAS_SENHA = ['caixa', 'faturamento', 'balanco', 'precificacao'];
 const SENHA_TELAS = 'jm1zwz'; // resumo (hash36) da senha da loja
-let livresMem = false;
-function telasLivres() { try { return sessionStorage.getItem('pbr.livre') === '1'; } catch { return livresMem; } }
+let livresMem = (() => { try { return sessionStorage.getItem('pbr.livre') === '1'; } catch { return false; } })();
+function telasLivres() { return livresMem; }
 function liberarTelas(sim) { livresMem = sim; try { if (sim) sessionStorage.setItem('pbr.livre', '1'); else sessionStorage.removeItem('pbr.livre'); } catch { } }
 const travada = tab => TELAS_SENHA.includes(tab) && !telasLivres();
 function pendentesRotinaHoje() { const l = rotinaLista().filter(i => i.freq === 'dia'); return Math.max(0, l.length - l.filter(i => rotinaFeito(i)).length); }
@@ -1115,9 +1116,8 @@ const COMPACT = new Intl.NumberFormat('pt-BR', { notation: 'compact', maximumFra
 // Código da loja: os valores em R$ (menos o preço de venda) aparecem em letras. 1=T 2=R 3=E 4=P 5=N 6=I 7=A 8=Y 9=K 0=S
 const CODIGO = 'STREPNIAYK';
 const codificar = x => String(x).replace(/\d/g, d => CODIGO[d]);
-let revelar = false; // fica true só enquanto Caixa e Faturamento desenham, depois da senha
-const cod = x => revelar ? String(x) : codificar(x);
-function revelado(fn) { return (...a) => { const antes = revelar; revelar = telasLivres(); try { return fn(...a); } finally { revelar = antes; } }; }
+// nas telas com senha (depois de liberadas) os números aparecem normais; no resto, em letras
+const cod = x => (TELAS_SENHA.includes(S.tab) && telasLivres()) ? String(x) : codificar(x);
 const moneyV = v => (v == null || !isFinite(v)) ? '—' : BRL.format(v); // preço de venda: sempre em número
 const money = v => (v == null || !isFinite(v)) ? '—' : cod(BRL.format(v));
 const sinal = v => (v > 0 ? '+' : v < 0 ? '−' : '') + cod(BRL.format(Math.abs(v || 0)));
@@ -2335,7 +2335,7 @@ function renderCaixaDia() {
   }
   el.innerHTML = html;
 }
-function salvarCaixaDia(dados) { S.caixaDia = dados; fila('caixa/' + hoje(), 'set', () => S.caixaDia); if (!travada('caixa')) revelado(renderCaixaDia)(); renderBadges(); }
+function salvarCaixaDia(dados) { S.caixaDia = dados; fila('caixa/' + hoje(), 'set', () => S.caixaDia); if (!travada('caixa')) renderCaixaDia(); renderBadges(); }
 VIEWS.caixa = () => {
   renderCaixaDia();
   const [de, ate] = lerPeriodo('c');
@@ -2472,8 +2472,6 @@ function lucroPrejuizoHtml(itens) {
     <p class="muted" style="font-size:12.5px">Os 8 itens que mais deram lucro e os que mais deram prejuízo no período. Lucro = venda − custo; prejuízo = venda abaixo do custo e perdas ou avarias (pelo custo). Serviços entram inteiros como lucro, porque não têm custo cadastrado.${d.semCusto ? ` ${d.semCusto} venda(s) de produto sem custo informado ficaram de fora.` : ''}</p>`;
 }
 
-// Caixa e Faturamento: só desenham depois da senha, e aí mostram os números de verdade
-for (const tab of TELAS_SENHA) { const f = VIEWS[tab]; VIEWS[tab] = (...a) => travada(tab) ? undefined : revelado(f)(...a); }
 
 /* ================= Balanço geral ================= */
 VIEWS.balanco = () => {
@@ -2912,6 +2910,8 @@ function ligarTip(el) { el.addEventListener('mouseenter', () => mostrarTip(el));
 function esconderTip() { $('#tip').hidden = true; }
 
 /* ================= eventos ================= */
+// Caixa, Faturamento, Balanço e Preços: só desenham depois da senha
+for (const tab of TELAS_SENHA) { const f = VIEWS[tab]; VIEWS[tab] = (...a) => travada(tab) ? undefined : f(...a); }
 const ROTAS = ['registrar', 'produtos', 'servicos', 'precificacao', 'movimentacoes', 'caixa', 'faturamento', 'balanco', 'pagar', 'receber', 'rotina'];
 function aplicarRota() {
   const h = (location.hash || '').replace('#', '');
@@ -2937,7 +2937,7 @@ function ligarUI() {
   $('#trava-form').addEventListener('submit', e => {
     e.preventDefault();
     const v = $('#trava-senha').value.trim().toUpperCase();
-    if (hash36(v) === SENHA_TELAS) { liberarTelas(true); aplicarRota(); render(); toast('Caixa e Faturamento liberados até você fechar esta aba.'); }
+    if (hash36(v) === SENHA_TELAS) { liberarTelas(true); aplicarRota(); render(); toast('Caixa, Faturamento, Balanço e Preços liberados até você fechar esta aba.'); }
     else { $('#trava-erro').hidden = false; $('#trava-senha').select(); }
   });
   $('.rail').addEventListener('scroll', esconderTip);
@@ -3018,7 +3018,7 @@ function ligarUI() {
       'tema': () => { const v = a.dataset.v; ls.set('tema', v); aplicarTema(v); $$('[data-acao="tema"]').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.v === v)); b.setAttribute('aria-checked', String(b.dataset.v === v)); }); },
       'salvar-ajustes': () => { ls.set('som', $('#a-som').checked); mudarConfig({ loja: $('#a-loja').value.trim() }); fecharDrawer(); render(); toast('Configurações salvas.'); },
       'abrir-config': () => abrirAjustes(),
-      'bloquear': () => { liberarTelas(false); aplicarRota(); render(); toast('Caixa e Faturamento bloqueados.'); },
+      'bloquear': () => { liberarTelas(false); aplicarRota(); render(); toast('Caixa, Faturamento, Balanço e Preços bloqueados.'); },
       'serv-sug': () => { if (!S.podeEscrever) return; salvarServico('s' + rid(8), { nome: a.dataset.nome, preco: 0, cod: proximoCodServ(), ativo: true }); render(); toast(`${a.dataset.nome} adicionado. Clique nele para definir o preço.`); },
       'abrir-servico': () => abrirServico(a.dataset.id),
       'serv-salvar': () => {
