@@ -227,6 +227,15 @@ kbd{font-family:var(--f-mono);font-size:11px;border:1px solid currentColor;borde
 table.t{width:100%;border-collapse:collapse;font-size:14px}
 .t th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface)}
 .t td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.t th.num{text-align:right}
+/* botão de alinhar as colunas (esquerda, centro, direita) acima de cada tabela */
+.alinhar-bar{display:flex;justify-content:flex-end;margin:0 0 6px}
+.alinhar button{padding:5px 9px}
+.alinhar svg.i{width:16px;height:16px}
+table.t.al-esq th,table.t.al-esq td{text-align:left}
+table.t.al-cen th,table.t.al-cen td{text-align:center}
+table.t.al-dir th,table.t.al-dir td{text-align:right}
+table.t td .undo{display:inline-flex}
 .t tr:last-child td{border-bottom:0}
 .t tbody tr.click{cursor:pointer}
 .t tbody tr.click:hover td{background:var(--surface-2)}
@@ -481,6 +490,9 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
     <symbol id="ic-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
     <symbol id="ic-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
     <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/><path d="M12 14.5v2.5"/></symbol>
+    <symbol id="ic-al-esq" viewBox="0 0 24 24"><path d="M4 6h16M4 10h10M4 14h16M4 18h10"/></symbol>
+    <symbol id="ic-al-cen" viewBox="0 0 24 24"><path d="M4 6h16M7 10h10M4 14h16M7 18h10"/></symbol>
+    <symbol id="ic-al-dir" viewBox="0 0 24 24"><path d="M4 6h16M10 10h10M4 14h16M10 18h10"/></symbol>
     <symbol id="ic-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></symbol>
     <symbol id="ic-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
     <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
@@ -3162,13 +3174,29 @@ function mostrarTip(el) {
   const tip = $('#tip'), txt = el.dataset.tip; if (!txt) return;
   tip.textContent = txt; tip.hidden = false;
   const r = el.getBoundingClientRect();
-  if (el.closest('.drawer')) {
+  if (el.closest('.drawer') || el.closest('.alinhar')) {
     tip.style.left = Math.max(8, Math.min(window.innerWidth - tip.offsetWidth - 8, r.left + r.width / 2 - tip.offsetWidth / 2)) + 'px';
     tip.style.top = (r.bottom + 8) + 'px';
   } else {
     tip.style.left = (r.right + 10) + 'px';
     tip.style.top = (r.top + r.height / 2 - tip.offsetHeight / 2) + 'px';
   }
+}
+const ALINHAR = { esq: 'Alinhar à esquerda', cen: 'Centralizar', dir: 'Alinhar à direita' };
+function aplicarAlinhamento(id, v) {
+  const t = document.getElementById(id); if (!t) return;
+  t.classList.remove('al-esq', 'al-cen', 'al-dir'); if (v) t.classList.add('al-' + v);
+  $$(`[data-acao="alinhar"][data-tabela="${id}"]`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+}
+function montarAlinhadores() {
+  const pref = ls.get('alinhar', {});
+  $$('section[data-view] .tabela-wrap > table.t[id]').forEach(t => {
+    const bar = document.createElement('div'); bar.className = 'alinhar-bar';
+    bar.innerHTML = `<div class="seg alinhar" role="group" aria-label="Alinhar as colunas da tabela">${Object.entries(ALINHAR).map(([v, rot]) => `<button type="button" data-acao="alinhar" data-tabela="${t.id}" data-v="${v}" aria-pressed="false" aria-label="${rot}" data-tip="${rot} · clique de novo para voltar ao automático">${ico('al-' + v)}</button>`).join('')}</div>`;
+    t.parentElement.before(bar);
+    bar.querySelectorAll('[data-tip]').forEach(ligarTip);
+    aplicarAlinhamento(t.id, pref[t.id] || null);
+  });
 }
 function ligarTip(el) { el.addEventListener('mouseenter', () => mostrarTip(el)); el.addEventListener('mouseleave', esconderTip); el.addEventListener('focus', () => mostrarTip(el)); el.addEventListener('blur', esconderTip); }
 function esconderTip() { $('#tip').hidden = true; }
@@ -3198,6 +3226,7 @@ function ligarUI() {
 
   // dicas do trilho
   $$('.rail [data-tip]').forEach(ligarTip);
+  montarAlinhadores();
   $('#trava-form').addEventListener('submit', e => {
     e.preventDefault();
     const v = $('#trava-senha').value.trim().toUpperCase();
@@ -3282,6 +3311,7 @@ function ligarUI() {
       'tema': () => { const v = a.dataset.v; ls.set('tema', v); aplicarTema(v); $$('[data-acao="tema"]').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.v === v)); b.setAttribute('aria-checked', String(b.dataset.v === v)); }); },
       'salvar-ajustes': () => { ls.set('som', $('#a-som').checked); mudarConfig({ loja: $('#a-loja').value.trim() }); fecharDrawer(); render(); toast('Configurações salvas.'); },
       'abrir-config': () => abrirAjustes(),
+      'alinhar': () => { const id = a.dataset.tabela, pref = ls.get('alinhar', {}), v = pref[id] === a.dataset.v ? null : a.dataset.v; if (v) pref[id] = v; else delete pref[id]; ls.set('alinhar', pref); aplicarAlinhamento(id, v); esconderTip(); },
       'bloquear': () => { liberarTelas(false); aplicarRota(); render(); toast('Caixa, Faturamento, Balanço e Preços bloqueados.'); },
       'serv-sug': () => { if (!S.podeEscrever) return; salvarServico('s' + rid(8), { nome: a.dataset.nome, preco: 0, cod: proximoCodServ(), ativo: true }); render(); toast(`${a.dataset.nome} adicionado. Clique nele para definir o preço.`); },
       'abrir-servico': () => abrirServico(a.dataset.id),
