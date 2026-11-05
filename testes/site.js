@@ -45,6 +45,7 @@ const migr = {
   out.c.download = dl.suggestedFilename();
   // falha de planilha
   await A.evaluate(() => { window.__planilhaFalha = true; location.hash = '#precificacao'; }); await A.waitForTimeout(200);
+  if (await A.evaluate(() => !document.querySelector('[data-view="trava"]').hidden)) { await A.fill('#trava-senha', 'TREPNIAYKS'); await A.press('#trava-senha', 'Enter'); await A.waitForTimeout(300); }
   await A.click('[data-acao="sincronizar"]'); await A.waitForTimeout(500);
   out.c.erroPlanilha = await A.evaluate(() => [...document.querySelectorAll('.toast')].map(t => t.textContent).pop());
   // sair e entrar como funcionária

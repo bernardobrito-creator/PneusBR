@@ -337,6 +337,16 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
 .leitor svg.i{width:22px;height:22px;color:var(--ink-2)}
 .leitor input{flex:1;min-width:0;border:0;background:none;outline:none;font:500 16px var(--f-mono);padding:9px 0}
 .leitor input::placeholder{font-family:var(--f-ui);color:var(--muted)}
+.nd-scan{border:1.5px dashed var(--line-2);border-radius:12px;padding:12px;display:grid;gap:10px;background:var(--bg)}
+.nd-scan.arrastando{border-color:var(--red);background:var(--red-soft)}
+.nd-scan-acoes{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.nd-scan-st{font-size:13px;color:var(--ink-2);display:grid;gap:4px}
+.nd-scan-st .ok{color:var(--ink);font-weight:600}
+.nd-scan-st ul{margin:0;padding-left:18px;color:var(--red-ink)}
+.nd-scan-st .lendo{display:inline-flex;gap:8px;align-items:center;color:var(--ink)}
+.nd-scan-st .lendo::before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid var(--line-2);border-top-color:var(--red);animation:gira .8s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.inp.lido{border-color:var(--red-line);box-shadow:inset 3px 0 0 var(--red)}
 .doc-lido{display:flex;gap:10px;align-items:flex-start;background:var(--surface-2);border-radius:10px;padding:10px 12px;font-size:13.5px}
 .doc-lido .mono{font-size:12px;overflow-wrap:anywhere}
 .parc-row td{background:var(--surface-2)}
@@ -457,6 +467,8 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
     <symbol id="ic-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
     <symbol id="ic-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
     <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/><path d="M12 14.5v2.5"/></symbol>
+    <symbol id="ic-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></symbol>
+    <symbol id="ic-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
     <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
   </defs>
 </svg>
@@ -679,7 +691,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   <section data-view="pagar" hidden>
     <div class="sec-h">
       <div><h1>Notas a pagar</h1><p>Contas de fornecedores e despesas a prazo. Leia o boleto ou a nota fiscal com o leitor para preencher sozinho, ou leia os produtos da nota para somar o valor.</p></div>
-      <div class="toolbar"><button class="btn primary" type="button" data-acao="nova-nota" data-col="pagar"><svg class="i"><use href="#ic-plus"/></svg>Nova nota a pagar</button></div>
+      <div class="toolbar"><button class="btn" type="button" data-acao="scan-nota" data-col="pagar"><svg class="i"><use href="#ic-scan"/></svg>Escanear nota</button><button class="btn primary" type="button" data-acao="nova-nota" data-col="pagar"><svg class="i"><use href="#ic-plus"/></svg>Nova nota a pagar</button></div>
     </div>
     <div class="kpis mb" id="np-kpis"></div>
     <div class="toolbar mb"><div class="seg" id="np-filtro"></div><input class="inp" id="np-q" type="search" placeholder="Buscar fornecedor, nota ou descrição" style="flex:1;min-width:180px"></div>
@@ -690,7 +702,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
   <section data-view="receber" hidden>
     <div class="sec-h">
       <div><h1>Notas a receber</h1><p>Vendas a prazo e fiado. Leia os produtos e serviços com o leitor para montar a nota; o estoque baixa e a venda entra no faturamento.</p></div>
-      <div class="toolbar"><button class="btn primary" type="button" data-acao="nova-nota" data-col="receber"><svg class="i"><use href="#ic-plus"/></svg>Nova nota a receber</button></div>
+      <div class="toolbar"><button class="btn" type="button" data-acao="scan-nota" data-col="receber"><svg class="i"><use href="#ic-scan"/></svg>Escanear nota</button><button class="btn primary" type="button" data-acao="nova-nota" data-col="receber"><svg class="i"><use href="#ic-plus"/></svg>Nova nota a receber</button></div>
     </div>
     <div class="kpis mb" id="nr-kpis"></div>
     <div class="toolbar mb"><div class="seg" id="nr-filtro"></div><input class="inp" id="nr-q" type="search" placeholder="Buscar cliente, nota ou descrição" style="flex:1;min-width:180px"></div>
@@ -722,6 +734,10 @@ const SERVIDOR = 'Google Drive';
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 const XLSX_URL = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
 const JSBARCODE_URL = 'https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js';
+const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/pdf.min.mjs';
+const PDFJS_WORKER = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/pdf.worker.min.mjs';
+const ZXING_URL = 'https://cdn.jsdelivr.net/npm/zxing-wasm@3.1.5/dist/iife/reader/index.js';
+const ZXING_WASM = 'https://cdn.jsdelivr.net/npm/zxing-wasm@3.1.5/dist/reader/';
 const GRUPOS = ['Pneus', 'Peças', 'Filtros', 'Óleos e fluidos', 'Ferramentas', 'Avulsos'];
 const CFG_PADRAO = {
   loja: '', markupModo: 'planilha', markup: 1.43, markupCat: {}, faturamento: 0, margem: 30, ajusteMercado: 0, arredondar: 'centavo', metaMensal: 0,
@@ -1251,6 +1267,8 @@ function parcelasDe(col) {
   }
   return out;
 }
+// parcelas lidas da nota (datas e valores da própria nota/boletos) ou geradas em partes iguais
+function parcelasNd(nd) { return nd.parcelasLidas?.length ? nd.parcelasLidas.map((p, i) => ({ n: i + 1, venc: p.venc, valor: r2(p.valor) })) : gerarParcelas(nd.total, nd.nParc, nd.venc1, nd.intervalo); }
 function gerarParcelas(total, n, venc1, intervalo) {
   n = Math.max(1, Math.min(24, Math.round(n) || 1));
   const base = Math.floor(total / n * 100) / 100, out = [];
@@ -1288,9 +1306,10 @@ function salvarNovaNota() {
   if (!nd.venc1) return erro('Informe o primeiro vencimento.');
   if (!S.podeEscrever) return erro('Seu acesso é só de leitura.');
   const id = 'n' + Date.now().toString(36) + rid(4);
-  const nota = { parte: nd.parte.trim(), doc: nd.doc.trim(), numero: nd.numero.trim(), descricao: nd.descricao.trim(), emissao: nd.emissao || hoje(), itens: nd.itens.map(x => ({ ...x })), total, parcelas: gerarParcelas(total, nd.nParc, nd.venc1, nd.intervalo), criadoEm: Date.now(), por: S.uid || null, movimentou: !!(nd.movimentar && nd.itens.length), movs: [] };
+  const nota = { parte: nd.parte.trim(), doc: nd.doc.trim(), numero: nd.numero.trim(), descricao: nd.descricao.trim(), emissao: nd.emissao || hoje(), itens: nd.itens.map(x => ({ ...x })), total, parcelas: parcelasNd(nd), criadoEm: Date.now(), por: S.uid || null, movimentou: !!(nd.movimentar && nd.itens.length), movs: [] };
   if (nd.boleto) nota.boleto = nd.boleto;
   if (nd.chave) nota.chave = nd.chave;
+  if (nd.escaneado) nota.escaneado = nd.escaneado;
   if (nota.movimentou) {
     for (const it of nd.itens) {
       const q = parseNum(it.qtd) || 0, vu = parseNum(it.vu) || 0; if (!(q > 0)) continue;
@@ -2231,25 +2250,37 @@ VIEWS.pagar = () => renderNotas('pagar');
 VIEWS.receber = () => renderNotas('receber');
 function nomesConhecidos(col) { const s = new Map(); for (const n of colMap(col).values()) if (n.parte) s.set(norm(n.parte), n); return [...s.values()]; }
 function abrirNovaNota(col, codigoInicial) {
-  S.nd = { col, parte: '', doc: '', numero: '', descricao: '', emissao: hoje(), itens: [], total: 0, totalManual: false, nParc: 1, venc1: addDays(hoje(), 30), intervalo: 30, movimentar: true, boleto: null, chave: '' };
+  S.nd = { col, parte: '', doc: '', numero: '', descricao: '', emissao: hoje(), itens: [], total: 0, totalManual: false, nParc: 1, venc1: addDays(hoje(), 30), intervalo: 30, movimentar: true, boleto: null, chave: '', parcelasLidas: null, lidos: new Set(), scanMsg: '' };
   renderNovaNota();
   if (codigoInicial) ndLer(codigoInicial);
+  if (temPastaApi() && S.pastaNome === undefined) idbGet('pastaScanner').then(h => { S.pastaNome = h?.name || null; const el = $('#nd-pasta'); if (el) el.innerHTML = botaoPasta(); });
 }
 function renderNovaNota() {
   const nd = S.nd, isP = nd.col === 'pagar';
+  const lidoCls = k => nd.lidos && nd.lidos.has(k) ? ' lido' : '';
   const lista = nomesConhecidos(nd.col);
   abrirDrawer(`<div class="pn-h"><div><h2>${isP ? 'Nova nota a pagar' : 'Nova nota a receber'}</h2><div class="sub">${isP ? 'Leia o boleto, a nota fiscal (DANFE) ou os produtos com o leitor.' : 'Leia os produtos e serviços vendidos a prazo com o leitor.'}</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
     <section>
+      <div class="nd-scan" id="nd-scan">
+        <div class="nd-scan-acoes">
+          ${temPastaApi() ? `<button class="btn primary" type="button" data-acao="nd-scan-pasta">${ico('scan')}Ler o último escaneado</button>` : `<button class="btn primary" type="button" data-acao="nd-scan-foto">${ico('camera')}Tirar foto da nota</button>`}
+          <button class="btn" type="button" data-acao="nd-scan-arquivo">${ico('folder')}Abrir arquivo</button>
+          <span id="nd-pasta">${botaoPasta()}</span>
+          <input type="file" id="nd-arquivo" accept="application/pdf,image/*,.xml,text/xml" hidden>
+          <input type="file" id="nd-foto" accept="image/*" capture="environment" hidden>
+        </div>
+        <div class="nd-scan-st" id="nd-scan-st">${nd.scanMsg || `<span class="muted">${temPastaApi() ? 'Escaneie a nota na impressora e clique em "Ler o último escaneado". ' : ''}Também lê PDF, foto (JPG ou PNG) e o XML da nota. Pode arrastar o arquivo para cá.</span>`}</div>
+      </div>
       <label class="leitor" for="nd-leitor">${ico('scan')}<input id="nd-leitor" autocomplete="off" spellcheck="false" placeholder="${isP ? 'Boleto, chave da nota fiscal ou código do produto' : 'Código do produto, do serviço ou nome'}"></label>
       <ul class="res-lista" id="nd-res" hidden></ul>
       <div id="nd-doc"></div>
     </section>
     <section><div class="form-g">
-      <label class="f">${isP ? 'Fornecedor' : 'Cliente'}<input class="inp" data-nd="parte" list="nd-nomes" value="${esc(nd.parte)}" placeholder="${isP ? 'Ex.: MDP Peças' : 'Nome do cliente'}"><datalist id="nd-nomes">${lista.map(n => `<option value="${esc(n.parte)}">`).join('')}</datalist></label>
-      <label class="f">${isP ? 'CNPJ' : 'Telefone / WhatsApp'}<input class="inp" data-nd="doc" value="${esc(isP ? fmtCnpj(nd.doc) : nd.doc)}"></label>
-      ${isP ? `<label class="f">Número da nota<input class="inp" data-nd="numero" value="${esc(nd.numero)}"></label>` : ''}
-      <label class="f">Descrição<input class="inp" data-nd="descricao" value="${esc(nd.descricao)}" placeholder="${isP ? 'Ex.: pneus do pedido 459122' : 'Ex.: 4 pneus e alinhamento'}"></label>
-      <label class="f">Emissão<input class="inp" type="date" data-nd="emissao" value="${esc(nd.emissao)}"></label>
+      <label class="f">${isP ? 'Fornecedor' : 'Cliente'}<input class="inp${lidoCls('parte')}" data-nd="parte" list="nd-nomes" value="${esc(nd.parte)}" placeholder="${isP ? 'Ex.: MDP Peças' : 'Nome do cliente'}"><datalist id="nd-nomes">${lista.map(n => `<option value="${esc(n.parte)}">`).join('')}</datalist></label>
+      <label class="f">${isP ? 'CNPJ' : 'Telefone / WhatsApp'}<input class="inp${lidoCls('doc')}" data-nd="doc" value="${esc(isP ? fmtCnpj(nd.doc) : nd.doc)}"></label>
+      <label class="f">${isP ? 'Número da nota' : 'Número da nota ou pedido'}<input class="inp${lidoCls('numero')}" data-nd="numero" value="${esc(nd.numero)}"></label>
+      <label class="f">Descrição<input class="inp${lidoCls('descricao')}" data-nd="descricao" value="${esc(nd.descricao)}" placeholder="${isP ? 'Ex.: pneus do pedido 459122' : 'Ex.: 4 pneus e alinhamento'}"></label>
+      <label class="f">Emissão<input class="inp${lidoCls('emissao')}" type="date" data-nd="emissao" value="${esc(nd.emissao)}"></label>
     </div></section>
     <section><h3>Itens da nota</h3>
       <div class="tabela-wrap"><table class="t"><thead><tr><th>Item</th><th class="num" style="width:90px">Qtd</th><th class="num" style="width:120px">${isP ? 'Custo unit.' : 'Preço unit.'}</th><th class="num">Total</th><th></th></tr></thead><tbody id="nd-itens"></tbody></table></div>
@@ -2257,16 +2288,16 @@ function renderNovaNota() {
     </section>
     <section><h3>Valor e vencimentos</h3>
       <div class="form-g3">
-        <label class="f">Valor total (R$)<input class="inp num" id="nd-total" data-nd="total" inputmode="decimal" value="${esc(fmtMoneyIn(nd.total))}" placeholder="0,00" style="font-weight:650"></label>
-        <label class="f">Parcelas<select class="inp" data-nd="nParc">${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}" ${nd.nParc === i + 1 ? 'selected' : ''}>${i + 1}×</option>`).join('')}</select></label>
-        <label class="f">1º vencimento<input class="inp" type="date" data-nd="venc1" value="${esc(nd.venc1)}"></label>
+        <label class="f">Valor total (R$)<input class="inp num${lidoCls('total')}" id="nd-total" data-nd="total" inputmode="decimal" value="${esc(fmtMoneyIn(nd.total))}" placeholder="0,00" style="font-weight:650"></label>
+        <label class="f">Parcelas<select class="inp${lidoCls('nParc')}" data-nd="nParc">${Array.from({ length: 24 }, (_, i) => `<option value="${i + 1}" ${nd.nParc === i + 1 ? 'selected' : ''}>${i + 1}×</option>`).join('')}</select></label>
+        <label class="f">1º vencimento<input class="inp${lidoCls('venc1')}" type="date" data-nd="venc1" value="${esc(nd.venc1)}"></label>
       </div>
       <label class="f" style="max-width:220px">Dias entre parcelas<input class="inp num" data-nd="intervalo" inputmode="numeric" value="${esc(String(nd.intervalo))}"></label>
       <div id="nd-parc" class="muted" style="font-size:13.5px"></div>
     </section>
     <div class="pn-acoes"><span class="erro-txt" id="nd-erro"></span><span class="sp"></span><button class="btn ghost" type="button" data-acao="fechar-drawer">Cancelar</button><button class="btn primary" type="button" data-acao="nd-salvar" ${S.podeEscrever ? '' : 'disabled'}>Salvar nota</button></div>`, { tipo: 'nota-nova' }, true);
   renderNdItens(); renderNdDoc(); renderNdParc();
-  setTimeout(() => $('#nd-leitor')?.focus(), 30);
+  setTimeout(() => { if (!nd.lendo) $('#nd-leitor')?.focus(); }, 30);
 }
 function renderNdItens() {
   const nd = S.nd, tb = $('#nd-itens'); if (!tb) return;
@@ -2285,14 +2316,14 @@ function atualizarNdTotais() {
 function renderNdParc() {
   const nd = S.nd, el = $('#nd-parc'); if (!el) return;
   if (!(nd.total > 0) || !nd.venc1) { el.textContent = 'Informe o valor e o vencimento.'; return; }
-  const ps = gerarParcelas(nd.total, nd.nParc, nd.venc1, nd.intervalo);
-  el.innerHTML = ps.map(p => `${p.n}ª ${fmtData(p.venc)} · <b style="color:var(--ink)">${money(p.valor)}</b>`).join(' &nbsp;|&nbsp; ');
+  const ps = parcelasNd(nd);
+  el.innerHTML = (nd.parcelasLidas?.length ? '<b style="color:var(--ink)">Parcelas da nota:</b> ' : '') + ps.map(p => `${p.n}ª ${fmtData(p.venc)} · <b style="color:var(--ink)">${money(p.valor)}</b>`).join(' &nbsp;|&nbsp; ');
 }
 function renderNdDoc() {
   const nd = S.nd, el = $('#nd-doc'); if (!el) return;
   const b = nd.boleto;
   el.innerHTML = b ? `<div class="doc-lido">${ico('scan')}<div><b>${b.tipo === 'boleto' ? 'Boleto ' + esc(b.bancoNome) : 'Conta de ' + esc(b.segmento || 'convênio')}</b>${b.valor != null ? ` · ${money(b.valor)}` : ''}${b.venc ? ` · vence ${fmtData(b.venc)}` : ''}${b.valido ? '' : ' · <span class="erro-txt">dígito não confere, confira o código</span>'}<div class="mono">${esc(b.linha || b.codigo)}</div></div></div>` : '';
-  if (nd.chave) el.innerHTML += `<div class="doc-lido" style="margin-top:6px">${ico('docout')}<div><b>Nota fiscal ${esc(nd.numero)}</b> · CNPJ ${esc(fmtCnpj(nd.doc))}${nd.nfeMes ? ' · emitida em ' + esc(nd.nfeMes) : ''}<div class="mono">${esc(nd.chave)}</div></div></div>`;
+  if (nd.chave) el.innerHTML += `<div class="doc-lido" style="margin-top:6px">${ico('docout')}<div><b>Nota fiscal ${esc(nd.numero)}</b> · CNPJ ${esc(fmtCnpj(nd.nfeCnpj || nd.doc))}${nd.nfeMes ? ' · emitida em ' + esc(nd.nfeMes) : ''}<div class="mono">${esc(nd.chave)}</div></div></div>`;
 }
 function ndLer(raw) {
   const nd = S.nd; if (!nd) return;
@@ -2300,7 +2331,7 @@ function ndLer(raw) {
   const doc = nd.col === 'pagar' ? lerCodigoDoc(s) : null;
   if (doc) {
     if (doc.tipo === 'nfe') {
-      nd.chave = doc.chave; nd.numero = doc.numero; nd.doc = doc.cnpj; nd.nfeMes = doc.mesEmissao;
+      nd.chave = doc.chave; nd.numero = doc.numero; nd.doc = doc.cnpj; nd.nfeMes = doc.mesEmissao; nd.nfeCnpj = doc.cnpj;
       const conhecido = [...S.pagar.values()].find(n => String(n.doc).replace(/\D/g, '') === doc.cnpj);
       if (conhecido && !nd.parte) nd.parte = conhecido.parte;
       toast('Nota fiscal lida: número ' + doc.numero + '.');
@@ -2338,6 +2369,229 @@ function ndAddServ(sid, qtd) {
   else nd.itens.push({ tipo: 'serv', sid, nome: s.nome, cod: s.cod || '', qtd, vu: parseNum(s.preco) || 0 });
   bip('entrada'); renderNdItens(); atualizarNdTotais();
   const inp = $('#nd-leitor'); if (inp) { inp.value = ''; inp.focus(); } $('#nd-res').hidden = true;
+}
+/* ================= escanear nota: pasta da impressora, arquivo, foto, XML e IA ================= */
+const temPastaApi = () => typeof window.showDirectoryPicker === 'function';
+const botaoPasta = () => temPastaApi() && S.pastaNome ? `<button class="btn sm ghost" type="button" data-acao="nd-scan-trocar" title="Trocar a pasta onde a impressora salva">${ico('folder')}${esc(S.pastaNome)} · trocar</button>` : '';
+function idbAbrir() { return new Promise((ok, fail) => { const r = indexedDB.open('pbr', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => ok(r.result); r.onerror = () => fail(r.error); }); }
+async function idbGet(k) { try { const db = await idbAbrir(); return await new Promise(ok => { const q = db.transaction('kv').objectStore('kv').get(k); q.onsuccess = () => ok(q.result); q.onerror = () => ok(undefined); }); } catch { return undefined; } }
+async function idbSet(k, v) { try { const db = await idbAbrir(); await new Promise(ok => { const t = db.transaction('kv', 'readwrite'); t.objectStore('kv').put(v, k); t.oncomplete = ok; t.onerror = ok; }); } catch { } }
+const EXT_NOTA = /\.(pdf|jpe?g|png|webp|xml)$/i;
+function scanMsg(html) { if (!S.nd) return; S.nd.scanMsg = html; const el = $('#nd-scan-st'); if (el) el.innerHTML = html; }
+async function lerPastaScanner(trocar) {
+  if (!S.nd) return;
+  try {
+    let h = trocar ? null : await idbGet('pastaScanner');
+    if (h) {
+      let perm = await h.queryPermission({ mode: 'read' });
+      if (perm !== 'granted') perm = await h.requestPermission({ mode: 'read' });
+      if (perm !== 'granted') h = null;
+    }
+    if (!h) {
+      scanMsg('<span class="muted">Escolha a pasta onde a impressora salva o que escaneia. O sistema lembra dela nas próximas vezes.</span>');
+      h = await window.showDirectoryPicker({ id: 'pbr-scanner', mode: 'read' });
+      await idbSet('pastaScanner', h);
+    }
+    S.pastaNome = h.name; const bp = $('#nd-pasta'); if (bp) bp.innerHTML = botaoPasta();
+    scanMsg(`<span class="lendo">Procurando o último arquivo em ${esc(h.name)}…</span>`);
+    const f = await ultimoArquivo(h);
+    if (!f) { scanMsg(`<span class="erro-txt">A pasta ${esc(h.name)} não tem PDF, JPG, PNG ou XML. Confira se a impressora salva nela, ou use "Abrir arquivo".</span>`); return; }
+    await lerArquivoNota(f);
+  } catch (e) {
+    if (e && e.name === 'AbortError') { scanMsg(''); renderNovaNotaScanVazio(); return; }
+    scanMsg(`<span class="erro-txt">Não foi possível abrir a pasta da impressora${e && e.message ? ': ' + esc(e.message) : ''}. Use "Abrir arquivo".</span>`);
+  }
+}
+function renderNovaNotaScanVazio() { const el = $('#nd-scan-st'); if (el && !S.nd?.scanMsg) el.innerHTML = '<span class="muted">Leitura cancelada.</span>'; }
+async function ultimoArquivo(pasta) {
+  let melhor = null, vistos = 0;
+  async function varrer(dir, nivel) {
+    for await (const [nome, e] of dir.entries()) {
+      if (++vistos > 3000) return;
+      if (e.kind === 'directory') { if (nivel < 2 && !nome.startsWith('.')) await varrer(e, nivel + 1); continue; }
+      if (!EXT_NOTA.test(nome)) continue;
+      const f = await e.getFile();
+      if (!melhor || f.lastModified > melhor.lastModified) melhor = f;
+    }
+  }
+  await varrer(pasta, 0);
+  return melhor;
+}
+let pdfjsPronto = null, zxingPronto = null;
+function carregarPdfjs() { if (!pdfjsPronto) pdfjsPronto = import(PDFJS_URL).then(m => { m.GlobalWorkerOptions.workerSrc = PDFJS_WORKER; return m; }).catch(e => { pdfjsPronto = null; throw e; }); return pdfjsPronto; }
+function carregarZxing() {
+  if (!zxingPronto) zxingPronto = carregarScript(ZXING_URL).then(() => { const Z = window.ZXingWASM; Z.prepareZXingModule({ overrides: { locateFile: (p, pre) => p.endsWith('.wasm') ? ZXING_WASM + p : pre + p } }); return Z; }).catch(e => { zxingPronto = null; throw e; });
+  return zxingPronto;
+}
+async function paginasDoPdf(file) {
+  const pdfjs = await carregarPdfjs();
+  const doc = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+  const n = Math.min(doc.numPages, 5), paginas = []; let texto = '';
+  for (let i = 1; i <= n; i++) {
+    scanMsg(`<span class="lendo">Abrindo a página ${i} de ${n}…</span>`);
+    const pg = await doc.getPage(i);
+    const tc = await pg.getTextContent();
+    texto += tc.items.map(it => (it.str || '') + (it.hasEOL ? '\n' : ' ')).join('') + '\n';
+    const v1 = pg.getViewport({ scale: 1 }), esc2 = Math.min(4, 2600 / Math.max(v1.width, v1.height));
+    const vp = pg.getViewport({ scale: esc2 }), c = document.createElement('canvas');
+    c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+    const ctx = c.getContext('2d', { willReadFrequently: true }); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+    await pg.render({ canvasContext: ctx, viewport: vp }).promise;
+    paginas.push(c);
+  }
+  doc.destroy?.();
+  return { paginas, texto: texto.replace(/[ \t]+/g, ' ').trim() };
+}
+async function canvasDaImagem(blob) {
+  const bmp = await createImageBitmap(blob);
+  const s = Math.min(1, 2600 / Math.max(bmp.width, bmp.height)), c = document.createElement('canvas');
+  c.width = Math.round(bmp.width * s); c.height = Math.round(bmp.height * s);
+  const ctx = c.getContext('2d', { willReadFrequently: true }); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(bmp, 0, 0, c.width, c.height);
+  bmp.close?.(); return c;
+}
+async function codigosDasPaginas(paginas) {
+  const Z = await carregarZxing(), achados = [];
+  for (const c of paginas) {
+    const img = c.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, c.width, c.height);
+    const r = await Z.readBarcodes(img, { formats: ['Code128', 'ITF'], tryHarder: true, tryRotate: true, tryInvert: false, tryDownscale: true, maxNumberOfSymbols: 10 });
+    for (const x of r) if (x.isValid && x.text) achados.push(x.text);
+  }
+  return [...new Set(achados)];
+}
+const dataBr = d => { const m = String(d || '').match(/^(\d{2})\/(\d{2})\/(\d{4})$/); return m ? `${m[3]}-${m[2]}-${m[1]}` : null; };
+const dataIso = d => { const m = String(d || '').match(/^(\d{4})-(\d{2})-(\d{2})/); if (!m) return null; const k = `${m[1]}-${m[2]}-${m[3]}`; return kdate(k).getMonth() + 1 === Number(m[2]) ? k : null; };
+// texto de PDF digital (DANFE ou boleto): chave, linha digitável, total, emissão, duplicatas e CNPJ
+function lerTextoDoc(t) {
+  const T = String(t || '').replace(/ /g, ' '), out = { docs: [] };
+  for (const m of T.matchAll(/(?:\d[ .]?){43}\d/g)) { const d = lerCodigoDoc(m[0]); if (d) out.docs.push(d); }
+  for (const m of T.matchAll(/\d{5}[. ]?\d{5}\s+\d{5}[. ]?\d{6}\s+\d{5}[. ]?\d{6}\s+\d\s+\d{14}/g)) { const d = lerCodigoDoc(m[0]); if (d) out.docs.push(d); }
+  const m1 = T.match(/VALOR\s+TOTAL\s+DA\s+NOTA[^\d]{0,40}([\d.]{1,12},\d{2})/i); if (m1) out.total = parseNum(m1[1]);
+  const m2 = T.match(/DATA\s+(?:DA|DE)\s+EMISS[ÃA]O[^\d]{0,40}(\d{2}\/\d{2}\/\d{4})/i); if (m2) out.emissao = dataBr(m2[1]);
+  const ib = T.search(/FATURA|DUPLICATA/i);
+  if (ib >= 0) {
+    let b = T.slice(ib, ib + 900); const fim = b.search(/C[ÁA]LCULO\s+DO\s+IMPOSTO/i); if (fim > 0) b = b.slice(0, fim);
+    const ps = [...b.matchAll(/(\d{2}\/\d{2}\/\d{4})\s*(?:R\$\s*)?([\d.]{1,12},\d{2})/g)].map(m => ({ venc: dataBr(m[1]), valor: parseNum(m[2]) })).filter(p => p.venc && p.valor > 0);
+    if (ps.length) out.parcelas = ps;
+  }
+  const cn = T.match(/\b\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}\b/); if (cn) out.cnpj = cn[0].replace(/\D/g, '');
+  return out;
+}
+function resumoItens(itens) {
+  const l = itens.filter(i => i.nome); if (!l.length) return '';
+  const txt = l.slice(0, 3).map(i => `${qn(i.qtd || 1)} ${i.nome.split(/\s+/).slice(0, 4).join(' ').toLowerCase()}`).join(', ');
+  return `${l.length} ${l.length > 1 ? 'itens' : 'item'}: ${txt}${l.length > 3 ? '…' : ''}`;
+}
+// XML da NF-e: tudo exato
+function lerXmlNfe(txt, col) {
+  const x = new DOMParser().parseFromString(txt, 'application/xml');
+  if (x.getElementsByTagName('parsererror').length) throw new Error('o XML está corrompido');
+  const tag = (el, n) => el ? el.getElementsByTagName(n)[0] || null : null, val = (el, n) => (tag(el, n)?.textContent || '').trim();
+  const inf = tag(x, 'infNFe'); if (!inf) throw new Error('este XML não é de uma nota fiscal eletrônica');
+  const ide = tag(inf, 'ide'), emit = tag(inf, 'emit'), dest = tag(inf, 'dest'), tot = tag(inf, 'ICMSTot'), cobr = tag(inf, 'cobr');
+  const chave = (inf.getAttribute('Id') || '').replace(/\D/g, '');
+  const parte = col === 'pagar' ? emit : dest;
+  const dups = cobr ? [...cobr.getElementsByTagName('dup')].map(d => ({ venc: dataIso(val(d, 'dVenc')), valor: parseFloat(val(d, 'vDup')) })).filter(p => p.venc && p.valor > 0) : [];
+  const itens = [...inf.getElementsByTagName('det')].map(d => { const pr = tag(d, 'prod'); return { nome: val(pr, 'xProd'), qtd: parseFloat(val(pr, 'qCom')) || 0 }; });
+  const numero = String(Number(val(ide, 'nNF')) || '');
+  return { parte: val(parte, 'xNome') || val(parte, 'xFant'), doc: col === 'pagar' ? (val(emit, 'CNPJ') || val(emit, 'CPF')) : val(tag(dest, 'enderDest'), 'fone'), numero, emissao: dataIso(val(ide, 'dhEmi') || val(ide, 'dEmi')), total: parseFloat(val(tot, 'vNF')) || null, parcelas: dups, chave: chave.length === 44 ? chave : '', descricao: `NF-e ${numero}${itens.length ? ' · ' + resumoItens(itens) : ''}` };
+}
+async function lerComIA(paginas, col, texto) {
+  if (!window.PBR || !window.PBR.lerNotaIA) return { indisponivel: true };
+  const imagens = paginas.slice(0, 5).map(c => {
+    const s = Math.min(1, 1600 / Math.max(c.width, c.height)); let cc = c;
+    if (s < 1) { cc = document.createElement('canvas'); cc.width = Math.round(c.width * s); cc.height = Math.round(c.height * s); cc.getContext('2d').drawImage(c, 0, 0, cc.width, cc.height); }
+    return { tipo: 'image/jpeg', dados: cc.toDataURL('image/jpeg', 0.85).split(',')[1] };
+  });
+  try { const r = await window.PBR.lerNotaIA({ col, imagens, texto: (texto || '').slice(0, 20000) }); return r && r.dados ? { dados: r.dados } : { erro: 'A IA não devolveu dados.' }; }
+  catch (e) { return e && e.codigo === 'ia-nao-configurada' ? { indisponivel: true, naoConfigurada: true } : { erro: (e && e.message) || 'Não foi possível ler com a IA agora.' }; }
+}
+const limpaTxt = v => { const t = String(v ?? '').replace(/\s+/g, ' ').trim(); return t && !/^(null|n\/?a|-)$/i.test(t) ? t : null; };
+function juntarLeitura(L, col) {
+  const isP = col === 'pagar', r = { avisos: [] }, ia = L.ia || {}, tx = L.texto || {}, x = L.xml || null;
+  const docs = [...(L.docs || []), ...(tx.docs || [])];
+  let nfe = docs.find(d => d.tipo === 'nfe') || null;
+  const boletos = []; for (const d of docs) if (d.tipo !== 'nfe' && !boletos.some(b => b.codigo === d.codigo)) boletos.push(d);
+  if (!nfe && ia.chave_nfe) { const d = lerCodigoDoc(ia.chave_nfe); if (d && d.tipo === 'nfe') nfe = d; }
+  if (!boletos.length && ia.linha_digitavel) { const d = lerCodigoDoc(ia.linha_digitavel); if (d && d.tipo !== 'nfe') boletos.push(d); }
+  const primeiro = (...v) => v.find(a => a != null && a !== '' && !(typeof a === 'number' && !(isFinite(a) && a > 0)));
+  r.parte = primeiro(x?.parte, limpaTxt(ia.parte_nome));
+  r.doc = isP ? primeiro(x?.doc, nfe?.cnpj, String(ia.parte_documento || '').replace(/\D/g, '') || null, tx.cnpj) : primeiro(x?.doc, limpaTxt(ia.parte_telefone));
+  r.numero = primeiro(x?.numero, nfe?.numero, limpaTxt(ia.numero)?.replace(/^0+(?=\d)/, ''));
+  r.emissao = primeiro(x?.emissao, dataIso(ia.emissao), tx.emissao);
+  r.chave = primeiro(x?.chave, nfe?.chave); r.nfeMes = nfe?.mesEmissao || ''; r.nfeCnpj = nfe?.cnpj || (r.chave ? r.chave.slice(6, 20) : '');
+  const dupsIA = (Array.isArray(ia.parcelas) ? ia.parcelas : []).map(p => ({ venc: dataIso(p.vencimento), valor: Number(p.valor) })).filter(p => p.venc && p.valor > 0);
+  const dBol = boletos.filter(b => b.venc && b.valor > 0).map(b => ({ venc: b.venc, valor: b.valor }));
+  r.parcelas = (x?.parcelas?.length ? x.parcelas : dupsIA.length > dBol.length ? dupsIA : dBol.length ? dBol : (tx.parcelas || [])).slice().sort((a, b) => a.venc.localeCompare(b.venc));
+  r.total = primeiro(x?.total, Number(ia.valor_total) || null, tx.total);
+  if (r.parcelas.length) {
+    const soma = r2(r.parcelas.reduce((a, p) => a + p.valor, 0));
+    if (r.total && Math.abs(soma - r.total) > 0.05) r.avisos.push(`O total da nota é ${money(r.total)}, mas as parcelas somam ${money(soma)}. Ficou o valor das parcelas.`);
+    r.total = soma;
+  }
+  r.boleto = boletos[0] || null;
+  r.descricao = primeiro(x?.descricao, limpaTxt(ia.descricao), limpaTxt(ia.itens_resumo), r.boleto ? (r.boleto.tipo === 'boleto' ? 'Boleto ' + r.boleto.bancoNome : 'Conta de ' + r.boleto.segmento) : null, nfe ? 'NF-e ' + nfe.numero : null);
+  if (r.descricao && r.descricao.length > 90) r.descricao = r.descricao.slice(0, 88) + '…';
+  if (r.boleto && !r.boleto.valido) r.avisos.push('O dígito do boleto não confere. Confira o código.');
+  if (ia.legivel === false) r.avisos.push('A IA achou o documento difícil de ler. Confira tudo.');
+  if (limpaTxt(ia.observacao)) r.avisos.push(limpaTxt(ia.observacao));
+  return r;
+}
+function aplicarLeitura(r) {
+  const nd = S.nd; if (!nd) return 0;
+  const lidos = new Set(), set = (k, v) => { if (v == null || v === '') return; nd[k] = v; lidos.add(k); };
+  const isP = nd.col === 'pagar';
+  if (isP && r.doc) { const cnpj = String(r.doc).replace(/\D/g, ''), conhecido = [...S.pagar.values()].find(n => String(n.doc || '').replace(/\D/g, '') === cnpj); if (conhecido) r.parte = conhecido.parte; }
+  set('parte', r.parte); set('doc', isP ? String(r.doc || '').replace(/\D/g, '') : r.doc);
+  set('numero', r.numero); set('emissao', r.emissao); set('descricao', r.descricao);
+  if (r.chave) { nd.chave = r.chave; nd.nfeMes = r.nfeMes; nd.nfeCnpj = r.nfeCnpj; }
+  if (r.boleto) nd.boleto = r.boleto;
+  if (r.parcelas.length) { nd.parcelasLidas = r.parcelas.map(p => ({ venc: p.venc, valor: r2(p.valor) })); nd.nParc = r.parcelas.length; nd.venc1 = r.parcelas[0].venc; lidos.add('nParc'); lidos.add('venc1'); }
+  if (r.total > 0) { nd.total = r2(r.total); nd.totalManual = true; lidos.add('total'); }
+  nd.lidos = lidos;
+  return lidos.size;
+}
+async function lerArquivoNota(file) {
+  const nd = S.nd; if (!nd || nd.lendo) return;
+  const col = nd.col, nome = file.name || 'foto', t0 = file.lastModified;
+  nd.lendo = true;
+  try {
+    scanMsg(`<span class="lendo">Lendo ${esc(nome)}…</span>`);
+    const L = { docs: [] }; let fontes = [];
+    if (/xml/i.test(file.type) || /\.xml$/i.test(nome)) { L.xml = lerXmlNfe(await file.text(), col); fontes.push('XML da nota'); }
+    else {
+      let paginas = [], texto = '';
+      if (file.type === 'application/pdf' || /\.pdf$/i.test(nome)) ({ paginas, texto } = await paginasDoPdf(file));
+      else if (/^image\//.test(file.type) || /\.(jpe?g|png|webp|gif|bmp)$/i.test(nome)) paginas = [await canvasDaImagem(file)];
+      else throw new Error('o arquivo precisa ser PDF, JPG, PNG ou XML');
+      if (texto.length > 80) { L.texto = lerTextoDoc(texto); fontes.push('texto do PDF'); }
+      scanMsg('<span class="lendo">Procurando os códigos de barras…</span>');
+      try { const cods = await codigosDasPaginas(paginas); L.docs = cods.map(lerCodigoDoc).filter(Boolean); if (L.docs.length) fontes.push(L.docs.length > 1 ? `${L.docs.length} códigos de barras` : 'código de barras'); }
+      catch { /* sem leitor de código de barras: segue com a IA */ }
+      if (S.nd !== nd) return;
+      scanMsg('<span class="lendo">Lendo com a IA… (uns 10 a 30 segundos)</span>');
+      const ia = await lerComIA(paginas, col, texto);
+      if (ia.dados) { L.ia = ia.dados; fontes.push('IA'); }
+      L.iaSit = ia;
+    }
+    if (S.nd !== nd) return;
+    const r = juntarLeitura(L, col);
+    const n = aplicarLeitura(r);
+    nd.escaneado = { arquivo: nome, em: Date.now(), fontes };
+    const quando = t0 ? ` (salvo ${haQuanto(t0)})` : '';
+    const avisos = [...r.avisos];
+    if (L.iaSit?.naoConfigurada) avisos.push('A leitura com IA ainda não foi configurada, então o que só está escrito no papel (nome, parcelas, letra de mão) pode ter ficado de fora.');
+    else if (L.iaSit?.erro) avisos.push(L.iaSit.erro + ' Os outros dados foram lidos.');
+    nd.scanMsg = n
+      ? `<span class="ok">${ico('check')} ${n} campo${n > 1 ? 's' : ''} preenchido${n > 1 ? 's' : ''} com ${esc(nome)}${esc(quando)}.</span><span class="muted">Lido por: ${esc(fontes.join(', ') || '—')}. Os campos marcados em vermelho vieram do escaneado: confira antes de salvar.</span>${avisos.length ? `<ul>${avisos.map(a => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}`
+      : `<span class="erro-txt">Não consegui ler dados de ${esc(nome)}${esc(quando)}.</span>${avisos.length ? `<ul>${avisos.map(a => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}<span class="muted">Escaneie de novo com mais resolução (300 dpi) ou preencha à mão.</span>`;
+    nd.lendo = false;
+    renderNovaNota();
+    bip(n ? 'entrada' : 'erro');
+  } catch (e) {
+    nd.lendo = false;
+    scanMsg(`<span class="erro-txt">Não foi possível ler ${esc(nome)}: ${esc((e && e.message) || 'erro desconhecido')}.</span>`);
+    bip('erro');
+  }
 }
 function ndBusca(q) {
   const ul = $('#nd-res'); if (!ul) return;
@@ -2712,6 +2966,11 @@ function ligarUI() {
       'sem-prox': () => { S.semana = addDays(S.semana, 7); VIEWS.balanco(); },
       'sem-hoje': () => { S.semana = inicioSemana(hoje()); VIEWS.balanco(); },
       'nova-nota': () => abrirNovaNota(a.dataset.col),
+      'scan-nota': () => { abrirNovaNota(a.dataset.col); if (temPastaApi()) lerPastaScanner(false); else $('#nd-arquivo')?.click(); },
+      'nd-scan-pasta': () => lerPastaScanner(false),
+      'nd-scan-trocar': () => lerPastaScanner(true),
+      'nd-scan-arquivo': () => $('#nd-arquivo')?.click(),
+      'nd-scan-foto': () => $('#nd-foto')?.click(),
       'nd-add': () => { const mm = ($('#nd-leitor')?.value || '').match(/^(\d+(?:[.,]\d+)?)\s*[*xX]/), q = mm ? parseNum(mm[1]) : 1; if (a.dataset.t === 's') ndAddServ(a.dataset.id, q > 0 ? q : 1); else ndAddProd(a.dataset.id, q > 0 ? q : 1); },
       'nd-del': () => { S.nd.itens.splice(Number(a.dataset.i), 1); renderNdItens(); atualizarNdTotais(); },
       'nd-salvar': () => salvarNovaNota(),
@@ -2757,6 +3016,8 @@ function ligarUI() {
     if (ds.var != null) { const i = Number(ds.var), campo = ds.campo; const vs = S.config.variaveis.map(v => ({ ...v })); vs[i][campo] = campo === 'pct' ? (parseNum(tg.value) || 0) : tg.value; S.config.variaveis = vs; mudarConfig({}); }
     if (ds.nd && S.nd) {
       const c = ds.nd;
+      if (S.nd.lidos?.has(c)) { S.nd.lidos.delete(c); tg.classList.remove('lido'); }
+      if (['total', 'nParc', 'intervalo', 'venc1'].includes(c) && S.nd.parcelasLidas) { S.nd.parcelasLidas = null; ['total', 'nParc', 'venc1'].forEach(k => { S.nd.lidos?.delete(k); }); $$('#drawer .inp.lido[data-nd="total"],#drawer .inp.lido[data-nd="nParc"],#drawer .inp.lido[data-nd="venc1"]').forEach(x => x.classList.remove('lido')); }
       if (c === 'movimentar') S.nd.movimentar = tg.checked;
       else if (c === 'total') { S.nd.total = parseNum(tg.value) || 0; S.nd.totalManual = true; renderNdParc(); }
       else if (c === 'nParc' || c === 'intervalo') { S.nd[c] = parseInt(tg.value, 10) || (c === 'nParc' ? 1 : 30); renderNdParc(); }
@@ -2765,7 +3026,11 @@ function ligarUI() {
     }
     if (ds.ndi != null && S.nd) { const it = S.nd.itens[Number(ds.ndi)]; if (it) { it[ds.campo] = parseNum(tg.value) || 0; atualizarNdTotais(); } }
   });
-  document.addEventListener('change', e => { const tg = e.target; if (tg.dataset?.nd === 'movimentar' && S.nd) S.nd.movimentar = tg.checked; if (tg.dataset?.cfg === 'metaMensal' && S.tab === 'faturamento') VIEWS.faturamento(); });
+  document.addEventListener('change', e => { const tg = e.target; if ((tg.id === 'nd-arquivo' || tg.id === 'nd-foto') && tg.files?.[0]) { const f = tg.files[0]; tg.value = ''; lerArquivoNota(f); return; } if (tg.dataset?.nd === 'movimentar' && S.nd) S.nd.movimentar = tg.checked; if (tg.dataset?.cfg === 'metaMensal' && S.tab === 'faturamento') VIEWS.faturamento(); });
+  const comArquivo = e => [...(e.dataTransfer?.types || [])].includes('Files');
+  document.addEventListener('dragover', e => { if (drawerAberto?.tipo === 'nota-nova' && comArquivo(e)) { e.preventDefault(); $('#nd-scan')?.classList.add('arrastando'); } });
+  document.addEventListener('dragleave', e => { if (!e.relatedTarget) $('#nd-scan')?.classList.remove('arrastando'); });
+  document.addEventListener('drop', e => { if (drawerAberto?.tipo !== 'nota-nova' || !comArquivo(e)) return; e.preventDefault(); $('#nd-scan')?.classList.remove('arrastando'); const f = e.dataTransfer.files?.[0]; if (f) lerArquivoNota(f); });
   document.addEventListener('keydown', e => {
     const id = e.target.id;
     if (id === 'd-novo-cod' && e.key === 'Enter') { e.preventDefault(); addCodDrawer(); }

@@ -78,6 +78,12 @@
         if (body.acao === 'remover') { delete db.membros[body.user_id]; delete db.users[body.user_id]; save(db); return { data: { ok: true }, error: null }; }
         return erroFn('Ação desconhecida.', 400);
       },
+      async 'ler-nota'(body) {
+        if (!membro()) return erroFn('Sem acesso ao sistema.', 403);
+        window.__iaPedidos = (window.__iaPedidos || []).concat([{ col: body.col, n: (body.imagens || []).length, tamanhos: (body.imagens || []).map(i => i.dados.length), texto: (body.texto || '').length }]);
+        if (!window.__iaResposta) return { data: null, error: { message: 'Edge Function returned a non-2xx status code', context: { status: 503, json: async () => ({ erro: 'A leitura com IA ainda não foi configurada.', codigo: 'ia-nao-configurada' }) } } };
+        return { data: { dados: window.__iaResposta, modelo: 'teste' }, error: null };
+      },
       async planilha() {
         if (!membro()) return erroFn('Sem acesso ao sistema.', 403);
         if (window.__planilhaFalha) return erroFn('A planilha não está compartilhada para qualquer pessoa com o link (o Google pediu login).', 502);

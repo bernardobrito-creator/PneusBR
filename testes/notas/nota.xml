@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00"><NFe><infNFe Id="NFe31261112345678000195550010000094971123456780" versao="4.00">
+<ide><cUF>31</cUF><natOp>VENDA</natOp><mod>55</mod><serie>1</serie><nNF>9497</nNF><dhEmi>2026-11-01T10:20:00-03:00</dhEmi></ide>
+<emit><CNPJ>12345678000195</CNPJ><xNome>AUTO PECAS TESTE LTDA</xNome><xFant>Auto Teste</xFant><enderEmit><fone>3133334444</fone></enderEmit></emit>
+<dest><CNPJ>98765432000110</CNPJ><xNome>PNEUSBR COMERCIO</xNome><enderDest><fone>3899998888</fone></enderDest></dest>
+<det nItem="1"><prod><cProd>GP30120</cProd><xProd>AMORTECEDOR DIANTEIRO COFAP GP30120</xProd><qCom>2.0000</qCom><vUnCom>300.00</vUnCom></prod></det>
+<det nItem="2"><prod><cProd>LB55</cProd><xProd>FILTRO DE OLEO VOX LB55</xProd><qCom>10.0000</qCom><vUnCom>18.50</vUnCom></prod></det>
+<total><ICMSTot><vProd>2469.12</vProd><vNF>2469.12</vNF></ICMSTot></total>
+<cobr><fat><nFat>9497</nFat><vLiq>2469.12</vLiq></fat><dup><nDup>001</nDup><dVenc>2026-12-01</dVenc><vDup>1234.56</vDup></dup><dup><nDup>002</nDup><dVenc>2026-12-31</dVenc><vDup>1234.56</vDup></dup></cobr>
+</infNFe></NFe></nfeProc>

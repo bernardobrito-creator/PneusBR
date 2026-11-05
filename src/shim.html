@@ -251,6 +251,16 @@ $('#f-criar').addEventListener('submit', async e => {
 });
 $('#lf-tentar').addEventListener('click', () => boot());
 
+// leitura de nota escaneada com IA (função ler-nota do Supabase)
+PBR.lerNotaIA = async body => {
+  const { data, error } = await sb.functions.invoke('ler-nota', { body });
+  if (error) {
+    let j = null; try { j = await error.context.json(); } catch { }
+    if (j && j.erro) throw { codigo: j.codigo || null, message: j.erro };
+    throw { codigo: null, message: /Failed to fetch|NetworkError/i.test(String(error.message)) ? 'Sem conexão com a internet.' : 'Não foi possível ler com a IA agora.' };
+  }
+  return data;
+};
 PBR.sair = async () => { await sb.auth.signOut(); location.reload(); };
 PBR.trocarSenha = async senha => { if (String(senha).length < 8) throw new Error('A senha precisa ter pelo menos 8 caracteres.'); const { error } = await sb.auth.updateUser({ password: senha }); if (error) throw new Error(/same/i.test(error.message) ? 'A nova senha é igual à atual.' : error.message); };
 async function acaoEquipe(body) { const { data, error } = await sb.functions.invoke('acesso', { body }); if (error) throw new Error(await lerErroFuncao(error, 'Não foi possível concluir.')); return data; }
