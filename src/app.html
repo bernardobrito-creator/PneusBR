@@ -403,6 +403,67 @@ table.t td .undo{display:inline-flex}
 .amostra.claro{background:#F3F2F2}.amostra.claro i{background:#141112}
 .amostra.escuro{background:#0E0C0D}.amostra.escuro i{background:#000}
 .amostra.auto{background:linear-gradient(135deg,#F3F2F2 50%,#0E0C0D 50%)}.amostra.auto i{background:#141112}
+/* ---------- integrantes e nota fiscal ---------- */
+.quem-chips .chip{font-weight:600}
+.quem-chips .chip[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:var(--on-red)}
+.quem-chips .dica-quem{font-size:12px;color:var(--muted);align-self:center}
+.pede-quem{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px}
+.pede-quem .btn{min-width:132px;padding:12px 18px;font-size:16px}
+.int-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.int-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:8px;align-content:start;min-width:0}
+.int-card.sem{border-color:var(--red-line);background:var(--red-soft)}
+.int-card h2{margin:0;font-size:17px;font-weight:650;letter-spacing:-.01em;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.int-card .doc{font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+.int-card .doc.falta{color:var(--red-ink);font-family:var(--f-ui);font-weight:600}
+.int-card dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 0;margin:0;font-size:13.5px}
+.int-card dt{padding-right:10px}
+.int-card dt{color:var(--muted)}
+.int-card dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.int-card .tot{border-top:1px solid var(--line);padding-top:6px;margin-top:2px;color:var(--ink)}
+.int-card .bar{height:5px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.int-card .bar i{display:block;height:100%;background:var(--ink-2)}
+.int-card .acoes{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.nf-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;margin-bottom:18px;align-items:start}
+.nf-form{gap:0;padding-top:6px;padding-bottom:6px}
+.nf-passo{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.nf-passo:last-child{border-bottom:0}
+.nf-passo > div{display:grid;gap:9px;min-width:0}
+.nf-passo > div > b{font-size:15px}
+.nf-passo .n{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--surface);display:grid;place-items:center;font:700 13px var(--f-ui)}
+.nf-info{font-size:13px;color:var(--muted);margin:0}
+.nf-info.erro{color:var(--red-ink)}
+.nf-info b{color:var(--ink)}
+.nf-lista{list-style:none;margin:0;padding:0;display:grid;gap:5px;max-height:340px;overflow:auto}
+.nf-lista label{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:10px;align-items:start;padding:8px 10px;border:1px solid var(--line);border-radius:9px;cursor:pointer}
+.nf-lista label:has(input:checked){border-color:var(--ink-2);background:var(--surface-2)}
+.nf-lista input{accent-color:var(--red);margin-top:3px}
+.nf-lista b{display:block;font-weight:600;font-size:14px}
+.nf-lista small{color:var(--muted);font-size:12.5px}
+.nf-lista .v{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.nf-lista .av{display:grid;grid-template-columns:minmax(0,1fr) auto 26px;gap:10px;align-items:center;padding:8px 10px;border:1px dashed var(--line-2);border-radius:9px}
+.nf-avulso{display:grid;grid-template-columns:minmax(0,1fr) 70px 104px auto;gap:8px;margin-top:8px}
+details.nf-det summary{cursor:pointer;font-size:13.5px;color:var(--ink-2);font-weight:600}
+.nf-previa{position:sticky;top:14px}
+.nf-dl{display:grid;margin:0}
+.nf-dl > div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.nf-dl dt{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;grid-column:1}
+.nf-dl dd{margin:0;font-size:14px;grid-column:1;overflow-wrap:anywhere;white-space:pre-wrap}
+.nf-dl .cp{grid-column:2;grid-row:1 / span 2;align-self:center}
+.nf-total{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.nf-total b{font-size:28px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.nf-falta{margin:0;padding-left:18px;color:var(--ink-2);font-size:13.5px;display:grid;gap:4px}
+.nf-st{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:8px;background:var(--surface-2)}
+.nf-st .linha{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.nf-st .inp{width:160px}
+.nd-quem{display:grid;gap:6px;margin-top:4px}
+.nd-quem:empty{display:none}
+#nf-placa{text-transform:uppercase}
+.sel-quem{width:auto;min-width:132px;padding:4px 8px}
+button.pill{cursor:pointer;font-family:inherit}
+.btn.off{opacity:.5}
+@media (max-width:1180px){ .int-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:1040px){ .nf-grid{grid-template-columns:minmax(0,1fr)} .nf-previa{position:static} }
+@media (max-width:520px){ .int-grid{grid-template-columns:minmax(0,1fr)} .nf-avulso{grid-template-columns:minmax(0,1fr) 64px} .nf-avulso .btn{grid-column:1 / -1} .pede-quem .btn{min-width:0;flex:1 1 40%} }
 
 /* ---------- toasts ---------- */
 .toasts{position:fixed;z-index:70;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 16px);display:grid;gap:8px;max-width:min(420px,calc(100vw - 100px))}
@@ -482,6 +543,9 @@ table.t td .undo{display:inline-flex}
     <symbol id="ic-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></symbol>
     <symbol id="ic-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
     <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+    <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.2a6.5 6.5 0 0 1 3 5.8"/></symbol>
+    <symbol id="ic-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4L6 21V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+    <symbol id="ic-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
   </defs>
 </svg>
 
@@ -528,6 +592,7 @@ table.t td .undo{display:inline-flex}
             <span class="qtd"><span>Qtd</span><button type="button" id="qtd-menos" aria-label="Diminuir quantidade">−</button><input id="qtd" inputmode="decimal" value="1" aria-label="Quantidade"><button type="button" id="qtd-mais" aria-label="Aumentar quantidade">+</button></span>
           </label>
           <ul class="sug" id="sug" role="listbox" hidden></ul>
+          <div class="linha-opc" id="linha-quem"><span class="eyebrow">Quem fez</span><div class="chips quem-chips" id="quem-chips"></div></div>
           <div class="linha-opc" id="linha-serv"><span class="eyebrow">Serviços</span><div class="chips serv-chips" id="serv-chips"></div></div>
           <div class="linha-opc" id="linha-pg"><span class="eyebrow">Pagamento</span><div class="chips" id="pagamentos"></div></div>
           <p class="dica"><kbd>3*12071</kbd> registra 3 unidades · <kbd>+</kbd> ou <kbd>-</kbd> e Enter troca o modo · venda fiado: <a href="#receber">nota a receber</a></p>
@@ -687,6 +752,7 @@ table.t td .undo{display:inline-flex}
     </div>
     <div class="kpis mb" id="b-kpis"></div>
     <div class="destaques" id="b-dest"></div>
+    <div class="card bloco mb" id="b-quem"></div>
     <div class="grid3">
       <div class="card bloco" id="b-saiu"></div>
       <div class="card bloco" id="b-entrou"></div>
@@ -728,6 +794,49 @@ table.t td .undo{display:inline-flex}
       <div class="toolbar"><button class="btn" type="button" data-acao="rot-editar" id="rot-editar">Editar lista</button></div>
     </div>
     <div class="rot-grid" id="rot-grid"></div>
+  </section>
+
+  <!-- INTEGRANTES -->
+  <section data-view="integrantes" hidden>
+    <div class="sec-h">
+      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Integrantes</h1><p>Quem fez o quê no mês e o CNPJ de cada um para as notas fiscais. Todo serviço fica ligado a quem fez; nas peças, é opcional.</p></div>
+      <div class="semana-nav"><button class="btn sm" type="button" data-acao="int-mes-ant" aria-label="Mês anterior"><svg class="i"><use href="#ic-left"/></svg></button><b id="i-mes"></b><button class="btn sm" type="button" data-acao="int-mes-prox" aria-label="Próximo mês"><svg class="i"><use href="#ic-right"/></svg></button><button class="btn sm ghost" type="button" data-acao="int-mes-hoje">Este mês</button></div>
+    </div>
+    <div class="toolbar mb"><a class="btn primary" href="#nfse"><svg class="i"><use href="#ic-receipt"/></svg>Gerar nota fiscal</a><button class="btn" type="button" data-acao="int-csv"><svg class="i"><use href="#ic-down"/></svg>Exportar o mês</button><button class="btn ghost" type="button" data-acao="abrir-integrante"><svg class="i"><use href="#ic-plus"/></svg>Novo integrante</button></div>
+    <div class="int-grid mb" id="i-cards"></div>
+    <div class="toolbar mb"><div class="seg" id="i-filtro"></div><select class="inp" id="i-quem" aria-label="Integrante"></select><input class="inp" id="i-q" type="search" placeholder="Buscar serviço ou peça" style="flex:1;min-width:180px"></div>
+    <p class="resumo" id="i-resumo"></p>
+    <div class="tabela-wrap"><table class="t" id="i-tab"><thead><tr><th>Quando</th><th>Serviço / peça</th><th>Quem fez</th><th class="num">Qtd</th><th class="num">Valor</th><th>Nota fiscal</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <!-- NOTA FISCAL -->
+  <section data-view="nfse" hidden>
+    <div class="sec-h">
+      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Gerar nota fiscal (NFS-e)</h1><p>Escolha quem fez, informe o CPF ou CNPJ do cliente e marque o serviço. O sistema monta a nota pelo CNPJ do integrante e abre o Emissor Nacional (gov.br) para você conferir e emitir.</p></div>
+      <div class="toolbar"><a class="btn" href="#integrantes"><svg class="i"><use href="#ic-users"/></svg>Integrantes</a><button class="btn" type="button" data-acao="nf-nova"><svg class="i"><use href="#ic-plus"/></svg>Nova nota</button></div>
+    </div>
+    <div class="nf-grid">
+      <div class="card bloco nf-form">
+        <div class="nf-passo"><span class="n">1</span><div><b>Quem emite a nota</b><div class="chips quem-chips" id="nf-quem"></div><p class="nf-info" id="nf-quem-info"></p></div></div>
+        <div class="nf-passo"><span class="n">2</span><div><b>Tipo de nota</b><div class="seg" id="nf-tipo"></div><p class="nf-info" id="nf-tipo-info"></p></div></div>
+        <div class="nf-passo"><span class="n">3</span><div><b>Cliente</b>
+          <div class="form-g">
+            <label class="f">CPF ou CNPJ<input class="inp mono" id="nf-doc" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="Só os números"></label>
+            <label class="f">Nome ou razão social<input class="inp" id="nf-nome" list="nf-clientes" autocomplete="off"><datalist id="nf-clientes"></datalist></label>
+            <label class="f">E-mail (opcional)<input class="inp" id="nf-email" type="email" autocomplete="off"></label>
+            <label class="f">Telefone (opcional)<input class="inp" id="nf-tel" inputmode="tel" autocomplete="off"></label>
+            <label class="f">Placa do veículo (opcional)<input class="inp mono" id="nf-placa" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABC1D23"></label>
+            <label class="f"><span id="nf-comp-t">Data do serviço</span><input class="inp" id="nf-comp" type="date"></label>
+          </div>
+          <p class="nf-info" id="nf-doc-st"></p></div></div>
+        <div class="nf-passo"><span class="n">4</span><div><b id="nf-itens-tit">O que entra na nota</b><div id="nf-itens"></div>
+          <details class="nf-det"><summary>Adicionar um item que não foi registrado</summary><div class="nf-avulso"><input class="inp" id="nf-av-nome" placeholder="Descrição" aria-label="Descrição do item"><input class="inp num" id="nf-av-qtd" inputmode="decimal" value="1" aria-label="Quantidade"><input class="inp num" id="nf-av-vu" inputmode="decimal" placeholder="0,00" aria-label="Valor unitário"><button class="btn" type="button" data-acao="nf-av-add">Adicionar</button></div></details></div></div>
+        <div class="nf-passo"><span class="n">5</span><div><label class="f" for="nf-desc"><b style="font-size:15px;color:var(--ink)" id="nf-desc-tit">Descrição do serviço na nota</b></label><textarea class="inp" id="nf-desc" rows="3"></textarea><div><button class="btn sm ghost" type="button" data-acao="nf-desc-auto" style="padding-left:0">Montar a descrição de novo</button></div></div></div>
+      </div>
+      <div class="card bloco nf-previa" id="nf-previa"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px"><b>Notas geradas</b><div class="seg" id="nf-filtro"></div></div>
+    <div class="tabela-wrap"><table class="t" id="nf-tab"><thead><tr><th>Data</th><th>Emitida por</th><th>Cliente</th><th>Descrição</th><th class="num">Valor</th><th>Situação</th></tr></thead><tbody></tbody></table></div>
   </section>
 </main>
 </div>
@@ -773,10 +882,25 @@ const TELAS_CONFIG = [
   ['faturamento', 'trend', 'Faturamento', 'Vendas e serviços do período, meta do mês e lucro'],
   ['balanco', 'scale', 'Balanço geral', 'A semana: o que entrou, o que saiu e o que mais vendeu'],
   ['precificacao', 'tag', 'Preços e markup', 'Planilha de precificação, markup do mês e calculadora'],
-  ['rotina', 'check', 'Rotina da empresa', 'Tarefas do dia, da semana, do mês e do ano']
+  ['rotina', 'check', 'Rotina da empresa', 'Tarefas do dia, da semana, do mês e do ano'],
+  ['nfse', 'receipt', 'Gerar nota fiscal (NFS-e)', 'Monta a nota pelo CNPJ de quem fez e abre o Emissor Nacional'],
+  ['integrantes', 'users', 'Integrantes', 'Quem fez o quê no mês e o CNPJ de cada um']
 ];
 const ehTelaConfig = tab => TELAS_CONFIG.some(t => t[0] === tab);
 const TELAS_SENHA = ['caixa', 'faturamento', 'balanco', 'precificacao'];
+const TELAS_REVELA = [...TELAS_SENHA, 'integrantes']; // com a senha, mostram os números normais
+// integrantes que emitem nota pelo próprio CNPJ (o dono cadastra o CNPJ em Configurações → Integrantes)
+const INTEGRANTES_PADRAO = [
+  { id: 'brenda', nome: 'Brenda', mei: false, certificado: true },
+  { id: 'claudio', nome: 'Cláudio', mei: true },
+  { id: 'fabio', nome: 'Fábio Vinícius', mei: true },
+  { id: 'lucas', nome: 'Lucas', mei: true }
+];
+const CTRIB_PADRAO = '140101'; // 14.01.01: conserto, revisão e manutenção de veículos (peças ficam no ICMS)
+const CTRIB_DESC = { '140101': 'Lubrificação, limpeza, revisão, conserto, restauração, manutenção e conservação de veículos e motores (exceto peças e partes, sujeitas ao ICMS)' };
+const EMISSOR_NFSE = 'https://www.nfse.gov.br/EmissorNacional';
+const EMISSOR_PECAS_MG = 'https://www.fazenda.mg.gov.br/servicos/empresa/nfa/emitir-nota-fiscal-avulsa-eletronica-nfa-e/';
+const BRASILAPI_CNPJ = 'https://brasilapi.com.br/api/cnpj/v1/';
 const SENHA_TELAS = 'jm1zwz'; // resumo (hash36) da senha da loja
 let livresMem = (() => { try { return sessionStorage.getItem('pbr.livre') === '1'; } catch { return false; } })();
 function telasLivres() { return livresMem; }
@@ -825,7 +949,7 @@ const COMPACT = new Intl.NumberFormat('pt-BR', { notation: 'compact', maximumFra
 const CODIGO = 'STREPNIAYK';
 const codificar = x => String(x).replace(/\d/g, d => CODIGO[d]);
 // nas telas com senha (depois de liberadas) os números aparecem normais; no resto, em letras
-const cod = x => (TELAS_SENHA.includes(S.tab) && telasLivres()) ? String(x) : codificar(x);
+const cod = x => (TELAS_REVELA.includes(S.tab) && telasLivres()) ? String(x) : codificar(x);
 const moneyV = v => (v == null || !isFinite(v)) ? '—' : BRL.format(v); // preço de venda: sempre em número
 const money = v => (v == null || !isFinite(v)) ? '—' : cod(BRL.format(v));
 const sinal = v => (v > 0 ? '+' : v < 0 ? '−' : '') + cod(BRL.format(Math.abs(v || 0)));
@@ -903,7 +1027,9 @@ const S = {
   modo: ls.get('modo', 'entrada'), motivo: ls.get('motivo', { entrada: 'compra', saida: 'venda' }), pg: ls.get('pg', 'dinheiro'),
   tab: 'registrar', ultimo: null, pendente: null, semPreco: null,
   sync: { rodando: false, erro: null, perm: 'unknown' },
-  pGrupo: 'Todos', semana: inicioSemana(hoje()), filtroNotas: { pagar: 'aberto', receber: 'aberto' }, rotEditar: false, nd: null
+  pGrupo: 'Todos', semana: inicioSemana(hoje()), filtroNotas: { pagar: 'aberto', receber: 'aberto' }, rotEditar: false, nd: null,
+  integrantesDoc: null, vinculos: new Map(), nfs: new Map(), clientes: new Map(), dono: null,
+  quem: null, pedeQuem: null, nf: null, nfFiltro: 'mes', mesInt: hoje().slice(0, 7), intFiltro: 'todos'
 };
 const SESSAO = rid(6);
 const meus = new Map();
@@ -1133,27 +1259,32 @@ function registrar(p, qtd, opts = {}) {
   const tipo = opts.tipo || S.modo, motivo = opts.motivo || S.motivo[tipo];
   let vu = opts.vu != null ? opts.vu : valorUnit(p, tipo, motivo);
   if (tipo === 'saida' && motivo === 'venda' && !(vu > 0)) {
-    S.semPreco = { k: p.k, qtd, tipo, motivo, lido: opts.lido || '' }; S.pendente = null; S.ultimo = null;
+    S.semPreco = { k: p.k, qtd, tipo, motivo, lido: opts.lido || '' }; S.pendente = null; S.ultimo = null; S.pedeQuem = null;
     bip('erro'); renderUltimo(); setTimeout(() => $('#sp-preco')?.focus(), 30); return;
   }
   vu = vu > 0 ? r2(vu) : 0;
   const total = r2(vu * qtd);
   const caixa = efeitoCaixa(tipo, motivo, total);
   const item = { id: rid(8), t: Date.now(), k: 'mov', tipo, motivo, pk: p.k, cod: p.cod || '', lido: opts.lido || '', nome: p.nome, mod: nomeCurto(p), qtd, vu, cu: p.custo || null, total, caixa, pg: caixa ? S.pg : null, u: S.uid || null };
+  if (tipo === 'saida' && motivo === 'venda' && S.quem) item.quem = S.quem; // peça: quem atendeu é opcional
   const L = addItem(item);
   salvarProduto(p.k, { estoque: r3((p.estoque || 0) + (tipo === 'entrada' ? qtd : -qtd)) });
-  S.ultimo = { L: L.id, id: item.id }; S.pendente = null; S.semPreco = null;
+  S.ultimo = { L: L.id, id: item.id }; S.pendente = null; S.semPreco = null; S.pedeQuem = null;
   bip(tipo); setQtd(1); render(); flashUltimo();
 }
-function registrarServico(sid, qtd, vuForcado) {
+function registrarServico(sid, qtd, vuForcado, quemForcado) {
   if (!S.podeEscrever) { toast('Seu acesso é só de leitura.', true); return; }
   const s = S.servicos.get(sid); if (!s) return;
   const vu = vuForcado != null ? vuForcado : (parseNum(s.preco) || 0);
-  if (!(vu > 0)) { S.semPreco = { sid, qtd }; S.pendente = null; S.ultimo = null; bip('erro'); renderUltimo(); setTimeout(() => $('#sp-preco')?.focus(), 30); return; }
+  if (!(vu > 0)) { S.semPreco = { sid, qtd }; S.pendente = null; S.ultimo = null; S.pedeQuem = null; bip('erro'); renderUltimo(); setTimeout(() => $('#sp-preco')?.focus(), 30); return; }
+  // todo serviço fica ligado a quem fez (para a nota fiscal e o balanço do mês)
+  const quem = quemForcado || (S.quem && integ(S.quem)?.ativo !== false ? S.quem : null);
+  if (!quem && integrantesAtivos().length) { S.pedeQuem = { sid, qtd, vu: r2(vu) }; S.pendente = null; S.semPreco = null; S.ultimo = null; bip('erro'); renderUltimo(); setTimeout(() => $('.pede-quem .btn')?.focus(), 30); return; }
   const total = r2(vu * qtd);
   const item = { id: rid(8), t: Date.now(), k: 'serv', sid, nome: s.nome, cod: s.cod || '', qtd, vu: r2(vu), total, caixa: total, pg: S.pg, u: S.uid || null };
+  if (quem) item.quem = quem;
   const L = addItem(item);
-  S.ultimo = { L: L.id, id: item.id }; S.pendente = null; S.semPreco = null;
+  S.ultimo = { L: L.id, id: item.id }; S.pendente = null; S.semPreco = null; S.pedeQuem = null;
   bip('saida'); setQtd(1); render(); flashUltimo();
 }
 function flashUltimo() { const u = $('#ultimo .ultimo'); if (u) { u.classList.remove('flash'); void u.offsetWidth; u.classList.add('flash'); } }
@@ -1175,7 +1306,7 @@ function processar(raw) {
   if (!k) {
     const doc = lerCodigoDoc(s);
     if (doc && (doc.tipo === 'boleto' || doc.tipo === 'arrecadacao' || doc.tipo === 'nfe')) { toast('Isto é um ' + (doc.tipo === 'nfe' ? 'código de nota fiscal' : 'boleto') + '. Abrindo uma nota a pagar com ele.'); location.hash = '#pagar'; setTimeout(() => abrirNovaNota('pagar', s), 60); return; }
-    S.pendente = { codigo: s, qtd, tipo: S.modo, motivo: S.motivo[S.modo] }; S.ultimo = null; S.semPreco = null;
+    S.pendente = { codigo: s, qtd, tipo: S.modo, motivo: S.motivo[S.modo] }; S.ultimo = null; S.semPreco = null; S.pedeQuem = null;
     bip('erro'); renderUltimo(); setTimeout(() => $('#vinc-q')?.focus(), 30);
     return;
   }
@@ -1317,8 +1448,10 @@ function salvarNovaNota() {
   if (!(total > 0)) return erro('O valor da nota precisa ser maior que zero.');
   if (!nd.venc1) return erro('Informe o primeiro vencimento.');
   if (!S.podeEscrever) return erro('Seu acesso é só de leitura.');
+  if (!isP && nd.itens.some(it => it.tipo === 'serv') && !nd.quem && integrantesAtivos().length) return erro('Escolha quem fez o serviço.');
   const id = 'n' + Date.now().toString(36) + rid(4);
   const nota = { parte: nd.parte.trim(), doc: nd.doc.trim(), numero: nd.numero.trim(), descricao: nd.descricao.trim(), emissao: nd.emissao || hoje(), itens: nd.itens.map(x => ({ ...x })), total, parcelas: parcelasNd(nd), criadoEm: Date.now(), por: S.uid || null, movimentou: !!(nd.movimentar && nd.itens.length), movs: [] };
+  if (!isP && nd.quem) nota.quem = nd.quem;
   if (nd.boleto) nota.boleto = nd.boleto;
   if (nd.chave) nota.chave = nd.chave;
   if (nd.escaneado) nota.escaneado = nd.escaneado;
@@ -1327,11 +1460,13 @@ function salvarNovaNota() {
       const q = parseNum(it.qtd) || 0, vu = parseNum(it.vu) || 0; if (!(q > 0)) continue;
       if (it.tipo === 'serv') {
         const sv = { id: rid(8), t: Date.now(), k: 'serv', sid: it.sid, nome: it.nome, cod: it.cod || '', qtd: q, vu: r2(vu), total: r2(q * vu), caixa: 0, pg: 'prazo', u: S.uid || null, nota: { col: nd.col, id } };
+        if (nd.quem) sv.quem = nd.quem;
         addItem(sv); nota.movs.push(sv.id); continue;
       }
       const p = S.produtos.get(it.pk); if (!p) continue;
       const tipo = isP ? 'entrada' : 'saida', motivo = isP ? 'compra' : 'venda';
       const mv = { id: rid(8), t: Date.now(), k: 'mov', tipo, motivo, pk: p.k, cod: p.cod || '', lido: '', nome: p.nome, mod: nomeCurto(p), qtd: q, vu: r2(vu), cu: isP ? (vu > 0 ? r2(vu) : p.custo || null) : (p.custo || null), total: r2(q * vu), caixa: 0, pg: 'prazo', u: S.uid || null, nota: { col: nd.col, id } };
+      if (!isP && nd.quem) mv.quem = nd.quem;
       addItem(mv); nota.movs.push(mv.id);
       const patch = { estoque: r3((p.estoque || 0) + (isP ? q : -q)) };
       if (isP && vu > 0) patch.custoManual = r2(vu);
@@ -1683,7 +1818,10 @@ VIEWS.registrar = () => {
   const card = $('#scan-card'); card.dataset.modo = S.modo;
   $$('.modo button', card).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.m === S.modo)));
   $('#motivos').innerHTML = MOTIVOS[S.modo].map(([v, n]) => `<button type="button" class="chip" data-motivo="${v}" aria-pressed="${S.motivo[S.modo] === v}">${n}</button>`).join('');
-  const sv = servicosAtivos();
+  const sv = servicosAtivos(), ativos = integrantesAtivos();
+  if (S.quem && !ativos.some(x => x.id === S.quem)) S.quem = null;
+  $('#linha-quem').hidden = S.modo !== 'saida' || !ativos.length;
+  $('#quem-chips').innerHTML = ativos.map(x => `<button type="button" class="chip" data-quem="${esc(x.id)}" aria-pressed="${S.quem === x.id}">${esc(x.nome)}</button>`).join('') + `<span class="dica-quem">${S.quem ? 'os próximos serviços ficam com ' + esc(nomeInteg(S.quem)) : 'obrigatório nos serviços'}</span>`;
   $('#linha-serv').hidden = S.modo !== 'saida';
   $('#serv-chips').innerHTML = sv.length ? sv.map(s => `<button type="button" class="chip" data-acao="reg-serv" data-id="${esc(s.id)}">${esc(s.nome)} <small>${s.preco ? moneyV(s.preco) : 'sem preço'}</small></button>`).join('') : `<a class="chip" href="#servicos">${ico('plus')}Cadastrar serviços</a>`;
   const mexeCaixa = efeitoCaixa(S.modo, S.motivo[S.modo], 1) !== 0 || S.modo === 'saida';
@@ -1713,6 +1851,16 @@ function renderUltimo() {
       <div class="u-acoes" style="border:0;padding-top:4px"><label class="f">Preço unitário (R$)<input class="inp num" id="sp-preco" inputmode="decimal" placeholder="0,00"></label><button class="btn red" type="button" data-acao="confirmar-sem-preco">Registrar venda</button><button class="btn ghost" type="button" data-acao="cancelar-pend">Cancelar</button></div></div>`;
     return;
   }
+  if (S.pedeQuem) {
+    const pq = S.pedeQuem, s = S.servicos.get(pq.sid);
+    box.innerHTML = `<div class="ultimo alerta">
+      <div class="u-tags"><span class="pill solid-red">SERVIÇO</span><span class="pill red">Falta quem fez</span><span class="u-hora">${qn(pq.qtd)}× · ${moneyV(r2(pq.vu * pq.qtd))}</span></div>
+      <h2 class="u-nome">${esc(s?.nome || 'Serviço')}</h2>
+      <p class="u-sub" style="margin-top:6px">Quem fez este serviço? Ele fica ligado ao CNPJ dessa pessoa, para a nota fiscal e o balanço do mês.</p>
+      <div class="pede-quem">${integrantesAtivos().map(x => `<button class="btn" type="button" data-acao="quem-resp" data-id="${esc(x.id)}">${esc(x.nome)}</button>`).join('')}</div>
+      <p class="muted" style="margin:6px 0 0;font-size:13px">Dica: escolha em <b>Quem fez</b>, acima dos serviços, para registrar vários seguidos sem perguntar. <button class="btn sm ghost" type="button" data-acao="cancelar-pend">Cancelar</button></p></div>`;
+    return;
+  }
   const f = S.ultimo && acharItem(S.ultimo.id);
   if (!f) {
     box.innerHTML = `<div class="ultimo vazio"><h3>Pronto para ler</h3>Escolha <b>Entrada</b> ou <b>Saída</b>, passe o leitor no código de barras e o produto aparece aqui com o valor. Sem leitor, digite o código de estoque (ex.: 12071) ou o modelo e tecle Enter. Serviços ficam nos botões que aparecem no modo Saída.</div>`;
@@ -1735,6 +1883,7 @@ function renderUltimo() {
         ${it.lido && normCod(it.lido) !== normCod(it.cod) ? `<div><dt>Código lido</dt><dd class="mono">${esc(it.lido)}</dd></div>` : ''}
         ${!ehServ && it.motivo === 'venda' && p ? `<div><dt>Base do preço</dt><dd>${esc(BASE_NOME[p.fonte] || '')}${p.fonte === 'custo' ? ' ' + mk(p.mk) : ''}</dd></div>` : ''}
         ${it.caixa ? `<div><dt>Caixa</dt><dd>${sinal(it.caixa)} · ${esc(PG_NOME[it.pg] || '')}</dd></div>` : `<div><dt>Caixa</dt><dd class="muted">não altera</dd></div>`}
+        ${ehVenda(it) ? `<div><dt>${ehServ ? 'Feito por' : 'Atendido por'}</dt><dd>${!est && S.podeEscrever ? selQuem('u-quem', quemDe(it), !ehServ, it.id) : esc(nomeInteg(quemDe(it)) || '—')}</dd></div>` : ''}
       </dl>
     </div>
     <div class="u-valor">
@@ -1762,9 +1911,10 @@ function renderVinc(q) {
 }
 function descItemFita(it) {
   if (it.k === 'caixa') return `<span class="pill soft">${it.tipo === 'receita' ? 'Receita' : 'Despesa'}</span>${esc(it.cat || '')} · ${esc(PG_NOME[it.pg] || '')}`;
-  if (it.k === 'serv') return `<span class="pill solid-red">Serviço</span>${qn(it.qtd)}× · ${esc(PG_NOME[it.pg] || '')}`;
+  const qm = nomeInteg(quemDe(it));
+  if (it.k === 'serv') return `<span class="pill solid-red">Serviço</span>${qn(it.qtd)}× · ${esc(PG_NOME[it.pg] || '')}${qm ? ' · ' + esc(qm) : ' · <span style="color:var(--red-ink)">sem quem fez</span>'}`;
   const ent = it.tipo === 'entrada';
-  return `<span class="pill ${ent ? 'ink' : 'solid-red'}">${ent ? 'Entrada' : 'Saída'}</span>${ent ? '+' : '−'}${qn(it.qtd)} un. · ${esc(MOTIVO_NOME[it.motivo] || '')}${it.pg ? ' · ' + esc(PG_NOME[it.pg]) : ''}`;
+  return `<span class="pill ${ent ? 'ink' : 'solid-red'}">${ent ? 'Entrada' : 'Saída'}</span>${ent ? '+' : '−'}${qn(it.qtd)} un. · ${esc(MOTIVO_NOME[it.motivo] || '')}${it.pg ? ' · ' + esc(PG_NOME[it.pg]) : ''}${qm && ehVenda(it) ? ' · ' + esc(qm) : ''}`;
 }
 function renderFita(its, t) {
   $('#fita-data').textContent = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'short' });
@@ -2018,7 +2168,7 @@ VIEWS.movimentacoes = () => {
     const temQtd = it.k === 'mov' || it.k === 'serv';
     return `<tr class="${it._est ? 'est' : ''}"><td class="mono" style="white-space:nowrap">${fmtDM(it._d)} ${fmtHora(it.t)}</td>
       <td>${pill}<span class="sub">${esc(it.k === 'caixa' ? (it.cat || '') : it.k === 'serv' ? '' : (MOTIVO_NOME[it.motivo] || ''))}${it.pg === 'prazo' ? ' · a prazo' : ''}${it._est ? ' · desfeito' : ''}</span></td>
-      <td class="nome"><b>${esc(it.k === 'caixa' ? it.desc : it.nome)}</b><span class="sub">${esc(it.k === 'mov' ? [it.mod, it.cod ? 'cód. ' + it.cod : ''].filter(Boolean).join(' · ') : '')}</span></td>
+      <td class="nome"><b>${esc(it.k === 'caixa' ? it.desc : it.nome)}</b><span class="sub">${esc([...(it.k === 'mov' ? [it.mod, it.cod ? 'cód. ' + it.cod : ''] : []), ehVenda(it) && quemDe(it) ? (it.k === 'serv' ? 'feito por ' : 'atendido por ') + nomeInteg(quemDe(it)) : ''].filter(Boolean).join(' · '))}</span></td>
       <td class="num">${temQtd ? (it.k === 'mov' ? (ent ? '+' : '−') : '') + qn(it.qtd) : ''}</td>
       <td class="num">${temQtd ? valorIt(it, it.vu) : ''}</td>
       <td class="num">${temQtd ? valorIt(it, it.total) : money(it.valor)}</td>
@@ -2207,6 +2357,7 @@ VIEWS.balanco = () => {
     dest('Serviço mais feito', servs[0]?.nome || '—', servs[0] ? `${qn(servs[0].qtd)} vez(es) · ${money(servs[0].total)}` : 'nenhum serviço') +
     dest('Dia mais forte', porDia[0] ? diaSemana(porDia[0][0]) : '—', porDia[0] ? `${fmtDM(porDia[0][0])} · ${money(porDia[0][1])}` : '—') +
     dest('Categoria que liderou', cats[0]?.[0] || '—', cats[0] ? `${money(cats[0][1])} · ${pct(r2(cats[0][1] / t.fat * 100))}` : '—');
+  $('#b-quem').innerHTML = quemFezHtml(l, 'semana');
   $('#b-saiu').innerHTML = `<h2>O que saiu (vendas)</h2>${rankHtml(prods.slice(0, 8), 'Nenhum produto vendido na semana.', o => o.qtd, o => `${qn(o.qtd)} un.<small>${money(o.total)}</small>`)}`;
   $('#b-entrou').innerHTML = `<h2>O que entrou no estoque</h2>${rankHtml(entr.slice(0, 8), 'Nenhuma entrada na semana.', o => o.qtd, o => `${qn(o.qtd)} un.<small>${money(o.total)}</small>`)}`;
   $('#b-serv').innerHTML = `<h2>Serviços feitos</h2>${rankHtml(servs.slice(0, 8), 'Nenhum serviço registrado na semana.', o => o.qtd, o => `${qn(o.qtd)}×<small>${money(o.total)}</small>`)}`;
@@ -2296,6 +2447,7 @@ function renderNovaNota() {
     </div></section>
     <section><h3>Itens da nota</h3>
       <div class="tabela-wrap"><table class="t"><thead><tr><th>Item</th><th class="num" style="width:90px">Qtd</th><th class="num" style="width:120px">${isP ? 'Custo unit.' : 'Preço unit.'}</th><th class="num">Total</th><th></th></tr></thead><tbody id="nd-itens"></tbody></table></div>
+      <div class="nd-quem" id="nd-quem"></div>
       <label class="chk"><input type="checkbox" data-nd="movimentar" ${nd.movimentar ? 'checked' : ''}>${isP ? 'Dar entrada destes itens no estoque agora (o caixa só muda quando a nota for paga)' : 'Dar saída destes itens agora: baixa o estoque e a venda entra no faturamento (o caixa só muda quando receber)'}</label>
     </section>
     <section><h3>Valor e vencimentos</h3>
@@ -2316,6 +2468,15 @@ function renderNdItens() {
   tb.innerHTML = nd.itens.length ? nd.itens.map((it, i) => `<tr><td class="nome"><b>${esc(it.nome)}</b><span class="sub">${esc(it.tipo === 'serv' ? 'Serviço' : (it.mod || ''))}${it.cod ? ' · ' + esc(it.cod) : ''}</span></td><td><input class="inp num" data-ndi="${i}" data-campo="qtd" inputmode="decimal" value="${esc(fmtIn(it.qtd))}"></td><td><input class="inp num" data-ndi="${i}" data-campo="vu" inputmode="decimal" value="${esc(fmtMoneyIn(it.vu))}" placeholder="0,00"></td><td class="num" id="nd-it-${i}">${money(r2((parseNum(it.qtd) || 0) * (parseNum(it.vu) || 0)))}</td><td><button class="undo" type="button" data-acao="nd-del" data-i="${i}" aria-label="Remover item">${ico('x')}</button></td></tr>`).join('')
     + `<tr><td colspan="3" class="num"><b>Soma dos itens</b></td><td class="num"><b id="nd-soma">${money(somaNd())}</b></td><td></td></tr>`
     : `<tr><td colspan="5" class="vazio-t" style="padding:16px">Nenhum item. Leia os códigos com o leitor ou busque pelo nome, ou só preencha o valor total.</td></tr>`;
+  renderNdQuem();
+}
+// nota a receber com serviço: quem fez é obrigatório (com peça só, é opcional)
+function renderNdQuem() {
+  const nd = S.nd, el = $('#nd-quem'); if (!el || !nd) return;
+  const temServ = nd.col === 'receber' && nd.itens.some(it => it.tipo === 'serv');
+  const ativos = integrantesAtivos();
+  if (nd.col !== 'receber' || !nd.itens.length || !ativos.length) { el.innerHTML = ''; return; }
+  el.innerHTML = `<span class="eyebrow">${temServ ? 'Quem fez o serviço' : 'Quem atendeu (opcional)'}</span><div class="chips quem-chips">${ativos.map(x => `<button type="button" class="chip" data-acao="nd-quem" data-id="${esc(x.id)}" aria-pressed="${nd.quem === x.id}">${esc(x.nome)}</button>`).join('')}</div>`;
 }
 const somaNd = () => r2(S.nd.itens.reduce((s, it) => s + (parseNum(it.qtd) || 0) * (parseNum(it.vu) || 0), 0));
 function atualizarNdTotais() {
@@ -2816,10 +2977,10 @@ function exportarProdutos() {
 }
 function exportarMovs() {
   const { l, de, ate } = filtrarMovs();
-  const linhas = [['Data', 'Hora', 'Movimento', 'Motivo/categoria', 'Produto/descrição', 'Modelo', 'Cód. estoque', 'Código lido', 'Qtd', 'Valor unit.', 'Total', 'Efeito no caixa', 'Pagamento', 'Desfeito'].join(';')];
+  const linhas = [['Data', 'Hora', 'Movimento', 'Motivo/categoria', 'Produto/descrição', 'Modelo', 'Cód. estoque', 'Código lido', 'Qtd', 'Valor unit.', 'Total', 'Efeito no caixa', 'Pagamento', 'Quem fez / atendeu', 'Desfeito'].join(';')];
   for (const it of l.slice().reverse()) {
     const temQtd = it.k === 'mov' || it.k === 'serv';
-    linhas.push([fmtData(it._d), fmtHora(it.t), it.k === 'caixa' ? (it.tipo === 'receita' ? 'Receita' : 'Despesa') : it.k === 'serv' ? 'Serviço' : (it.tipo === 'entrada' ? 'Entrada' : 'Saída'), it.k === 'caixa' ? it.cat : it.k === 'serv' ? '' : MOTIVO_NOME[it.motivo], it.k === 'caixa' ? it.desc : it.nome, it.mod || '', it.cod || '', it.lido || '', temQtd ? String(it.qtd).replace('.', ',') : '', temQtd ? csvNum(it.vu) : '', csvNum(temQtd ? it.total : it.valor), csvNum(it.caixa || 0), PG_NOME[it.pg] || '', it._est ? 'sim' : ''].map(csvCel).join(';'));
+    linhas.push([fmtData(it._d), fmtHora(it.t), it.k === 'caixa' ? (it.tipo === 'receita' ? 'Receita' : 'Despesa') : it.k === 'serv' ? 'Serviço' : (it.tipo === 'entrada' ? 'Entrada' : 'Saída'), it.k === 'caixa' ? it.cat : it.k === 'serv' ? '' : MOTIVO_NOME[it.motivo], it.k === 'caixa' ? it.desc : it.nome, it.mod || '', it.cod || '', it.lido || '', temQtd ? String(it.qtd).replace('.', ',') : '', temQtd ? csvNum(it.vu) : '', csvNum(temQtd ? it.total : it.valor), csvNum(it.caixa || 0), PG_NOME[it.pg] || '', ehVenda(it) ? nomeInteg(quemDe(it)) : '', it._est ? 'sim' : ''].map(csvCel).join(';'));
   }
   salvarArquivo(`movimentacoes-${de}-a-${ate}.csv`, '﻿' + linhas.join('\r\n'));
 }
@@ -2837,6 +2998,374 @@ async function exportarEtiquetas() {
   }).join('');
   salvarArquivo(`etiquetas-${hoje()}.html`, docEtiquetas('Etiquetas', cards, 3));
 }
+
+/* ================= integrantes (quem fez) ================= */
+function integrantes() { const l = S.integrantesDoc?.lista; return (Array.isArray(l) && l.length ? l : INTEGRANTES_PADRAO).map(x => ({ ativo: true, ...x })); }
+const integrantesAtivos = () => integrantes().filter(x => x.ativo !== false);
+const integ = id => id ? integrantes().find(x => x.id === id) || null : null;
+const nomeInteg = id => integ(id)?.nome || '';
+const podeCadastrar = () => S.podeEscrever && S.dono !== false;
+function salvarIntegrantes(lista) { S.integrantesDoc = { lista, atualizadoEm: Date.now(), por: S.uid || null }; fila('config/integrantes', 'set', () => S.integrantesDoc); }
+// quem fez: o que foi escolhido ao registrar, ou a troca feita depois (coleção vinculos, um documento por registro)
+function quemDe(it) { const v = S.vinculos.get(it.id); return v ? (v.quem || null) : (it.quem || null); }
+function atribuir(id, quem) { if (!S.podeEscrever) { toast('Seu acesso é só de leitura.', true); return; } S.vinculos.set(id, { quem: quem || null, em: Date.now(), por: S.uid || null }); fila('vinculos/' + id, 'set', () => S.vinculos.get(id)); }
+function selQuem(idEl, val, opcional, itemId) {
+  const ops = integrantes().filter(x => x.ativo !== false || x.id === val);
+  return `<select class="inp sel-quem"${idEl ? ` id="${idEl}"` : ''} data-atrib="${esc(itemId)}" aria-label="Quem fez">${opcional || !val ? `<option value="">${opcional ? '—' : 'Escolha…'}</option>` : ''}${ops.map(x => `<option value="${esc(x.id)}" ${x.id === val ? 'selected' : ''}>${esc(x.nome)}</option>`).join('')}</select>`;
+}
+const vazioQuem = () => ({ serv: 0, servN: 0, servQtd: 0, pecas: 0, pecasN: 0, pecasQtd: 0, nfN: 0, nfV: 0, nfPrep: 0 });
+function agruparQuem(l) {
+  const por = new Map(), g = id => { if (!por.has(id)) por.set(id, vazioQuem()); return por.get(id); };
+  for (const it of l) { if (it._est || !ehVenda(it)) continue; const o = g(quemDe(it) || ''); if (it.k === 'serv') { o.serv += it.total; o.servN++; o.servQtd += it.qtd; } else { o.pecas += it.total; o.pecasN++; o.pecasQtd += it.qtd; } }
+  return { por, g };
+}
+function quemFezHtml(l, rotulo) {
+  const { por } = agruparQuem(l);
+  const lista = integrantes().filter(x => x.ativo !== false || por.has(x.id)).map(x => ({ x, o: por.get(x.id) || vazioQuem() })).sort((a, b) => (b.o.serv + b.o.pecas) - (a.o.serv + a.o.pecas));
+  const max = Math.max(1, ...lista.map(r => r.o.serv + r.o.pecas)), sem = por.get('');
+  return `<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline"><h2>Quem fez o quê na ${rotulo}</h2><a class="btn sm ghost" href="#integrantes">Ver o mês por integrante</a></div>
+    <ol class="rank">${lista.map((r, i) => { const v = r.o.serv + r.o.pecas; return `<li><span class="pos">${i + 1}</span><span class="nm"><b>${esc(r.x.nome)}</b><small>${r.o.servN} serviço${r.o.servN === 1 ? '' : 's'} · ${qn(r.o.pecasQtd)} peça${r.o.pecasQtd === 1 ? '' : 's'}</small><div class="bar ${i === 0 && v ? 'red' : ''}"><i style="width:${v ? Math.max(3, v / max * 100) : 0}%"></i></div></span><span class="vl">${money(v)}<small>serviços ${money(r.o.serv)}</small></span></li>`; }).join('')}</ol>
+    ${sem && sem.servN ? `<p style="color:var(--red-ink)">${sem.servN} serviço${sem.servN === 1 ? '' : 's'} sem quem fez (${money(sem.serv)}). <a href="#integrantes" data-acao="int-filtro" data-v="sem">Escolher quem fez</a></p>` : ''}`;
+}
+function mesIntervalo(ym) { const [y, m] = ym.split('-').map(Number); return [`${ym}-01`, dkey(new Date(y, m, 0))]; }
+function mesSomar(ym, n) { const [y, m] = ym.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}`; }
+VIEWS.integrantes = () => {
+  const [de, ate] = mesIntervalo(S.mesInt); garantirPeriodo(de);
+  const [y, m] = S.mesInt.split('-').map(Number), rot = new Date(y, m - 1, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  $('#i-mes').textContent = rot.charAt(0).toUpperCase() + rot.slice(1);
+  const l = itensPeriodo(de, ate).filter(it => !it._est && ehVenda(it));
+  const { por, g } = agruparQuem(l);
+  for (const n of S.nfs.values()) { if (n.status === 'cancelada' || !n.competencia || n.competencia < de || n.competencia > ate) continue; const o = g(n.quem || ''); if (n.status === 'emitida') { o.nfN++; o.nfV += n.valor || 0; } else o.nfPrep++; }
+  const lista = integrantes().filter(x => x.ativo !== false || (por.get(x.id)?.servN || por.get(x.id)?.pecasN));
+  const max = Math.max(1, ...lista.map(x => { const o = por.get(x.id); return o ? o.serv + o.pecas : 0; }));
+  const sem = por.get('');
+  $('#i-cards').innerHTML = lista.map(x => {
+    const o = por.get(x.id) || vazioQuem(), tot = o.serv + o.pecas;
+    return `<div class="int-card"><h2>${esc(x.nome)}${x.mei ? '<span class="pill soft">MEI</span>' : ''}${x.certificado ? '<span class="pill soft">Certificado A1</span>' : ''}${x.ativo === false ? '<span class="pill soft">Fora dos botões</span>' : ''}</h2>
+      ${cnpjOk(x.cnpj) ? `<div class="doc">CNPJ ${esc(fmtDocBR(x.cnpj))}${x.municipio ? ' · ' + esc(x.municipio) + (x.uf ? '/' + esc(x.uf) : '') : ''}</div>` : '<div class="doc falta">CNPJ não cadastrado</div>'}
+      <dl><dt>Serviços</dt><dd>${o.servN} · ${money(o.serv)}</dd><dt>Peças vendidas</dt><dd>${qn(o.pecasQtd)} un. · ${money(o.pecas)}</dd><dt class="tot">Total do mês</dt><dd class="tot">${money(tot)}</dd><dt>Notas emitidas</dt><dd>${o.nfN} · ${money(o.nfV)}</dd>${o.nfPrep ? `<dt style="color:var(--red-ink)">Falta emitir</dt><dd style="color:var(--red-ink)">${o.nfPrep}</dd>` : ''}</dl>
+      <div class="bar" aria-hidden="true"><i style="width:${tot ? Math.max(3, tot / max * 100) : 0}%"></i></div>
+      <div class="acoes"><button class="btn sm" type="button" data-acao="abrir-integrante" data-id="${esc(x.id)}">Dados e CNPJ</button><button class="btn sm" type="button" data-acao="int-nf" data-id="${esc(x.id)}">${ico('receipt')}Gerar nota</button></div></div>`;
+  }).join('') + (sem && sem.servN ? `<div class="int-card sem"><h2>Sem quem fez</h2><div class="doc">registros de antes do vínculo ou sem escolha</div>
+      <dl><dt>Serviços</dt><dd>${sem.servN} · ${money(sem.serv)}</dd><dt>Peças vendidas</dt><dd>${qn(sem.pecasQtd)} un. · ${money(sem.pecas)}</dd></dl>
+      <div class="acoes"><button class="btn sm" type="button" data-acao="int-filtro" data-v="sem">Escolher na tabela</button></div></div>` : '');
+  const f = S.intFiltro;
+  $('#i-filtro').innerHTML = [['todos', 'Tudo'], ['serv', 'Serviços'], ['pecas', 'Peças'], ['sem', 'Sem quem fez']].map(([v, n]) => `<button type="button" data-acao="int-filtro" data-v="${v}" aria-pressed="${f === v}">${n}</button>`).join('');
+  const sq = $('#i-quem'), vq = sq.value, ops = `<option value="">Todos os integrantes</option>` + integrantes().map(x => `<option value="${esc(x.id)}">${esc(x.nome)}</option>`).join('');
+  if (sq.dataset.ops !== ops) { sq.innerHTML = ops; sq.dataset.ops = ops; sq.value = vq; }
+  const q = norm($('#i-q').value), qq = sq.value, refs = refsEmNota();
+  let rows = l;
+  if (f === 'serv') rows = rows.filter(it => it.k === 'serv'); else if (f === 'pecas') rows = rows.filter(it => it.k !== 'serv'); else if (f === 'sem') rows = rows.filter(it => !quemDe(it));
+  if (qq) rows = rows.filter(it => quemDe(it) === qq);
+  if (q) rows = rows.filter(it => norm(it.nome + ' ' + (it.mod || '')).includes(q));
+  const sv = rows.filter(it => it.k === 'serv'), pc = rows.filter(it => it.k !== 'serv'), soma = a => a.reduce((s, it) => s + it.total, 0);
+  $('#i-resumo').innerHTML = `<span><b>${rows.length}</b> registros</span><span>serviços <b>${sv.length}</b> · ${money(soma(sv))}</span><span>peças <b>${qn(pc.reduce((s, it) => s + it.qtd, 0))}</b> un. · ${money(soma(pc))}</span>`;
+  const tb = $('#i-tab tbody');
+  tb.innerHTML = rows.length ? rows.slice(0, 800).map(it => {
+    const n = refs.get(it.id), qm = quemDe(it);
+    return `<tr><td class="mono" style="white-space:nowrap">${fmtDM(it._d)} ${fmtHora(it.t)}</td>
+      <td class="nome"><b>${esc(it.nome)}</b><span class="sub">${it.k === 'serv' ? 'Serviço' : 'Peça' + (it.mod ? ' · ' + esc(it.mod) : '')}${it.pg === 'prazo' ? ' · a prazo' : ''}</span></td>
+      <td>${S.podeEscrever ? selQuem('', qm, it.k !== 'serv', it.id) : esc(nomeInteg(qm) || '—')}${it.k === 'serv' && !qm ? '<span class="sub" style="color:var(--red-ink)">falta quem fez</span>' : ''}</td>
+      <td class="num">${qn(it.qtd)}${it.k === 'serv' ? '×' : ''}</td><td class="num"><b>${moneyV(it.total)}</b></td>
+      <td>${n ? `<button class="pill ${n.status === 'emitida' ? 'ink' : 'red'}" type="button" data-acao="abrir-nf" data-id="${esc(n.id)}">${n.status === 'emitida' ? (n.tipo === 'nfe' ? 'Nota de peça' : 'NFS-e') + (n.numero ? ' nº ' + esc(n.numero) : ' emitida') : 'Falta emitir'}</button>` : `<button class="btn sm" type="button" data-acao="nf-de-item" data-id="${esc(it.id)}">${ico('receipt')}Gerar nota</button>`}</td></tr>`;
+  }).join('') : `<tr><td colspan="6" class="vazio-t">${l.length ? 'Nada nesse filtro.' : 'Nenhum serviço ou venda registrado neste mês.'}</td></tr>`;
+};
+function exportarIntegrantes() {
+  const [de, ate] = mesIntervalo(S.mesInt), refs = refsEmNota();
+  const l = itensPeriodo(de, ate).filter(it => !it._est && ehVenda(it));
+  const linhas = [['Data', 'Hora', 'Quem fez / atendeu', 'CNPJ', 'Tipo', 'Serviço / peça', 'Qtd', 'Valor unit.', 'Total', 'Pagamento', 'Nota fiscal'].join(';')];
+  for (const it of l.slice().reverse()) { const x = integ(quemDe(it)), n = refs.get(it.id); linhas.push([fmtData(it._d), fmtHora(it.t), x?.nome || '', x?.cnpj ? fmtDocBR(x.cnpj) : '', it.k === 'serv' ? 'Serviço' : 'Peça', it.nome, String(it.qtd).replace('.', ','), csvNum(it.vu), csvNum(it.total), PG_NOME[it.pg] || '', n ? (n.status === 'emitida' ? 'emitida ' + (n.numero || '') : 'falta emitir') : ''].map(csvCel).join(';')); }
+  salvarArquivo(`integrantes-${S.mesInt}.csv`, '﻿' + linhas.join('\r\n'));
+}
+
+/* ================= CPF e CNPJ ================= */
+const docLimpo = s => String(s || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
+function cpfOk(d) {
+  d = docLimpo(d); if (!/^\d{11}$/.test(d) || /^(\d)\1{10}$/.test(d)) return false;
+  for (const n of [9, 10]) { let s = 0; for (let i = 0; i < n; i++) s += Number(d[i]) * (n + 1 - i); if ((s * 10) % 11 % 10 !== Number(d[n])) return false; }
+  return true;
+}
+// aceita também o CNPJ com letras (novo formato da Receita a partir de 2026)
+function cnpjOk(d) {
+  d = docLimpo(d); if (!/^[0-9A-Z]{12}\d{2}$/.test(d) || /^(\d)\1{13}$/.test(d)) return false;
+  const dv = n => { let s = 0, p = n - 7; for (let i = 0; i < n; i++) { s += (d.charCodeAt(i) - 48) * p--; if (p < 2) p = 9; } const r = s % 11; return r < 2 ? 0 : 11 - r; };
+  return dv(12) === Number(d[12]) && dv(13) === Number(d[13]);
+}
+const docOk = d => cpfOk(d) || cnpjOk(d);
+const docTipo = d => cpfOk(d) ? 'CPF' : cnpjOk(d) ? 'CNPJ' : '';
+function fmtDocBR(d) { d = docLimpo(d); if (d.length === 11) return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9)}`; if (d.length === 14) return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}`; return d; }
+const fmtCtrib = c => { c = String(c || '').replace(/\D/g, ''); return c.length === 6 ? `${c.slice(0, 2)}.${c.slice(2, 4)}.${c.slice(4)}` : c; };
+const valorTxt = v => Number(v || 0).toFixed(2).replace('.', ',');
+const cacheCnpj = new Map();
+async function buscarCnpj(cnpj) {
+  cnpj = docLimpo(cnpj);
+  if (cacheCnpj.has(cnpj)) return cacheCnpj.get(cnpj);
+  let r;
+  try { r = await fetch(BRASILAPI_CNPJ + cnpj, { headers: { accept: 'application/json' } }); }
+  catch { throw new Error('Sem conexão com a consulta de CNPJ agora.'); }
+  if (r.status === 404 || r.status === 400) throw new Error('CNPJ não encontrado na Receita Federal.');
+  if (!r.ok) throw new Error('A consulta de CNPJ não respondeu agora. Tente de novo em instantes.');
+  const j = await r.json();
+  const tit = s => String(s || '').toLowerCase().split(' ').map(w => ['de', 'da', 'do', 'das', 'dos', 'e'].includes(w) ? w : w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const o = { razao: j.razao_social || '', fantasia: j.nome_fantasia || '', municipio: tit(j.municipio), uf: j.uf || '', email: String(j.email || '').toLowerCase(), tel: String(j.ddd_telefone_1 || '').replace(/\D/g, ''), mei: j.opcao_pelo_mei === true, situacao: j.descricao_situacao_cadastral || '' };
+  cacheCnpj.set(cnpj, o); return o;
+}
+
+/* ================= cadastro do integrante ================= */
+function abrirIntegrante(id) {
+  const x = id ? integ(id) : { id: '', nome: '', mei: true, ativo: true };
+  if (!x) return;
+  const pode = podeCadastrar(), dis = pode ? '' : 'disabled';
+  abrirDrawer(`<div class="pn-h"><div><h2>${id ? esc(x.nome) : 'Novo integrante'}</h2><div class="sub">Dados usados nas notas fiscais emitidas pelo CNPJ deste integrante.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+    ${pode ? '' : '<div class="banner">Só o dono da loja altera estes dados.</div>'}
+    <section><div class="form-g">
+      <label class="f">Nome nos botões<input class="inp" id="ig-nome" value="${esc(x.nome)}" ${dis} placeholder="Ex.: Cláudio"></label>
+      <label class="f">CNPJ<input class="inp mono" id="ig-cnpj" value="${esc(fmtDocBR(x.cnpj || ''))}" inputmode="numeric" autocomplete="off" ${dis} placeholder="00.000.000/0000-00"></label>
+      <label class="f">Razão social (nome no CNPJ)<input class="inp" id="ig-razao" value="${esc(x.razao || '')}" ${dis}></label>
+      <label class="f">Inscrição municipal (se tiver)<input class="inp mono" id="ig-im" value="${esc(x.im || '')}" ${dis}></label>
+      <label class="f">Município<input class="inp" id="ig-mun" value="${esc(x.municipio || '')}" ${dis}></label>
+      <label class="f">UF<input class="inp" id="ig-uf" value="${esc(x.uf || '')}" maxlength="2" ${dis} style="text-transform:uppercase"></label>
+      <label class="f">E-mail<input class="inp" id="ig-email" type="email" value="${esc(x.email || '')}" ${dis}></label>
+      <label class="f">Telefone<input class="inp" id="ig-tel" value="${esc(x.tel || '')}" ${dis}></label>
+    </div>
+    <div class="toolbar"><button class="btn sm" type="button" data-acao="ig-buscar" ${dis}>Buscar os dados pelo CNPJ</button><span class="nf-info" id="ig-st"></span></div></section>
+    <section><h3>Nota fiscal</h3>
+      <label class="chk"><input type="checkbox" id="ig-mei" ${x.mei ? 'checked' : ''} ${dis}>É MEI (microempreendedor individual)</label>
+      <label class="chk"><input type="checkbox" id="ig-cert" ${x.certificado ? 'checked' : ''} ${dis}>Tem certificado digital A1</label>
+      <div class="form-g">
+        <label class="f">Código de tributação nacional<input class="inp mono" id="ig-ctrib" value="${esc(fmtCtrib(x.cTrib || CTRIB_PADRAO))}" ${dis}></label>
+        <label class="f">Item da NBS (opcional)<input class="inp mono" id="ig-nbs" value="${esc(x.nbs || '')}" ${dis} placeholder="1.0000.00.00"></label>
+      </div>
+      <p class="muted" style="margin:0;font-size:13px">14.01.01 é conserto, revisão e manutenção de veículos; as peças ficam de fora (pagam ICMS e vão na nota de peças). Confira com o contador se o serviço de algum integrante tem outro código.</p>
+      <label class="f">Inscrição estadual (para a nota de peças)<input class="inp mono" id="ig-ie" value="${esc(x.ie || '')}" ${dis}></label>
+      <label class="f">Onde emitir a nota de peças (link)<input class="inp" id="ig-pecas" value="${esc(x.linkPecas || '')}" ${dis} placeholder="Vazio: Nota Fiscal Avulsa da Fazenda de Minas Gerais"></label>
+      <label class="chk"><input type="checkbox" id="ig-ativo" ${x.ativo !== false ? 'checked' : ''} ${dis}>Aparece nos botões de quem fez</label>
+    </section>
+    <div class="pn-acoes"><span class="erro-txt" id="ig-erro"></span><span class="sp"></span><button class="btn ghost" type="button" data-acao="fechar-drawer">Cancelar</button><button class="btn primary" type="button" data-acao="ig-salvar" data-id="${esc(x.id)}" ${dis}>Salvar</button></div>`, { tipo: 'integrante', id: x.id });
+}
+async function igBuscar(auto) {
+  const c = docLimpo($('#ig-cnpj')?.value), st = $('#ig-st'); if (!st) return;
+  if (!cnpjOk(c)) { if (!auto) { st.className = 'nf-info erro'; st.textContent = 'Digite um CNPJ válido primeiro.'; } return; }
+  st.className = 'nf-info'; st.textContent = 'Buscando na Receita Federal…';
+  try {
+    const o = await buscarCnpj(c);
+    if (docLimpo($('#ig-cnpj')?.value) !== c) return;
+    const set = (id, v, sempre) => { const el = $('#' + id); if (el && v && (sempre || !el.value.trim())) el.value = v; };
+    set('ig-razao', o.razao, true); set('ig-mun', o.municipio, true); set('ig-uf', o.uf, true); set('ig-email', o.email); set('ig-tel', o.tel);
+    if ($('#ig-mei')) $('#ig-mei').checked = o.mei;
+    st.className = 'nf-info'; st.innerHTML = `Receita Federal: <b>${esc(o.razao)}</b> · ${esc(o.situacao || 'situação não informada')}${o.mei ? ' · MEI' : ''}${o.municipio ? ' · ' + esc(o.municipio) + '/' + esc(o.uf) : ''}`;
+  } catch (e) { st.className = 'nf-info erro'; st.textContent = e.message + ' Preencha à mão.'; }
+}
+function salvarIntegranteDrawer(id) {
+  if (!podeCadastrar()) return;
+  const v = s => ($('#' + s)?.value || '').trim(), erro = m => { $('#ig-erro').textContent = m; };
+  const nome = v('ig-nome'), cnpj = docLimpo(v('ig-cnpj')), ctrib = v('ig-ctrib').replace(/\D/g, '');
+  if (!nome) return erro('Informe o nome.');
+  if (cnpj && !cnpjOk(cnpj)) return erro('O CNPJ não confere. Confira os números.');
+  if (ctrib && ctrib.length !== 6) return erro('O código de tributação tem 6 números (ex.: 14.01.01).');
+  const lista = integrantes().map(x => ({ ...x }));
+  if (cnpj && lista.some(x => x.id !== id && docLimpo(x.cnpj) === cnpj)) return erro('Este CNPJ já está em outro integrante.');
+  const dados = { nome, cnpj, razao: v('ig-razao'), im: v('ig-im'), ie: v('ig-ie'), municipio: v('ig-mun'), uf: v('ig-uf').toUpperCase().slice(0, 2), email: v('ig-email'), tel: v('ig-tel'), mei: $('#ig-mei').checked, certificado: $('#ig-cert').checked, cTrib: ctrib || CTRIB_PADRAO, nbs: v('ig-nbs'), linkPecas: v('ig-pecas'), ativo: $('#ig-ativo').checked };
+  const i = id ? lista.findIndex(x => x.id === id) : -1;
+  if (i >= 0) lista[i] = { ...lista[i], ...dados }; else lista.push({ id: (norm(nome).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'pessoa') + '-' + rid(3), ...dados });
+  salvarIntegrantes(lista); fecharDrawer(); render(); toast('Dados de ' + nome + ' salvos.');
+}
+
+/* ================= nota fiscal (NFS-e e nota de peças) ================= */
+function novaNf(pre = {}) {
+  S.nf = { id: null, tipo: 'nfse', quem: null, doc: '', nome: '', email: '', tel: '', placa: '', comp: hoje(), avulsos: [], desc: '', descManual: false, nomeAuto: '', ...pre, sel: new Set(pre.sel || []) };
+  if (!S.nf.quem && S.quem) S.nf.quem = S.quem;
+  if (!S.nf.descManual) S.nf.desc = descAutoNf();
+  preencherNfForm();
+}
+function preencherNfForm() {
+  const nf = S.nf; if (!nf || !$('#nf-doc')) return;
+  $('#nf-doc').value = nf.doc ? fmtDocBR(nf.doc) : ''; $('#nf-nome').value = nf.nome; $('#nf-email').value = nf.email; $('#nf-tel').value = nf.tel;
+  $('#nf-placa').value = nf.placa; $('#nf-comp').value = nf.comp; $('#nf-desc').value = nf.desc;
+  $('#nf-av-nome').value = ''; $('#nf-av-qtd').value = '1'; $('#nf-av-vu').value = '';
+  const st = $('#nf-doc-st'); st.className = 'nf-info'; st.textContent = '';
+}
+// registros que já estão numa nota (preparada ou emitida)
+function refsEmNota(exceto) { const m = new Map(); for (const [id, n] of S.nfs) { if (id === exceto || n.status === 'cancelada') continue; for (const it of (n.itens || [])) if (it.ref) m.set(it.ref, { ...n, id }); } return m; }
+const ehTipoNf = (it, tipo) => tipo === 'nfse' ? it.k === 'serv' : (it.k === 'mov' && it.tipo === 'saida' && it.motivo === 'venda');
+function candidatosNf() {
+  const nf = S.nf, de = addDays(hoje(), -60), em = refsEmNota(nf.id);
+  garantirPeriodo(de);
+  return itensPeriodo(de, hoje()).filter(it => !it._est && ehTipoNf(it, nf.tipo) && !em.has(it.id) && (!nf.quem || !quemDe(it) || quemDe(it) === nf.quem || nf.sel.has(it.id)));
+}
+function itensSelNf() {
+  const nf = S.nf, est = estornados(), out = [];
+  for (const id of nf.sel) { const f = acharItem(id); if (!f || est.has(id)) continue; const it = f.it; out.push({ ref: id, nome: it.nome, cod: it.k === 'mov' ? (it.cod || '') : '', qtd: it.qtd, vu: it.vu, total: it.total, d: f.L.data }); }
+  out.sort((a, b) => a.d.localeCompare(b.d));
+  for (const a of nf.avulsos) out.push({ ref: null, nome: a.nome, cod: '', qtd: a.qtd, vu: a.vu, total: r2(a.qtd * a.vu), d: null });
+  return out;
+}
+function descAutoNf() {
+  const nf = S.nf; if (!nf) return '';
+  const its = itensSelNf(); if (!its.length) return '';
+  const partes = its.map(i => i.nome + (i.qtd !== 1 ? ` (${qn(i.qtd)}×)` : '')).join('; '), placa = nf.placa.trim().toUpperCase();
+  return (nf.tipo === 'nfe' ? 'Venda de peças: ' : '') + partes + '.' + (placa ? ' Veículo placa ' + placa + '.' : '');
+}
+const prestadorDe = p => ({ nome: p.nome, razao: p.razao || '', cnpj: docLimpo(p.cnpj), im: p.im || '', ie: p.ie || '', municipio: p.municipio || '', uf: p.uf || '', mei: !!p.mei, certificado: !!p.certificado, linkPecas: p.linkPecas || '' });
+function notaDoForm() {
+  const nf = S.nf, p = integ(nf.quem), itens = itensSelNf();
+  return { id: nf.id, tipo: nf.tipo, quem: nf.quem, prestador: p ? prestadorDe(p) : null, tomador: { doc: nf.doc, nome: nf.nome.trim(), email: nf.email.trim(), tel: nf.tel.trim(), placa: nf.placa.trim().toUpperCase() }, itens, valor: r2(itens.reduce((s, i) => s + i.total, 0)), descricao: nf.desc.trim(), competencia: nf.comp || hoje(), cTrib: p?.cTrib || CTRIB_PADRAO, nbs: p?.nbs || '' };
+}
+function faltasNf(n) {
+  const f = [];
+  if (!n.quem) f.push({ t: 'Escolha quem emite a nota.' });
+  else if (!cnpjOk(n.prestador?.cnpj)) f.push({ t: `Cadastre o CNPJ de ${n.prestador?.nome}.`, b: `<button class="btn sm" type="button" data-acao="abrir-integrante" data-id="${esc(n.quem)}">Cadastrar</button>` });
+  if (!n.tomador.doc) f.push({ t: 'Informe o CPF ou CNPJ do cliente.' });
+  else if (!docOk(n.tomador.doc)) f.push({ t: 'O CPF ou CNPJ do cliente não confere. Confira os números.' });
+  if (!n.itens.length) f.push({ t: n.tipo === 'nfse' ? 'Marque pelo menos um serviço (ou adicione um item).' : 'Marque pelo menos uma peça vendida (ou adicione um item).' });
+  else if (!(n.valor > 0)) f.push({ t: 'O valor da nota precisa ser maior que zero.' });
+  if (!n.descricao) f.push({ t: 'Escreva a descrição.' });
+  return f;
+}
+// campos na ordem do emissor: [rótulo, texto mostrado, texto copiado]
+function linhasNf(n) {
+  const p = n.prestador || {}, t = n.tomador || {}, nfe = n.tipo === 'nfe', L = [];
+  const mun = p.municipio ? p.municipio + (p.uf ? '/' + p.uf : '') : '';
+  L.push([nfe ? 'Emitente' : 'Prestador', (p.razao || p.nome || '—') + (p.cnpj ? `\nCNPJ ${fmtDocBR(p.cnpj)}` : '') + (p.mei ? ' · MEI' : ''), p.cnpj || '']);
+  if (nfe) L.push(['Inscrição estadual', p.ie || 'cadastre em Integrantes', p.ie || '']);
+  L.push([nfe ? 'Data da venda' : 'Data de competência', fmtData(n.competencia || hoje()), fmtData(n.competencia || hoje())]);
+  L.push([nfe ? 'Destinatário (cliente)' : 'Tomador (cliente)', t.doc ? `${docTipo(t.doc) || 'CPF/CNPJ'} ${fmtDocBR(t.doc)}${t.nome ? '\n' + t.nome : ''}` : '—', t.doc || '']);
+  if (t.email) L.push(['E-mail do cliente', t.email, t.email]);
+  if (t.tel) L.push(['Telefone do cliente', t.tel, t.tel]);
+  if (!nfe) {
+    L.push(['Local da prestação', mun || 'cadastre o município em Integrantes', mun]);
+    L.push(['Código de tributação nacional', fmtCtrib(n.cTrib) + (CTRIB_DESC[n.cTrib] ? '\n' + CTRIB_DESC[n.cTrib] : ''), fmtCtrib(n.cTrib)]);
+    if (n.nbs) L.push(['Item da NBS', n.nbs, n.nbs]);
+    L.push(['Descrição do serviço', n.descricao || '—', n.descricao || '']);
+    L.push(['Valor do serviço', moneyV(n.valor), valorTxt(n.valor)]);
+  } else {
+    L.push(['Natureza da operação', 'Venda de mercadoria', 'Venda de mercadoria']);
+    L.push(['CFOP', '5.102 (cliente do mesmo estado) ou 6.102 (de outro estado)', '5102']);
+    (n.itens || []).forEach((i, k) => L.push([`Item ${k + 1}`, `${i.nome}${i.cod ? ' · cód. ' + i.cod : ''}\n${qn(i.qtd)} × ${moneyV(i.vu)} = ${moneyV(i.total)}`, i.nome]));
+    L.push(['Informações complementares', n.descricao || '—', n.descricao || '']);
+    L.push(['Valor total', moneyV(n.valor), valorTxt(n.valor)]);
+  }
+  return L;
+}
+const textoNf = n => [(n.tipo === 'nfe' ? 'NOTA DE VENDA DE PEÇAS' : 'NFS-e (nota de serviço)') + ' · PneusBR', ...linhasNf(n).map(([r, v]) => `${r}: ${v.replace(/\n/g, ' · ')}`)].join('\n');
+const dlNfHtml = n => `<dl class="nf-dl">${linhasNf(n).map(([r, v, c]) => `<div><dt>${esc(r)}</dt><dd>${esc(v)}</dd>${c ? `<button class="btn sm ghost cp" type="button" data-acao="copiar" data-txt="${esc(c)}" aria-label="Copiar ${esc(r)}" title="Copiar">${ico('copy')}</button>` : ''}</div>`).join('')}</dl>`;
+const linkEmissor = n => n.tipo === 'nfe' ? (n.prestador?.linkPecas || EMISSOR_PECAS_MG) : EMISSOR_NFSE;
+const pillNf = n => `<span class="pill ${n.status === 'emitida' ? 'ink' : n.status === 'cancelada' ? 'soft' : 'red'}">${n.status === 'emitida' ? 'Emitida' + (n.numero ? ' · nº ' + esc(n.numero) : '') : n.status === 'cancelada' ? 'Cancelada' : 'Falta emitir'}</span>`;
+function ajudaEmissor(n) {
+  const p = n.prestador; if (!p) return '';
+  if (n.tipo === 'nfe') return p.linkPecas ? `Os dados ficam copiados ao abrir o emissor. Confira o NCM de cada peça lá.` : `Em Minas Gerais, o MEI emite a nota de peças como Nota Fiscal Avulsa (NFA-e) no SIARE da Secretaria da Fazenda, com a inscrição estadual. Os dados ficam copiados ao abrir; confira o NCM de cada peça lá.`;
+  return `Entre com a conta gov.br de <b>${esc(p.nome)}</b>${p.certificado ? ' (ou com o certificado digital)' : ''}, clique em <b>Emitir NFS-e</b> e cole os dados: eles ficam copiados ao abrir. Depois volte aqui e informe o número da nota.`;
+}
+function stEmitirHtml(n) {
+  if (n.status === 'preparada') return `<div class="nf-st"><b>Já emitiu no governo?</b><div class="linha"><label class="f">Número da nota<input class="inp mono" id="nf-num-${esc(n.id)}" inputmode="numeric" autocomplete="off"></label><button class="btn primary" type="button" data-acao="nf-emitida" data-id="${esc(n.id)}">Marcar como emitida</button></div></div>`;
+  if (n.status === 'emitida') return `<div class="nf-st"><b>Emitida${n.numero ? ' · nº ' + esc(n.numero) : ''}</b><span class="muted" style="font-size:13px">marcada ${n.emitidaEm ? fmtQuando(n.emitidaEm) : ''}</span></div>`;
+  return `<div class="nf-st"><b>Cancelada</b><span class="muted" style="font-size:13px">os serviços e peças dela podem ir para outra nota</span></div>`;
+}
+function renderNfQuem() {
+  const nf = S.nf, ativos = integrantesAtivos(), p = integ(nf.quem);
+  $('#nf-quem').innerHTML = ativos.length ? ativos.map(x => `<button type="button" class="chip" data-acao="nf-quem" data-id="${esc(x.id)}" aria-pressed="${nf.quem === x.id}">${esc(x.nome)}</button>`).join('') : '<a class="chip" href="#integrantes">Cadastrar integrantes</a>';
+  const el = $('#nf-quem-info');
+  if (!p) { el.className = 'nf-info'; el.textContent = 'A nota sai pelo CNPJ de quem fez o serviço ou atendeu a venda.'; return; }
+  if (!cnpjOk(p.cnpj)) { el.className = 'nf-info erro'; el.innerHTML = `${esc(p.nome)} ainda não tem CNPJ cadastrado. <button class="btn sm" type="button" data-acao="abrir-integrante" data-id="${esc(p.id)}">Cadastrar o CNPJ</button>`; return; }
+  el.className = 'nf-info'; el.innerHTML = `<b>${esc(p.razao || p.nome)}</b> · CNPJ ${esc(fmtDocBR(p.cnpj))}${p.mei ? ' · MEI' : ''}${p.certificado ? ' · certificado A1' : ''}${p.municipio ? ' · ' + esc(p.municipio) + (p.uf ? '/' + esc(p.uf) : '') : ''} <button class="btn sm ghost" type="button" data-acao="abrir-integrante" data-id="${esc(p.id)}">Dados</button>`;
+}
+function renderNfTipo() {
+  const nf = S.nf, nfe = nf.tipo === 'nfe';
+  $('#nf-tipo').innerHTML = [['nfse', 'Serviço (NFS-e)'], ['nfe', 'Venda de peça']].map(([v, n]) => `<button type="button" data-acao="nf-tipo" data-v="${v}" aria-pressed="${nf.tipo === v}">${n}</button>`).join('');
+  $('#nf-tipo-info').textContent = nfe ? 'Peça é mercadoria: a nota é estadual (ICMS), pelo CNPJ de quem atendeu, e precisa da inscrição estadual.' : 'Mão de obra: NFS-e no Emissor Nacional do governo, pelo CNPJ de quem fez.';
+  $('#nf-itens-tit').textContent = nfe ? 'Peças vendidas para pôr na nota' : 'Serviços para pôr na nota';
+  $('#nf-desc-tit').textContent = nfe ? 'Informações complementares da nota' : 'Descrição do serviço na nota';
+  $('#nf-comp-t').textContent = nfe ? 'Data da venda' : 'Data do serviço';
+}
+function renderNfItens() {
+  const el = $('#nf-itens'), nf = S.nf;
+  const lista = candidatosNf().slice(0, 40);
+  for (const id of nf.sel) if (!lista.some(it => it.id === id)) { const f = acharItem(id); if (f) lista.unshift({ ...f.it, _d: f.L.data }); }
+  const nomeTipo = nf.tipo === 'nfse' ? 'serviço' : 'venda de peça';
+  el.innerHTML = (lista.length || nf.avulsos.length) ? `<ul class="nf-lista">${lista.map(it => { const q = quemDe(it); return `<li><label><input type="checkbox" data-nfsel="${esc(it.id)}" ${nf.sel.has(it.id) ? 'checked' : ''}><span><b>${esc(it.nome)}</b><small>${it._d === hoje() ? 'hoje' : fmtDM(it._d)} ${fmtHora(it.t)} · ${qn(it.qtd)}${it.k === 'serv' ? '×' : ' un.'}${q ? ' · ' + esc(nomeInteg(q)) : ' · sem quem fez'}${it.pg === 'prazo' ? ' · a prazo' : ''}</small></span><span class="v">${moneyV(it.total)}</span></label></li>`; }).join('')}${nf.avulsos.map((a, i) => `<li class="av"><span><b>${esc(a.nome)}</b><small>item avulso · ${qn(a.qtd)} × ${moneyV(a.vu)}</small></span><span class="v">${moneyV(r2(a.qtd * a.vu))}</span><button class="undo" type="button" data-acao="nf-av-del" data-i="${i}" aria-label="Remover item">${ico('x')}</button></li>`).join('')}</ul>`
+    : `<p class="nf-info">Nenhum ${nomeTipo}${nf.quem ? ' de ' + esc(nomeInteg(nf.quem)) : ''} sem nota nos últimos 60 dias. Registre em <a href="#registrar">Registrar</a> ou adicione um item abaixo.</p>`;
+}
+function renderNfPrevia() {
+  const el = $('#nf-previa'); if (!el || !S.nf) return;
+  const keep = $$('input', el).map(i => [i.id, i.value, document.activeElement === i]);
+  const n = notaDoForm(), falta = faltasNf(n), nfe = n.tipo === 'nfe', salva = n.id ? S.nfs.get(n.id) : null;
+  el.innerHTML = `<div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap"><h2>${nfe ? 'Prévia da nota de peças' : 'Prévia da NFS-e'}</h2>${salva ? pillNf(salva) : ''}</div>
+    ${dlNfHtml(n)}
+    <div class="nf-total"><span class="muted">${nfe ? 'Valor total' : 'Valor do serviço'}</span><b>${moneyV(n.valor)}</b></div>
+    ${falta.length ? `<ul class="nf-falta">${falta.map(x => `<li>${esc(x.t)} ${x.b || ''}</li>`).join('')}</ul>` : ''}
+    ${salva && salva.status !== 'preparada' ? '' : `<div class="toolbar"><a class="btn red${falta.length ? ' off' : ''}" href="${esc(linkEmissor(n))}" target="_blank" rel="noopener" data-acao="nf-abrir">${ico('ext')}${nfe ? 'Abrir o emissor de notas de peças' : 'Abrir o Emissor Nacional'}</a><button class="btn" type="button" data-acao="nf-copiar">${ico('copy')}Copiar tudo</button></div>
+    <p class="nf-info">${ajudaEmissor(n)}</p>`}
+    ${salva ? stEmitirHtml(salva) : ''}`;
+  for (const [id, v, foc] of keep) { const i = id && document.getElementById(id); if (i) { i.value = v; if (foc) i.focus(); } }
+}
+function renderNfTabela() {
+  const f = S.nfFiltro, mesIni = hoje().slice(0, 8) + '01';
+  $('#nf-filtro').innerHTML = [['mes', 'Este mês'], ['preparada', 'Falta emitir'], ['emitida', 'Emitidas'], ['todas', 'Todas']].map(([v, n]) => `<button type="button" data-acao="nf-filtro" data-v="${v}" aria-pressed="${f === v}">${n}</button>`).join('');
+  let l = [...S.nfs.entries()].map(([id, n]) => ({ ...n, id }));
+  if (f === 'mes') l = l.filter(n => (n.competencia || '') >= mesIni); else if (f !== 'todas') l = l.filter(n => n.status === f);
+  l.sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0));
+  $('#nf-tab tbody').innerHTML = l.length ? l.slice(0, 300).map(n => `<tr class="click ${n.status === 'cancelada' ? 'est' : ''}" data-acao="abrir-nf" data-id="${esc(n.id)}"><td class="mono" style="white-space:nowrap">${fmtData(n.competencia || hoje())}<span class="sub" style="font-family:var(--f-ui)">${n.tipo === 'nfe' ? 'peças' : 'serviço'}</span></td><td>${esc(n.prestador?.nome || nomeInteg(n.quem))}<span class="sub mono">${esc(fmtDocBR(n.prestador?.cnpj || ''))}</span></td><td class="nome"><b>${esc(n.tomador?.nome || '—')}</b><span class="sub mono">${esc(fmtDocBR(n.tomador?.doc || ''))}</span></td><td><span class="sub" style="margin:0;max-width:320px">${esc(n.descricao || '')}</span></td><td class="num"><b>${moneyV(n.valor)}</b></td><td>${pillNf(n)}</td></tr>`).join('')
+    : `<tr><td colspan="6" class="vazio-t">${S.nfs.size ? 'Nada nesse filtro.' : 'Nenhuma nota gerada ainda. Preencha os passos acima e clique em "Abrir o Emissor Nacional".'}</td></tr>`;
+}
+function renderNfClientes() {
+  const dl = $('#nf-clientes'), h = [...S.clientes.values()].filter(c => c.nome).map(c => `<option value="${esc(c.nome)}">`).join('');
+  if (dl.dataset.h !== h) { dl.innerHTML = h; dl.dataset.h = h; }
+}
+VIEWS.nfse = () => {
+  if (!S.nf) novaNf();
+  renderNfQuem(); renderNfTipo(); renderNfItens(); renderNfPrevia(); renderNfTabela(); renderNfClientes();
+};
+let nfDocTimer = null;
+function nfDocMudou() {
+  const nf = S.nf, d = nf.doc, st = $('#nf-doc-st'); clearTimeout(nfDocTimer);
+  const msg = (h, erro) => { st.className = 'nf-info' + (erro ? ' erro' : ''); st.innerHTML = h; };
+  const pNome = v => { const el = $('#nf-nome'); if (v && (!el.value.trim() || el.value.trim() === nf.nomeAuto)) { el.value = v; nf.nome = v; nf.nomeAuto = v; } };
+  if (!d) { msg(''); return; }
+  if (!docOk(d)) { msg(d.length === 11 ? 'Este CPF não confere. Confira os números.' : d.length === 14 ? 'Este CNPJ não confere. Confira os números.' : d.length > 14 ? 'Número grande demais para CPF ou CNPJ.' : '', true); return; }
+  const c = S.clientes.get(d);
+  if (c) { pNome(c.nome); const em = $('#nf-email'), tl = $('#nf-tel'); if (c.email && !em.value) { em.value = c.email; nf.email = c.email; } if (c.tel && !tl.value) { tl.value = c.tel; nf.tel = c.tel; } }
+  if (cpfOk(d)) { msg(c ? `CPF confere · cliente já atendido: <b>${esc(c.nome || '')}</b>` : 'CPF confere. Digite o nome do cliente (opcional na NFS-e).'); return; }
+  msg(c ? `CNPJ confere · cliente já atendido: <b>${esc(c.nome || '')}</b>` : 'CNPJ confere. Buscando o nome na Receita Federal…');
+  nfDocTimer = setTimeout(async () => {
+    try { const o = await buscarCnpj(d); if (S.nf !== nf || nf.doc !== d) return; pNome(o.razao); msg(`Receita Federal: <b>${esc(o.razao)}</b> · ${esc(o.situacao || '')}${o.municipio ? ' · ' + esc(o.municipio) + '/' + esc(o.uf) : ''}`); renderNfPrevia(); }
+    catch (e) { if (S.nf === nf && nf.doc === d) msg(esc(e.message) + ' Digite o nome do cliente.', true); }
+  }, 350);
+}
+function salvarCliente(t) {
+  if (!docOk(t.doc)) return;
+  const id = docLimpo(t.doc), ant = S.clientes.get(id) || {};
+  const c = { doc: id, nome: t.nome || ant.nome || '', email: t.email || ant.email || '', tel: t.tel || ant.tel || '', placas: [...new Set([...(ant.placas || []), ...(t.placa ? [t.placa] : [])])].slice(-10), atualizadoEm: Date.now() };
+  S.clientes.set(id, c); fila('clientes/' + id, 'set', () => S.clientes.get(id));
+}
+function prepararNf() {
+  const n = notaDoForm(), falta = faltasNf(n);
+  if (falta.length) { toast(falta[0].t, true); return null; }
+  if (!S.podeEscrever) { toast('Seu acesso é só de leitura.', true); return null; }
+  const antiga = n.id ? S.nfs.get(n.id) : null;
+  if (antiga && antiga.status !== 'preparada') return antiga;
+  const id = n.id || 'f' + Date.now().toString(36) + rid(4);
+  const doc = { ...n, id, status: 'preparada', criadoEm: antiga?.criadoEm || Date.now(), atualizadoEm: Date.now(), por: S.uid || null };
+  S.nfs.set(id, doc); fila('notasfiscais/' + id, 'set', () => S.nfs.get(id));
+  S.nf.id = id;
+  for (const it of n.itens) if (it.ref) { const f = acharItem(it.ref); if (f && !quemDe(f.it)) atribuir(it.ref, n.quem); }
+  salvarCliente(n.tomador);
+  return doc;
+}
+function mudarNf(id, patch) { const n = S.nfs.get(id); if (!n) return; S.nfs.set(id, { ...n, ...patch }); fila('notasfiscais/' + id, 'set', () => S.nfs.get(id)); }
+function copiarSilencioso(txt) { try { navigator.clipboard.writeText(txt).then(() => toast('Dados da nota copiados. Cole no emissor.'), () => { }); } catch { } }
+function abrirNotaFiscal(id) {
+  const n = S.nfs.get(id); if (!n) return;
+  const nn = { ...n, id };
+  abrirDrawer(`<div class="pn-h"><div><h2>${n.tipo === 'nfe' ? 'Nota de peças' : 'NFS-e'} · ${esc(n.tomador?.nome || fmtDocBR(n.tomador?.doc || ''))}</h2><div class="sub">Pelo CNPJ de ${esc(n.prestador?.nome || nomeInteg(n.quem))} · gerada ${n.criadoEm ? fmtQuando(n.criadoEm) : ''}</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+    <section><div>${pillNf(nn)}</div>${dlNfHtml(nn)}<div class="nf-total"><span class="muted">Valor</span><b>${moneyV(n.valor)}</b></div></section>
+    <section>${stEmitirHtml(nn)}</section>
+    <div class="pn-acoes">${n.status !== 'cancelada' && S.podeEscrever ? `<button class="btn ghost" type="button" data-acao="nf-cancelar" data-id="${esc(id)}">Cancelar nota</button>` : ''}<span class="sp"></span>${n.status === 'preparada' && S.podeEscrever ? `<button class="btn" type="button" data-acao="nf-editar" data-id="${esc(id)}">Editar</button>` : ''}<button class="btn" type="button" data-acao="nf-copiar-salva" data-id="${esc(id)}">${ico('copy')}Copiar tudo</button>${n.status !== 'cancelada' ? `<a class="btn red" href="${esc(linkEmissor(n))}" target="_blank" rel="noopener" data-acao="nf-abrir-salva" data-id="${esc(id)}">${ico('ext')}Abrir o emissor</a>` : ''}</div>`, { tipo: 'nf', id });
+}
+function editarNf(id) {
+  const n = S.nfs.get(id); if (!n) return;
+  novaNf({ id, tipo: n.tipo, quem: n.quem, doc: n.tomador?.doc || '', nome: n.tomador?.nome || '', email: n.tomador?.email || '', tel: n.tomador?.tel || '', placa: n.tomador?.placa || '', comp: n.competencia || hoje(), sel: (n.itens || []).filter(i => i.ref).map(i => i.ref), avulsos: (n.itens || []).filter(i => !i.ref).map(i => ({ nome: i.nome, qtd: i.qtd, vu: i.vu })), desc: n.descricao || '', descManual: true });
+}
+function nfAtualizarDesc() { if (S.nf && !S.nf.descManual) { S.nf.desc = descAutoNf(); const t = $('#nf-desc'); if (t) t.value = S.nf.desc; } }
 
 /* ================= dica do trilho ================= */
 function mostrarTip(el) {
@@ -2873,7 +3402,7 @@ function esconderTip() { $('#tip').hidden = true; }
 /* ================= eventos ================= */
 // Caixa, Faturamento, Balanço e Preços: só desenham depois da senha
 for (const tab of TELAS_SENHA) { const f = VIEWS[tab]; VIEWS[tab] = (...a) => travada(tab) ? undefined : f(...a); }
-const ROTAS = ['registrar', 'produtos', 'servicos', 'precificacao', 'movimentacoes', 'caixa', 'faturamento', 'balanco', 'pagar', 'receber', 'rotina'];
+const ROTAS = ['registrar', 'produtos', 'servicos', 'precificacao', 'movimentacoes', 'caixa', 'faturamento', 'balanco', 'pagar', 'receber', 'rotina', 'integrantes', 'nfse'];
 function aplicarRota() {
   const h = (location.hash || '').replace('#', '');
   S.tab = ROTAS.includes(h) ? h : 'registrar';
@@ -2944,6 +3473,7 @@ function ligarUI() {
     const m = e.target.closest('.modo button'); if (m) { setModo(m.dataset.m); return; }
     const mo = e.target.closest('[data-motivo]'); if (mo) { S.motivo[S.modo] = mo.dataset.motivo; ls.set('motivo', S.motivo); VIEWS.registrar(); $('#scan').focus(); return; }
     const pg = e.target.closest('[data-pg]'); if (pg) { S.pg = pg.dataset.pg; ls.set('pg', S.pg); VIEWS.registrar(); $('#scan').focus(); return; }
+    const qb = e.target.closest('[data-quem]'); if (qb) { S.quem = S.quem === qb.dataset.quem ? null : qb.dataset.quem; VIEWS.registrar(); $('#scan').focus(); return; }
     const gr = e.target.closest('[data-grupo]'); if (gr) { S.pGrupo = gr.dataset.grupo; VIEWS.produtos(); return; }
     const rot = e.target.closest('[data-rot]'); if (rot) { marcarRotina(rot.dataset.rot, rot.checked); return; }
     const a = e.target.closest('[data-acao]'); if (!a) return;
@@ -2959,7 +3489,7 @@ function ligarUI() {
       'u-salvar': () => { const q = parseNum($('#u-qtd').value), vu = parseNum($('#u-vu').value); if (!(q > 0)) { toast('Quantidade inválida.', true); return; } editarUltimo(r3(q), vu > 0 ? vu : 0, $('#u-custo')?.checked); },
       'vincular': () => { const p = S.produtos.get(a.dataset.k), pd = S.pendente; if (!p || !pd) return; salvarProduto(p.k, { codigos: [...new Set([...p.codigos, pd.codigo])] }); toast(`Código ${pd.codigo} vinculado a ${p.nome}.`); registrar(S.produtos.get(p.k), pd.qtd, { tipo: pd.tipo, motivo: pd.motivo, lido: pd.codigo }); $('#scan').focus(); },
       'novo-avulso': () => { const pd = S.pendente; abrirProduto(null, { codigo: pd ? pd.codigo : '', registrar: pd }); },
-      'cancelar-pend': () => { S.pendente = null; S.semPreco = null; renderUltimo(); $('#scan').focus(); },
+      'cancelar-pend': () => { S.pendente = null; S.semPreco = null; S.pedeQuem = null; renderUltimo(); $('#scan').focus(); },
       'confirmar-sem-preco': () => {
         const v = parseNum($('#sp-preco').value), sp = S.semPreco; if (!(v > 0)) { toast('Informe o preço.', true); return; }
         if (sp.sid) { salvarServico(sp.sid, { preco: r2(v) }); registrarServico(sp.sid, sp.qtd, r2(v)); }
@@ -3028,7 +3558,54 @@ function ligarUI() {
       'rot-editar': () => { S.rotEditar = !S.rotEditar; VIEWS.rotina(); },
       'rot-del': () => salvarRotinaLista(rotinaLista().filter(i => i.id !== a.dataset.id)),
       'rot-add': () => { const inp = $('#rot-novo-' + a.dataset.f); const txt = inp.value.trim(); if (!txt) return; salvarRotinaLista([...rotinaLista(), { id: 'u' + rid(6), freq: a.dataset.f, texto: txt }]); },
-      'rot-padrao': () => salvarRotinaLista(ROTINA_PADRAO.map(i => ({ ...i })))
+      'rot-padrao': () => salvarRotinaLista(ROTINA_PADRAO.map(i => ({ ...i }))),
+      'quem-resp': () => { const pq = S.pedeQuem; if (!pq) return; registrarServico(pq.sid, pq.qtd, pq.vu, a.dataset.id); $('#scan').focus(); },
+      'nd-quem': () => { if (!S.nd) return; S.nd.quem = S.nd.quem === a.dataset.id ? null : a.dataset.id; renderNdQuem(); const er = $('#nd-erro'); if (er) er.textContent = ''; },
+      'abrir-integrante': () => abrirIntegrante(a.dataset.id || null),
+      'ig-buscar': () => igBuscar(false),
+      'ig-salvar': () => salvarIntegranteDrawer(a.dataset.id || null),
+      'int-mes-ant': () => { S.mesInt = mesSomar(S.mesInt, -1); VIEWS.integrantes(); },
+      'int-mes-prox': () => { S.mesInt = mesSomar(S.mesInt, 1); VIEWS.integrantes(); },
+      'int-mes-hoje': () => { S.mesInt = hoje().slice(0, 7); VIEWS.integrantes(); },
+      'int-csv': () => exportarIntegrantes(),
+      'int-filtro': () => { S.intFiltro = a.dataset.v; if (S.tab === 'integrantes') VIEWS.integrantes(); },
+      'int-nf': () => { novaNf({ quem: a.dataset.id }); if (S.tab === 'nfse') render(); else location.hash = '#nfse'; },
+      'nf-de-item': () => { const f = acharItem(a.dataset.id); if (!f) return; novaNf({ quem: quemDe(f.it), tipo: f.it.k === 'serv' ? 'nfse' : 'nfe', sel: [f.it.id], comp: f.L.data }); fecharDrawer(); if (S.tab === 'nfse') render(); else location.hash = '#nfse'; },
+      'abrir-nf': () => abrirNotaFiscal(a.dataset.id),
+      'nf-nova': () => { novaNf({ quem: S.nf?.quem || null, tipo: S.nf?.tipo || 'nfse' }); VIEWS.nfse(); $('#nf-doc').focus(); },
+      'nf-quem': () => { const nf = S.nf; nf.quem = nf.quem === a.dataset.id ? null : a.dataset.id; for (const id of [...nf.sel]) { const f = acharItem(id); const q = f && quemDe(f.it); if (q && nf.quem && q !== nf.quem) nf.sel.delete(id); } nfAtualizarDesc(); VIEWS.nfse(); },
+      'nf-tipo': () => { const nf = S.nf; if (nf.tipo === a.dataset.v) return; nf.tipo = a.dataset.v; nf.sel = new Set(); nfAtualizarDesc(); VIEWS.nfse(); },
+      'nf-av-add': () => {
+        const nome = $('#nf-av-nome').value.trim(), q = parseNum($('#nf-av-qtd').value), vu = parseNum($('#nf-av-vu').value);
+        if (!nome) { toast('Escreva a descrição do item.', true); $('#nf-av-nome').focus(); return; }
+        if (!(q > 0) || !(vu > 0)) { toast('Informe a quantidade e o valor.', true); return; }
+        S.nf.avulsos.push({ nome, qtd: r3(q), vu: r2(vu) }); $('#nf-av-nome').value = ''; $('#nf-av-qtd').value = '1'; $('#nf-av-vu').value = '';
+        nfAtualizarDesc(); renderNfItens(); renderNfPrevia();
+      },
+      'nf-av-del': () => { S.nf.avulsos.splice(Number(a.dataset.i), 1); nfAtualizarDesc(); renderNfItens(); renderNfPrevia(); },
+      'nf-desc-auto': () => { S.nf.descManual = false; nfAtualizarDesc(); renderNfPrevia(); },
+      'nf-abrir': () => { const n = prepararNf(); if (!n) { e.preventDefault(); return; } copiarSilencioso(textoNf(n)); setTimeout(() => { renderNfPrevia(); renderNfTabela(); renderNfItens(); }, 0); },
+      'nf-copiar': () => copiar(textoNf(notaDoForm())),
+      'nf-copiar-salva': () => { const n = S.nfs.get(a.dataset.id); if (n) copiar(textoNf(n)); },
+      'nf-abrir-salva': () => { const n = S.nfs.get(a.dataset.id); if (n) copiarSilencioso(textoNf(n)); },
+      'nf-emitida': () => {
+        const id = a.dataset.id, inp = document.getElementById('nf-num-' + id), num = (inp?.value || '').trim();
+        if (!num) { toast('Informe o número que o emissor deu para a nota.', true); inp?.focus(); return; }
+        mudarNf(id, { status: 'emitida', numero: num, emitidaEm: Date.now(), emitidaPor: S.uid || null });
+        if (S.nf?.id === id) novaNf({ quem: S.nf.quem, tipo: S.nf.tipo });
+        if (drawerAberto?.tipo === 'nf') abrirNotaFiscal(id);
+        render(); toast('Nota ' + num + ' marcada como emitida.');
+      },
+      'nf-cancelar': () => {
+        if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.textContent = 'Confirmar cancelamento'; a.classList.add('red'); return; }
+        const n = S.nfs.get(a.dataset.id); if (!n) return;
+        mudarNf(a.dataset.id, { status: 'cancelada', canceladaEm: Date.now(), canceladaPor: S.uid || null });
+        if (S.nf?.id === a.dataset.id) novaNf({ quem: S.nf.quem, tipo: S.nf.tipo });
+        abrirNotaFiscal(a.dataset.id); render();
+        toast(n.status === 'emitida' ? 'Cancelada aqui. Cancele também no emissor do governo.' : 'Nota cancelada.');
+      },
+      'nf-editar': () => { editarNf(a.dataset.id); fecharDrawer(); if (S.tab === 'nfse') render(); else location.hash = '#nfse'; },
+      'nf-filtro': () => { S.nfFiltro = a.dataset.v; renderNfTabela(); }
     };
     if (acoes[acao]) acoes[acao]();
   });
@@ -3039,6 +3616,19 @@ function ligarUI() {
     const tg = e.target, ds = tg.dataset || {};
     if (tg.id === 'vinc-q') renderVinc(tg.value);
     if (tg.id === 'nd-leitor') ndBusca(tg.value);
+    if (tg.id === 'i-q') VIEWS.integrantes();
+    if (tg.id === 'ig-cnpj' && cnpjOk(tg.value) && tg.dataset.buscado !== docLimpo(tg.value)) { tg.dataset.buscado = docLimpo(tg.value); igBuscar(true); }
+    if (S.nf && tg.id && tg.id.startsWith('nf-') && !tg.id.startsWith('nf-num-') && !tg.id.startsWith('nf-av-')) {
+      const nf = S.nf, v = tg.value;
+      if (tg.id === 'nf-doc') { nf.doc = docLimpo(v); nfDocMudou(); }
+      else if (tg.id === 'nf-nome') { nf.nome = v; const c = !nf.doc && [...S.clientes.values()].find(x => x.nome && x.nome === v.trim()); if (c) { nf.doc = c.doc; $('#nf-doc').value = fmtDocBR(c.doc); nfDocMudou(); } }
+      else if (tg.id === 'nf-email') nf.email = v;
+      else if (tg.id === 'nf-tel') nf.tel = v;
+      else if (tg.id === 'nf-placa') { nf.placa = v; nfAtualizarDesc(); }
+      else if (tg.id === 'nf-comp') nf.comp = v || hoje();
+      else if (tg.id === 'nf-desc') { nf.desc = v; nf.descManual = true; }
+      renderNfPrevia();
+    }
     if (drawerAberto && drawerAberto.tipo === 'produto' && ['d-manual', 'd-custo', 'd-mk'].includes(tg.id)) atualizarDrawerCalc();
     if (['k-custo', 'k-mk', 'k-preco'].includes(tg.id)) calcRapida(tg.id);
     if (ds.cfg) { const val = ds.cfg === 'arredondar' ? tg.value : (parseNum(tg.value) || 0); mudarConfig({ [ds.cfg]: val }); if (ds.cfg === 'metaMensal' && S.tab === 'faturamento') { clearTimeout(ligarUI.tm); ligarUI.tm = setTimeout(() => { if (document.activeElement?.id !== 'f-meta-in') VIEWS.faturamento(); }, 800); } }
@@ -3056,7 +3646,13 @@ function ligarUI() {
     }
     if (ds.ndi != null && S.nd) { const it = S.nd.itens[Number(ds.ndi)]; if (it) { it[ds.campo] = parseNum(tg.value) || 0; atualizarNdTotais(); } }
   });
-  document.addEventListener('change', e => { const tg = e.target; if ((tg.id === 'nd-arquivo' || tg.id === 'nd-foto') && tg.files?.[0]) { const f = tg.files[0]; tg.value = ''; lerArquivoNota(f); return; } if (tg.dataset?.nd === 'movimentar' && S.nd) S.nd.movimentar = tg.checked; if (tg.dataset?.cfg === 'metaMensal' && S.tab === 'faturamento') VIEWS.faturamento(); });
+  document.addEventListener('change', e => {
+    const tg = e.target;
+    if (tg.dataset?.atrib) { const id = tg.dataset.atrib, v = tg.value || null; atribuir(id, v); toast(v ? 'Ligado a ' + nomeInteg(v) + '.' : 'Sem integrante.'); render(); return; }
+    if (tg.dataset?.nfsel && S.nf) { const id = tg.dataset.nfsel; if (tg.checked) { S.nf.sel.add(id); const f = acharItem(id), q = f && quemDe(f.it); if (!S.nf.quem && q) S.nf.quem = q; if (f && S.nf.sel.size === 1 && f.L.data) { S.nf.comp = f.L.data; $('#nf-comp').value = f.L.data; } } else S.nf.sel.delete(id); nfAtualizarDesc(); renderNfQuem(); renderNfPrevia(); return; }
+    if (tg.id === 'i-quem') { VIEWS.integrantes(); return; }
+    if (tg.id === 'nf-doc' && S.nf) { tg.value = S.nf.doc ? fmtDocBR(S.nf.doc) : ''; return; }
+    if ((tg.id === 'nd-arquivo' || tg.id === 'nd-foto') && tg.files?.[0]) { const f = tg.files[0]; tg.value = ''; lerArquivoNota(f); return; } if (tg.dataset?.nd === 'movimentar' && S.nd) S.nd.movimentar = tg.checked; if (tg.dataset?.cfg === 'metaMensal' && S.tab === 'faturamento') VIEWS.faturamento(); });
   const comArquivo = e => [...(e.dataTransfer?.types || [])].includes('Files');
   document.addEventListener('dragover', e => { if (drawerAberto?.tipo === 'nota-nova' && comArquivo(e)) { e.preventDefault(); $('#nd-scan')?.classList.add('arrastando'); } });
   document.addEventListener('dragleave', e => { if (!e.relatedTarget) $('#nd-scan')?.classList.remove('arrastando'); });
@@ -3078,6 +3674,8 @@ function ligarUI() {
     }
     if (id && id.startsWith('rot-novo-') && e.key === 'Enter') { e.preventDefault(); $(`[data-acao="rot-add"][data-f="${id.slice(9)}"]`)?.click(); }
     if (id === 'cd-abre' && e.key === 'Enter') { e.preventDefault(); $('[data-acao="cd-abrir"]')?.click(); }
+    if ((id === 'nf-av-vu' || id === 'nf-av-nome' || id === 'nf-av-qtd') && e.key === 'Enter') { e.preventDefault(); $('[data-acao="nf-av-add"]')?.click(); }
+    if (id && id.startsWith('nf-num-') && e.key === 'Enter') { e.preventDefault(); $(`[data-acao="nf-emitida"][data-id="${id.slice(7)}"]`)?.click(); }
     if (id === 'cd-conta' && e.key === 'Enter') { e.preventDefault(); $('[data-acao="cd-fechar"]')?.click(); }
   }, true);
 
@@ -3118,6 +3716,14 @@ function assinarMapa(colecao, alvo) {
     const m = new Map(); for (const d of snap.docs) m.set(d.id, d.data());
     for (const [path, q] of filas) if (path.startsWith(colecao + '/') && q.running) { const id = path.slice(colecao.length + 1); const atual = S[alvo].get(id); if (atual) m.set(id, atual); else m.delete(id); }
     S[alvo] = m; reconstruir(); agendarRender();
+  }, erroAssinatura);
+}
+// coleções que não mexem nos produtos: só redesenha a tela
+function assinarLeve(colecao, alvo) {
+  S.db.collection(colecao).onSnapshot(snap => {
+    const m = new Map(); for (const d of snap.docs) m.set(d.id, d.data());
+    for (const [path, q] of filas) if (path.startsWith(colecao + '/') && q.running) { const id = path.slice(colecao.length + 1); const atual = S[alvo].get(id); if (atual) m.set(id, atual); else m.delete(id); }
+    S[alvo] = m; agendarRender();
   }, erroAssinatura);
 }
 let unsubCaixa = null, diaCaixa = null;
@@ -3161,6 +3767,10 @@ function assinar() {
   assinarMapa('servicos', 'servicos');
   assinarMapa('pagar', 'pagar');
   assinarMapa('receber', 'receber');
+  S.db.doc('config/integrantes').onSnapshot(d => { if (pendente('config/integrantes')) return; S.integrantesDoc = d.exists ? d.data() : null; agendarRender(); }, erroAssinatura);
+  assinarLeve('vinculos', 'vinculos');
+  assinarLeve('notasfiscais', 'nfs');
+  assinarLeve('clientes', 'clientes');
   S.db.collection('rotina').onSnapshot(snap => {
     const m = new Map(); let lista = null;
     for (const d of snap.docs) { if (d.id === 'lista') lista = d.data().itens; else m.set(d.id, d.data()); }
@@ -3177,11 +3787,11 @@ async function iniciar() {
   const [db, user, mcp, dl, perms] = await Promise.all(['db', 'user', 'mcp', 'downloads', 'permissions'].map(n => C.use(n).catch(() => null)));
   S.db = db; S.user = user; S.mcp = mcp; S.downloads = dl; S.perms = perms;
   if (!db) { modoTemporario('O banco de dados não está disponível nesta visualização (entre na sua conta do claude.ai). Nada do que for feito aqui será guardado.'); return; }
-  if (user) { try { S.uid = await user.id(); } catch { } try { const c = await user.can('data.write'); if (c === false) S.podeEscrever = false; } catch { } }
+  if (user) { try { S.uid = await user.id(); } catch { } try { const c = await user.can('data.write'); if (c === false) S.podeEscrever = false; } catch { } try { if (typeof user.isOwner === 'function') S.dono = await user.isOwner(); } catch { } }
   assinar(); render();
   verificarPlanilhaAuto();
 }
-if (window.__pbrTeste) window.__pbrTeste({ S, interpretar, lerTextoPlanilha, lerXlsx, carregarScript, XLSX_URL, lerCodigoDoc, gerarParcelas, totais, itensPeriodo, taxas });
+if (window.__pbrTeste) window.__pbrTeste({ S, interpretar, lerTextoPlanilha, lerXlsx, carregarScript, XLSX_URL, lerCodigoDoc, gerarParcelas, totais, itensPeriodo, taxas, cpfOk, cnpjOk, fmtDocBR, textoNf, notaDoForm, quemDe });
 iniciar();
 })();
 </script>

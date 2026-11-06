@@ -21,7 +21,7 @@ const migr = { 'config/geral': { path: 'config/geral', colecao: 'config', doc_id
   await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(2500);
   // uma venda e um serviço para ter linhas em Movimentações
   await A.keyboard.press('F4'); await A.fill('#scan', '7891234567895'); await A.press('#scan', 'Enter'); await A.waitForTimeout(200);
-  await A.fill('#scan', 'S01'); await A.press('#scan', 'Enter'); await A.waitForTimeout(300);
+  await A.fill('#scan', 'S01'); await A.press('#scan', 'Enter'); await A.waitForTimeout(300); await A.click('.pede-quem .btn'); await A.waitForTimeout(250);
   // compara o alinhamento de cada cabeçalho com a primeira linha
   const comparar = id => A.evaluate(id => {
     const t = document.getElementById(id), ths = [...t.querySelectorAll('thead th')], tr = t.querySelector('tbody tr'); if (!tr) return 'sem linhas';

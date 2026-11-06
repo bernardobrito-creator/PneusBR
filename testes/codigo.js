@@ -32,7 +32,7 @@ const temDigito = s => /\d/.test(String(s).replace(/R\$\s?/g, ''));
   out.c.ultimoVenda = await A.evaluate(() => ({ total: document.querySelector('.u-total').textContent, calc: document.querySelector('.u-calc').textContent }));
   await A.fill('#qtd', '1'); await scan('7890000000031');
   await A.fill('#u-vu', '100,00'); await A.click('[data-acao="u-salvar"]'); await A.waitForTimeout(250);
-  await scan('S01');
+  await scan('S01'); await A.click('.pede-quem .btn'); await A.waitForTimeout(250);
   await A.click('[data-motivo="perda"]'); await A.waitForTimeout(150); await scan('0789000000048');
   out.c.ultimoPerda = await A.evaluate(() => document.querySelector('.u-total').textContent);
   out.c.kpis = await A.evaluate(() => [...document.querySelectorAll('[data-view="registrar"] .kpi')].map(k => k.querySelector('.eyebrow').textContent + ': ' + k.querySelector('.v').textContent));
