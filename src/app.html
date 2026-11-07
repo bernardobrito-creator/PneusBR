@@ -457,6 +457,20 @@ details.nf-det summary{cursor:pointer;font-size:13.5px;color:var(--ink-2);font-w
 .nf-st .inp{width:160px}
 .nd-quem{display:grid;gap:6px;margin-top:4px}
 .nd-quem:empty{display:none}
+tr.grupo td{background:var(--surface-2);font-size:13.5px;padding-top:9px;padding-bottom:9px;border-top:1px solid var(--line-2)}
+tr.grupo b{font-size:14.5px}
+tr.grupo .g-info{color:var(--muted);margin-left:8px}
+tr.grupo .g-val{float:right;font-variant-numeric:tabular-nums;font-weight:650}
+.nota-linhas{margin:0;padding:0;list-style:none;display:grid;gap:4px;font-size:14px}
+.nota-linhas li{padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);white-space:pre-wrap}
+.abat-form{border:1px solid var(--line-2);border-radius:10px;padding:12px;display:grid;gap:10px;background:var(--surface-2)}
+.abat-form .op{display:grid;gap:6px}
+.abat-form .op label{display:flex;gap:8px;align-items:flex-start;font-size:14px;cursor:pointer}
+.abat-form .op input{margin-top:3px;accent-color:var(--red)}
+.abat-lista{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.abat-lista li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px}
+.abat-lista small{display:block;color:var(--muted);font-size:12.5px}
+.banner.conf{background:var(--red-soft);border-color:var(--red-line);color:var(--red-ink)}
 #nf-placa{text-transform:uppercase}
 .sel-quem{width:auto;min-width:132px;padding:4px 8px}
 button.pill{cursor:pointer;font-family:inherit}
@@ -772,7 +786,7 @@ button.pill{cursor:pointer;font-family:inherit}
       <div class="toolbar"><button class="btn" type="button" data-acao="scan-nota" data-col="pagar"><svg class="i"><use href="#ic-scan"/></svg>Escanear nota</button><button class="btn primary" type="button" data-acao="nova-nota" data-col="pagar"><svg class="i"><use href="#ic-plus"/></svg>Nova nota a pagar</button></div>
     </div>
     <div class="kpis mb" id="np-kpis"></div>
-    <div class="toolbar mb"><div class="seg" id="np-filtro"></div><input class="inp" id="np-q" type="search" placeholder="Buscar fornecedor, nota ou descrição" style="flex:1;min-width:180px"></div>
+    <div class="toolbar mb"><div class="seg" id="np-filtro"></div><div class="seg" id="np-ordem" aria-label="Organizar"></div><input class="inp" id="np-q" type="search" placeholder="Buscar fornecedor, nota ou descrição" style="flex:1;min-width:180px"></div>
     <div class="tabela-wrap"><table class="t" id="np-tab"><thead><tr><th>Vencimento</th><th>Fornecedor</th><th>Nota / descrição</th><th>Parcela</th><th class="num">Valor</th><th>Situação</th></tr></thead><tbody></tbody></table></div>
   </section>
 
@@ -783,7 +797,7 @@ button.pill{cursor:pointer;font-family:inherit}
       <div class="toolbar"><button class="btn" type="button" data-acao="scan-nota" data-col="receber"><svg class="i"><use href="#ic-scan"/></svg>Escanear nota</button><button class="btn primary" type="button" data-acao="nova-nota" data-col="receber"><svg class="i"><use href="#ic-plus"/></svg>Nova nota a receber</button></div>
     </div>
     <div class="kpis mb" id="nr-kpis"></div>
-    <div class="toolbar mb"><div class="seg" id="nr-filtro"></div><input class="inp" id="nr-q" type="search" placeholder="Buscar cliente, nota ou descrição" style="flex:1;min-width:180px"></div>
+    <div class="toolbar mb"><div class="seg" id="nr-filtro"></div><div class="seg" id="nr-ordem" aria-label="Organizar"></div><input class="inp" id="nr-q" type="search" placeholder="Buscar cliente, veículo, telefone ou item" style="flex:1;min-width:180px"></div>
     <div class="tabela-wrap"><table class="t" id="nr-tab"><thead><tr><th>Vencimento</th><th>Cliente</th><th>Nota / descrição</th><th>Parcela</th><th class="num">Valor</th><th>Situação</th></tr></thead><tbody></tbody></table></div>
   </section>
 
@@ -1027,7 +1041,7 @@ const S = {
   modo: ls.get('modo', 'entrada'), motivo: ls.get('motivo', { entrada: 'compra', saida: 'venda' }), pg: ls.get('pg', 'dinheiro'),
   tab: 'registrar', ultimo: null, pendente: null, semPreco: null,
   sync: { rodando: false, erro: null, perm: 'unknown' },
-  pGrupo: 'Todos', semana: inicioSemana(hoje()), filtroNotas: { pagar: 'aberto', receber: 'aberto' }, rotEditar: false, nd: null,
+  pGrupo: 'Todos', semana: inicioSemana(hoje()), filtroNotas: { pagar: 'aberto', receber: 'aberto' }, ordemNotas: { pagar: ls.get('ordem-pagar') || 'data', receber: ls.get('ordem-receber') || 'data' }, rotEditar: false, nd: null,
   integrantesDoc: null, vinculos: new Map(), nfs: new Map(), clientes: new Map(), dono: null,
   quem: null, pedeQuem: null, nf: null, nfFiltro: 'mes', mesInt: hoje().slice(0, 7), intFiltro: 'todos'
 };
@@ -1323,6 +1337,7 @@ function estornar(id) {
     if (p) salvarProduto(p.k, { estoque: r3((p.estoque || 0) + (it.tipo === 'entrada' ? -it.qtd : it.qtd)) });
   }
   if (it.nota && it.nota.parc != null) desmarcarParcela(it.nota.col, it.nota.id, it.nota.parc, it.id);
+  if (it.nota && it.nota.abat) removerAbatimento(it.nota.col, it.nota.id, it.nota.abat);
   toast('Desfeito: ' + (it.nome || it.desc || ''));
   render();
 }
@@ -1420,6 +1435,56 @@ function gerarParcelas(total, n, venc1, intervalo) {
   return out;
 }
 function salvarNotaDoc(col, id) { fila(col + '/' + id, 'set', () => colMap(col).get(id)); }
+// quanto falta de uma parcela (descontando abatimentos parciais)
+const restParc = pc => pc.pago ? 0 : Math.max(0, r2((pc.valor || 0) - (pc.abatido || 0)));
+const recebidoNota = n => r2((n.parcelas || []).reduce((s, pc) => s + (pc.abatido || 0) + (pc.pago && !pc.pago.abat ? (pc.pago.valor || pc.valor) : 0), 0));
+const saldoNota = n => n.cancelada ? 0 : r2((n.parcelas || []).reduce((s, pc) => s + restParc(pc), 0));
+// abater um valor da nota: vai tirando das parcelas em aberto, da mais antiga para a mais nova
+function abaterNota(col, id, d) {
+  const n = colMap(col).get(id); if (!n || n.cancelada) return false;
+  const isP = col === 'pagar', valor = r2(d.valor);
+  if (!(valor > 0) || valor > saldoNota(n) + 0.004) return false;
+  const novo = JSON.parse(JSON.stringify(n)), abId = 'a' + rid(7), parcs = [];
+  let resto = valor;
+  const ordem = novo.parcelas.map((pc, i) => i).filter(i => !novo.parcelas[i].pago).sort((a, b) => (novo.parcelas[a].venc || '').localeCompare(novo.parcelas[b].venc || '') || a - b);
+  for (const i of ordem) {
+    if (resto <= 0.004) break;
+    const pc = novo.parcelas[i], tira = r2(Math.min(restParc(pc), resto));
+    if (!(tira > 0)) continue;
+    pc.abatido = r2((pc.abatido || 0) + tira); resto = r2(resto - tira); parcs.push({ i, valor: tira });
+    if (restParc(pc) <= 0.004) pc.pago = { data: d.data, pg: d.caixa ? d.pg : 'abatimento', valor: tira, abat: abId, em: Date.now(), por: S.uid || null };
+  }
+  let item = null;
+  if (d.caixa) {
+    const t = d.data === hoje() ? Date.now() : kdate(d.data).getTime() + 12 * 3600000;
+    item = { id: rid(8), t, k: 'caixa', tipo: isP ? 'despesa' : 'receita', desc: `${isP ? 'Pagamento parcial' : 'Recebimento parcial'}: ${n.parte}${n.numero ? ' · nota ' + n.numero : ''}`, cat: isP ? 'Fornecedor (nota)' : 'Recebimento de nota', valor, caixa: isP ? -valor : valor, pg: d.pg, u: S.uid || null, nota: { col, id, abat: abId } };
+    addItem(item, d.data);
+  }
+  novo.abatimentos = [...(novo.abatimentos || []), { id: abId, valor, data: d.data, caixa: !!d.caixa, pg: d.caixa ? d.pg : null, item: item ? item.id : null, obs: d.obs || '', parcs, em: Date.now(), por: S.uid || null }];
+  colMap(col).set(id, novo); salvarNotaDoc(col, id);
+  return true;
+}
+// tira um abatimento da nota (o lançamento de caixa, se houver, é desfeito à parte)
+function removerAbatimento(col, id, abId) {
+  const n = colMap(col).get(id); if (!n) return false;
+  const ab = (n.abatimentos || []).find(a => a.id === abId); if (!ab) return false;
+  const novo = JSON.parse(JSON.stringify(n));
+  for (const { i, valor } of ab.parcs || []) {
+    const pc = novo.parcelas[i]; if (!pc) continue;
+    pc.abatido = Math.max(0, r2((pc.abatido || 0) - valor));
+    if (!pc.abatido) delete pc.abatido;
+    if (pc.pago && pc.pago.abat) delete pc.pago;
+  }
+  novo.abatimentos = novo.abatimentos.filter(a => a.id !== abId);
+  colMap(col).set(id, novo); salvarNotaDoc(col, id);
+  return true;
+}
+function desfazerAbatimento(col, id, abId) {
+  const n = colMap(col).get(id), ab = n && (n.abatimentos || []).find(a => a.id === abId); if (!ab) return;
+  if ((ab.parcs || []).some(({ i }) => n.parcelas[i]?.pago && !n.parcelas[i].pago.abat)) { toast('Desfaça antes o recebimento da parcela que veio depois.', true); return; }
+  if (ab.item && !estornados().has(ab.item) && acharItem(ab.item)) { estornar(ab.item); return; }
+  removerAbatimento(col, id, abId); toast('Abatimento desfeito.'); render();
+}
 function baixarParcela(col, id, i, dados) {
   const n = colMap(col).get(id); if (!n) return;
   const pc = n.parcelas[i]; if (!pc || pc.pago) return;
@@ -2365,7 +2430,7 @@ VIEWS.balanco = () => {
   const maxD = Math.max(1, ...diasSem.map(d => (t.porDia[d]?.prod || 0) + (t.porDia[d]?.serv || 0)));
   $('#b-dias').innerHTML = `<h2>Faturamento por dia</h2><ol class="rank">${diasSem.map(d => { const v = (t.porDia[d]?.prod || 0) + (t.porDia[d]?.serv || 0); return `<li><span class="pos">${fmtDM(d).slice(0, 2)}</span><span class="nm"><b style="text-transform:capitalize">${esc(diaSemana(d))}</b><div class="bar"><i style="width:${v ? Math.max(3, v / maxD * 100) : 0}%"></i></div></span><span class="vl">${money(v)}</span></li>`; }).join('')}</ol>`;
   const contas = col => parcelasDe(col).filter(x => x.st !== 'cancelada' && !x.pc.pago && x.pc.venc <= fim);
-  const cp = contas('pagar'), cr = contas('receber'), soma = a => a.reduce((s, x) => s + x.pc.valor, 0);
+  const cp = contas('pagar'), cr = contas('receber'), soma = a => a.reduce((s, x) => s + restParc(x.pc), 0);
   const vencP = cp.filter(x => x.pc.venc < ini), vencR = cr.filter(x => x.pc.venc < ini);
   $('#b-contas').innerHTML = `<h2>Contas da semana</h2><dl class="dl">
     <dt>A pagar vencendo na semana</dt><dd>${money(soma(cp.filter(x => x.pc.venc >= ini)))}</dd>
@@ -2391,23 +2456,51 @@ function renderNotas(col) {
   const todas = parcelasDe(col);
   const abertas = todas.filter(x => x.st !== 'paga' && x.st !== 'cancelada');
   const venc = abertas.filter(x => x.st === 'vencida'), h = hoje(), em7 = addDays(h, 7), mesIni = h.slice(0, 8) + '01';
-  const soma = a => a.reduce((s, x) => s + x.pc.valor, 0);
-  const pagasMes = todas.filter(x => x.pc.pago && x.pc.pago.data >= mesIni);
+  const soma = a => a.reduce((s, x) => s + restParc(x.pc), 0);
+  // recebido no mês: parcelas baixadas + abatimentos com data no mês
+  let recMes = 0, recN = 0;
+  for (const n of colMap(col).values()) {
+    if (!n || n.cancelada) continue;
+    for (const pc of n.parcelas || []) if (pc.pago && !pc.pago.abat && (pc.pago.data || '') >= mesIni) { recMes += pc.pago.valor || pc.valor; recN++; }
+    for (const ab of n.abatimentos || []) if ((ab.data || '') >= mesIni) { recMes += ab.valor; recN++; }
+  }
   $('#' + pre + '-kpis').innerHTML =
     kpi('Em aberto', money(soma(abertas)), `${abertas.length} parcela(s)`) +
     kpi('Vencidas', money(soma(venc)), `${venc.length} parcela(s)`, venc.length ? 'red' : '') +
     kpi('Vencem em 7 dias', money(soma(abertas.filter(x => x.pc.venc >= h && x.pc.venc <= em7))), 'incluindo hoje') +
-    kpi(isP ? 'Pagas no mês' : 'Recebidas no mês', money(pagasMes.reduce((s, x) => s + (x.pc.pago.valor || x.pc.valor), 0)), `${pagasMes.length} parcela(s)`);
-  const f = S.filtroNotas[col];
-  $('#' + pre + '-filtro').innerHTML = [['aberto', 'Em aberto'], ['vencida', 'Vencidas'], ['paga', isP ? 'Pagas' : 'Recebidas'], ['todas', 'Todas']].map(([v, n]) => `<button type="button" data-acao="nf" data-col="${col}" data-v="${v}" aria-pressed="${f === v}">${n}</button>`).join('');
+    kpi(isP ? 'Pagas no mês' : 'Recebidas no mês', money(recMes), `${recN} pagamento(s)`);
+  const f = S.filtroNotas[col], ordem = S.ordemNotas[col];
+  const nConf = [...colMap(col).values()].filter(n => n && !n.cancelada && n.conferir?.length).length;
+  if (f === 'conferir' && !nConf) S.filtroNotas[col] = 'aberto';
+  $('#' + pre + '-filtro').innerHTML = [['aberto', 'Em aberto'], ['vencida', 'Vencidas'], ['paga', isP ? 'Pagas' : 'Recebidas'], ['todas', 'Todas'], ...(nConf ? [['conferir', `Conferir (${nConf})`]] : [])].map(([v, n]) => `<button type="button" data-acao="nf" data-col="${col}" data-v="${v}" aria-pressed="${S.filtroNotas[col] === v}">${n}</button>`).join('');
+  $('#' + pre + '-ordem').innerHTML = [['data', 'Por data'], ['parte', isP ? 'Por fornecedor' : 'Por comprador']].map(([v, n]) => `<button type="button" data-acao="nota-ordem" data-col="${col}" data-v="${v}" aria-pressed="${ordem === v}">${n}</button>`).join('');
   const q = norm($('#' + pre + '-q').value);
   let l = todas;
-  if (f === 'aberto') l = abertas; else if (f === 'vencida') l = venc; else if (f === 'paga') l = todas.filter(x => x.st === 'paga');
-  if (q) l = l.filter(x => norm([x.n.parte, x.n.numero, x.n.descricao, x.n.doc].join(' ')).includes(q));
-  l.sort((a, b) => f === 'paga' ? (b.pc.pago?.data || '').localeCompare(a.pc.pago?.data || '') : a.pc.venc.localeCompare(b.pc.venc));
+  const fa = S.filtroNotas[col];
+  if (fa === 'aberto') l = abertas; else if (fa === 'vencida') l = venc; else if (fa === 'paga') l = todas.filter(x => x.st === 'paga'); else if (fa === 'conferir') l = todas.filter(x => x.st !== 'cancelada' && x.n.conferir?.length);
+  if (q) l = l.filter(x => norm([x.n.parte, x.n.numero, x.n.descricao, x.n.doc, x.n.veiculo, x.n.obs, x.n.combinado, ...(x.n.linhas || []), ...(x.n.itens || []).map(i => i.nome)].join(' ')).includes(q));
+  const porData = (a, b) => fa === 'paga' ? (b.pc.pago?.data || '').localeCompare(a.pc.pago?.data || '') : a.pc.venc.localeCompare(b.pc.venc) || (a.n.parte || '').localeCompare(b.n.parte || '', 'pt-BR');
   const tb = $('#' + pre + '-tab tbody');
   if (!l.length) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">${todas.length ? 'Nada nesse filtro.' : (isP ? 'Nenhuma nota a pagar. Clique em "Nova nota a pagar" e leia o boleto ou a nota fiscal.' : 'Nenhuma nota a receber. Clique em "Nova nota a receber" e leia os produtos vendidos a prazo.')}</td></tr>`; return; }
-  tb.innerHTML = l.slice(0, 500).map(x => { const [sn, sc] = ST_NOME[x.st]; const atraso = x.st === 'vencida' ? difDias(x.pc.venc, h) : 0; return `<tr class="click" data-acao="abrir-nota" data-col="${col}" data-id="${esc(x.id)}"><td class="mono" style="white-space:nowrap">${fmtData(x.pc.venc)}${atraso ? `<span class="sub" style="font-family:var(--f-ui)">${atraso} dia(s) de atraso</span>` : ''}</td><td class="nome"><b>${esc(x.n.parte)}</b><span class="sub">${esc(isP ? fmtCnpj(x.n.doc) : x.n.doc)}</span></td><td>${esc(x.n.numero ? 'Nota ' + x.n.numero : '')}<span class="sub">${esc(x.n.descricao || (x.n.itens?.length ? x.n.itens.length + ' item(ns)' : ''))}</span></td><td class="mono">${x.pc.n}/${x.n.parcelas.length}</td><td class="num"><b>${money(x.pc.valor)}</b>${x.pc.pago ? `<span class="sub">${isP ? 'pago' : 'recebido'} ${fmtDM(x.pc.pago.data)}</span>` : ''}</td><td><span class="pill ${sc}">${sn}</span></td></tr>`; }).join('');
+  const linha = x => {
+    const [sn, sc] = ST_NOME[x.st]; const atraso = x.st === 'vencida' ? difDias(x.pc.venc, h) : 0;
+    const resto = restParc(x.pc), sub = [x.n.veiculo, isP ? fmtCnpj(x.n.doc) : x.n.doc].filter(Boolean).join(' · ');
+    const desc = x.n.descricao || (x.n.itens?.length ? x.n.itens.length + ' item(ns)' : x.n.linhas?.length ? x.n.linhas.length + ' item(ns) anotados' : '');
+    const valCol = x.pc.pago ? `<b>${money(x.pc.valor)}</b><span class="sub">${isP ? 'pago' : 'recebido'} ${fmtDM(x.pc.pago.data)}</span>` : `<b>${money(resto)}</b>${x.pc.abatido ? `<span class="sub">de ${money(x.pc.valor)} · abatido ${money(x.pc.abatido)}</span>` : ''}`;
+    return `<tr class="click" data-acao="abrir-nota" data-col="${col}" data-id="${esc(x.id)}"><td class="mono" style="white-space:nowrap">${fmtData(x.pc.venc)}${atraso ? `<span class="sub" style="font-family:var(--f-ui)">${atraso} dia(s) de atraso</span>` : ''}</td><td class="nome"><b>${esc(x.n.parte)}</b><span class="sub">${esc(sub)}</span></td><td>${esc(x.n.numero ? 'Nota ' + x.n.numero : '')}${x.n.conferir?.length && !x.n.cancelada ? '<span class="pill red" style="margin-right:6px">Conferir</span>' : ''}<span class="sub">${esc(desc)}</span></td><td class="mono">${x.pc.n}/${x.n.parcelas.length}</td><td class="num">${valCol}</td><td><span class="pill ${sc}">${sn}</span></td></tr>`;
+  };
+  if (ordem !== 'parte') { tb.innerHTML = l.sort(porData).slice(0, 600).map(linha).join(''); return; }
+  // agrupado por comprador/fornecedor: nomes iguais (sem acento e maiúsculas) ficam juntos
+  const grupos = new Map();
+  for (const x of l) { const k = norm(x.n.parte || '—'); if (!grupos.has(k)) grupos.set(k, { nome: x.n.parte || '—', itens: [] }); grupos.get(k).itens.push(x); }
+  const gs = [...grupos.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' }));
+  let n = 0;
+  tb.innerHTML = gs.map(g => {
+    g.itens.sort(porData);
+    const aberto = soma(g.itens.filter(x => x.st !== 'paga' && x.st !== 'cancelada')), notas = new Set(g.itens.map(x => x.id)).size;
+    const out = `<tr class="grupo"><td colspan="6"><b>${esc(g.nome)}</b><span class="g-info">${notas} nota${notas === 1 ? '' : 's'}</span>${aberto > 0 ? `<span class="g-val">em aberto ${money(aberto)}</span>` : ''}</td></tr>` + g.itens.slice(0, Math.max(0, 600 - n)).map(linha).join('');
+    n += g.itens.length; return out;
+  }).join('');
 }
 VIEWS.pagar = () => renderNotas('pagar');
 VIEWS.receber = () => renderNotas('receber');
@@ -2774,33 +2867,88 @@ function ndBusca(q) {
   ul.hidden = !res.length;
   ul.innerHTML = res.map(r => `<li><button type="button" data-acao="nd-add" data-t="${r.t}" data-id="${esc(r.id)}"><b>${esc(r.nome)}</b><small>${esc(r.sub)}</small><span class="p">${moneyV(r.preco)}</span></button></li>`).join('');
 }
-function abrirNota(col, id, parcAberta) {
+function abrirNota(col, id, parcAberta, modo) {
   const n = colMap(col).get(id); if (!n) return;
-  const isP = col === 'pagar';
-  const pagoTot = n.parcelas.reduce((s, p) => s + (p.pago ? (p.pago.valor || p.valor) : 0), 0);
-  abrirDrawer(`<div class="pn-h"><div><h2>${esc(n.parte)}</h2><div class="sub">${isP ? 'Nota a pagar' : 'Nota a receber'}${n.numero ? ' · nota ' + esc(n.numero) : ''} · emitida em ${fmtData(n.emissao)}</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
-    ${n.cancelada ? `<div class="banner" style="margin:0">Nota cancelada em ${esc(fmtQuando(n.cancelada.em))}.</div>` : ''}
-    <section><dl class="dl">
+  const isP = col === 'pagar', pode = S.podeEscrever && !n.cancelada;
+  const pagoTot = recebidoNota(n), falta = saldoNota(n), quem = isP ? 'fornecedor' : 'comprador';
+  const editar = modo === 'editar' && pode;
+  const umaParc = n.parcelas.length === 1, semPag = !recebidoNota(n);
+  const orig = n.origem ? `${n.origem.arquivo || ''}${n.origem.pagina ? ', página ' + n.origem.pagina : ''}${n.origem.posicao ? ' (' + n.origem.posicao + ')' : ''}` : '';
+  const abats = n.abatimentos || [];
+  const cab = editar ? `<section><h3>Editar nota</h3><div class="form-g">
+      <label class="f">${isP ? 'Fornecedor' : 'Comprador'}<input class="inp" id="ne-parte" value="${esc(n.parte || '')}" list="ne-nomes"><datalist id="ne-nomes">${nomesConhecidos(col).map(x => `<option value="${esc(x.parte)}">`).join('')}</datalist></label>
+      <label class="f">${isP ? 'CNPJ' : 'Telefone / contato'}<input class="inp" id="ne-doc" value="${esc(n.doc || '')}"></label>
+      <label class="f">Veículo<input class="inp" id="ne-veic" value="${esc(n.veiculo || '')}"></label>
+      <label class="f">Data da nota<input class="inp" type="date" id="ne-emissao" value="${esc(n.emissao || '')}"></label>
+      <label class="f">Descrição<input class="inp" id="ne-desc" value="${esc(n.descricao || '')}"></label>
+      <label class="f">Número da nota<input class="inp" id="ne-num" value="${esc(n.numero || '')}"></label>
+      ${umaParc ? `<label class="f">Vencimento<input class="inp" type="date" id="ne-venc" value="${esc(n.parcelas[0].venc || '')}"></label>` : ''}
+      ${umaParc && semPag ? `<label class="f">Valor total (R$)<input class="inp num" id="ne-total" inputmode="decimal" value="${esc(fmtMoneyIn(n.total))}"></label>` : ''}
+    </div>
+    <label class="f">Combinado com o ${quem}<input class="inp" id="ne-comb" value="${esc(n.combinado || '')}" placeholder="Ex.: 3x de R$ 400,00 todo dia 10"></label>
+    <label class="f">Observação<textarea class="inp" id="ne-obs" rows="2">${esc(n.obs || '')}</textarea></label>
+    ${n.conferir?.length ? `<label class="chk"><input type="checkbox" id="ne-conferida">Já conferi esta nota (tira a marca "Conferir")</label>` : ''}
+    ${!umaParc || !semPag ? `<p class="muted" style="margin:0;font-size:13px">${!semPag ? 'O valor não muda depois de um pagamento ou abatimento.' : 'Nota com mais de uma parcela: o valor e os vencimentos ficam como estão.'}</p>` : ''}
+    <div class="toolbar"><span class="erro-txt" id="ne-erro"></span><span class="sp" style="flex:1"></span><button class="btn ghost" type="button" data-acao="abrir-nota" data-col="${col}" data-id="${esc(id)}">Cancelar</button><button class="btn primary" type="button" data-acao="nota-salvar-edicao" data-col="${col}" data-id="${esc(id)}">Salvar</button></div></section>`
+    : `<section><dl class="dl">
       ${n.doc ? `<dt>${isP ? 'CNPJ' : 'Contato'}</dt><dd>${esc(isP ? fmtCnpj(n.doc) : n.doc)}</dd>` : ''}
+      ${n.veiculo ? `<dt>Veículo</dt><dd>${esc(n.veiculo)}</dd>` : ''}
       ${n.descricao ? `<dt>Descrição</dt><dd>${esc(n.descricao)}</dd>` : ''}
       <dt>Valor total</dt><dd><b>${money(n.total)}</b></dd>
       <dt>${isP ? 'Já pago' : 'Já recebido'}</dt><dd>${money(pagoTot)}</dd>
-      <dt>Falta</dt><dd><b>${money(Math.max(0, n.total - pagoTot))}</b></dd>
+      <dt>Falta</dt><dd><b>${money(falta)}</b></dd>
+      ${n.combinado ? `<dt>Combinado</dt><dd>${esc(n.combinado)}</dd>` : ''}
+      ${n.obs ? `<dt>Observação</dt><dd style="white-space:pre-wrap">${esc(n.obs)}</dd>` : ''}
+      ${orig ? `<dt>Original</dt><dd>${esc(orig)}</dd>` : ''}
     </dl>
     ${n.boleto ? `<div class="doc-lido">${ico('scan')}<div style="min-width:0;flex:1"><b>${n.boleto.tipo === 'boleto' ? 'Boleto ' + esc(n.boleto.bancoNome) : 'Conta'}</b><div class="mono">${esc(n.boleto.linha || n.boleto.codigo)}</div></div><button class="btn sm" type="button" data-acao="copiar" data-txt="${esc(n.boleto.linha || n.boleto.codigo)}">${ico('copy')}Copiar</button></div>` : ''}
     ${n.chave ? `<div class="doc-lido"><div style="min-width:0"><b>Chave da NF-e</b><div class="mono">${esc(n.chave)}</div></div></div>` : ''}
-    </section>
+    </section>`;
+  const formAbat = pode && falta > 0 ? `<section id="abat-sec" ${modo === 'abater' ? '' : 'hidden'}><h3>Abater valor</h3><div class="abat-form">
+      <div class="form-g"><label class="f">Valor pago (R$)<input class="inp num" id="ab-valor" inputmode="decimal" placeholder="0,00"></label><label class="f">Data do pagamento<input class="inp" type="date" id="ab-data" value="${hoje()}" max="${hoje()}"></label></div>
+      <div class="op" role="radiogroup" aria-label="Entrou no caixa?"><b style="font-size:14px">Esse dinheiro entrou no caixa?</b>
+        <label><input type="radio" name="ab-caixa" value="sim">Sim, entrou no caixa agora (vai para o caixa do dia do pagamento)</label>
+        <label><input type="radio" name="ab-caixa" value="nao">Não, é um pagamento antigo: só diminui o que falta na nota</label></div>
+      <label class="f" id="ab-pg-l" hidden>Forma de pagamento<select class="inp" id="ab-pg">${FORMAS.map(([v, nn]) => `<option value="${v}" ${v === 'pix' ? 'selected' : ''}>${nn}</option>`).join('')}</select></label>
+      <label class="f">Observação (opcional)<input class="inp" id="ab-obs" placeholder="Ex.: pagou em dinheiro no balcão"></label>
+      <div class="toolbar"><span class="muted" style="font-size:13px">Falta ${money(falta)}</span><span class="sp" style="flex:1"></span><span class="erro-txt" id="ab-erro"></span><button class="btn ghost" type="button" data-acao="abat-fechar">Cancelar</button><button class="btn primary" type="button" data-acao="abat-ok" data-col="${col}" data-id="${esc(id)}">Abater</button></div>
+    </div></section>` : '';
+  abrirDrawer(`<div class="pn-h"><div><h2>${esc(n.parte)}</h2><div class="sub">${isP ? 'Nota a pagar' : 'Nota a receber'}${n.numero ? ' · nota ' + esc(n.numero) : ''} · ${n.manuscrita ? 'nota escrita à mão de ' : 'emitida em '}${fmtData(n.emissao)}</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+    ${n.cancelada ? `<div class="banner" style="margin:0">Nota cancelada em ${esc(fmtQuando(n.cancelada.em))}.</div>` : ''}
+    ${n.conferir?.length && !n.cancelada && !editar ? `<div class="banner conf" style="margin:0"><div><b>Conferir com a nota de papel:</b> ${esc(n.conferir.join(' · '))}</div></div>` : ''}
+    ${cab}
+    ${formAbat}
     <section><h3>Parcelas</h3><div class="tabela-wrap"><table class="t"><thead><tr><th>Parcela</th><th>Vencimento</th><th class="num">Valor</th><th>Situação</th><th></th></tr></thead><tbody>
-      ${n.parcelas.map((pc, i) => { const st = n.cancelada ? 'cancelada' : statusParc(pc); const [sn, sc] = ST_NOME[st]; return `<tr><td class="mono">${pc.n}/${n.parcelas.length}</td><td class="mono">${fmtData(pc.venc)}</td><td class="num">${money(pc.valor)}${pc.pago ? `<span class="sub">${money(pc.pago.valor)} em ${fmtDM(pc.pago.data)} · ${esc(PG_NOME[pc.pago.pg] || '')}</span>` : ''}</td><td><span class="pill ${sc}">${sn}</span></td><td class="num">${!pc.pago && !n.cancelada && S.podeEscrever ? `<button class="btn sm ${st === 'vencida' || st === 'hoje' ? 'red' : ''}" type="button" data-acao="parc-abrir" data-i="${i}">${isP ? 'Pagar' : 'Receber'}</button>` : ''}</td></tr>
-        <tr class="parc-row" id="pf-${i}" ${parcAberta === i ? '' : 'hidden'}><td colspan="5"><div class="toolbar" style="align-items:flex-end"><label class="f">Data<input class="inp" type="date" id="pf-data-${i}" value="${hoje()}" max="${hoje()}"></label><label class="f">Forma<select class="inp" id="pf-pg-${i}">${FORMAS.map(([v, nn]) => `<option value="${v}" ${v === (isP ? 'banco' : 'pix') ? 'selected' : ''}>${nn}</option>`).join('')}</select></label><label class="f">Valor (R$)<input class="inp num" id="pf-valor-${i}" inputmode="decimal" value="${esc(fmtMoneyIn(pc.valor))}" style="width:120px"></label><button class="btn primary" type="button" data-acao="parc-ok" data-i="${i}">Confirmar</button></div></td></tr>`; }).join('')}
+      ${n.parcelas.map((pc, i) => { const st = n.cancelada ? 'cancelada' : statusParc(pc); const [sn, sc] = ST_NOME[st]; return `<tr><td class="mono">${pc.n}/${n.parcelas.length}</td><td class="mono">${fmtData(pc.venc)}</td><td class="num">${money(pc.valor)}${pc.pago && !pc.pago.abat ? `<span class="sub">${money(pc.pago.valor)} em ${fmtDM(pc.pago.data)} · ${esc(PG_NOME[pc.pago.pg] || '')}</span>` : ''}${pc.abatido ? `<span class="sub">abatido ${money(pc.abatido)}${pc.pago ? '' : ` · falta ${money(restParc(pc))}`}</span>` : ''}</td><td><span class="pill ${sc}">${sn}</span></td><td class="num">${!pc.pago && pode ? `<button class="btn sm ${st === 'vencida' || st === 'hoje' ? 'red' : ''}" type="button" data-acao="parc-abrir" data-i="${i}">${isP ? 'Pagar' : 'Receber'}</button>` : ''}</td></tr>
+        <tr class="parc-row" id="pf-${i}" ${parcAberta === i ? '' : 'hidden'}><td colspan="5"><div class="toolbar" style="align-items:flex-end"><label class="f">Data<input class="inp" type="date" id="pf-data-${i}" value="${hoje()}" max="${hoje()}"></label><label class="f">Forma<select class="inp" id="pf-pg-${i}">${FORMAS.map(([v, nn]) => `<option value="${v}" ${v === (isP ? 'banco' : 'pix') ? 'selected' : ''}>${nn}</option>`).join('')}</select></label><label class="f">Valor (R$)<input class="inp num" id="pf-valor-${i}" inputmode="decimal" value="${esc(fmtMoneyIn(restParc(pc)))}" style="width:120px"></label><button class="btn primary" type="button" data-acao="parc-ok" data-i="${i}">Confirmar</button></div></td></tr>`; }).join('')}
     </tbody></table></div></section>
+    ${abats.length ? `<section><h3>Abatimentos</h3><ul class="abat-lista">${abats.slice().sort((a, b) => (a.data || '').localeCompare(b.data || '')).map(ab => `<li><span><b>${money(ab.valor)}</b> ${ab.data ? 'em ' + fmtData(ab.data) : '(sem data)'}<small>${ab.anotado ? 'anotado na nota de papel' : ab.caixa ? 'entrou no caixa · ' + esc(PG_NOME[ab.pg] || '') : 'pagamento antigo, não mexeu no caixa'}${ab.obs ? ' · ' + esc(ab.obs) : ''}</small></span><span></span>${pode ? `<button class="btn sm ghost" type="button" data-acao="abat-desfazer" data-col="${col}" data-id="${esc(id)}" data-ab="${esc(ab.id)}">Desfazer</button>` : '<span></span>'}</li>`).join('')}</ul></section>` : ''}
+    ${n.linhas?.length ? `<section><h3>Itens anotados na nota</h3><ul class="nota-linhas">${n.linhas.map(t => `<li>${esc(t)}</li>`).join('')}</ul></section>` : ''}
     ${n.itens?.length ? `<section><h3>Itens</h3><div class="tabela-wrap"><table class="t"><tbody>${n.itens.map(it => `<tr><td class="nome"><b>${esc(it.nome)}</b><span class="sub">${esc(it.tipo === 'serv' ? 'Serviço' : it.mod || '')}</span></td><td class="num">${qn(parseNum(it.qtd))}×</td><td class="num">${(isP ? money : moneyV)(parseNum(it.vu))}</td><td class="num"><b>${(isP ? money : moneyV)(r2((parseNum(it.qtd) || 0) * (parseNum(it.vu) || 0)))}</b></td></tr>`).join('')}</tbody></table></div>${n.movimentou ? `<p class="muted" style="font-size:13px;margin:0">${isP ? 'Estes itens deram entrada no estoque quando a nota foi salva.' : 'Estes itens saíram do estoque e entraram no faturamento quando a nota foi salva.'}</p>` : ''}</section>` : ''}
-    <div class="pn-acoes">${!n.cancelada && S.podeEscrever ? `<button class="btn ghost" type="button" data-acao="nota-cancelar" data-col="${col}" data-id="${esc(id)}">Cancelar nota</button>` : ''}${!isP && !n.cancelada ? `<button class="btn" type="button" data-acao="cobranca" data-id="${esc(id)}">${ico('copy')}Copiar mensagem de cobrança</button>` : ''}<span class="sp"></span><button class="btn primary" type="button" data-acao="fechar-drawer">Fechar</button></div>`, { tipo: 'nota', col, id }, true);
+    <div class="pn-acoes">${pode && !editar ? `<button class="btn ghost" type="button" data-acao="nota-cancelar" data-col="${col}" data-id="${esc(id)}">Cancelar nota</button>` : ''}${!isP && !n.cancelada && !editar ? `<button class="btn" type="button" data-acao="cobranca" data-id="${esc(id)}">${ico('copy')}Copiar mensagem de cobrança</button>` : ''}<span class="sp"></span>${pode && !editar ? `<button class="btn" type="button" data-acao="nota-editar" data-col="${col}" data-id="${esc(id)}">Editar</button>${falta > 0 ? `<button class="btn red" type="button" data-acao="abat-abrir">Abater valor</button>` : ''}` : ''}<button class="btn primary" type="button" data-acao="fechar-drawer">Fechar</button></div>`, { tipo: 'nota', col, id }, true);
+  if (modo === 'abater') setTimeout(() => $('#ab-valor')?.focus(), 30);
+}
+function salvarEdicaoNota(col, id) {
+  const n = colMap(col).get(id); if (!n || !S.podeEscrever) return;
+  const v = k => ($('#' + k)?.value || '').trim(), erro = m => { $('#ne-erro').textContent = m; };
+  const parte = v('ne-parte'); if (!parte) return erro('Informe o nome.');
+  const novo = JSON.parse(JSON.stringify(n));
+  Object.assign(novo, { parte, doc: v('ne-doc'), veiculo: v('ne-veic'), descricao: v('ne-desc'), numero: v('ne-num'), combinado: v('ne-comb'), obs: v('ne-obs') });
+  if (v('ne-emissao')) novo.emissao = v('ne-emissao');
+  if (novo.parcelas.length === 1 && $('#ne-venc') && v('ne-venc')) novo.parcelas[0].venc = v('ne-venc');
+  if ($('#ne-total')) {
+    const t = parseNum(v('ne-total')); if (!(t > 0)) return erro('O valor precisa ser maior que zero.');
+    novo.total = r2(t); novo.parcelas[0].valor = r2(t);
+  }
+  if ($('#ne-conferida')?.checked) { delete novo.conferir; novo.conferidaEm = Date.now(); }
+  novo.editadaEm = Date.now(); novo.editadaPor = S.uid || null;
+  colMap(col).set(id, novo); salvarNotaDoc(col, id); toast('Nota salva.');
+  abrirNota(col, id); render();
 }
 function textoCobranca(n) {
   const abertas = n.parcelas.filter(p => !p.pago);
   const loja = (S.config.loja || 'PneusBR').trim();
-  return `Olá, ${n.parte}! Aqui é da ${loja}. Passando para lembrar ${abertas.length > 1 ? 'das parcelas' : 'da parcela'} em aberto${n.descricao ? ` (${n.descricao})` : ''}:\n` + abertas.map(p => `• ${p.n}/${n.parcelas.length}: ${moneyV(p.valor)}, vencimento ${fmtData(p.venc)}`).join('\n') + `\nTotal em aberto: ${moneyV(abertas.reduce((s, p) => s + p.valor, 0))}. Qualquer dúvida, estamos à disposição. Obrigado!`;
+  return `Olá, ${n.parte}! Aqui é da ${loja}. Passando para lembrar ${abertas.length > 1 ? 'das parcelas' : 'da parcela'} em aberto${n.descricao ? ` (${n.descricao})` : ''}:\n` + abertas.map(p => `• ${p.n}/${n.parcelas.length}: ${moneyV(restParc(p))}${p.abatido ? ` (de ${moneyV(p.valor)}, já abatido ${moneyV(p.abatido)})` : ''}, vencimento ${fmtData(p.venc)}`).join('\n') + `\nTotal em aberto: ${moneyV(abertas.reduce((s, p) => s + restParc(p), 0))}. Qualquer dúvida, estamos à disposição. Obrigado!`;
 }
 
 /* ================= Rotina ================= */
@@ -3535,6 +3683,24 @@ function ligarUI() {
       'nd-del': () => { S.nd.itens.splice(Number(a.dataset.i), 1); renderNdItens(); atualizarNdTotais(); },
       'nd-salvar': () => salvarNovaNota(),
       'nf': () => { S.filtroNotas[a.dataset.col] = a.dataset.v; renderNotas(a.dataset.col); },
+      'nota-ordem': () => { S.ordemNotas[a.dataset.col] = a.dataset.v; ls.set('ordem-' + a.dataset.col, a.dataset.v); renderNotas(a.dataset.col); },
+      'nota-editar': () => abrirNota(a.dataset.col, a.dataset.id, undefined, 'editar'),
+      'nota-salvar-edicao': () => salvarEdicaoNota(a.dataset.col, a.dataset.id),
+      'abat-abrir': () => { const sec = $('#abat-sec'); if (!sec) return; sec.hidden = false; sec.scrollIntoView({ block: 'nearest' }); $('#ab-valor').focus(); },
+      'abat-fechar': () => { const sec = $('#abat-sec'); if (sec) sec.hidden = true; },
+      'abat-ok': () => {
+        const col = a.dataset.col, id = a.dataset.id, n = colMap(col).get(id); if (!n) return;
+        const erro = m => { $('#ab-erro').textContent = m; };
+        const valor = parseNum($('#ab-valor').value), data = $('#ab-data').value || hoje(), op = $('input[name="ab-caixa"]:checked')?.value;
+        if (!(valor > 0)) return erro('Informe o valor pago.');
+        if (valor > saldoNota(n) + 0.004) return erro('O valor é maior do que falta (' + money(saldoNota(n)) + ').');
+        if (data > hoje()) return erro('A data não pode ser no futuro.');
+        if (!op) return erro('Diga se o dinheiro entrou no caixa.');
+        if (!abaterNota(col, id, { valor, data, caixa: op === 'sim', pg: $('#ab-pg').value, obs: $('#ab-obs').value.trim() })) return erro('Não deu para abater.');
+        toast(op === 'sim' ? 'Abatido e lançado no caixa.' : 'Abatido da nota (o caixa não mudou).');
+        abrirNota(col, id); render();
+      },
+      'abat-desfazer': () => { if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.textContent = 'Confirmar'; a.classList.add('red'); return; } desfazerAbatimento(a.dataset.col, a.dataset.id, a.dataset.ab); if (drawerAberto?.tipo === 'nota') abrirNota(a.dataset.col, a.dataset.id); },
       'abrir-nota': () => abrirNota(a.dataset.col, a.dataset.id),
       'parc-abrir': () => { const r = $('#pf-' + a.dataset.i); r.hidden = !r.hidden; },
       'parc-ok': () => {
@@ -3648,6 +3814,7 @@ function ligarUI() {
   });
   document.addEventListener('change', e => {
     const tg = e.target;
+    if (tg.name === 'ab-caixa') { const l = $('#ab-pg-l'); if (l) l.hidden = tg.value !== 'sim'; const er = $('#ab-erro'); if (er) er.textContent = ''; return; }
     if (tg.dataset?.atrib) { const id = tg.dataset.atrib, v = tg.value || null; atribuir(id, v); toast(v ? 'Ligado a ' + nomeInteg(v) + '.' : 'Sem integrante.'); render(); return; }
     if (tg.dataset?.nfsel && S.nf) { const id = tg.dataset.nfsel; if (tg.checked) { S.nf.sel.add(id); const f = acharItem(id), q = f && quemDe(f.it); if (!S.nf.quem && q) S.nf.quem = q; if (f && S.nf.sel.size === 1 && f.L.data) { S.nf.comp = f.L.data; $('#nf-comp').value = f.L.data; } } else S.nf.sel.delete(id); nfAtualizarDesc(); renderNfQuem(); renderNfPrevia(); return; }
     if (tg.id === 'i-quem') { VIEWS.integrantes(); return; }
