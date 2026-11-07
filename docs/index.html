@@ -20,6 +20,7 @@
   --bg:#F3F2F2; --surface:#FFFFFF; --surface-2:#EDEBEB; --ink:#161314; --ink-2:#463F3F; --muted:#77706F;
   --line:#E2DEDE; --line-2:#CFC9C9;
   --red:#B4393E; --red-ink:#9A2D32; --red-soft:#F6E7E7; --red-line:#E7C5C6; --on-red:#FFFFFF;
+  --p1:#B9B2B2; --p2:#DDA9AB; --p3:#CC6D72; --p4:#B4393E; --p5:#6F1519;
   --bar:#141112; --bar-ink:#F3F0F0; --bar-muted:#9C9494; --bar-line:#2A2526; --bar-hover:rgba(255,255,255,.08); --bar-active:rgba(255,255,255,.13);
   --label-bg:#FFFFFF; --label-ink:#000000;
   --shadow:0 1px 2px rgba(22,19,20,.05),0 10px 30px rgba(22,19,20,.07);
@@ -33,6 +34,7 @@
   --bg:#0E0C0D; --surface:#171415; --surface-2:#211D1E; --ink:#F2EFEF; --ink-2:#CEC7C7; --muted:#958D8D;
   --line:#2B2627; --line-2:#3B3536;
   --red:#DE575D; --red-ink:#F18D91; --red-soft:#34191B; --red-line:#5B2B2E; --on-red:#FFFFFF;
+  --p1:#4F4849; --p2:#6E3A3D; --p3:#A8464C; --p4:#DE575D; --p5:#FF7F85;
   --bar:#060505; --bar-ink:#F2EFEF; --bar-muted:#8E8687; --bar-line:#1E1A1B; --bar-hover:rgba(255,255,255,.07); --bar-active:rgba(255,255,255,.12);
   --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); --backdrop:rgba(0,0,0,.6);
   color-scheme:dark;
@@ -41,6 +43,7 @@
   --bg:#0E0C0D; --surface:#171415; --surface-2:#211D1E; --ink:#F2EFEF; --ink-2:#CEC7C7; --muted:#958D8D;
   --line:#2B2627; --line-2:#3B3536;
   --red:#DE575D; --red-ink:#F18D91; --red-soft:#34191B; --red-line:#5B2B2E; --on-red:#FFFFFF;
+  --p1:#4F4849; --p2:#6E3A3D; --p3:#A8464C; --p4:#DE575D; --p5:#FF7F85;
   --bar:#060505; --bar-ink:#F2EFEF; --bar-muted:#8E8687; --bar-line:#1E1A1B; --bar-hover:rgba(255,255,255,.07); --bar-active:rgba(255,255,255,.12);
   --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); --backdrop:rgba(0,0,0,.6);
   color-scheme:dark;
@@ -481,6 +484,39 @@ tr.grupo .g-val{float:right;font-variant-numeric:tabular-nums;font-weight:650}
 .abat-lista{list-style:none;margin:0;padding:0;display:grid;gap:6px}
 .abat-lista li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px}
 .abat-lista small{display:block;color:var(--muted);font-size:12.5px}
+/* medidor de preocupação (notas a receber): quanto mais tempo desde a data da nota, mais barras e mais vermelho */
+.p1{--pc:var(--p1)}.p2{--pc:var(--p2)}.p3{--pc:var(--p3)}.p4{--pc:var(--p4)}.p5{--pc:var(--p5)}
+.preoc{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;vertical-align:middle}
+.preoc-bar{display:inline-flex;gap:2px;align-items:flex-end;height:15px}
+.preoc-bar i{width:5px;border-radius:1.5px;background:var(--line-2)}
+.preoc-bar i:nth-child(1){height:5px}.preoc-bar i:nth-child(2){height:7.5px}.preoc-bar i:nth-child(3){height:10px}.preoc-bar i:nth-child(4){height:12.5px}.preoc-bar i:nth-child(5){height:15px}
+.preoc.p1 i:nth-child(-n+1),.preoc.p2 i:nth-child(-n+2),.preoc.p3 i:nth-child(-n+3),.preoc.p4 i:nth-child(-n+4),.preoc.p5 i{background:var(--pc)}
+.preoc-tx{display:grid;line-height:1.2;text-align:left}
+.preoc-tx b{font-size:12.5px;font-weight:650;color:var(--ink-2)}
+.preoc.p4 .preoc-tx b,.preoc.p5 .preoc-tx b{color:var(--red-ink)}
+.preoc-tx small{font-size:11.5px;color:var(--muted)}
+tr.grupo .preoc{margin-left:12px}
+.medidor{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:12px 14px;display:grid;gap:10px}
+.medidor:empty{display:none}
+.med-h{display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap}
+.med-h h3{margin:0;font-size:14.5px}
+.med-h .muted{font-size:12.5px}
+.med-h .btn{margin-left:auto}
+.med-barra{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--surface-2);gap:2px}
+.med-barra i{display:block;height:100%;background:var(--pc);min-width:3px}
+.med-niveis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.med-niveis button{text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:7px 9px;cursor:pointer;display:grid;gap:1px;font:inherit;color:var(--ink);min-width:0}
+.med-niveis button:hover{border-color:var(--line-2)}
+.med-niveis button[aria-pressed="true"]{border-color:var(--pc);box-shadow:inset 0 0 0 1px var(--pc);background:var(--surface-2)}
+.med-niveis .nm{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:650}
+.med-niveis .nm::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--pc);flex:none}
+.med-niveis .fx,.med-niveis .qt{font-size:11.5px;color:var(--muted)}
+.med-niveis .vl{font-variant-numeric:tabular-nums;font-weight:650;font-size:13.5px;overflow:hidden;text-overflow:ellipsis}
+.med-ajuste{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:flex-end;border-top:1px solid var(--line);padding-top:10px}
+.med-ajuste .inp{width:96px}
+.med-ajuste .fim{font-size:13px;color:var(--muted);padding-bottom:9px}
+@media (max-width:760px){ .med-niveis{grid-template-columns:repeat(2,minmax(0,1fr))} .med-niveis button:last-child{grid-column:1 / -1} }
+@media (max-width:520px){ .kpi{padding:10px 11px} .kpi .v{font-size:16.5px} .kpi small{white-space:normal} }
 .banner.conf{background:var(--red-soft);border-color:var(--red-line);color:var(--red-ink)}
 #nf-placa{text-transform:uppercase}
 .sel-quem{width:auto;min-width:132px;padding:4px 8px}
@@ -811,8 +847,9 @@ button.pill{cursor:pointer;font-family:inherit}
       <div class="toolbar"><button class="btn" type="button" data-acao="scan-nota" data-col="receber"><svg class="i"><use href="#ic-scan"/></svg>Escanear nota</button><button class="btn primary" type="button" data-acao="nova-nota" data-col="receber"><svg class="i"><use href="#ic-plus"/></svg>Nova nota a receber</button></div>
     </div>
     <div class="kpis mb" id="nr-kpis"></div>
+    <div class="medidor mb" id="nr-medidor"></div>
     <div class="toolbar mb"><div class="seg" id="nr-filtro"></div><div class="seg" id="nr-ordem" aria-label="Organizar"></div><input class="inp" id="nr-q" type="search" placeholder="Buscar cliente, veículo, telefone ou item" style="flex:1;min-width:180px"></div>
-    <div class="tabela-wrap"><table class="t" id="nr-tab"><thead><tr><th>Vencimento</th><th>Cliente</th><th>Nota / descrição</th><th>Parcela</th><th class="num">Valor</th><th>Situação</th></tr></thead><tbody></tbody></table></div>
+    <div class="tabela-wrap"><table class="t" id="nr-tab"><thead><tr><th>Data da nota</th><th>Cliente</th><th>Nota / descrição</th><th>Parcela</th><th class="num">Valor</th><th>Preocupação</th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <!-- ROTINA -->
@@ -1264,7 +1301,7 @@ const ROTINA_PADRAO = [
   { id: 'd5', freq: 'dia', texto: 'Fechar o caixa e conferir o dinheiro da gaveta', tab: 'caixa', auto: 'caixa-fechado' },
   { id: 's1', freq: 'semana', texto: 'Revisar o balanço geral da semana', tab: 'balanco' },
   { id: 's2', freq: 'semana', texto: 'Conferir estoque baixo e fazer os pedidos aos fornecedores', tab: 'produtos' },
-  { id: 's3', freq: 'semana', texto: 'Cobrar clientes com notas vencidas', tab: 'receber' },
+  { id: 's3', freq: 'semana', texto: 'Cobrar clientes com notas preocupantes (medidor em Notas a receber)', tab: 'receber' },
   { id: 's4', freq: 'semana', texto: 'Programar os pagamentos da próxima semana', tab: 'pagar' },
   { id: 's5', freq: 'semana', texto: 'Ler a planilha de precificação e revisar preços', tab: 'precificacao' },
   { id: 's6', freq: 'semana', texto: 'Exportar as movimentações (cópia de segurança)', tab: 'movimentacoes' },
@@ -1371,7 +1408,7 @@ const S = {
   modo: ls.get('modo', 'entrada'), motivo: ls.get('motivo', { entrada: 'compra', saida: 'venda' }), pg: ls.get('pg', 'dinheiro'),
   tab: 'registrar', ultimo: null, pendente: null, semPreco: null,
   sync: { rodando: false, erro: null, perm: 'unknown' },
-  pGrupo: 'Todos', semana: inicioSemana(hoje()), filtroNotas: { pagar: 'aberto', receber: 'aberto' }, ordemNotas: { pagar: ls.get('ordem-pagar') || 'data', receber: ls.get('ordem-receber') || 'data' }, rotEditar: false, nd: null,
+  pGrupo: 'Todos', semana: inicioSemana(hoje()), filtroNotas: { pagar: 'aberto', receber: 'aberto' }, nivelNotas: null, medAjuste: false, ordemNotas: { pagar: ls.get('ordem-pagar') || 'data', receber: ls.get('ordem-receber') || 'data' }, rotEditar: false, nd: null,
   integrantesDoc: null, vinculos: new Map(), nfs: new Map(), clientes: new Map(), dono: null,
   quem: null, pedeQuem: null, nf: null, nfFiltro: 'mes', mesInt: hoje().slice(0, 7), intFiltro: 'todos'
 };
@@ -1746,6 +1783,31 @@ function statusParc(pc) {
   if (pc.venc < h) return 'vencida';
   if (pc.venc === h) return 'hoje';
   return 'aberta';
+}
+/* Medidor de preocupação (notas a receber): a data da nota é a de emissão, não de vencimento.
+   Quanto mais dias desde a data da nota, maior o nível (1 a 5). Faixas ajustáveis em config.preocupacao. */
+const PREOC_PADRAO = [30, 90, 180, 365];
+const PREOC_NOMES = ['Recente', 'Atenção', 'Preocupante', 'Muito preocupante', 'Crítica'];
+function limPreoc() {
+  const l = S.config?.preocupacao;
+  return Array.isArray(l) && l.length === 4 && l.every((v, i) => Number.isInteger(v) && v > 0 && (!i || v > l[i - 1])) ? l : PREOC_PADRAO;
+}
+function emissaoNota(n) { return n.emissao || n.parcelas?.[0]?.venc || (n.criadoEm ? dkey(new Date(n.criadoEm)) : hoje()); }
+function diasNota(n) { return Math.max(0, difDias(emissaoNota(n), hoje())); }
+function nivelPreoc(dias) { const L = limPreoc(); let i = 0; while (i < 4 && dias > L[i]) i++; return i + 1; }
+function faixaPreoc(lv) { const L = limPreoc(); return lv === 1 ? `até ${L[0]} dias` : lv === 5 ? `mais de ${L[3]} dias` : `${L[lv - 2] + 1} a ${L[lv - 1]} dias`; }
+function tempoTxt(d) {
+  if (d <= 0) return 'hoje';
+  if (d === 1) return 'há 1 dia';
+  if (d < 60) return `há ${d} dias`;
+  if (d < 365) { const m = Math.floor(d / 30.44); return `há ${m} meses`; }
+  let a = Math.floor(d / 365.25), m = Math.floor((d - a * 365.25) / 30.44);
+  if (m >= 12) { a++; m = 0; }
+  return `há ${a} ano${a > 1 ? 's' : ''}${m ? ` e ${m} ${m === 1 ? 'mês' : 'meses'}` : ''}`;
+}
+function preocHtml(dias) {
+  const lv = nivelPreoc(dias), nome = PREOC_NOMES[lv - 1];
+  return `<span class="preoc p${lv}" title="${nome}: ${dias} dia${dias === 1 ? '' : 's'} desde a data da nota (${faixaPreoc(lv)})"><span class="preoc-bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="preoc-tx"><b>${nome}</b><small>${tempoTxt(dias)}</small></span></span>`;
 }
 function parcelasDe(col) {
   const out = [];
@@ -2187,7 +2249,8 @@ function renderBanner() {
 }
 function renderBadges() {
   const vp = parcelasDe('pagar').filter(x => x.st === 'vencida' || x.st === 'hoje').length;
-  const vr = parcelasDe('receber').filter(x => x.st === 'vencida').length;
+  // notas a receber: conta as notas em aberto nos dois níveis mais altos do medidor de preocupação
+  const vr = new Set(parcelasDe('receber').filter(x => x.st !== 'paga' && x.st !== 'cancelada' && nivelPreoc(diasNota(x.n)) >= 4).map(x => x.id)).size;
   const set = (id, n) => { const el = $('#' + id); el.hidden = !n; el.textContent = n > 99 ? '99+' : String(n); };
   set('badge-pagar', vp); set('badge-receber', vr);
   const nRot = pendentesRotinaHoje();
@@ -2760,13 +2823,16 @@ VIEWS.balanco = () => {
   const maxD = Math.max(1, ...diasSem.map(d => (t.porDia[d]?.prod || 0) + (t.porDia[d]?.serv || 0)));
   $('#b-dias').innerHTML = `<h2>Faturamento por dia</h2><ol class="rank">${diasSem.map(d => { const v = (t.porDia[d]?.prod || 0) + (t.porDia[d]?.serv || 0); return `<li><span class="pos">${fmtDM(d).slice(0, 2)}</span><span class="nm"><b style="text-transform:capitalize">${esc(diaSemana(d))}</b><div class="bar"><i style="width:${v ? Math.max(3, v / maxD * 100) : 0}%"></i></div></span><span class="vl">${money(v)}</span></li>`; }).join('')}</ol>`;
   const contas = col => parcelasDe(col).filter(x => x.st !== 'cancelada' && !x.pc.pago && x.pc.venc <= fim);
-  const cp = contas('pagar'), cr = contas('receber'), soma = a => a.reduce((s, x) => s + restParc(x.pc), 0);
-  const vencP = cp.filter(x => x.pc.venc < ini), vencR = cr.filter(x => x.pc.venc < ini);
+  const cp = contas('pagar'), soma = a => a.reduce((s, x) => s + restParc(x.pc), 0);
+  const vencP = cp.filter(x => x.pc.venc < ini);
+  // a receber: a data da nota é a de emissão; o que preocupa é o tempo desde a nota (medidor de preocupação)
+  const crAb = parcelasDe('receber').filter(x => x.st !== 'cancelada' && !x.pc.pago);
+  const crSem = crAb.filter(x => { const e = emissaoNota(x.n); return e >= ini && e <= fim; }), crPreoc = crAb.filter(x => nivelPreoc(diasNota(x.n)) >= 3);
   $('#b-contas').innerHTML = `<h2>Contas da semana</h2><dl class="dl">
     <dt>A pagar vencendo na semana</dt><dd>${money(soma(cp.filter(x => x.pc.venc >= ini)))}</dd>
     <dt>A pagar já vencidas antes</dt><dd style="color:${vencP.length ? 'var(--red-ink)' : 'inherit'}">${money(soma(vencP))}</dd>
-    <dt>A receber vencendo na semana</dt><dd>${money(soma(cr.filter(x => x.pc.venc >= ini)))}</dd>
-    <dt>A receber já vencidas antes</dt><dd style="color:${vencR.length ? 'var(--red-ink)' : 'inherit'}">${money(soma(vencR))}</dd></dl>
+    <dt>A receber de notas da semana</dt><dd>${money(soma(crSem))}</dd>
+    <dt>A receber preocupante (notas com mais de ${limPreoc()[1]} dias)</dt><dd style="color:${crPreoc.length ? 'var(--red-ink)' : 'inherit'}">${money(soma(crPreoc))}</dd></dl>
     <div class="toolbar"><a class="btn sm" href="#pagar">Notas a pagar</a><a class="btn sm" href="#receber">Notas a receber</a></div>`;
   const ve = valorEstoque(), T = S.T || taxas(), imp = t.fat * T.impPct / 100;
   $('#b-dre').innerHTML = `<h2>Resultado da semana</h2><dl class="dre">
@@ -2794,30 +2860,57 @@ function renderNotas(col) {
     for (const pc of n.parcelas || []) if (pc.pago && !pc.pago.abat && (pc.pago.data || '') >= mesIni) { recMes += pc.pago.valor || pc.valor; recN++; }
     for (const ab of n.abatimentos || []) if ((ab.data || '') >= mesIni) { recMes += ab.valor; recN++; }
   }
-  $('#' + pre + '-kpis').innerHTML =
-    kpi('Em aberto', money(soma(abertas)), `${abertas.length} parcela(s)`) +
-    kpi('Vencidas', money(soma(venc)), `${venc.length} parcela(s)`, venc.length ? 'red' : '') +
-    kpi('Vencem em 7 dias', money(soma(abertas.filter(x => x.pc.venc >= h && x.pc.venc <= em7))), 'incluindo hoje') +
-    kpi(isP ? 'Pagas no mês' : 'Recebidas no mês', money(recMes), `${recN} pagamento(s)`);
+  // a receber: a data da nota é a de emissão; no lugar de "vencida" entra o medidor de preocupação (tempo desde a data da nota)
+  const nivel = x => nivelPreoc(diasNota(x.n));
+  const nNotas = a => new Set(a.map(x => x.id)).size;
+  if (isP) {
+    $('#np-kpis').innerHTML =
+      kpi('Em aberto', money(soma(abertas)), `${abertas.length} parcela(s)`) +
+      kpi('Vencidas', money(soma(venc)), `${venc.length} parcela(s)`, venc.length ? 'red' : '') +
+      kpi('Vencem em 7 dias', money(soma(abertas.filter(x => x.pc.venc >= h && x.pc.venc <= em7))), 'incluindo hoje') +
+      kpi('Pagas no mês', money(recMes), `${recN} pagamento(s)`);
+  } else {
+    const L = limPreoc(), preoc = abertas.filter(x => nivel(x) >= 3), crit = abertas.filter(x => nivel(x) === 5);
+    $('#nr-kpis').innerHTML =
+      kpi('Em aberto', money(soma(abertas)), `${nNotas(abertas)} nota(s)`) +
+      kpi('Preocupantes', money(soma(preoc)), `${nNotas(preoc)} nota(s) com mais de ${L[1]} dias`, preoc.length ? 'red' : '') +
+      kpi('Críticas', money(soma(crit)), `${nNotas(crit)} nota(s) com mais de ${L[3]} dias`, crit.length ? 'red' : '') +
+      kpi('Recebidas no mês', money(recMes), `${recN} pagamento(s)`);
+    renderMedidor(abertas);
+  }
+  if (!isP && S.filtroNotas[col] === 'vencida') S.filtroNotas[col] = 'aberto';
   const f = S.filtroNotas[col], ordem = S.ordemNotas[col];
   const nConf = [...colMap(col).values()].filter(n => n && !n.cancelada && n.conferir?.length).length;
   if (f === 'conferir' && !nConf) S.filtroNotas[col] = 'aberto';
-  $('#' + pre + '-filtro').innerHTML = [['aberto', 'Em aberto'], ['vencida', 'Vencidas'], ['paga', isP ? 'Pagas' : 'Recebidas'], ['todas', 'Todas'], ...(nConf ? [['conferir', `Conferir (${nConf})`]] : [])].map(([v, n]) => `<button type="button" data-acao="nf" data-col="${col}" data-v="${v}" aria-pressed="${S.filtroNotas[col] === v}">${n}</button>`).join('');
+  const filtros = isP ? [['aberto', 'Em aberto'], ['vencida', 'Vencidas'], ['paga', 'Pagas'], ['todas', 'Todas']] : [['aberto', 'Em aberto'], ['paga', 'Recebidas'], ['todas', 'Todas']];
+  $('#' + pre + '-filtro').innerHTML = [...filtros, ...(nConf ? [['conferir', `Conferir (${nConf})`]] : [])].map(([v, n]) => `<button type="button" data-acao="nf" data-col="${col}" data-v="${v}" aria-pressed="${S.filtroNotas[col] === v}">${n}</button>`).join('');
   $('#' + pre + '-ordem').innerHTML = [['data', 'Por data'], ['parte', isP ? 'Por fornecedor' : 'Por comprador']].map(([v, n]) => `<button type="button" data-acao="nota-ordem" data-col="${col}" data-v="${v}" aria-pressed="${ordem === v}">${n}</button>`).join('');
   const q = norm($('#' + pre + '-q').value);
   let l = todas;
   const fa = S.filtroNotas[col];
   if (fa === 'aberto') l = abertas; else if (fa === 'vencida') l = venc; else if (fa === 'paga') l = todas.filter(x => x.st === 'paga'); else if (fa === 'conferir') l = todas.filter(x => x.st !== 'cancelada' && x.n.conferir?.length);
+  if (!isP && fa === 'aberto' && S.nivelNotas) l = l.filter(x => nivel(x) === S.nivelNotas);
   if (q) l = l.filter(x => norm([x.n.parte, x.n.numero, x.n.descricao, x.n.doc, x.n.veiculo, x.n.obs, x.n.combinado, ...(x.n.linhas || []), ...(x.n.itens || []).map(i => i.nome)].join(' ')).includes(q));
-  const porData = (a, b) => fa === 'paga' ? (b.pc.pago?.data || '').localeCompare(a.pc.pago?.data || '') : a.pc.venc.localeCompare(b.pc.venc) || (a.n.parte || '').localeCompare(b.n.parte || '', 'pt-BR');
+  // a pagar: por vencimento; a receber: pela data da nota, da mais antiga (mais preocupante) para a mais nova
+  const dataRef = x => isP ? x.pc.venc : emissaoNota(x.n);
+  const porData = (a, b) => fa === 'paga' ? (b.pc.pago?.data || '').localeCompare(a.pc.pago?.data || '') : dataRef(a).localeCompare(dataRef(b)) || a.pc.venc.localeCompare(b.pc.venc) || (a.n.parte || '').localeCompare(b.n.parte || '', 'pt-BR');
   const tb = $('#' + pre + '-tab tbody');
   if (!l.length) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">${todas.length ? 'Nada nesse filtro.' : (isP ? 'Nenhuma nota a pagar. Clique em "Nova nota a pagar" e leia o boleto ou a nota fiscal.' : 'Nenhuma nota a receber. Clique em "Nova nota a receber" e leia os produtos vendidos a prazo.')}</td></tr>`; return; }
   const linha = x => {
-    const [sn, sc] = ST_NOME[x.st]; const atraso = x.st === 'vencida' ? difDias(x.pc.venc, h) : 0;
     const resto = restParc(x.pc), sub = [x.n.veiculo, isP ? fmtCnpj(x.n.doc) : x.n.doc].filter(Boolean).join(' · ');
     const desc = x.n.descricao || (x.n.itens?.length ? x.n.itens.length + ' item(ns)' : x.n.linhas?.length ? x.n.linhas.length + ' item(ns) anotados' : '');
     const valCol = x.pc.pago ? `<b>${money(x.pc.valor)}</b><span class="sub">${isP ? 'pago' : 'recebido'} ${fmtDM(x.pc.pago.data)}</span>` : `<b>${money(resto)}</b>${x.pc.abatido ? `<span class="sub">de ${money(x.pc.valor)} · abatido ${money(x.pc.abatido)}</span>` : ''}`;
-    return `<tr class="click" data-acao="abrir-nota" data-col="${col}" data-id="${esc(x.id)}"><td class="mono" style="white-space:nowrap">${fmtData(x.pc.venc)}${atraso ? `<span class="sub" style="font-family:var(--f-ui)">${atraso} dia(s) de atraso</span>` : ''}</td><td class="nome"><b>${esc(x.n.parte)}</b><span class="sub">${esc(sub)}</span></td><td>${esc(x.n.numero ? 'Nota ' + x.n.numero : '')}${x.n.conferir?.length && !x.n.cancelada ? '<span class="pill red" style="margin-right:6px">Conferir</span>' : ''}<span class="sub">${esc(desc)}</span></td><td class="mono">${x.pc.n}/${x.n.parcelas.length}</td><td class="num">${valCol}</td><td><span class="pill ${sc}">${sn}</span></td></tr>`;
+    let dataCol, stCol;
+    if (isP) {
+      const [sn, sc] = ST_NOME[x.st], atraso = x.st === 'vencida' ? difDias(x.pc.venc, h) : 0;
+      dataCol = `${fmtData(x.pc.venc)}${atraso ? `<span class="sub" style="font-family:var(--f-ui)">${atraso} dia(s) de atraso</span>` : ''}`;
+      stCol = `<span class="pill ${sc}">${sn}</span>`;
+    } else {
+      const em = emissaoNota(x.n);
+      dataCol = `${fmtData(em)}${x.pc.venc !== em ? `<span class="sub" style="font-family:var(--f-ui)">combinado ${fmtDM(x.pc.venc)}</span>` : ''}`;
+      stCol = x.st === 'paga' ? '<span class="pill soft">Recebida</span>' : x.st === 'cancelada' ? '<span class="pill soft">Cancelada</span>' : preocHtml(diasNota(x.n));
+    }
+    return `<tr class="click" data-acao="abrir-nota" data-col="${col}" data-id="${esc(x.id)}"><td class="mono" style="white-space:nowrap">${dataCol}</td><td class="nome"><b>${esc(x.n.parte)}</b><span class="sub">${esc(sub)}</span></td><td>${esc(x.n.numero ? 'Nota ' + x.n.numero : '')}${x.n.conferir?.length && !x.n.cancelada ? '<span class="pill red" style="margin-right:6px">Conferir</span>' : ''}<span class="sub">${esc(desc)}</span></td><td class="mono">${x.pc.n}/${x.n.parcelas.length}</td><td class="num">${valCol}</td><td>${stCol}</td></tr>`;
   };
   if (ordem !== 'parte') { tb.innerHTML = l.sort(porData).slice(0, 600).map(linha).join(''); return; }
   // agrupado por comprador/fornecedor: nomes iguais (sem acento e maiúsculas) ficam juntos
@@ -2827,10 +2920,31 @@ function renderNotas(col) {
   let n = 0;
   tb.innerHTML = gs.map(g => {
     g.itens.sort(porData);
-    const aberto = soma(g.itens.filter(x => x.st !== 'paga' && x.st !== 'cancelada')), notas = new Set(g.itens.map(x => x.id)).size;
-    const out = `<tr class="grupo"><td colspan="6"><b>${esc(g.nome)}</b><span class="g-info">${notas} nota${notas === 1 ? '' : 's'}</span>${aberto > 0 ? `<span class="g-val">em aberto ${money(aberto)}</span>` : ''}</td></tr>` + g.itens.slice(0, Math.max(0, 600 - n)).map(linha).join('');
+    const ab = g.itens.filter(x => x.st !== 'paga' && x.st !== 'cancelada'), aberto = soma(ab), notas = new Set(g.itens.map(x => x.id)).size;
+    // a receber: o comprador mostra a preocupação da nota em aberto mais antiga
+    const pior = !isP && ab.length ? preocHtml(Math.max(...ab.map(x => diasNota(x.n)))) : '';
+    const out = `<tr class="grupo"><td colspan="6"><b>${esc(g.nome)}</b><span class="g-info">${notas} nota${notas === 1 ? '' : 's'}</span>${pior}${aberto > 0 ? `<span class="g-val">em aberto ${money(aberto)}</span>` : ''}</td></tr>` + g.itens.slice(0, Math.max(0, 600 - n)).map(linha).join('');
     n += g.itens.length; return out;
   }).join('');
+}
+// painel do medidor de preocupação: quanto está em aberto em cada nível; clicar num nível filtra a lista
+function renderMedidor(abertas) {
+  const el = $('#nr-medidor'); if (!el) return;
+  const L = limPreoc(), niv = [1, 2, 3, 4, 5].map(lv => ({ lv, valor: 0, ids: new Set() }));
+  for (const x of abertas) { const o = niv[nivelPreoc(diasNota(x.n)) - 1]; o.valor += restParc(x.pc); o.ids.add(x.id); }
+  const total = niv.reduce((s, o) => s + o.valor, 0);
+  if (!abertas.length && !S.medAjuste) { el.innerHTML = ''; return; }
+  const sel = S.filtroNotas.receber === 'aberto' ? S.nivelNotas : null;
+  const ajuste = S.medAjuste && S.podeEscrever ? `<div class="med-ajuste">
+      ${[0, 1, 2, 3].map(i => `<label class="f">${PREOC_NOMES[i]} até<span style="display:flex;align-items:center;gap:6px"><input class="inp num" id="med-l${i}" type="number" min="1" step="1" inputmode="numeric" value="${L[i]}"><span class="muted" style="font-size:13px">dias</span></span></label>`).join('')}
+      <span class="fim">${PREOC_NOMES[4]}: acima disso</span>
+      <span class="erro-txt" id="med-erro"></span><span class="sp" style="flex:1"></span>
+      <button class="btn sm ghost" type="button" data-acao="med-padrao">Voltar ao padrão (${PREOC_PADRAO.join(', ')})</button>
+      <button class="btn sm primary" type="button" data-acao="med-salvar">Salvar faixas</button></div>` : '';
+  el.innerHTML = `<div class="med-h"><h3>Medidor de preocupação</h3><span class="muted">pelo tempo desde a data da nota: quanto mais antiga, mais preocupante</span>${S.podeEscrever ? `<button class="btn sm ghost" type="button" data-acao="med-ajustar" aria-expanded="${!!S.medAjuste}">${S.medAjuste ? 'Fechar ajuste' : 'Ajustar faixas'}</button>` : ''}</div>
+    ${total > 0 ? `<div class="med-barra" role="img" aria-label="Valor em aberto por nível de preocupação">${niv.filter(o => o.valor > 0).map(o => `<i class="p${o.lv}" style="flex:${o.valor} 1 0" title="${PREOC_NOMES[o.lv - 1]}: ${o.ids.size} nota(s)"></i>`).join('')}</div>` : ''}
+    <div class="med-niveis">${niv.map(o => `<button type="button" class="p${o.lv}" data-acao="nivel" data-v="${o.lv}" aria-pressed="${sel === o.lv}" title="${sel === o.lv ? 'Mostrar todas as notas em aberto' : 'Mostrar só as notas deste nível'}"><span class="nm">${PREOC_NOMES[o.lv - 1]}</span><span class="fx">${faixaPreoc(o.lv)}</span><span class="vl">${money(o.valor)}</span><span class="qt">${o.ids.size} nota${o.ids.size === 1 ? '' : 's'}</span></button>`).join('')}</div>
+    ${ajuste}`;
 }
 VIEWS.pagar = () => renderNotas('pagar');
 VIEWS.receber = () => renderNotas('receber');
@@ -3212,7 +3326,7 @@ function abrirNota(col, id, parcAberta, modo) {
       <label class="f">Data da nota<input class="inp" type="date" id="ne-emissao" value="${esc(n.emissao || '')}"></label>
       <label class="f">Descrição<input class="inp" id="ne-desc" value="${esc(n.descricao || '')}"></label>
       <label class="f">Número da nota<input class="inp" id="ne-num" value="${esc(n.numero || '')}"></label>
-      ${umaParc ? `<label class="f">Vencimento<input class="inp" type="date" id="ne-venc" value="${esc(n.parcelas[0].venc || '')}"></label>` : ''}
+      ${umaParc && (isP || n.parcelas[0].venc !== n.emissao) ? `<label class="f">${isP ? 'Vencimento' : 'Data combinada'}<input class="inp" type="date" id="ne-venc" value="${esc(n.parcelas[0].venc || '')}"></label>` : ''}
       ${umaParc && semPag ? `<label class="f">Valor total (R$)<input class="inp num" id="ne-total" inputmode="decimal" value="${esc(fmtMoneyIn(n.total))}"></label>` : ''}
     </div>
     <label class="f">Combinado com o ${quem}<input class="inp" id="ne-comb" value="${esc(n.combinado || '')}" placeholder="Ex.: 3x de R$ 400,00 todo dia 10"></label>
@@ -3227,6 +3341,7 @@ function abrirNota(col, id, parcAberta, modo) {
       <dt>Valor total</dt><dd><b>${money(n.total)}</b></dd>
       <dt>${isP ? 'Já pago' : 'Já recebido'}</dt><dd>${money(pagoTot)}</dd>
       <dt>Falta</dt><dd><b>${money(falta)}</b></dd>
+      ${!isP && falta > 0 && !n.cancelada ? `<dt>Preocupação</dt><dd>${preocHtml(diasNota(n))}</dd>` : ''}
       ${n.combinado ? `<dt>Combinado</dt><dd>${esc(n.combinado)}</dd>` : ''}
       ${n.obs ? `<dt>Observação</dt><dd style="white-space:pre-wrap">${esc(n.obs)}</dd>` : ''}
       ${orig ? `<dt>Original</dt><dd>${esc(orig)}</dd>` : ''}
@@ -3248,8 +3363,8 @@ function abrirNota(col, id, parcAberta, modo) {
     ${n.conferir?.length && !n.cancelada && !editar ? `<div class="banner conf" style="margin:0"><div><b>Conferir com a nota de papel:</b> ${esc(n.conferir.join(' · '))}</div></div>` : ''}
     ${cab}
     ${formAbat}
-    <section><h3>Parcelas</h3><div class="tabela-wrap"><table class="t"><thead><tr><th>Parcela</th><th>Vencimento</th><th class="num">Valor</th><th>Situação</th><th></th></tr></thead><tbody>
-      ${n.parcelas.map((pc, i) => { const st = n.cancelada ? 'cancelada' : statusParc(pc); const [sn, sc] = ST_NOME[st]; return `<tr><td class="mono">${pc.n}/${n.parcelas.length}</td><td class="mono">${fmtData(pc.venc)}</td><td class="num">${money(pc.valor)}${pc.pago && !pc.pago.abat ? `<span class="sub">${money(pc.pago.valor)} em ${fmtDM(pc.pago.data)} · ${esc(PG_NOME[pc.pago.pg] || '')}</span>` : ''}${pc.abatido ? `<span class="sub">abatido ${money(pc.abatido)}${pc.pago ? '' : ` · falta ${money(restParc(pc))}`}</span>` : ''}</td><td><span class="pill ${sc}">${sn}</span></td><td class="num">${!pc.pago && pode ? `<button class="btn sm ${st === 'vencida' || st === 'hoje' ? 'red' : ''}" type="button" data-acao="parc-abrir" data-i="${i}">${isP ? 'Pagar' : 'Receber'}</button>` : ''}</td></tr>
+    <section><h3>Parcelas</h3><div class="tabela-wrap"><table class="t"><thead><tr><th>Parcela</th><th>${isP ? 'Vencimento' : 'Data'}</th><th class="num">Valor</th><th>Situação</th><th></th></tr></thead><tbody>
+      ${n.parcelas.map((pc, i) => { const st = n.cancelada ? 'cancelada' : statusParc(pc); const [sn, sc] = isP || st === 'cancelada' ? ST_NOME[st] : st === 'paga' ? ['Recebida', 'soft'] : ['Em aberto', '']; return `<tr><td class="mono">${pc.n}/${n.parcelas.length}</td><td class="mono">${fmtData(pc.venc)}</td><td class="num">${money(pc.valor)}${pc.pago && !pc.pago.abat ? `<span class="sub">${money(pc.pago.valor)} em ${fmtDM(pc.pago.data)} · ${esc(PG_NOME[pc.pago.pg] || '')}</span>` : ''}${pc.abatido ? `<span class="sub">abatido ${money(pc.abatido)}${pc.pago ? '' : ` · falta ${money(restParc(pc))}`}</span>` : ''}</td><td><span class="pill ${sc}">${sn}</span></td><td class="num">${!pc.pago && pode ? `<button class="btn sm ${isP && (st === 'vencida' || st === 'hoje') ? 'red' : ''}" type="button" data-acao="parc-abrir" data-i="${i}">${isP ? 'Pagar' : 'Receber'}</button>` : ''}</td></tr>
         <tr class="parc-row" id="pf-${i}" ${parcAberta === i ? '' : 'hidden'}><td colspan="5"><div class="toolbar" style="align-items:flex-end"><label class="f">Data<input class="inp" type="date" id="pf-data-${i}" value="${hoje()}" max="${hoje()}"></label><label class="f">Forma<select class="inp" id="pf-pg-${i}">${FORMAS.map(([v, nn]) => `<option value="${v}" ${v === (isP ? 'banco' : 'pix') ? 'selected' : ''}>${nn}</option>`).join('')}</select></label><label class="f">Valor (R$)<input class="inp num" id="pf-valor-${i}" inputmode="decimal" value="${esc(fmtMoneyIn(restParc(pc)))}" style="width:120px"></label><button class="btn primary" type="button" data-acao="parc-ok" data-i="${i}">Confirmar</button></div></td></tr>`; }).join('')}
     </tbody></table></div></section>
     ${abats.length ? `<section><h3>Abatimentos</h3><ul class="abat-lista">${abats.slice().sort((a, b) => (a.data || '').localeCompare(b.data || '')).map(ab => `<li><span><b>${money(ab.valor)}</b> ${ab.data ? 'em ' + fmtData(ab.data) : '(sem data)'}<small>${ab.anotado ? 'anotado na nota de papel' : ab.caixa ? 'entrou no caixa · ' + esc(PG_NOME[ab.pg] || '') : 'pagamento antigo, não mexeu no caixa'}${ab.obs ? ' · ' + esc(ab.obs) : ''}</small></span><span></span>${pode ? `<button class="btn sm ghost" type="button" data-acao="abat-desfazer" data-col="${col}" data-id="${esc(id)}" data-ab="${esc(ab.id)}">Desfazer</button>` : '<span></span>'}</li>`).join('')}</ul></section>` : ''}
@@ -3264,7 +3379,9 @@ function salvarEdicaoNota(col, id) {
   const parte = v('ne-parte'); if (!parte) return erro('Informe o nome.');
   const novo = JSON.parse(JSON.stringify(n));
   Object.assign(novo, { parte, doc: v('ne-doc'), veiculo: v('ne-veic'), descricao: v('ne-desc'), numero: v('ne-num'), combinado: v('ne-comb'), obs: v('ne-obs') });
+  const juntas = col === 'receber' && novo.parcelas.length === 1 && n.parcelas[0].venc === n.emissao;
   if (v('ne-emissao')) novo.emissao = v('ne-emissao');
+  if (juntas) novo.parcelas[0].venc = novo.emissao;
   if (novo.parcelas.length === 1 && $('#ne-venc') && v('ne-venc')) novo.parcelas[0].venc = v('ne-venc');
   if ($('#ne-total')) {
     const t = parseNum(v('ne-total')); if (!(t > 0)) return erro('O valor precisa ser maior que zero.');
@@ -3278,7 +3395,7 @@ function salvarEdicaoNota(col, id) {
 function textoCobranca(n) {
   const abertas = n.parcelas.filter(p => !p.pago);
   const loja = (S.config.loja || 'PneusBR').trim();
-  return `Olá, ${n.parte}! Aqui é da ${loja}. Passando para lembrar ${abertas.length > 1 ? 'das parcelas' : 'da parcela'} em aberto${n.descricao ? ` (${n.descricao})` : ''}:\n` + abertas.map(p => `• ${p.n}/${n.parcelas.length}: ${moneyV(restParc(p))}${p.abatido ? ` (de ${moneyV(p.valor)}, já abatido ${moneyV(p.abatido)})` : ''}, vencimento ${fmtData(p.venc)}`).join('\n') + `\nTotal em aberto: ${moneyV(abertas.reduce((s, p) => s + restParc(p), 0))}. Qualquer dúvida, estamos à disposição. Obrigado!`;
+  return `Olá, ${n.parte}! Aqui é da ${loja}. Passando para lembrar ${abertas.length > 1 ? 'das parcelas' : 'da parcela'} em aberto${n.descricao ? ` (${n.descricao})` : ''}:\n` + abertas.map(p => `• ${p.n}/${n.parcelas.length}: ${moneyV(restParc(p))}${p.abatido ? ` (de ${moneyV(p.valor)}, já abatido ${moneyV(p.abatido)})` : ''}, ${p.venc === n.emissao ? 'nota de' : 'vencimento'} ${fmtData(p.venc)}`).join('\n') + `\nTotal em aberto: ${moneyV(abertas.reduce((s, p) => s + restParc(p), 0))}. Qualquer dúvida, estamos à disposição. Obrigado!`;
 }
 
 /* ================= Rotina ================= */
@@ -4013,7 +4130,19 @@ function ligarUI() {
       'nd-add': () => { const mm = ($('#nd-leitor')?.value || '').match(/^(\d+(?:[.,]\d+)?)\s*[*xX]/), q = mm ? parseNum(mm[1]) : 1; if (a.dataset.t === 's') ndAddServ(a.dataset.id, q > 0 ? q : 1); else ndAddProd(a.dataset.id, q > 0 ? q : 1); },
       'nd-del': () => { S.nd.itens.splice(Number(a.dataset.i), 1); renderNdItens(); atualizarNdTotais(); },
       'nd-salvar': () => salvarNovaNota(),
-      'nf': () => { S.filtroNotas[a.dataset.col] = a.dataset.v; renderNotas(a.dataset.col); },
+      'nf': () => { S.filtroNotas[a.dataset.col] = a.dataset.v; if (a.dataset.col === 'receber') S.nivelNotas = null; renderNotas(a.dataset.col); },
+      'nivel': () => { const v = Number(a.dataset.v); S.nivelNotas = S.filtroNotas.receber === 'aberto' && S.nivelNotas === v ? null : v; S.filtroNotas.receber = 'aberto'; renderNotas('receber'); },
+      'med-ajustar': () => { S.medAjuste = !S.medAjuste; renderNotas('receber'); if (S.medAjuste) setTimeout(() => $('#med-l0')?.focus(), 30); },
+      'med-padrao': () => { PREOC_PADRAO.forEach((v, i) => { const el = $('#med-l' + i); if (el) el.value = v; }); },
+      'med-salvar': () => {
+        const L = [0, 1, 2, 3].map(i => Number(($('#med-l' + i)?.value || '').trim()));
+        const erro = m => { const e = $('#med-erro'); if (e) e.textContent = m; };
+        if (L.some(v => !Number.isInteger(v) || v < 1)) return erro('Use números inteiros de dias, maiores que zero.');
+        if (L.some((v, i) => i && v <= L[i - 1])) return erro('Cada faixa precisa ter mais dias que a anterior.');
+        const padrao = L.every((v, i) => v === PREOC_PADRAO[i]);
+        if (padrao) delete S.config.preocupacao;
+        mudarConfig(padrao ? {} : { preocupacao: L }); S.medAjuste = false; renderNotas('receber'); renderBadges(); toast('Faixas do medidor salvas.');
+      },
       'nota-ordem': () => { S.ordemNotas[a.dataset.col] = a.dataset.v; ls.set('ordem-' + a.dataset.col, a.dataset.v); renderNotas(a.dataset.col); },
       'nota-editar': () => abrirNota(a.dataset.col, a.dataset.id, undefined, 'editar'),
       'nota-salvar-edicao': () => salvarEdicaoNota(a.dataset.col, a.dataset.id),
