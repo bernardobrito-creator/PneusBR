@@ -3272,7 +3272,7 @@ function abrirNota(col, id, parcAberta, modo) {
     </div>
     <label class="f">Combinado com o ${quem}<input class="inp" id="ne-comb" value="${esc(n.combinado || '')}" placeholder="Ex.: 3x de R$ 400,00 todo dia 10"></label>
     <label class="f">Observação<textarea class="inp" id="ne-obs" rows="2">${esc(n.obs || '')}</textarea></label>
-    ${n.conferir?.length ? `<label class="chk"><input type="checkbox" id="ne-conferida">Já conferi esta nota (tira a marca "Conferir")</label>` : ''}
+    ${n.conferir?.length ? `<div class="banner conf" style="margin:0" id="ne-conf"><div><b>Conferir com a nota de papel:</b> ${esc(n.conferir.join(' · '))}<br><small>Ao salvar, a marca "Conferir" sai desta nota.</small></div></div>` : ''}
     ${!umaParc || !semPag ? `<p class="muted" style="margin:0;font-size:13px">${!semPag ? 'O valor não muda depois de um pagamento ou abatimento.' : 'Nota com mais de uma parcela: o valor e os vencimentos ficam como estão.'}</p>` : ''}
     <div class="toolbar"><span class="erro-txt" id="ne-erro"></span><span class="sp" style="flex:1"></span><button class="btn ghost" type="button" data-acao="abrir-nota" data-col="${col}" data-id="${esc(id)}">Cancelar</button><button class="btn primary" type="button" data-acao="nota-salvar-edicao" data-col="${col}" data-id="${esc(id)}">Salvar</button></div></section>`
     : `<section><dl class="dl">
@@ -3328,9 +3328,11 @@ function salvarEdicaoNota(col, id) {
     const t = parseNum(v('ne-total')); if (!(t > 0)) return erro('O valor precisa ser maior que zero.');
     novo.total = r2(t); novo.parcelas[0].valor = r2(t);
   }
-  if ($('#ne-conferida')?.checked) { delete novo.conferir; novo.conferidaEm = Date.now(); }
+  // entrar em Editar e salvar = nota conferida: a marca "Conferir" sai (a dúvida fica guardada em conferirResolvido)
+  const tinhaConf = !!n.conferir?.length;
+  if (tinhaConf) { novo.conferirResolvido = n.conferir; delete novo.conferir; novo.conferidaEm = Date.now(); novo.conferidaPor = S.uid || null; }
   novo.editadaEm = Date.now(); novo.editadaPor = S.uid || null;
-  colMap(col).set(id, novo); salvarNotaDoc(col, id); toast('Nota salva.');
+  colMap(col).set(id, novo); salvarNotaDoc(col, id); toast(tinhaConf ? 'Nota salva. A marca "Conferir" saiu.' : 'Nota salva.');
   abrirNota(col, id); render();
 }
 function textoCobranca(n) {

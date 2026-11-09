@@ -102,11 +102,27 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   await A.evaluate(id => document.querySelector(`[data-acao="abrir-nota"][data-id="${id}"]`).click(), idEli); await A.waitForTimeout(250);
   await A.click('[data-acao="nota-editar"]'); await A.waitForTimeout(200);
   await A.screenshot({ path: path.join(SP, 'teste/r5-editar.png') });
-  await A.fill('#ne-parte', 'Elizângela'); await A.fill('#ne-emissao', '2026-04-01'); await A.check('#ne-conferida'); await A.fill('#ne-total', '300,00');
+  out.c.avisoConferir = await A.evaluate(() => document.querySelector('#ne-conf')?.innerText.replace(/\s+/g, ' ') || null);
+  ok(/Ao salvar, a marca "Conferir" sai/.test(out.c.avisoConferir || ''), 'aviso de que salvar tira a marca', out);
+  // sem marcar nada: só editar e salvar já tira a marca
+  await A.fill('#ne-parte', 'Elizângela'); await A.fill('#ne-emissao', '2026-04-01'); await A.fill('#ne-total', '300,00');
   await A.click('[data-acao="nota-salvar-edicao"]'); await A.waitForTimeout(400);
   d = (await db())['receber/' + idEli].data;
-  out.c.eli = { parte: d.parte, conferir: d.conferir || null, total: d.total };
-  ok(d.parte === 'Elizângela' && !d.conferir, 'edição salva', out);
+  out.c.eli = { parte: d.parte, conferir: d.conferir || null, resolvido: d.conferirResolvido || null, total: d.total, toast: await A.evaluate(() => document.querySelector('#toast, .toast')?.textContent || null) };
+  ok(d.parte === 'Elizângela' && !d.conferir && d.conferirResolvido?.length && d.conferidaEm, 'edição salva e marca Conferir retirada', out);
+  out.c.semPill = await A.evaluate(id => !document.querySelector(`#nr-tab [data-id="${id}"] .pill.red`), idEli);
+  ok(out.c.semPill, 'lista sem a marca Conferir', out);
+  // abrir Editar e salvar sem mudar nada também tira a marca
+  const idSer = notas.find(n => n.data.parte === 'Sérgio (Gol Vermelho)')?.id;
+  if (idSer) {
+    await A.keyboard.press('Escape'); await A.waitForTimeout(150);
+    await A.evaluate(id => document.querySelector(`[data-acao="abrir-nota"][data-id="${id}"]`).click(), idSer); await A.waitForTimeout(250);
+    await A.click('[data-acao="nota-editar"]'); await A.waitForTimeout(200);
+    await A.click('[data-acao="nota-salvar-edicao"]'); await A.waitForTimeout(400);
+    const ds = (await db())['receber/' + idSer].data;
+    out.c.sergio = { conferir: ds.conferir || null, parte: ds.parte, total: ds.total };
+    ok(!ds.conferir && ds.parte === 'Sérgio (Gol Vermelho)', 'salvar sem mudar nada tira a marca', out);
+  }
   // cobrança usa o que falta
   const idEus = notas.find(n => n.data.parte === 'Eustáquio').id;
   await A.keyboard.press('Escape');
