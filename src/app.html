@@ -506,6 +506,31 @@ tr.grupo .preoc{margin-left:12px}
 .med-ajuste .fim{font-size:13px;color:var(--muted);padding-bottom:9px}
 @media (max-width:760px){ .med-niveis{grid-template-columns:repeat(2,minmax(0,1fr))} .med-niveis button:last-child{grid-column:1 / -1} }
 @media (max-width:520px){ .kpi{padding:10px 11px} .kpi .v{font-size:16.5px} .kpi small{white-space:normal} }
+/* retorno de clientes */
+.rt-hoje{padding:14px 16px;display:grid;gap:8px}
+.rt-hoje-h{display:flex;align-items:baseline;gap:4px 10px;flex-wrap:wrap}
+.rt-hoje-h h3{margin:0;font-size:15px}
+.rt-hoje-h .muted{font-size:13px}
+.rt-lista{list-style:none;margin:0;padding:0;display:grid}
+.rt-lista li{display:flex;align-items:center;gap:8px 14px;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.rt-q{display:grid;gap:2px;min-width:0}
+.rt-q b{font-size:15px}
+.rt-q small{color:var(--muted);font-size:13px}
+.rt-b{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.rt-servs{display:grid;gap:8px}
+.rt-sv{border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+.rt-sv>span{display:grid;gap:1px}
+.rt-sv small{color:var(--muted);font-size:12.5px}
+.rt-msg{margin:0;padding:10px 12px;border-radius:10px;background:var(--surface-2);font-size:14px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.rt-cfg{display:grid;gap:8px}
+.rt-cfg-l{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px 10px;align-items:center}
+.rt-m{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.rt-m .inp{width:72px}
+.rt-sug{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px dashed var(--line-2);border-radius:9px;padding:8px 10px;font-size:14px}
+.rt-sug small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.u-ret{display:flex;gap:6px 10px;align-items:center;flex-wrap:wrap;margin-top:10px;padding:8px 10px;border-radius:9px;background:var(--surface-2);font-size:13.5px;color:var(--ink-2)}
+.u-ret svg.i{width:16px;height:16px}
+@media (max-width:520px){ .rt-cfg-l{grid-template-columns:minmax(0,1fr) auto} .rt-cfg-l .chk{grid-column:1 / -1} .rt-lista li .rt-b{width:100%} }
 .banner.conf{background:var(--red-soft);border-color:var(--red-line);color:var(--red-ink)}
 #nf-placa{text-transform:uppercase}
 .sel-quem{width:auto;min-width:132px;padding:4px 8px}
@@ -595,6 +620,8 @@ button.pill{cursor:pointer;font-family:inherit}
     <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
     <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.2a6.5 6.5 0 0 1 3 5.8"/></symbol>
     <symbol id="ic-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4L6 21V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+    <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9 15.5 2 2 4-4"/></symbol>
+    <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.4a8.5 8.5 0 1 1 15.6-4.6Z"/><path d="M8.5 9.5c.3 2.6 2.4 4.8 5 5.2l1.2-1.2 1.8.8-.4 1.5c-4.4.3-8.6-3.7-8.4-8l1.5-.4.8 1.8-1.5.3Z"/></symbol>
     <symbol id="ic-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
   </defs>
 </svg>
@@ -608,6 +635,7 @@ button.pill{cursor:pointer;font-family:inherit}
   <hr>
   <a href="#pagar" data-tab="pagar" data-tip="Notas a pagar" aria-label="Notas a pagar"><svg class="i"><use href="#ic-docout"/></svg><span class="badge" id="badge-pagar" hidden></span></a>
   <a href="#receber" data-tab="receber" data-tip="Notas a receber" aria-label="Notas a receber"><svg class="i"><use href="#ic-docin"/></svg><span class="badge" id="badge-receber" hidden></span></a>
+  <a href="#retornos" data-tab="retornos" data-tip="Retorno de clientes" aria-label="Retorno de clientes"><svg class="i"><use href="#ic-cal"/></svg><span class="badge" id="badge-retornos" hidden></span></a>
   <div class="fim">
     <button class="rb" type="button" id="btn-ajustes" data-tip="Configurações" aria-label="Configurações: caixa, faturamento, balanço, preços, rotina e ajustes"><svg class="i"><use href="#ic-gear"/></svg><span class="badge" id="badge-rotina" hidden></span><span class="sdot" id="rail-dot"></span></button>
   </div>
@@ -836,6 +864,18 @@ button.pill{cursor:pointer;font-family:inherit}
     <div class="medidor mb" id="nr-medidor"></div>
     <div class="toolbar mb"><div class="seg" id="nr-filtro"></div><div class="seg" id="nr-ordem" aria-label="Organizar"></div><input class="inp" id="nr-q" type="search" placeholder="Buscar cliente, veículo, telefone ou item" style="flex:1;min-width:180px"></div>
     <div class="tabela-wrap"><table class="t" id="nr-tab"><thead><tr><th>Data da nota</th><th>Cliente</th><th>Nota / descrição</th><th>Parcela</th><th class="num">Valor</th><th>Preocupação</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <!-- RETORNO DE CLIENTES -->
+  <section data-view="retornos" hidden>
+    <div class="sec-h">
+      <div><h1>Retorno de clientes</h1><p>Quem fez serviço com a gente e quando deve voltar. Todo dia aparece aqui quem chamar, com a mensagem pronta para o WhatsApp.</p></div>
+      <div class="toolbar"><button class="btn" type="button" data-acao="rt-config"><svg class="i"><use href="#ic-gear"/></svg>Serviços e prazos</button><button class="btn primary" type="button" data-acao="rt-novo"><svg class="i"><use href="#ic-plus"/></svg>Cadastrar cliente</button></div>
+    </div>
+    <div class="kpis mb" id="rt-kpis"></div>
+    <div class="mb" id="rt-hoje"></div>
+    <div class="toolbar mb"><div class="seg" id="rt-filtro"></div><input class="inp" id="rt-q" type="search" placeholder="Buscar cliente, WhatsApp, veículo, placa ou serviço" style="flex:1;min-width:180px"></div>
+    <div class="tabela-wrap"><table class="t" id="rt-tab"><thead><tr><th>Cliente</th><th>Serviço</th><th>Feito em</th><th>Volta em</th><th>Situação</th><th></th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <!-- ROTINA -->
@@ -1079,7 +1119,7 @@ const S = {
   tab: 'registrar', ultimo: null, pendente: null, semPreco: null,
   sync: { rodando: false, erro: null, perm: 'unknown' },
   pGrupo: 'Todos', semana: inicioSemana(hoje()), filtroNotas: { pagar: 'aberto', receber: 'aberto' }, nivelNotas: null, medAjuste: false, ordemNotas: { pagar: ls.get('ordem-pagar') || 'data', receber: ls.get('ordem-receber') || 'data' }, rotEditar: false, nd: null,
-  integrantesDoc: null, vinculos: new Map(), nfs: new Map(), clientes: new Map(), dono: null,
+  integrantesDoc: null, vinculos: new Map(), nfs: new Map(), clientes: new Map(), dono: null, retornos: new Map(), rtConfigDoc: null, rtFiltro: 'proximo', rtDraft: null,
   quem: null, pedeQuem: null, nf: null, nfFiltro: 'mes', mesInt: hoje().slice(0, 7), intFiltro: 'todos'
 };
 const SESSAO = rid(6);
@@ -1923,6 +1963,7 @@ function renderBadges() {
   const vr = new Set(parcelasDe('receber').filter(x => x.st !== 'paga' && x.st !== 'cancelada' && nivelPreoc(diasNota(x.n)) >= 4).map(x => x.id)).size;
   const set = (id, n) => { const el = $('#' + id); el.hidden = !n; el.textContent = n > 99 ? '99+' : String(n); };
   set('badge-pagar', vp); set('badge-receber', vr);
+  set('badge-retornos', [...S.retornos.values()].filter(r => rtEstado(r) === 'chamar').length);
   const nRot = pendentesRotinaHoje();
   set('badge-rotina', nRot);
   $('#btn-ajustes').dataset.tip = nRot ? `Configurações · ${nRot} tarefa${nRot > 1 ? 's' : ''} da rotina para hoje` : 'Configurações';
@@ -2013,6 +2054,7 @@ function renderUltimo() {
         ${it.caixa ? `<div><dt>Caixa</dt><dd>${sinal(it.caixa)} · ${esc(PG_NOME[it.pg] || '')}</dd></div>` : `<div><dt>Caixa</dt><dd class="muted">não altera</dd></div>`}
         ${ehVenda(it) ? `<div><dt>${ehServ ? 'Feito por' : 'Atendido por'}</dt><dd>${!est && S.podeEscrever ? selQuem('u-quem', quemDe(it), !ehServ, it.id) : esc(nomeInteg(quemDe(it)) || '—')}</dd></div>` : ''}
       </dl>
+      ${rtUltimoHtml(it, est)}
     </div>
     <div class="u-valor">
       <div class="u-qtd">${ehServ ? '' : (ent ? '+' : '−')}${qn(it.qtd)} ${ehServ ? 'vez(es)' : 'un.'}</div>
@@ -2616,6 +2658,233 @@ function renderMedidor(abertas) {
     <div class="med-niveis">${niv.map(o => `<button type="button" class="p${o.lv}" data-acao="nivel" data-v="${o.lv}" aria-pressed="${sel === o.lv}" title="${sel === o.lv ? 'Mostrar todas as notas em aberto' : 'Mostrar só as notas deste nível'}"><span class="nm">${PREOC_NOMES[o.lv - 1]}</span><span class="fx">${faixaPreoc(o.lv)}</span><span class="vl">${money(o.valor)}</span><span class="qt">${o.ids.size} nota${o.ids.size === 1 ? '' : 's'}</span></button>`).join('')}</div>
     ${ajuste}`;
 }
+/* ================= retorno de clientes ================= */
+// Pedido do dono (09/11), com base no vídeo do Mecânica Pro: depois do serviço, o sistema guarda quando o cliente
+// tem que voltar; todo dia mostra quem chamar e um toque abre o WhatsApp com a mensagem pronta (alguém aperta enviar).
+// Prazos dados pelo dono: troca de óleo 6 meses, alinhamento 3, balanceamento 6. As sugestões só valem depois de "Usar".
+const RT_PADRAO = [
+  { id: 'oleo', nome: 'Troca de óleo', meses: 6, ativo: true },
+  { id: 'alinhamento', nome: 'Alinhamento', meses: 3, ativo: true },
+  { id: 'balanceamento', nome: 'Balanceamento', meses: 6, ativo: true },
+];
+const RT_SUGESTOES = [
+  { id: 'revisao', nome: 'Revisão geral', meses: 12, fonte: 'Vídeo do Mecânica Pro' },
+  { id: 'correia', nome: 'Correia dentada', meses: 48, fonte: 'Vídeo do Mecânica Pro (o prazo certo depende do carro: veja o manual)' },
+  { id: 'rodizio', nome: 'Rodízio de pneus', meses: 6, fonte: 'Hankook: a cada 6 meses ou 10.000 km' },
+  { id: 'fluido-freio', nome: 'Fluido de freio', meses: 24, fonte: 'AutoPapo: a cada 2 anos' },
+  { id: 'arrefecimento', nome: 'Líquido de arrefecimento', meses: 24, fonte: 'Volkswagen, citada pelo Canaltech: a cada 2 anos' },
+];
+const RT_MSG_PADRAO = 'Olá, {nome}! Aqui é da {loja}. Já faz {tempo} {do_servico} {do_veiculo}: está na hora de fazer de novo. Quer agendar um horário?';
+const RT_FILTROS = [['proximo', 'Próximos'], ['avisado', 'Avisados'], ['voltou', 'Voltaram'], ['parado', 'Parados'], ['todos', 'Todos']];
+const RT_SIT = { chamar: ['Chamar hoje', 'red'], proximo: ['Aguardando', 'soft'], avisado: ['Avisado', 'ink'], voltou: ['Voltou', 'soft'], parado: ['Parado', 'soft'] };
+function rtCfg() {
+  const d = S.rtConfigDoc || {};
+  return { servicos: Array.isArray(d.servicos) ? d.servicos : RT_PADRAO, msg: d.msg || RT_MSG_PADRAO, ddd: /^\d{2}$/.test(d.ddd || '') ? d.ddd : '33' };
+}
+function addMeses(key, n) {
+  const [y, m, d] = key.split('-').map(Number), alvo = new Date(y, m - 1 + n, 1), fim = new Date(alvo.getFullYear(), alvo.getMonth() + 1, 0).getDate();
+  return dkey(new Date(alvo.getFullYear(), alvo.getMonth(), Math.min(d, fim)));
+}
+function mesesEntre(a, b) { const [ya, ma, da] = a.split('-').map(Number), [yb, mb, db] = b.split('-').map(Number); return (yb - ya) * 12 + (mb - ma) - (db < da ? 1 : 0); }
+const rtPrazoTxt = m => m >= 12 && m % 12 === 0 ? `${m / 12} ano${m > 12 ? 's' : ''}` : `${m} ${m === 1 ? 'mês' : 'meses'}`;
+function rtTempo(feito) {
+  const h = hoje(), m = mesesEntre(feito, h);
+  if (m < 1) { const d = Math.max(0, difDias(feito, h)); return `${d} dia${d === 1 ? '' : 's'}`; }
+  if (m < 12) return `${m} ${m === 1 ? 'mês' : 'meses'}`;
+  const a = Math.floor(m / 12), r = m % 12;
+  return `${a} ano${a > 1 ? 's' : ''}${r ? ` e ${r} ${r === 1 ? 'mês' : 'meses'}` : ''}`;
+}
+// "da troca de óleo", "da revisão", "do alinhamento": pelo fim da primeira palavra
+function rtArt(nome) { const w = norm(nome || '').split(/\s+/)[0] || ''; return /(a|ao|gem)$/.test(w) ? 'da' : 'do'; }
+function rtWhats(tel) {
+  let d = String(tel || '').replace(/\D/g, '');
+  if (!d) return null;
+  if (d.startsWith('55') && (d.length === 12 || d.length === 13)) return d;
+  if (d.length === 8 || d.length === 9) d = rtCfg().ddd + d;
+  return d.length === 10 || d.length === 11 ? '55' + d : null;
+}
+function rtEstado(r) {
+  if (r.status === 'voltou' || r.status === 'parado') return r.status;
+  if (r.avisadoEm) return 'avisado';
+  return (r.adiadoPara || r.volta) <= hoje() ? 'chamar' : 'proximo';
+}
+function rtMensagem(r, tpl) {
+  const sv = (r.servico || '').charAt(0).toLowerCase() + (r.servico || '').slice(1), veic = (r.veiculo || '').trim();
+  const vals = { nome: (r.nome || '').trim().split(/\s+/)[0] || '', loja: (S.config.loja || '').trim() || 'PneusBR', tempo: rtTempo(r.feito), servico: sv, do_servico: rtArt(r.servico) + ' ' + sv, veiculo: veic || 'carro', do_veiculo: 'do seu ' + (veic || 'carro') };
+  return (tpl || rtCfg().msg).replace(/\{(\w+)\}/g, (m, k) => vals[k] ?? m);
+}
+// serviços do cadastro (com prazo) que batem com o nome de um serviço registrado: "Troca de óleo (mão de obra)" → Troca de óleo
+function rtServDe(nomeServ) { const n = norm(nomeServ || ''); return rtCfg().servicos.filter(s => s.ativo !== false && s.nome && n.includes(norm(s.nome))); }
+function rtSalvar(id) { fila('retornos/' + id, 'set', () => S.retornos.get(id)); }
+function rtMudar(id, patch) { const r = S.retornos.get(id); if (!r) return; S.retornos.set(id, { ...r, ...patch, atualizadoEm: Date.now(), atualizadoPor: S.uid || null }); rtSalvar(id); }
+function rtUltimoHtml(it, est) {
+  if (it.k !== 'serv' || est) return '';
+  const svs = rtServDe(it.nome); if (!svs.length) return '';
+  const ja = [...S.retornos.values()].find(r => r.origem?.item === it.id);
+  if (ja) return `<div class="u-ret">${ico('cal')}<span>Retorno cadastrado: <b>${esc(ja.nome)}</b> deve voltar em ${fmtData(ja.volta)}.</span></div>`;
+  if (!S.podeEscrever) return '';
+  return `<div class="u-ret">${ico('cal')}<span>Cadastre o cliente para ele ser chamado ${svs.length > 1 ? 'quando vencer' : 'daqui a ' + rtPrazoTxt(svs[0].meses)} (${esc(svs.map(s => s.nome.toLowerCase()).join(' e '))}).</span><button class="btn sm" type="button" data-acao="rt-de-item" data-id="${esc(it.id)}">Cadastrar retorno</button></div>`;
+}
+VIEWS.retornos = () => {
+  const h = hoje(), mesIni = h.slice(0, 8) + '01';
+  const todos = [...S.retornos.entries()].filter(([, r]) => r && r.nome).map(([id, r]) => ({ id, r, st: rtEstado(r), vence: r.adiadoPara || r.volta }));
+  const chamar = todos.filter(x => x.st === 'chamar').sort((a, b) => a.vence.localeCompare(b.vence));
+  const avis = todos.filter(x => x.st === 'avisado'), em30 = todos.filter(x => x.st === 'proximo' && x.vence <= addDays(h, 30));
+  const voltaram = todos.filter(x => x.st === 'voltou' && (x.r.voltouEm || '') >= mesIni && x.r.avisos?.length);
+  $('#rt-kpis').innerHTML = kpi('Para chamar hoje', String(chamar.length), 'o prazo de voltar já chegou', chamar.length ? 'red' : '') +
+    kpi('Avisados', String(avis.length), 'chamados, esperando voltar') + kpi('Vencem em 30 dias', String(em30.length), 'ainda não é hora de chamar') +
+    kpi('Voltaram no mês', String(voltaram.length), 'depois de chamados');
+  const linhaHoje = x => {
+    const r = x.r, atraso = difDias(x.vence, h), tem = !!rtWhats(r.tel);
+    return `<li><div class="rt-q"><b>${esc(r.nome)}${r.veiculo ? ' · ' + esc(r.veiculo) : ''}</b><small>${esc(r.servico)} · feito há ${rtTempo(r.feito)} (${fmtData(r.feito)})${atraso > 0 ? ` · venceu há ${atraso} dia${atraso === 1 ? '' : 's'}` : ' · vence hoje'}</small></div>
+      <div class="rt-b">${tem ? `<button class="btn primary sm" type="button" data-acao="rt-chamar" data-id="${esc(x.id)}" ${S.podeEscrever ? '' : 'disabled'}>${ico('chat')}Chamar no WhatsApp</button>` : `<span class="pill red">Sem WhatsApp</span>`}<button class="btn sm" type="button" data-acao="rt-abrir" data-id="${esc(x.id)}">${tem ? 'Mais' : 'Pôr WhatsApp'}</button></div></li>`;
+  };
+  const prox = todos.filter(x => x.st === 'proximo').sort((a, b) => a.vence.localeCompare(b.vence))[0];
+  $('#rt-hoje').innerHTML = !todos.length
+    ? `<div class="card bloco"><b>Nenhum cliente cadastrado ainda</b><p class="muted" style="margin:0">Depois do serviço, clique em <b>Cadastrar cliente</b> (ou em <b>Cadastrar retorno</b>, que aparece no Registrar quando você registra ${esc(rtCfg().servicos.filter(s => s.ativo !== false).map(s => s.nome.toLowerCase()).join(', ') || 'um serviço com prazo')}). Quando chegar a hora, o cliente aparece aqui para chamar no WhatsApp.</p></div>`
+    : `<div class="card rt-hoje"><div class="rt-hoje-h"><h3>Clientes para chamar hoje</h3><span class="muted">${chamar.length ? `${chamar.length} cliente${chamar.length === 1 ? '' : 's'}` : 'ninguém hoje' + (prox ? ` · o próximo é ${esc(prox.r.nome)} (${esc(prox.r.servico.toLowerCase())}), em ${fmtData(prox.vence)}` : '')}</span></div>
+      ${chamar.length ? `<ul class="rt-lista">${chamar.map(linhaHoje).join('')}</ul>` : ''}</div>`;
+  const f = S.rtFiltro;
+  $('#rt-filtro').innerHTML = RT_FILTROS.map(([v, n]) => `<button type="button" data-acao="rt-filtro" data-v="${v}" aria-pressed="${f === v}">${n}</button>`).join('');
+  const q = norm($('#rt-q').value);
+  let l = f === 'todos' ? todos : f === 'proximo' ? todos.filter(x => x.st === 'proximo' || x.st === 'chamar') : todos.filter(x => x.st === f);
+  if (q) l = l.filter(x => norm([x.r.nome, x.r.tel, x.r.veiculo, x.r.placa, x.r.servico, x.r.obs].join(' ')).includes(q) || (q.replace(/\D/g, '') && String(x.r.tel || '').replace(/\D/g, '').includes(q.replace(/\D/g, ''))));
+  l.sort((a, b) => f === 'voltou' ? (b.r.voltouEm || '').localeCompare(a.r.voltouEm || '') : a.vence.localeCompare(b.vence) || (a.r.nome || '').localeCompare(b.r.nome || '', 'pt-BR'));
+  const tb = $('#rt-tab tbody');
+  if (!l.length) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">${todos.length ? 'Nada nesse filtro.' : 'Os clientes cadastrados aparecem aqui.'}</td></tr>`; return; }
+  tb.innerHTML = l.slice(0, 500).map(x => {
+    const r = x.r, [sn, sc] = RT_SIT[x.st], dv = difDias(h, x.vence);
+    const volta = x.st === 'voltou' ? `${r.voltouEm ? fmtData(r.voltouEm) : '—'}<span class="sub">voltou</span>` : `${fmtData(x.vence)}<span class="sub">${dv > 0 ? `em ${dv} dia${dv === 1 ? '' : 's'}` : dv === 0 ? 'hoje' : `venceu há ${-dv} dia${dv === -1 ? '' : 's'}`}${r.adiadoPara ? ' · adiado' : ''}</span>`;
+    const sit = x.st === 'avisado' ? `<span class="pill ink">Avisado ${fmtDM(dkey(new Date(r.avisadoEm)))}</span>` : `<span class="pill ${sc}">${sn}</span>`;
+    const btn = (x.st === 'chamar' || x.st === 'avisado') && rtWhats(r.tel) && S.podeEscrever ? `<button class="btn sm${x.st === 'chamar' ? ' primary' : ''}" type="button" data-acao="rt-chamar" data-id="${esc(x.id)}">${ico('chat')}${x.st === 'avisado' ? 'Chamar de novo' : 'Chamar'}</button>` : '';
+    return `<tr class="click" data-acao="rt-abrir" data-id="${esc(x.id)}"><td class="nome"><b>${esc(r.nome)}</b><span class="sub">${esc([r.tel, r.veiculo, r.placa].filter(Boolean).join(' · '))}</span></td><td>${esc(r.servico)}<span class="sub">a cada ${rtPrazoTxt(r.meses)}</span></td><td class="mono" style="white-space:nowrap">${fmtData(r.feito)}<span class="sub" style="font-family:var(--f-ui)">há ${rtTempo(r.feito)}</span></td><td class="mono" style="white-space:nowrap">${volta}</td><td>${sit}</td><td class="num">${btn}</td></tr>`;
+  }).join('');
+};
+function abrirNovoRetorno(pre = {}) {
+  const c = rtCfg(), ativos = c.servicos.filter(s => s.ativo !== false && s.nome), sel = new Set(pre.servicos || []), feito = pre.feito || hoje();
+  const nomes = [...new Set([...S.retornos.values()].map(r => r.nome).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  abrirDrawer(`<div class="pn-h"><div><h2>Cadastrar cliente</h2><div class="sub">Quem fez o serviço e quando. O sistema calcula quando ele deve voltar.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+    <section>
+      <label class="f">Nome do cliente<input class="inp" id="rt-nome" list="rt-nomes" value="${esc(pre.nome || '')}" autocomplete="off" placeholder="Ex.: João"></label>
+      <datalist id="rt-nomes">${nomes.map(n => `<option value="${esc(n)}">`).join('')}</datalist>
+      <div class="form-g"><label class="f">WhatsApp<input class="inp" id="rt-tel" type="tel" inputmode="tel" value="${esc(pre.tel || '')}" placeholder="(33) 99999-9999"></label><label class="f">Veículo<input class="inp" id="rt-veic" value="${esc(pre.veiculo || '')}" placeholder="Ex.: Gol"></label></div>
+      <div class="form-g"><label class="f">Placa<input class="inp mono" id="rt-placa" value="${esc(pre.placa || '')}" placeholder="ABC1D23"></label><label class="f">Data do serviço<input class="inp" type="date" id="rt-feito" value="${feito}" max="${hoje()}"></label></div>
+    </section>
+    <section><h3>Serviços feitos</h3>
+      ${ativos.length ? `<div class="rt-servs">${ativos.map(s => `<label class="chk rt-sv"><input type="checkbox" data-rtsv="${esc(s.id)}" ${sel.has(s.id) ? 'checked' : ''}><span><b>${esc(s.nome)}</b><small>a cada ${rtPrazoTxt(s.meses)} · volta em <span data-rtvolta="${esc(s.id)}">${fmtData(addMeses(feito, s.meses))}</span></small></span></label>`).join('')}</div>` : '<p class="muted" style="margin:0">Nenhum serviço com prazo. Abra "Serviços e prazos".</p>'}
+    </section>
+    <section><label class="f">Observação<textarea class="inp" id="rt-obs" rows="2" placeholder="Ex.: óleo 5W30, filtro LB145">${esc(pre.obs || '')}</textarea></label><span class="erro-txt" id="rt-erro"></span></section>
+    <div class="pn-acoes"><span class="sp"></span><button class="btn ghost" type="button" data-acao="fechar-drawer">Cancelar</button><button class="btn primary" type="button" data-acao="rt-salvar-novo" ${S.podeEscrever ? '' : 'disabled'}>Salvar</button></div>`, { tipo: 'rt-novo', item: pre.item || null });
+  setTimeout(() => $('#rt-nome')?.focus(), 30);
+}
+// nome de um cliente já cadastrado: completa WhatsApp, veículo e placa que estiverem vazios
+function rtCompletar() {
+  const n = norm($('#rt-nome')?.value || ''); if (!n) return;
+  const r = [...S.retornos.values()].filter(x => norm(x.nome || '') === n).sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0))[0]; if (!r) return;
+  [['#rt-tel', r.tel], ['#rt-veic', r.veiculo], ['#rt-placa', r.placa]].forEach(([s, v]) => { const el = $(s); if (el && !el.value && v) el.value = v; });
+}
+function salvarNovoRetorno() {
+  const v = id => ($('#' + id)?.value || '').trim(), er = m => { $('#rt-erro').textContent = m; };
+  const nome = v('rt-nome'), tel = v('rt-tel'), veiculo = v('rt-veic'), placa = v('rt-placa').toUpperCase(), feito = v('rt-feito'), obs = v('rt-obs');
+  const ids = $$('[data-rtsv]').filter(x => x.checked).map(x => x.dataset.rtsv);
+  if (!nome) return er('Informe o nome do cliente.');
+  if (!ids.length) return er('Marque pelo menos um serviço.');
+  if (!feito || feito > hoje()) return er('A data do serviço não pode ser no futuro.');
+  if (tel && !rtWhats(tel)) return er('Confira o WhatsApp: DDD e número (ex.: 33 99999-9999).');
+  const c = rtCfg(), item = drawerAberto?.item || null, novos = [];
+  for (const sid of ids) {
+    const s = c.servicos.find(x => x.id === sid); if (!s) continue;
+    const id = rid(12);
+    // o mesmo cliente fez de novo o mesmo serviço: o lembrete antigo fica como "voltou"
+    for (const [oid, o] of S.retornos) if (o.status !== 'voltou' && o.status !== 'parado' && o.servicoId === sid && norm(o.nome || '') === norm(nome) && (!o.placa || !placa || o.placa === placa) && o.feito <= feito) rtMudar(oid, { status: 'voltou', voltouEm: feito, voltouPor: id });
+    S.retornos.set(id, { nome, tel, veiculo, placa, servicoId: s.id, servico: s.nome, meses: s.meses, feito, volta: addMeses(feito, s.meses), status: 'aberto', avisos: [], avisadoEm: null, adiadoPara: null, obs, origem: item ? { item } : null, criadoEm: Date.now(), por: S.uid || null });
+    rtSalvar(id); novos.push(s.nome.toLowerCase());
+  }
+  fecharDrawer(); toast(`${nome}: ${novos.join(' e ')} cadastrado${novos.length > 1 ? 's' : ''}.`); render();
+}
+function abrirRetorno(id) {
+  const r = S.retornos.get(id); if (!r) return;
+  const st = rtEstado(r), [sn, sc] = RT_SIT[st], tem = rtWhats(r.tel), ed = S.podeEscrever, aberto = st !== 'voltou' && st !== 'parado';
+  abrirDrawer(`<div class="pn-h"><div><h2>${esc(r.nome)}</h2><div class="sub">${esc(r.servico)} · a cada ${rtPrazoTxt(r.meses)}</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+    <dl class="dl">
+      <dt>Situação</dt><dd><span class="pill ${sc}">${sn}</span></dd>
+      <dt>Feito em</dt><dd>${fmtData(r.feito)} (há ${rtTempo(r.feito)})</dd>
+      <dt>Volta em</dt><dd>${fmtData(r.volta)}${r.adiadoPara ? ` · adiado para ${fmtData(r.adiadoPara)}` : ''}</dd>
+      ${r.status === 'voltou' ? `<dt>Voltou</dt><dd>${r.voltouEm ? fmtData(r.voltouEm) : '—'}</dd>` : ''}
+      <dt>Avisos</dt><dd>${(r.avisos || []).length ? r.avisos.map(a => fmtData(dkey(new Date(a.em)))).join(', ') : 'nenhum'}</dd>
+      ${r.obs ? `<dt>Observação</dt><dd>${esc(r.obs)}</dd>` : ''}
+    </dl>
+    ${aberto ? `<section><h3>Mensagem do WhatsApp</h3><p class="rt-msg" id="rt-msg">${esc(rtMensagem(r))}</p>
+      ${tem ? '' : '<p class="erro-txt" style="margin:0">Sem WhatsApp válido: preencha abaixo para poder chamar.</p>'}
+      <div class="toolbar">${tem && ed ? `<button class="btn primary" type="button" data-acao="rt-chamar" data-id="${esc(id)}">${ico('chat')}Chamar no WhatsApp</button>` : ''}<button class="btn" type="button" data-acao="rt-copiar" data-id="${esc(id)}">${ico('copy')}Copiar mensagem</button></div></section>
+    ${ed ? `<section><h3>Ele voltou?</h3><div class="form-g"><label class="f">Data que voltou<input class="inp" type="date" id="rt-vdata" value="${hoje()}" max="${hoje()}"></label><label class="chk" style="align-self:end;padding-bottom:9px"><input type="checkbox" id="rt-vprox" checked>Lembrar da próxima (daqui a ${rtPrazoTxt(r.meses)})</label></div><div><button class="btn" type="button" data-acao="rt-voltou" data-id="${esc(id)}">Marcar que voltou</button></div></section>
+    <section><h3>Chamar mais tarde</h3><div class="chips">${[7, 15, 30, 60].map(d => `<button type="button" class="chip" data-acao="rt-adiar" data-id="${esc(id)}" data-dias="${d}">Daqui a ${d} dias</button>`).join('')}</div></section>` : ''}` : ''}
+    ${ed ? `<section><h3>Dados</h3>
+      <label class="f">Nome<input class="inp" id="re-nome" value="${esc(r.nome || '')}"></label>
+      <div class="form-g"><label class="f">WhatsApp<input class="inp" id="re-tel" type="tel" inputmode="tel" value="${esc(r.tel || '')}"></label><label class="f">Veículo<input class="inp" id="re-veic" value="${esc(r.veiculo || '')}"></label></div>
+      <div class="form-g"><label class="f">Placa<input class="inp mono" id="re-placa" value="${esc(r.placa || '')}"></label><label class="f">Data do serviço<input class="inp" type="date" id="re-feito" value="${esc(r.feito)}" max="${hoje()}"></label></div>
+      <div class="form-g"><label class="f">Volta em<input class="inp" type="date" id="re-volta" value="${esc(r.volta)}"></label><span></span></div>
+      <label class="f">Observação<textarea class="inp" id="re-obs" rows="2">${esc(r.obs || '')}</textarea></label>
+      <span class="erro-txt" id="re-erro"></span><div><button class="btn" type="button" data-acao="rt-salvar" data-id="${esc(id)}">Salvar dados</button></div></section>` : ''}
+    <div class="pn-acoes">${ed ? `<button class="btn ghost" type="button" data-acao="rt-excluir" data-id="${esc(id)}">Excluir</button>${aberto ? `<button class="btn ghost" type="button" data-acao="rt-parar" data-id="${esc(id)}">Parar de lembrar</button>` : `<button class="btn ghost" type="button" data-acao="rt-reativar" data-id="${esc(id)}">Lembrar de novo</button>`}` : ''}<span class="sp"></span><button class="btn primary" type="button" data-acao="fechar-drawer">Fechar</button></div>`, { tipo: 'retorno', id });
+}
+function rtChamar(id) {
+  const r = S.retornos.get(id), num = r && rtWhats(r.tel);
+  if (!num) { abrirRetorno(id); return; }
+  window.open(`https://wa.me/${num}?text=${encodeURIComponent(rtMensagem(r))}`, '_blank', 'noopener');
+  const agora = Date.now();
+  rtMudar(id, { avisadoEm: agora, avisos: [...(r.avisos || []), { em: agora, por: S.uid || null }] });
+  toast(`WhatsApp aberto com a mensagem para ${r.nome}. Ficou marcado como avisado.`); render();
+  if (drawerAberto?.tipo === 'retorno' && drawerAberto.id === id) abrirRetorno(id);
+}
+function rtSalvarDados(id) {
+  const r = S.retornos.get(id); if (!r) return;
+  const v = k => ($('#' + k)?.value || '').trim(), er = m => { $('#re-erro').textContent = m; };
+  const nome = v('re-nome'), tel = v('re-tel'), feito = v('re-feito'), volta = v('re-volta');
+  if (!nome) return er('Informe o nome.');
+  if (tel && !rtWhats(tel)) return er('Confira o WhatsApp: DDD e número.');
+  if (!feito || feito > hoje()) return er('A data do serviço não pode ser no futuro.');
+  if (!volta || volta < feito) return er('A data de volta precisa ser depois da data do serviço.');
+  const patch = { nome, tel, veiculo: v('re-veic'), placa: v('re-placa').toUpperCase(), feito, obs: v('re-obs') };
+  // mudou só a data do serviço: a volta acompanha o prazo do serviço
+  patch.volta = feito !== r.feito && volta === r.volta ? addMeses(feito, r.meses) : volta;
+  if (patch.volta !== r.volta) { patch.adiadoPara = null; patch.avisadoEm = null; }
+  rtMudar(id, patch); toast('Dados salvos.'); abrirRetorno(id); render();
+}
+function abrirRtConfig() {
+  if (!S.rtDraft) { const c = rtCfg(); S.rtDraft = { servicos: c.servicos.map(s => ({ ...s })), msg: c.msg, ddd: c.ddd }; }
+  const d = S.rtDraft, ed = S.podeEscrever, usados = new Set(d.servicos.map(s => s.id));
+  const sugs = RT_SUGESTOES.filter(s => !usados.has(s.id));
+  const ex = { nome: 'João', servico: 'Troca de óleo', feito: addMeses(hoje(), -6), veiculo: 'Gol' };
+  abrirDrawer(`<div class="pn-h"><div><h2>Serviços e prazos</h2><div class="sub">Em quanto tempo o cliente deve voltar depois de cada serviço.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+    <section><h3>Serviços com retorno</h3>
+      <div class="rt-cfg">${d.servicos.map((s, i) => `<div class="rt-cfg-l"><input class="inp" data-rtc="nome" data-i="${i}" value="${esc(s.nome)}" placeholder="Nome do serviço" ${ed ? '' : 'disabled'}><label class="rt-m"><input class="inp num" type="number" min="1" max="120" step="1" data-rtc="meses" data-i="${i}" value="${s.meses}" ${ed ? '' : 'disabled'}><span>meses</span></label><label class="chk"><input type="checkbox" data-rtc="ativo" data-i="${i}" ${s.ativo !== false ? 'checked' : ''} ${ed ? '' : 'disabled'}>Ativo</label></div>`).join('')}</div>
+      ${ed ? `<div><button class="btn sm" type="button" data-acao="rt-cfg-add">${ico('plus')}Outro serviço</button></div>` : ''}
+      <p class="muted" style="margin:0;font-size:13px">Mudar um prazo vale para os próximos cadastros; quem já está cadastrado continua com a data que tinha.</p>
+    </section>
+    ${sugs.length ? `<section><h3>Sugestões para aprovar</h3><p class="muted" style="margin:0;font-size:13px">Não estão valendo. Clique em <b>Usar</b> para o serviço entrar com esse prazo (dá para mudar antes de salvar).</p>
+      ${sugs.map(s => `<div class="rt-sug"><div><b>${esc(s.nome)}</b> · a cada ${rtPrazoTxt(s.meses)}<small>Fonte: ${esc(s.fonte)}</small></div>${ed ? `<button class="btn sm" type="button" data-acao="rt-cfg-usar" data-id="${esc(s.id)}">Usar</button>` : ''}</div>`).join('')}</section>` : ''}
+    <section><h3>Mensagem do WhatsApp</h3>
+      <textarea class="inp" id="rt-cfg-msg" rows="3" ${ed ? '' : 'disabled'}>${esc(d.msg)}</textarea>
+      <p class="muted" style="margin:0;font-size:13px">Use {nome}, {servico}, {do_servico}, {tempo}, {veiculo}, {do_veiculo} e {loja}. Exemplo:</p>
+      <p class="rt-msg" id="rt-cfg-ex">${esc(rtMensagem(ex, d.msg))}</p>
+      <label class="f" style="max-width:260px">DDD para número sem DDD<input class="inp" id="rt-cfg-ddd" inputmode="numeric" maxlength="2" value="${esc(d.ddd)}" ${ed ? '' : 'disabled'}></label>
+      <span class="erro-txt" id="rt-cfg-erro"></span>
+    </section>
+    <div class="pn-acoes"><button class="btn ghost" type="button" data-acao="rt-cfg-padrao">Voltar ao padrão</button><span class="sp"></span><button class="btn ghost" type="button" data-acao="fechar-drawer">Cancelar</button><button class="btn primary" type="button" data-acao="rt-cfg-salvar" ${ed ? '' : 'disabled'}>Salvar</button></div>`, { tipo: 'rt-config' });
+}
+function salvarRtConfig() {
+  const d = S.rtDraft, er = m => { $('#rt-cfg-erro').textContent = m; };
+  const servicos = d.servicos.map(s => ({ ...s, nome: (s.nome || '').trim(), meses: Number(s.meses) })).filter(s => s.nome || s.ativo !== false);
+  if (servicos.some(s => !s.nome)) return er('Dê um nome para cada serviço (ou desmarque "Ativo").');
+  if (servicos.some(s => !Number.isInteger(s.meses) || s.meses < 1 || s.meses > 120)) return er('Os prazos precisam ser de 1 a 120 meses, em número inteiro.');
+  const nomes = servicos.map(s => norm(s.nome)); if (new Set(nomes).size !== nomes.length) return er('Há dois serviços com o mesmo nome.');
+  if (!/^\d{2}$/.test(d.ddd || '')) return er('O DDD precisa ter 2 números.');
+  if (!(d.msg || '').trim()) return er('Escreva a mensagem.');
+  S.rtConfigDoc = { servicos, msg: d.msg.trim(), ddd: d.ddd, atualizadoEm: Date.now(), por: S.uid || null };
+  fila('config/retornos', 'set', () => S.rtConfigDoc);
+  S.rtDraft = null; fecharDrawer(); toast('Serviços e prazos salvos.'); render();
+}
 VIEWS.pagar = () => renderNotas('pagar');
 VIEWS.receber = () => renderNotas('receber');
 function nomesConhecidos(col) { const s = new Map(); for (const n of colMap(col).values()) if (n.parte) s.set(norm(n.parte), n); return [...s.values()]; }
@@ -3103,7 +3372,7 @@ function salvarRotinaLista(lista) { S.rotinaLista = lista; fila('rotina/lista', 
 /* ================= drawer produto ================= */
 let drawerAberto = null;
 function abrirDrawer(html, info, largo) { const pn = $('#drawer-pn'); pn.className = 'pn' + (largo ? ' largo' : ''); pn.innerHTML = html; $('#drawer').hidden = false; drawerAberto = info; esconderTip(); }
-function fecharDrawer() { if (drawerAberto?.tipo === 'nota-nova') S.nd = null; $('#drawer').hidden = true; $('#drawer-pn').innerHTML = ''; drawerAberto = null; if (S.tab === 'registrar') $('#scan').focus(); }
+function fecharDrawer() { if (drawerAberto?.tipo === 'nota-nova') S.nd = null; if (drawerAberto?.tipo === 'rt-config') S.rtDraft = null; $('#drawer').hidden = true; $('#drawer-pn').innerHTML = ''; drawerAberto = null; if (S.tab === 'registrar') $('#scan').focus(); }
 function abrirProduto(k, novo) {
   const p = novo ? null : S.produtos.get(k);
   const av = novo || p?.avulso;
@@ -3667,7 +3936,7 @@ function esconderTip() { $('#tip').hidden = true; }
 /* ================= eventos ================= */
 // Caixa, Faturamento, Balanço e Preços: só desenham depois da senha
 for (const tab of TELAS_SENHA) { const f = VIEWS[tab]; VIEWS[tab] = (...a) => travada(tab) ? undefined : f(...a); }
-const ROTAS = ['registrar', 'produtos', 'servicos', 'precificacao', 'movimentacoes', 'caixa', 'faturamento', 'balanco', 'pagar', 'receber', 'rotina', 'integrantes', 'nfse'];
+const ROTAS = ['registrar', 'produtos', 'servicos', 'precificacao', 'movimentacoes', 'caixa', 'faturamento', 'balanco', 'pagar', 'receber', 'retornos', 'rotina', 'integrantes', 'nfse'];
 function aplicarRota() {
   const h = (location.hash || '').replace('#', '');
   S.tab = ROTAS.includes(h) ? h : 'registrar';
@@ -3800,6 +4069,31 @@ function ligarUI() {
       'nd-del': () => { S.nd.itens.splice(Number(a.dataset.i), 1); renderNdItens(); atualizarNdTotais(); },
       'nd-salvar': () => salvarNovaNota(),
       'nf': () => { S.filtroNotas[a.dataset.col] = a.dataset.v; if (a.dataset.col === 'receber') S.nivelNotas = null; renderNotas(a.dataset.col); },
+      'rt-novo': () => abrirNovoRetorno(),
+      'rt-de-item': () => { const f = acharItem(a.dataset.id); if (!f) return; abrirNovoRetorno({ servicos: rtServDe(f.it.nome).map(s => s.id), feito: f.L.data || hoje(), item: f.it.id }); },
+      'rt-salvar-novo': () => salvarNovoRetorno(),
+      'rt-abrir': () => { if (e.target.closest('[data-acao="rt-chamar"]')) return; abrirRetorno(a.dataset.id); },
+      'rt-chamar': () => rtChamar(a.dataset.id),
+      'rt-copiar': () => { const r = S.retornos.get(a.dataset.id); if (r) copiar(rtMensagem(r)); },
+      'rt-filtro': () => { S.rtFiltro = a.dataset.v; VIEWS.retornos(); },
+      'rt-voltou': () => {
+        const id = a.dataset.id, r = S.retornos.get(id); if (!r) return;
+        const dt = $('#rt-vdata')?.value || hoje(); if (dt > hoje()) { toast('A data não pode ser no futuro.', true); return; }
+        rtMudar(id, { status: 'voltou', voltouEm: dt });
+        if ($('#rt-vprox')?.checked) { const nid = rid(12); S.retornos.set(nid, { nome: r.nome, tel: r.tel, veiculo: r.veiculo, placa: r.placa, servicoId: r.servicoId, servico: r.servico, meses: r.meses, feito: dt, volta: addMeses(dt, r.meses), status: 'aberto', avisos: [], avisadoEm: null, adiadoPara: null, obs: '', origem: { anterior: id }, criadoEm: Date.now(), por: S.uid || null }); rtSalvar(nid); toast(`${r.nome} voltou. Próximo lembrete em ${fmtData(addMeses(dt, r.meses))}.`); }
+        else toast(`${r.nome} voltou.`);
+        fecharDrawer(); render();
+      },
+      'rt-adiar': () => { const id = a.dataset.id, d = Number(a.dataset.dias), r = S.retornos.get(id); if (!r) return; rtMudar(id, { adiadoPara: addDays(hoje(), d), avisadoEm: null }); toast(`${r.nome} volta para a lista em ${fmtData(addDays(hoje(), d))}.`); fecharDrawer(); render(); },
+      'rt-parar': () => { if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.textContent = 'Clique de novo para parar'; return; } rtMudar(a.dataset.id, { status: 'parado', paradoEm: hoje() }); toast('Não vai mais aparecer para chamar.'); fecharDrawer(); render(); },
+      'rt-reativar': () => { const r = S.retornos.get(a.dataset.id); if (!r) return; rtMudar(a.dataset.id, { status: 'aberto', avisadoEm: null }); toast('Voltou para a lista de lembretes.'); abrirRetorno(a.dataset.id); render(); },
+      'rt-excluir': () => { if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.textContent = 'Clique de novo para excluir'; return; } const id = a.dataset.id; S.retornos.delete(id); fila('retornos/' + id, 'delete', () => null); toast('Lembrete excluído.'); fecharDrawer(); render(); },
+      'rt-salvar': () => rtSalvarDados(a.dataset.id),
+      'rt-config': () => { S.rtDraft = null; abrirRtConfig(); },
+      'rt-cfg-add': () => { S.rtDraft.servicos.push({ id: rid(6), nome: '', meses: 6, ativo: true }); abrirRtConfig(); setTimeout(() => { const l = $$('[data-rtc="nome"]'); l[l.length - 1]?.focus(); }, 30); },
+      'rt-cfg-usar': () => { const sg = RT_SUGESTOES.find(x => x.id === a.dataset.id); if (sg) S.rtDraft.servicos.push({ id: sg.id, nome: sg.nome, meses: sg.meses, ativo: true, sugerido: true }); abrirRtConfig(); },
+      'rt-cfg-padrao': () => { S.rtDraft = { servicos: RT_PADRAO.map(x => ({ ...x })), msg: RT_MSG_PADRAO, ddd: '33' }; abrirRtConfig(); },
+      'rt-cfg-salvar': () => salvarRtConfig(),
       'nivel': () => { const v = Number(a.dataset.v); S.nivelNotas = S.filtroNotas.receber === 'aberto' && S.nivelNotas === v ? null : v; S.filtroNotas.receber = 'aberto'; renderNotas('receber'); },
       'med-ajustar': () => { S.medAjuste = !S.medAjuste; renderNotas('receber'); if (S.medAjuste) setTimeout(() => $('#med-l0')?.focus(), 30); },
       'med-padrao': () => { PREOC_PADRAO.forEach((v, i) => { const el = $('#med-l' + i); if (el) el.value = v; }); },
@@ -3910,6 +4204,11 @@ function ligarUI() {
   document.addEventListener('input', e => {
     const tg = e.target, ds = tg.dataset || {};
     if (tg.id === 'vinc-q') renderVinc(tg.value);
+    if (tg.id === 'rt-q') VIEWS.retornos();
+    if (tg.id === 'rt-nome') rtCompletar();
+    if (tg.id === 'rt-feito' && tg.value) { const c = rtCfg(); $$('[data-rtvolta]').forEach(el => { const sv = c.servicos.find(x => x.id === el.dataset.rtvolta); if (sv) el.textContent = fmtData(addMeses(tg.value, sv.meses)); }); }
+    if (ds.rtc && S.rtDraft) { const sv = S.rtDraft.servicos[Number(ds.i)]; if (sv) sv[ds.rtc] = ds.rtc === 'ativo' ? tg.checked : ds.rtc === 'meses' ? parseInt(tg.value, 10) || '' : tg.value; }
+    if ((tg.id === 'rt-cfg-msg' || tg.id === 'rt-cfg-ddd') && S.rtDraft) { if (tg.id === 'rt-cfg-msg') S.rtDraft.msg = tg.value; else S.rtDraft.ddd = tg.value.replace(/\D/g, ''); const ex = $('#rt-cfg-ex'); if (ex) ex.textContent = rtMensagem({ nome: 'João', servico: 'Troca de óleo', feito: addMeses(hoje(), -6), veiculo: 'Gol' }, S.rtDraft.msg); }
     if (tg.id === 'nd-leitor') ndBusca(tg.value);
     if (tg.id === 'i-q') VIEWS.integrantes();
     if (tg.id === 'ig-cnpj' && cnpjOk(tg.value) && tg.dataset.buscado !== docLimpo(tg.value)) { tg.dataset.buscado = docLimpo(tg.value); igBuscar(true); }
@@ -3943,6 +4242,7 @@ function ligarUI() {
   });
   document.addEventListener('change', e => {
     const tg = e.target;
+    if (tg.dataset?.rtc === 'ativo' && S.rtDraft) { const sv = S.rtDraft.servicos[Number(tg.dataset.i)]; if (sv) sv.ativo = tg.checked; return; }
     if (tg.name === 'ab-caixa') { const l = $('#ab-pg-l'); if (l) l.hidden = tg.value !== 'sim'; const er = $('#ab-erro'); if (er) er.textContent = ''; return; }
     if (tg.dataset?.atrib) { const id = tg.dataset.atrib, v = tg.value || null; atribuir(id, v); toast(v ? 'Ligado a ' + nomeInteg(v) + '.' : 'Sem integrante.'); render(); return; }
     if (tg.dataset?.nfsel && S.nf) { const id = tg.dataset.nfsel; if (tg.checked) { S.nf.sel.add(id); const f = acharItem(id), q = f && quemDe(f.it); if (!S.nf.quem && q) S.nf.quem = q; if (f && S.nf.sel.size === 1 && f.L.data) { S.nf.comp = f.L.data; $('#nf-comp').value = f.L.data; } } else S.nf.sel.delete(id); nfAtualizarDesc(); renderNfQuem(); renderNfPrevia(); return; }
@@ -4067,6 +4367,8 @@ function assinar() {
   assinarLeve('vinculos', 'vinculos');
   assinarLeve('notasfiscais', 'nfs');
   assinarLeve('clientes', 'clientes');
+  assinarLeve('retornos', 'retornos');
+  S.db.doc('config/retornos').onSnapshot(d => { if (pendente('config/retornos')) return; S.rtConfigDoc = d.exists ? d.data() : null; agendarRender(); }, erroAssinatura);
   S.db.collection('rotina').onSnapshot(snap => {
     const m = new Map(); let lista = null;
     for (const d of snap.docs) { if (d.id === 'lista') lista = d.data().itens; else m.set(d.id, d.data()); }
