@@ -1384,6 +1384,8 @@ const r2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
 const r3 = v => Math.round((v + Number.EPSILON) * 1000) / 1000;
 const norm = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
 const normCod = s => String(s ?? '').trim().toUpperCase().replace(/\s+/g, '');
+// célula de código de barras da planilha: aceita mais de um código (separados por /, vírgula, ponto e vírgula ou espaço)
+const codsCel = s => [...new Set(String(s ?? '').replace(/\.0$/, '').split(/[\s,;\/|]+/).map(normCod).filter(Boolean))].join(' ');
 const semMarcador = s => { const t = String(s ?? '').trim(); return /^\(.*\)$/.test(t) ? '' : t; };
 function parseNum(s) {
   if (typeof s === 'number') return s;
@@ -1572,7 +1574,7 @@ function reconstruir() {
   const idx = new Map();
   const add = (c, k) => { const n = normCod(c); if (n && !idx.has(n)) idx.set(n, k); };
   for (const p of prods.values()) p.codigos.forEach(c => add(c, p.k));
-  for (const p of prods.values()) { if (p.eanPl) add(p.eanPl, p.k); if (p.cod) add(p.cod, p.k); }
+  for (const p of prods.values()) { if (p.eanPl) for (const e of p.eanPl.split(' ')) add(e, p.k); if (p.cod) add(p.cod, p.k); }
   S.produtos = prods; S.indice = idx;
   S.lista = [...prods.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR') || a.modelo.localeCompare(b.modelo, 'pt-BR'));
   const is = new Map(); for (const [id, s] of S.servicos) if (s.cod) is.set(normCod(s.cod), id); S.indServ = is;
@@ -2088,7 +2090,7 @@ function interpretar(abas, metodo) {
       const l = { k, nome: nomeP, modelo, marca, cod, custo: valorPos(r?.[cCu]), mercado: valorPos(r?.[cMe]), origem: cel(r, cO), aba };
       if (aba === 'nao_encontrados' && l.mercado == null && cV >= 0) { const v = valorPos(r?.[cV]); if (v != null) { l.mercado = v; l.origem = 'Valor informado na aba Não encontrados'; } }
       if (cPr >= 0) { const v = valorPos(r?.[cPr]); if (v != null) l.preco = v; }
-      if (cE >= 0) { const e = normCod(cel(r, cE)); if (e) l.ean = e; }
+      if (cE >= 0) { const e = codsCel(cel(r, cE)); if (e) l.ean = e; }
       const ps = cod && pesquisa.get(cod); if (ps && (ps.anuncios.length || ps.busca)) { l.anuncios = ps.anuncios; l.busca = ps.busca; }
       for (const key of Object.keys(l)) if (l[key] == null || l[key] === '') delete l[key];
       l.k = k; l.nome = nomeP; l.aba = aba;
@@ -2100,7 +2102,7 @@ function interpretar(abas, metodo) {
   const chaveNome = (nome, modelo, marca) => nk([nome, semMarcador(modelo), semMarcador(marca)].filter(Boolean).join(' '));
   const ixCod = new Map(), ixEan = new Map(), ixNome = new Map();
   const porNome = (n, l) => { if (n) ixNome.set(n, ixNome.has(n) && ixNome.get(n) !== l ? null : l); };
-  for (const l of linhas) { if (l.cod) ixCod.set(normCod(l.cod), l); if (l.ean) ixEan.set(l.ean, l); porNome(chaveNome(l.nome, l.modelo, l.marca), l); porNome(chaveNome(l.nome, l.modelo, ''), l); porNome(nk(l.nome), l); }
+  for (const l of linhas) { if (l.cod) ixCod.set(normCod(l.cod), l); if (l.ean) for (const e of l.ean.split(' ')) ixEan.set(e, l); porNome(chaveNome(l.nome, l.modelo, l.marca), l); porNome(chaveNome(l.nome, l.modelo, ''), l); porNome(nk(l.nome), l); }
   let nTabela = 0;
   for (const t of tabelas) {
     const col = colDe(t.rows[t.hi].map(norm));
@@ -2109,8 +2111,8 @@ function interpretar(abas, metodo) {
     if (cN < 0) continue;
     for (let i = t.hi + 1; i < t.rows.length; i++) {
       const r = t.rows[i], nomeP = cel(r, cN); if (!nomeP || /^total/.test(norm(nomeP))) continue;
-      const cod = cel(r, cC).replace(/\.0$/, ''), ean = normCod(cel(r, cE).replace(/\.0$/, ''));
-      let l = (cod && ixCod.get(normCod(cod))) || (ean && ixEan.get(ean)) || ixNome.get(nk(nomeP)) || null;
+      const cod = cel(r, cC).replace(/\.0$/, ''), ean = codsCel(cel(r, cE));
+      let l = (cod && ixCod.get(normCod(cod))) || (ean && ean.split(' ').map(e => ixEan.get(e)).find(Boolean)) || ixNome.get(nk(nomeP)) || null;
       if (!l) {
         l = { k: novaChave(cod ? 'e' + segOk(cod) : 's' + hash36(norm(nomeP) + '||')), nome: nomeP, modelo: '', marca: '', aba: 'produtos', origem: 'Aba ' + t.nome };
         if (cod) { l.cod = cod; ixCod.set(normCod(cod), l); }
@@ -2119,7 +2121,7 @@ function interpretar(abas, metodo) {
       const custo = valorPos(r?.[cCu]), preco = valorPos(r?.[cPr]);
       if (custo != null) l.custo = custo;
       if (preco != null) l.preco = preco;
-      if (ean) { l.ean = ean; ixEan.set(ean, l); }
+      if (ean) { l.ean = ean; for (const e of ean.split(' ')) ixEan.set(e, l); }
       nTabela++;
     }
   }
@@ -2474,7 +2476,7 @@ VIEWS.produtos = () => {
   if (!l.length) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">${S.produtos.size ? 'Nenhum produto com esse filtro.' : 'Nenhum produto ainda. Leia a planilha em Preços para trazer a lista.'}</td></tr>`; return; }
   tb.innerHTML = l.map(p => {
     const baixo = p.estoque < 0 || (p.min != null && p.estoque <= p.min);
-    const nBarras = new Set([...p.codigos, ...(p.eanPl ? [p.eanPl] : [])].map(normCod)).size;
+    const nBarras = new Set([...p.codigos, ...(p.eanPl ? p.eanPl.split(' ') : [])].map(normCod)).size;
     return `<tr class="click" data-acao="abrir-produto" data-k="${esc(p.k)}"><td class="nome"><b>${esc(p.nome)}</b><span class="sub">${esc(nomeCurto(p) || '—')}${nBarras ? ` · ${nBarras} cód. de barras` : ''}</span></td>
       <td class="mono">${esc(p.cod || '—')}</td>
       <td class="num">${baixo ? `<span class="pill red">${qn(p.estoque)}</span>` : qn(p.estoque)}</td>
@@ -3713,6 +3715,7 @@ function abrirProduto(k, novo) {
     ${av ? `<section><h3>Identificação</h3><label class="f">Nome<input class="inp" id="d-nome" value="${esc(p?.nome || '')}" required></label><div class="form-g"><label class="f">Modelo / medida<input class="inp" id="d-modelo" value="${esc(p?.modelo || '')}"></label><label class="f">Marca<input class="inp" id="d-marca" value="${esc(p?.marca || '')}"></label></div><label class="f">Código de estoque<input class="inp mono" id="d-cod" value="${esc(p?.cod || '')}"></label></section>` : ''}
     <section><h3>Códigos de barras</h3>
       <div class="cod-chips" id="d-cods"></div>
+      ${p?.eanPl ? `<p class="muted" style="margin:0;font-size:13px">Da planilha (coluna Código de barras): <span class="mono">${esc(p.eanPl.split(' ').join(', '))}</span></p>` : ''}
       <div class="toolbar"><input class="inp mono" id="d-novo-cod" placeholder="Passe o leitor aqui para vincular" style="flex:1"><button class="btn sm" type="button" data-acao="cod-add">Vincular</button></div>
       ${p?.cod ? `<p class="muted" style="margin:0;font-size:13px">O código de estoque <span class="mono">${esc(p.cod)}</span> também funciona: digite ou leia a etiqueta abaixo.</p>` : ''}
       <div class="etq" id="d-etq" hidden></div>
