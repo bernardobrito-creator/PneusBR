@@ -940,8 +940,10 @@ button.pill{cursor:pointer;font-family:inherit}
 'use strict';
 
 /* ================= constantes ================= */
-const PLANILHA_ID = '19zziFSFz1rA9uV8KimRcQI7Z8Sl3Pxbi_-nrUkQm5kk';
-const PLANILHA_URL = 'https://docs.google.com/spreadsheets/d/' + PLANILHA_ID + '/edit';
+// O ID da planilha não fica no código público: no site, o servidor (função "planilha") sabe qual é e devolve o link
+// para quem é da equipe; na versão dentro do Claude, vem de config/geral.planilhaId.
+const planilhaId = () => String(S.config?.planilhaId || '');
+const planilhaUrl = () => safeUrl(S.planilhaLink || window.PBR?.planilhaLink) || (planilhaId() ? 'https://docs.google.com/spreadsheets/d/' + encodeURIComponent(planilhaId()) + '/edit' : '');
 const SERVIDOR = 'Google Drive';
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 const XLSX_URL = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
@@ -992,7 +994,20 @@ const CTRIB_DESC = { '140101': 'Lubrificação, limpeza, revisão, conserto, res
 const EMISSOR_NFSE = 'https://www.nfse.gov.br/EmissorNacional';
 const EMISSOR_PECAS_MG = 'https://www.fazenda.mg.gov.br/servicos/empresa/nfa/emitir-nota-fiscal-avulsa-eletronica-nfa-e/';
 const BRASILAPI_CNPJ = 'https://brasilapi.com.br/api/cnpj/v1/';
-const SENHA_TELAS = 'jm1zwz'; // resumo (hash36) da senha da loja
+// Senha das telas: no site, quem confere é o servidor (função "acesso"), com limite de tentativas; a senha nova nunca fica no código.
+// O resumo abaixo é da senha antiga e só vale enquanto o dono não criar a senha nova em Configurações.
+const SENHA_TELAS_ANTIGA = 'jm1zwz';
+const TRAVA_TENT = 'pbr.trava.tent';
+function travaEspera() { try { const t = JSON.parse(localStorage.getItem(TRAVA_TENT) || 'null'); return t && t.ate > Date.now() ? Math.ceil((t.ate - Date.now()) / 1000) : 0; } catch { return 0; } }
+function travaErrou() { try { const t = JSON.parse(localStorage.getItem(TRAVA_TENT) || 'null') || { n: 0 }; t.n = (t.n || 0) + 1; t.ate = t.n >= 5 ? Date.now() + Math.min(900, 30 * 2 ** (t.n - 5)) * 1000 : 0; localStorage.setItem(TRAVA_TENT, JSON.stringify(t)); } catch { } }
+function travaZerar() { try { localStorage.removeItem(TRAVA_TENT); } catch { } }
+async function conferirSenhaTelas(v) {
+  if (window.PBR && typeof window.PBR.travaConferir === 'function') {
+    const r = await window.PBR.travaConferir(v); // erro de rede ou excesso de tentativas sobe como exceção
+    if (r && r.configurada) return !!r.ok;
+  }
+  return hash36(v) === SENHA_TELAS_ANTIGA;
+}
 let livresMem = (() => { try { return sessionStorage.getItem('pbr.livre') === '1'; } catch { return false; } })();
 function telasLivres() { return livresMem; }
 function liberarTelas(sim) { livresMem = sim; try { if (sim) sessionStorage.setItem('pbr.livre', '1'); else sessionStorage.removeItem('pbr.livre'); } catch { } }
@@ -1034,6 +1049,8 @@ const FREQ = [['dia', 'Todo dia', 'hoje'], ['semana', 'Toda semana', 'nesta sema
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// só aceita links http(s): bloqueia "javascript:", "data:" e outros truques em links digitados ou vindos da planilha
+const safeUrl = u => { try { const x = new URL(String(u ?? '').trim()); return x.protocol === 'https:' || x.protocol === 'http:' ? x.href : ''; } catch { return ''; } };
 const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 const COMPACT = new Intl.NumberFormat('pt-BR', { notation: 'compact', maximumFractionDigits: 1 });
 // Código da loja: os valores em R$ (menos o preço de venda) aparecem em letras. 1=T 2=R 3=E 4=P 5=N 6=I 7=A 8=Y 9=K 0=S
@@ -1087,10 +1104,16 @@ const segOk = s => String(s).replace(/[^A-Za-z0-9_\-.~:@+]/g, '_').slice(0, 120)
 const ico = id => `<svg class="i"><use href="#ic-${id}"/></svg>`;
 const fmtCnpj = d => { d = String(d || '').replace(/\D/g, ''); return d.length === 14 ? `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}` : d; };
 const ls = { get(k, d) { try { const v = localStorage.getItem('pbr.' + k); return v == null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem('pbr.' + k, JSON.stringify(v)); } catch { } } };
+// impressão digital (SRI) de cada biblioteca: se o arquivo do CDN for alterado, o navegador se recusa a rodar
+const INTEGRIDADE = {
+  [XLSX_URL]: 'sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw',
+  [JSBARCODE_URL]: 'sha384-Kk5SjBOKprEnGfyBWfD2zROFd1Cu8kwOXxG2GIhYPcoDL2rBJS9P8Ud1ZMy4412a',
+  [ZXING_URL]: 'sha384-pmb1tQJNOuJHk8egrf/+ZRqlneecoac2BFNir9Iktg+pJRV7RV31WuzC/ljFVuom'
+};
 function carregarScript(url) {
   carregarScript.p = carregarScript.p || {};
   if (carregarScript.p[url]) return carregarScript.p[url];
-  return carregarScript.p[url] = new Promise((ok, fail) => { const s = document.createElement('script'); s.src = url; s.onload = ok; s.onerror = () => { delete carregarScript.p[url]; fail(new Error('Não foi possível carregar ' + url)); }; document.head.appendChild(s); });
+  return carregarScript.p[url] = new Promise((ok, fail) => { const s = document.createElement('script'); if (INTEGRIDADE[url]) { s.integrity = INTEGRIDADE[url]; s.crossOrigin = 'anonymous'; } s.src = url; s.onload = ok; s.onerror = () => { delete carregarScript.p[url]; fail(new Error('Não foi possível carregar ' + url)); }; document.head.appendChild(s); });
 }
 const esperar = (cond, ms) => new Promise(ok => { const t0 = Date.now(); (function v() { if (cond() || Date.now() - t0 > ms) ok(); else setTimeout(v, 150); })(); });
 async function copiar(txt, el) {
@@ -1136,6 +1159,7 @@ async function tentar(fn) {
 }
 function fila(path, op, getData) {
   if (!S.db) return Promise.resolve();
+  if (path.startsWith('config/') && !podeConfig()) { avisoSoDono(); return Promise.resolve(); }
   let q = filas.get(path);
   if (!q) { q = { running: false, dirty: false }; filas.set(path, q); }
   q.op = op; q.getData = getData;
@@ -1145,14 +1169,15 @@ function fila(path, op, getData) {
     try {
       do { q.dirty = false; const data = q.getData(); await tentar(() => q.op === 'delete' ? S.db.doc(path).delete() : S.db.doc(path).set(data)); } while (q.dirty);
       S.erroGravacao = null;
-    } catch (e) { S.erroGravacao = e; erroDb(e); }
+    } catch (e) { S.erroGravacao = e; erroDb(e, path); }
     finally { q.running = false; pendentes--; statusSync(); }
   })();
   return q.p;
 }
 const pendente = path => filas.get(path)?.running;
-function erroDb(e) {
+function erroDb(e, path) {
   const c = e && e.code;
+  if (c === 'invalid_argument' && path && path.startsWith('config/')) { toast('Só o dono pode mudar as configurações. A alteração não foi salva.', true); return; }
   if (c === 'quota_exceeded') toast('O banco de dados está cheio. Exporte as movimentações e peça ao Claude para arquivar os meses antigos.', true);
   else if (c === 'invalid_argument') { toast('Seu acesso a este sistema é só de leitura, então a alteração não foi salva.', true); S.podeEscrever = false; render(); }
   else if (c === 'revoked') toast('O acesso a este sistema foi alterado. Recarregue a página.', true);
@@ -1849,14 +1874,15 @@ async function sincronizar(manual) {
   try {
     let dados;
     try {
-      const r = await chamar('download_file_content', { fileId: PLANILHA_ID, exportMimeType: XLSX_MIME });
+      const r = await chamar('download_file_content', { fileId: planilhaId(), exportMimeType: XLSX_MIME });
+      if (r && r.payload && r.payload.link) S.planilhaLink = r.payload.link;
       const b64 = acharBase64(r && (r.payload ?? r.structuredContent ?? r.content));
       if (!b64) throw { code: 'formato', message: 'O Drive não devolveu o arquivo da planilha.' };
       await carregarScript(XLSX_URL);
       dados = lerXlsx(b64);
     } catch (e1) {
       if (ehAuth(e1)) throw e1;
-      const r = await chamar('read_file_content', { fileId: PLANILHA_ID });
+      const r = await chamar('read_file_content', { fileId: planilhaId() });
       const txt = acharTexto(r && (r.payload ?? r.content)) || acharTexto(r);
       if (!txt) throw (e1 && e1.code ? e1 : { code: 'formato', message: 'O Drive não devolveu o conteúdo da planilha.' });
       dados = lerTextoPlanilha(txt);
@@ -1877,7 +1903,7 @@ async function gravarPlanilha(dados) {
   const TAM = 250, partes = [];
   for (let i = 0; i < dados.linhas.length; i += TAM) partes.push(dados.linhas.slice(i, i + TAM));
   const mudou = !meta0 || meta0.assinatura !== assinatura;
-  const meta = { lidaEm: Date.now(), assinatura, partes: partes.length, fixos: dados.fixos, totalFixos: dados.totalFixos, nLinhas: dados.linhas.length, contagem: dados.contagem, metodo: dados.metodo, markupMes: dados.markupMes || null, abaPrecos: dados.abaPrecos || null, nTabela: dados.nTabela || 0, fonte: PLANILHA_ID, mudouEm: mudou ? Date.now() : (meta0?.mudouEm || Date.now()) };
+  const meta = { lidaEm: Date.now(), assinatura, partes: partes.length, fixos: dados.fixos, totalFixos: dados.totalFixos, nLinhas: dados.linhas.length, contagem: dados.contagem, metodo: dados.metodo, markupMes: dados.markupMes || null, abaPrecos: dados.abaPrecos || null, nTabela: dados.nTabela || 0, fonte: planilhaId() || 'servidor', mudouEm: mudou ? Date.now() : (meta0?.mudouEm || Date.now()) };
   if (S.db) {
     if (mudou) {
       for (let i = 0; i < partes.length; i++) await tentar(() => S.db.doc('planilha/p' + i).set({ linhas: partes[i] }));
@@ -2191,7 +2217,7 @@ function renderPlanCard() {
   const m = S.planilha.meta, c = m?.contagem || {};
   const fixosNZ = (m?.fixos || []).filter(f => f.valor > 0);
   el.innerHTML = `<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap"><h2>Planilha "Precificação"</h2>
-      <div class="toolbar"><a class="btn sm" href="${PLANILHA_URL}" target="_blank" rel="noopener">${ico('link')}Abrir</a><button class="btn sm primary" type="button" data-acao="sincronizar" ${S.sync.rodando || !S.podeEscrever ? 'disabled' : ''}>${ico('sync')}${S.sync.rodando ? 'Lendo…' : 'Ler planilha agora'}</button></div></div>
+      <div class="toolbar">${planilhaUrl() ? `<a class="btn sm" href="${esc(planilhaUrl())}" target="_blank" rel="noopener noreferrer">${ico('link')}Abrir</a>` : ''}<button class="btn sm primary" type="button" data-acao="sincronizar" ${S.sync.rodando || !S.podeEscrever ? 'disabled' : ''}>${ico('sync')}${S.sync.rodando ? 'Lendo…' : 'Ler planilha agora'}</button></div></div>
     <div class="plan-st">${m ? `<span>Última leitura: <b>${esc(fmtQuando(m.lidaEm))}</b></span><span>Mudou: <b>${esc(fmtQuando(m.mudouEm || m.lidaEm))}</b></span>` : '<span>Ainda não lida.</span>'}</div>
     ${S.sync.erro ? `<p class="erro-txt">${esc(msgErroPlanilha(S.sync.erro))}</p>` : ''}
     <div class="cnt"><div><b>${c.venda ?? '—'}</b><small>com preço de venda</small></div><div><b>${c.custo ?? '—'}</b><small>com preço de compra</small></div><div><b>${c.mercado ?? '—'}</b><small>só média de mercado</small></div><div><b>${c.sem ?? '—'}</b><small>sem valor</small></div></div>
@@ -2223,6 +2249,10 @@ function renderParamForm() {
       <label class="f">Arredondar preços<select class="inp" data-cfg="arredondar">${[['centavo', 'Centavos (sem arredondar)'], ['90', 'Terminar em ,90'], ['50', 'Múltiplos de R$ 0,50'], ['inteiro', 'Real inteiro acima']].map(([v, n]) => `<option value="${v}" ${c.arredondar === v ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
     </div>`;
   atualizarFormula();
+  if (!podeConfig()) {
+    $$('#param-card [data-cfg], #param-card [data-var], #param-card [data-mkcat], #param-card button[data-acao]').forEach(el => { el.disabled = true; });
+    $('#param-card').insertAdjacentHTML('afterbegin', '<p class="muted" style="margin:0 0 8px;font-size:13px">Só o dono muda o markup e os ajustes de preço.</p>');
+  }
 }
 function atualizarFormula() {
   const T = S.T || taxas(), el = $('#formula'); if (!el) return;
@@ -2254,7 +2284,14 @@ function calcRapida(origem) {
   else if (preco > 0 && mkv > 0) res.innerHTML = `<span>Para vender a ${moneyV(preco)} com este markup, o custo máximo é <b>${money(preco / mkv)}</b></span>`;
 }
 let cfgTimer;
+// configurações (markup, faixas, prazos, integrantes...) só o dono muda; o banco também recusa para os outros
+const podeConfig = () => S.dono !== false;
+function avisoSoDono() { toast('Só o dono pode mudar as configurações. Nada foi alterado.', true); }
 function mudarConfig(patch) {
+  if (!podeConfig()) {
+    if (Object.keys(patch).some(k => JSON.stringify(S.config[k]) !== JSON.stringify(patch[k]))) { avisoSoDono(); render(); }
+    return false;
+  }
   Object.assign(S.config, patch);
   reconstruir(); atualizarFormula(); renderTabelaPrecos();
   clearTimeout(cfgTimer);
@@ -2448,7 +2485,7 @@ VIEWS.faturamento = () => {
   const diasMes = new Date(Number(h.slice(0, 4)), Number(h.slice(5, 7)), 0).getDate(), diaAtual = Number(h.slice(8, 10));
   const proj = tm.fat / diaAtual * diasMes, meta = parseNum(S.config.metaMensal) || 0;
   $('#f-meta').innerHTML = `<h2>Meta do mês</h2>
-    <label class="f">Meta de faturamento mensal (R$)<input class="inp num" data-cfg="metaMensal" id="f-meta-in" inputmode="decimal" value="${esc(fmtMoneyIn(meta))}" placeholder="Ex.: 50.000,00"></label>
+    <label class="f">Meta de faturamento mensal (R$)<input class="inp num" data-cfg="metaMensal" id="f-meta-in" inputmode="decimal" value="${esc(fmtMoneyIn(meta))}" placeholder="Ex.: 50.000,00" ${podeConfig() ? '' : 'disabled title="Só o dono muda a meta"'}></label>
     <div><div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px"><span>Faturado no mês: <b>${money(tm.fat)}</b></span><span>${meta ? pct(r2(tm.fat / meta * 100)) : ''}</span></div>
     <div class="meta-bar"><i style="width:${meta ? Math.min(100, tm.fat / meta * 100) : 0}%"></i>${meta ? `<u style="left:${Math.min(100, diaAtual / diasMes * 100)}%" title="Onde deveria estar hoje"></u>` : ''}</div></div>
     <dl class="dl"><dt>Projeção para o fim do mês</dt><dd><b>${money(proj)}</b></dd><dt>Média por dia</dt><dd>${money(tm.fat / diaAtual)}</dd>${meta ? `<dt>Falta para a meta</dt><dd>${money(Math.max(0, meta - tm.fat))}</dd><dt>Precisa vender por dia</dt><dd>${diasMes - diaAtual > 0 ? money(Math.max(0, meta - tm.fat) / (diasMes - diaAtual)) : '—'}</dd>` : ''}</dl>
@@ -2649,13 +2686,13 @@ function renderMedidor(abertas) {
   const total = niv.reduce((s, o) => s + o.valor, 0);
   if (!abertas.length && !S.medAjuste) { el.innerHTML = ''; return; }
   const sel = S.filtroNotas.receber === 'aberto' ? S.nivelNotas : null;
-  const ajuste = S.medAjuste && S.podeEscrever ? `<div class="med-ajuste">
+  const ajuste = S.medAjuste && S.podeEscrever && podeConfig() ? `<div class="med-ajuste">
       ${[0, 1, 2, 3].map(i => `<label class="f">${PREOC_NOMES[i]} até<span style="display:flex;align-items:center;gap:6px"><input class="inp num" id="med-l${i}" type="number" min="1" step="1" inputmode="numeric" value="${L[i]}"><span class="muted" style="font-size:13px">dias</span></span></label>`).join('')}
       <span class="fim">${PREOC_NOMES[4]}: acima disso</span>
       <span class="erro-txt" id="med-erro"></span><span class="sp" style="flex:1"></span>
       <button class="btn sm ghost" type="button" data-acao="med-padrao">Voltar ao padrão (${PREOC_PADRAO.join(', ')})</button>
       <button class="btn sm primary" type="button" data-acao="med-salvar">Salvar faixas</button></div>` : '';
-  el.innerHTML = `<div class="med-h"><h3>Medidor de preocupação</h3><span class="muted">pelo tempo desde a data da nota: quanto mais antiga, mais preocupante</span>${S.podeEscrever ? `<button class="btn sm ghost" type="button" data-acao="med-ajustar" aria-expanded="${!!S.medAjuste}">${S.medAjuste ? 'Fechar ajuste' : 'Ajustar faixas'}</button>` : ''}</div>
+  el.innerHTML = `<div class="med-h"><h3>Medidor de preocupação</h3><span class="muted">pelo tempo desde a data da nota: quanto mais antiga, mais preocupante</span>${S.podeEscrever && podeConfig() ? `<button class="btn sm ghost" type="button" data-acao="med-ajustar" aria-expanded="${!!S.medAjuste}">${S.medAjuste ? 'Fechar ajuste' : 'Ajustar faixas'}</button>` : ''}</div>
     ${total > 0 ? `<div class="med-barra" role="img" aria-label="Valor em aberto por nível de preocupação">${niv.filter(o => o.valor > 0).map(o => `<i class="p${o.lv}" style="flex:${o.valor} 1 0" title="${PREOC_NOMES[o.lv - 1]}: ${o.ids.size} nota(s)"></i>`).join('')}</div>` : ''}
     <div class="med-niveis">${niv.map(o => `<button type="button" class="p${o.lv}" data-acao="nivel" data-v="${o.lv}" aria-pressed="${sel === o.lv}" title="${sel === o.lv ? 'Mostrar todas as notas em aberto' : 'Mostrar só as notas deste nível'}"><span class="nm">${PREOC_NOMES[o.lv - 1]}</span><span class="fx">${faixaPreoc(o.lv)}</span><span class="vl">${money(o.valor)}</span><span class="qt">${o.ids.size} nota${o.ids.size === 1 ? '' : 's'}</span></button>`).join('')}</div>
     ${ajuste}`;
@@ -2855,7 +2892,7 @@ function rtSalvarDados(id) {
 }
 function abrirRtConfig() {
   if (!S.rtDraft) { const c = rtCfg(); S.rtDraft = { servicos: c.servicos.map(s => ({ ...s })), msg: c.msg, ddd: c.ddd }; }
-  const d = S.rtDraft, ed = S.podeEscrever, usados = new Set(d.servicos.map(s => s.id));
+  const d = S.rtDraft, ed = S.podeEscrever && podeConfig(), usados = new Set(d.servicos.map(s => s.id));
   const sugs = RT_SUGESTOES.filter(s => !usados.has(s.id));
   const ex = { nome: 'João', servico: 'Troca de óleo', feito: addMeses(hoje(), -6), veiculo: 'Gol' };
   abrirDrawer(`<div class="pn-h"><div><h2>Serviços e prazos</h2><div class="sub">Em quanto tempo o cliente deve voltar depois de cada serviço.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
@@ -2876,6 +2913,7 @@ function abrirRtConfig() {
     <div class="pn-acoes"><button class="btn ghost" type="button" data-acao="rt-cfg-padrao">Voltar ao padrão</button><span class="sp"></span><button class="btn ghost" type="button" data-acao="fechar-drawer">Cancelar</button><button class="btn primary" type="button" data-acao="rt-cfg-salvar" ${ed ? '' : 'disabled'}>Salvar</button></div>`, { tipo: 'rt-config' });
 }
 function salvarRtConfig() {
+  if (!podeConfig()) return avisoSoDono();
   const d = S.rtDraft, er = m => { $('#rt-cfg-erro').textContent = m; };
   const servicos = d.servicos.map(s => ({ ...s, nome: (s.nome || '').trim(), meses: Number(s.meses) })).filter(s => s.nome || s.ativo !== false);
   if (servicos.some(s => !s.nome)) return er('Dê um nome para cada serviço (ou desmarque "Ativo").');
@@ -3076,7 +3114,7 @@ function carregarZxing() {
 }
 async function paginasDoPdf(file) {
   const pdfjs = await carregarPdfjs();
-  const doc = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+  const doc = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()), isEvalSupported: false }).promise;
   const n = Math.min(doc.numPages, 5), paginas = []; let texto = '';
   for (let i = 1; i <= n; i++) {
     scanMsg(`<span class="lendo">Abrindo a página ${i} de ${n}…</span>`);
@@ -3397,7 +3435,7 @@ function abrirProduto(k, novo) {
       <div class="form-g">${av ? `<label class="f">Custo de compra (R$)<input class="inp num" id="d-custo" inputmode="decimal" value="${esc(fmtMoneyIn(p?.custoManual))}" placeholder="0,00"></label>` : ''}
       <label class="f">Markup deste produto<input class="inp num" id="d-mk" inputmode="decimal" value="${esc(fmtIn(p?.markup))}" placeholder="${esc(mkPadrao ? fmtIn(r3(mkPadrao)) : '—')} (padrão)"></label></div>
       <dl class="dl" id="d-calc"></dl>
-      ${p?.anuncios?.length ? `<div class="anuncios">Pesquisa de mercado: ${p.anuncios.map(money).join(' · ')}${p.busca ? ` · <a href="${esc(p.busca)}" target="_blank" rel="noopener">ver busca no Mercado Livre</a>` : ''}</div>` : ''}
+      ${p?.anuncios?.length ? `<div class="anuncios">Pesquisa de mercado: ${p.anuncios.map(money).join(' · ')}${safeUrl(p.busca) ? ` · <a href="${esc(safeUrl(p.busca))}" target="_blank" rel="noopener noreferrer">ver busca no Mercado Livre</a>` : ''}</div>` : ''}
       <label class="f">Preço de venda manual (R$)<input class="inp num" id="d-manual" inputmode="decimal" value="${esc(fmtMoneyIn(p?.precoManual))}" placeholder="vazio = preço de venda da planilha"></label>
     </section>
     <div class="pn-acoes">${p?.avulso ? `<button class="btn ghost" type="button" data-acao="excluir-avulso" data-k="${esc(p.k)}">Excluir</button>` : ''}<span class="sp"></span><button class="btn ghost" type="button" data-acao="fechar-drawer">Cancelar</button><button class="btn primary" type="button" data-acao="salvar-produto" ${S.podeEscrever ? '' : 'disabled'}>${novo && novo.registrar ? 'Salvar e registrar' : 'Salvar'}</button></div>`;
@@ -3490,7 +3528,7 @@ function abrirAjustes() {
     <section><h3>Aparência</h3><div class="tema-opts" role="radiogroup" aria-label="Tema">
       ${[['auto', 'Automático'], ['claro', 'Modo claro'], ['escuro', 'Modo noturno']].map(([v, n]) => `<button type="button" role="radio" data-acao="tema" data-v="${v}" aria-pressed="${tema === v}" aria-checked="${tema === v}"><span class="amostra ${v}"><i></i><span></span></span>${n}</button>`).join('')}
     </div><p class="muted" style="margin:0;font-size:13px">Automático segue o tema do Claude e do seu aparelho. A escolha vale para este navegador.</p></section>
-    <section><h3>Loja</h3><label class="f">Nome que aparece no topo<input class="inp" id="a-loja" value="${esc(S.config.loja || '')}" placeholder="Ex.: PneusBR Centro"></label></section>
+    <section><h3>Loja</h3><label class="f">Nome que aparece no topo<input class="inp" id="a-loja" value="${esc(S.config.loja || '')}" placeholder="Ex.: PneusBR Centro" ${podeConfig() ? '' : 'disabled title="Só o dono muda"'}></label></section>
     <section><h3>Leitor</h3><label class="chk"><input type="checkbox" id="a-som" ${ls.get('som', true) ? 'checked' : ''}>Bipe ao registrar (agudo na entrada, grave na saída, longo quando o código não existe)</label>
       <p class="muted" style="margin:0;font-size:13.5px">Funciona com qualquer leitor USB ou Bluetooth no modo teclado (o padrão de fábrica), que envie Enter ao final. Na tela Registrar, a leitura vai para o campo mesmo sem clicar nele. Nas telas de notas, ler um boleto ou nota fiscal abre uma nota nova já preenchida.</p></section>
     <section><h3>Quem pode usar</h3><p style="margin:0;font-size:13.5px;color:var(--ink-2)">Para alguém registrar movimentos, convide a pessoa pelo e-mail como <b>Editor</b> no botão Share do Claude (ela precisa de uma conta gratuita no Claude). Quem só recebe o link consegue ver, mas não registrar.</p>
@@ -3501,7 +3539,12 @@ function abrirAjustes() {
 }
 
 /* ================= exportações ================= */
-const csvCel = v => { const s = v == null ? '' : String(v); return /[";\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+const csvCel = v => {
+  let s = v == null ? '' : String(v);
+  // texto começando com = + - @ vira fórmula no Excel: o apóstrofo faz ele aparecer como texto (números negativos ficam como estão)
+  if (/^[=+\-@\t\r]/.test(s) && !/^[-+]?\d[\d.,]*$/.test(s)) s = "'" + s;
+  return /[";\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
 const csvNum = v => v == null || !isFinite(v) ? '' : String(r2(v)).replace('.', ',');
 async function salvarArquivo(nome, conteudo) {
   if (!S.downloads) { toast('Baixar arquivos não está disponível nesta visualização.', true); return; }
@@ -3544,7 +3587,8 @@ const integrantesAtivos = () => integrantes().filter(x => x.ativo !== false);
 const integ = id => id ? integrantes().find(x => x.id === id) || null : null;
 const nomeInteg = id => integ(id)?.nome || '';
 const podeCadastrar = () => S.podeEscrever && S.dono !== false;
-function salvarIntegrantes(lista) { S.integrantesDoc = { lista, atualizadoEm: Date.now(), por: S.uid || null }; fila('config/integrantes', 'set', () => S.integrantesDoc); }
+function salvarIntegrantes(lista) {
+  if (!podeConfig()) return avisoSoDono(); S.integrantesDoc = { lista, atualizadoEm: Date.now(), por: S.uid || null }; fila('config/integrantes', 'set', () => S.integrantesDoc); }
 // quem fez: o que foi escolhido ao registrar, ou a troca feita depois (coleção vinculos, um documento por registro)
 function quemDe(it) { const v = S.vinculos.get(it.id); return v ? (v.quem || null) : (it.quem || null); }
 function atribuir(id, quem) { if (!S.podeEscrever) { toast('Seu acesso é só de leitura.', true); return; } S.vinculos.set(id, { quem: quem || null, em: Date.now(), por: S.uid || null }); fila('vinculos/' + id, 'set', () => S.vinculos.get(id)); }
@@ -3702,6 +3746,7 @@ function salvarIntegranteDrawer(id) {
   if (!nome) return erro('Informe o nome.');
   if (cnpj && !cnpjOk(cnpj)) return erro('O CNPJ não confere. Confira os números.');
   if (ctrib && ctrib.length !== 6) return erro('O código de tributação tem 6 números (ex.: 14.01.01).');
+  if (v('ig-pecas') && !safeUrl(v('ig-pecas'))) return erro('O link do emissor de peças precisa começar com https://');
   const lista = integrantes().map(x => ({ ...x }));
   if (cnpj && lista.some(x => x.id !== id && docLimpo(x.cnpj) === cnpj)) return erro('Este CNPJ já está em outro integrante.');
   const dados = { nome, cnpj, razao: v('ig-razao'), im: v('ig-im'), ie: v('ig-ie'), municipio: v('ig-mun'), uf: v('ig-uf').toUpperCase().slice(0, 2), email: v('ig-email'), tel: v('ig-tel'), mei: $('#ig-mei').checked, certificado: $('#ig-cert').checked, cTrib: ctrib || CTRIB_PADRAO, nbs: v('ig-nbs'), linkPecas: v('ig-pecas'), ativo: $('#ig-ativo').checked };
@@ -3788,7 +3833,7 @@ function linhasNf(n) {
 }
 const textoNf = n => [(n.tipo === 'nfe' ? 'NOTA DE VENDA DE PEÇAS' : 'NFS-e (nota de serviço)') + ' · PneusBR', ...linhasNf(n).map(([r, v]) => `${r}: ${v.replace(/\n/g, ' · ')}`)].join('\n');
 const dlNfHtml = n => `<dl class="nf-dl">${linhasNf(n).map(([r, v, c]) => `<div><dt>${esc(r)}</dt><dd>${esc(v)}</dd>${c ? `<button class="btn sm ghost cp" type="button" data-acao="copiar" data-txt="${esc(c)}" aria-label="Copiar ${esc(r)}" title="Copiar">${ico('copy')}</button>` : ''}</div>`).join('')}</dl>`;
-const linkEmissor = n => n.tipo === 'nfe' ? (n.prestador?.linkPecas || EMISSOR_PECAS_MG) : EMISSOR_NFSE;
+const linkEmissor = n => n.tipo === 'nfe' ? (safeUrl(n.prestador?.linkPecas) || EMISSOR_PECAS_MG) : EMISSOR_NFSE;
 const pillNf = n => `<span class="pill ${n.status === 'emitida' ? 'ink' : n.status === 'cancelada' ? 'soft' : 'red'}">${n.status === 'emitida' ? 'Emitida' + (n.numero ? ' · nº ' + esc(n.numero) : '') : n.status === 'cancelada' ? 'Cancelada' : 'Falta emitir'}</span>`;
 function ajudaEmissor(n) {
   const p = n.prestador; if (!p) return '';
@@ -3964,11 +4009,20 @@ function ligarUI() {
   // dicas do trilho
   $$('.rail [data-tip]').forEach(ligarTip);
   montarAlinhadores();
-  $('#trava-form').addEventListener('submit', e => {
+  $('#trava-form').addEventListener('submit', async e => {
     e.preventDefault();
+    const erroEl = $('#trava-erro'), btn = $('#trava-form button'), msg = m => { erroEl.textContent = m; erroEl.hidden = false; $('#trava-senha').select(); };
+    const espera = travaEspera();
+    if (espera) return msg(`Muitas tentativas erradas. Espere ${espera > 60 ? Math.ceil(espera / 60) + ' min' : espera + ' s'} e tente de novo.`);
     const v = $('#trava-senha').value.trim().toUpperCase();
-    if (hash36(v) === SENHA_TELAS) { liberarTelas(true); aplicarRota(); render(); toast('Caixa, Faturamento, Balanço e Preços liberados até você fechar esta aba.'); }
-    else { $('#trava-erro').hidden = false; $('#trava-senha').select(); }
+    if (!v) return;
+    btn.disabled = true;
+    let ok = false;
+    try { ok = await conferirSenhaTelas(v); }
+    catch (err) { btn.disabled = false; return msg(err && err.message ? err.message : 'Não foi possível conferir a senha agora.'); }
+    btn.disabled = false;
+    if (ok) { travaZerar(); liberarTelas(true); aplicarRota(); render(); toast('Caixa, Faturamento, Balanço e Preços liberados até você fechar esta aba.'); }
+    else { travaErrou(); msg('Senha incorreta.'); }
   });
   $('.rail').addEventListener('scroll', esconderTip);
 
@@ -4043,8 +4097,8 @@ function ligarUI() {
       'excluir-avulso': () => { if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.textContent = 'Confirmar exclusão'; a.classList.add('red'); return; } const k = a.dataset.k; S.produtosDoc.delete(k); reconstruir(); fila('produtos/' + k, 'delete', () => null); fecharDrawer(); toast('Produto excluído.'); render(); },
       'sincronizar': () => sincronizar(true),
       'mk-modo': () => { mudarConfig({ markupModo: a.dataset.v }); renderParamForm(); },
-      'var-add': () => { S.config.variaveis = [...(S.config.variaveis || []), { id: rid(4), nome: 'Novo custo', pct: 0 }]; mudarConfig({}); renderParamForm(); },
-      'var-del': () => { S.config.variaveis = S.config.variaveis.filter((_, i) => i !== Number(a.dataset.i)); mudarConfig({}); renderParamForm(); },
+      'var-add': () => { if (!podeConfig()) return avisoSoDono(); S.config.variaveis = [...(S.config.variaveis || []), { id: rid(4), nome: 'Novo custo', pct: 0 }]; mudarConfig({}); renderParamForm(); },
+      'var-del': () => { if (!podeConfig()) return avisoSoDono(); S.config.variaveis = S.config.variaveis.filter((_, i) => i !== Number(a.dataset.i)); mudarConfig({}); renderParamForm(); },
       'fat-real': () => { mudarConfig({ faturamento: parseNum(a.dataset.v) || 0 }); renderParamForm(); },
       'tema': () => { const v = a.dataset.v; ls.set('tema', v); aplicarTema(v); $$('[data-acao="tema"]').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.v === v)); b.setAttribute('aria-checked', String(b.dataset.v === v)); }); },
       'salvar-ajustes': () => { ls.set('som', $('#a-som').checked); mudarConfig({ loja: $('#a-loja').value.trim() }); fecharDrawer(); render(); toast('Configurações salvas.'); },
@@ -4103,6 +4157,7 @@ function ligarUI() {
       'med-ajustar': () => { S.medAjuste = !S.medAjuste; renderNotas('receber'); if (S.medAjuste) setTimeout(() => $('#med-l0')?.focus(), 30); },
       'med-padrao': () => { PREOC_PADRAO.forEach((v, i) => { const el = $('#med-l' + i); if (el) el.value = v; }); },
       'med-salvar': () => {
+        if (!podeConfig()) return avisoSoDono();
         const L = [0, 1, 2, 3].map(i => Number(($('#med-l' + i)?.value || '').trim()));
         const erro = m => { const e = $('#med-erro'); if (e) e.textContent = m; };
         if (L.some(v => !Number.isInteger(v) || v < 1)) return erro('Use números inteiros de dias, maiores que zero.');
@@ -4394,7 +4449,7 @@ async function iniciar() {
   assinar(); render();
   verificarPlanilhaAuto();
 }
-if (window.__pbrTeste) window.__pbrTeste({ S, interpretar, lerTextoPlanilha, lerXlsx, carregarScript, XLSX_URL, lerCodigoDoc, gerarParcelas, totais, itensPeriodo, taxas, cpfOk, cnpjOk, fmtDocBR, textoNf, notaDoForm, quemDe });
+if (window.__pbrTeste && /^(127\.0\.0\.1|localhost)$/.test(location.hostname)) window.__pbrTeste({ S, interpretar, lerTextoPlanilha, lerXlsx, carregarScript, XLSX_URL, lerCodigoDoc, gerarParcelas, totais, itensPeriodo, taxas, cpfOk, cnpjOk, fmtDocBR, textoNf, notaDoForm, quemDe });
 iniciar();
 })();
 </script>

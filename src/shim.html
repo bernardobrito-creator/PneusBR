@@ -36,7 +36,7 @@
       <p>Crie o acesso da loja. Este e-mail e esta senha serão usados para entrar no sistema; guarde a senha em lugar seguro.</p>
       <label class="f">Seu nome<input class="inp" id="lc-nome" autocomplete="name" placeholder="Ex.: Bernardo"></label>
       <label class="f">E-mail da loja<input class="inp" type="email" id="lc-email" autocomplete="username" required></label>
-      <label class="f">Senha (mínimo 8 caracteres)<input class="inp" type="password" id="lc-senha" autocomplete="new-password" minlength="8" required></label>
+      <label class="f">Senha (mínimo 8 caracteres, com letras e números)<input class="inp" type="password" id="lc-senha" autocomplete="new-password" minlength="8" required></label>
       <label class="f">Repita a senha<input class="inp" type="password" id="lc-senha2" autocomplete="new-password" minlength="8" required></label>
       <button class="btn primary" type="submit">Criar acesso e entrar</button>
       <div class="login-erro" id="lc-erro" role="alert"></div>
@@ -45,7 +45,7 @@
     <p class="login-rodape">Sistema de estoque, caixa e gestão da PneusBR</p>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
 <script>
 (() => {
 'use strict';
@@ -165,6 +165,25 @@ function docRef(path) {
 }
 const db = { doc: docRef, collection: p => colRef(p) };
 
+/* ---------- regras de senha (as mesmas do servidor) ---------- */
+function problemaSenha(senha, email) {
+  senha = String(senha || '');
+  if (senha.length < 8) return 'A senha precisa ter pelo menos 8 caracteres.';
+  if (senha.length > 72) return 'A senha pode ter no máximo 72 caracteres.';
+  if (!/\p{L}/u.test(senha) || !/\d/.test(senha)) return 'Use letras e números na senha.';
+  if (/^(.)\1+$/.test(senha) || /^(12345678|123456789|senha123|senha1234|password1|pneusbr1|pneusbr123|abcd1234|abc12345|asdf1234|qwerty123|admin123|mudar123)$/i.test(senha)) return 'Essa senha é muito comum. Escolha outra.';
+  const u = String(email || '').split('@')[0].toLowerCase();
+  if (u.length >= 4 && senha.toLowerCase().includes(u)) return 'A senha não pode conter o e-mail.';
+  return null;
+}
+
+/* ---------- limite de tentativas de login neste aparelho (o servidor do Supabase também limita por IP) ---------- */
+const LOGIN_TENT = 'pbr.login.tent';
+function loginEspera() { try { const t = JSON.parse(localStorage.getItem(LOGIN_TENT) || 'null'); return t && t.ate > Date.now() ? Math.ceil((t.ate - Date.now()) / 1000) : 0; } catch { return 0; } }
+function loginErrou() { try { const t = JSON.parse(localStorage.getItem(LOGIN_TENT) || 'null') || { n: 0 }; t.n = (t.n || 0) + 1; t.ate = t.n >= 5 ? Date.now() + Math.min(900, 30 * 2 ** (t.n - 5)) * 1000 : 0; localStorage.setItem(LOGIN_TENT, JSON.stringify(t)); } catch { } }
+function loginZerar() { try { localStorage.removeItem(LOGIN_TENT); } catch { } }
+const textoEspera = s => s > 60 ? Math.ceil(s / 60) + ' min' : s + ' s';
+
 /* ---------- planilha via função do servidor ---------- */
 let ultimoErroPlanilha = null;
 async function lerErroFuncao(error, padrao) {
@@ -223,6 +242,8 @@ async function iniciarSessao(sessao) {
   if (!me) { await sb.auth.signOut(); prepararLogin('Esta conta não tem acesso ao sistema. Peça ao dono para liberar.'); return; }
   PBR.eu = { id: sessao.user.id, email: sessao.user.email, nome: me.nome || sessao.user.email, papel: me.papel };
   tela(null);
+  // link da planilha vem do servidor (o ID não fica no código público)
+  sb.functions.invoke('planilha', { body: { acao: 'link' } }).then(({ data }) => { if (data && data.link) PBR.planilhaLink = data.link; }).catch(() => { });
   resolverPronto({
     db, mcp, downloads,
     user: { id: async () => PBR.eu.id, can: async c => c === 'data.write' ? true : null, isOwner: async () => PBR.eu.papel === 'dono', canEdit: async () => PBR.eu.papel === 'dono', me: async () => ({ id: PBR.eu.id, name: PBR.eu.nome }) },
@@ -231,16 +252,27 @@ async function iniciarSessao(sessao) {
 }
 $('#f-entrar').addEventListener('submit', async e => {
   e.preventDefault();
+  const espera = loginEspera();
+  if (espera) { $('#le-erro').textContent = `Muitas tentativas erradas. Espere ${textoEspera(espera)} e tente de novo.`; return; }
   const btn = e.submitter || $('#f-entrar button'); btn.disabled = true; $('#le-erro').textContent = '';
   const { data, error } = await sb.auth.signInWithPassword({ email: $('#le-email').value.trim(), password: $('#le-senha').value });
   btn.disabled = false;
-  if (error) { $('#le-erro').textContent = /invalid login/i.test(error.message) ? 'E-mail ou senha incorretos.' : /fetch|network/i.test(error.message) ? 'Sem conexão com a internet.' : error.message; return; }
+  if (error) {
+    const m = String(error.message || ''), st = error.status;
+    if (/invalid login|invalid credentials/i.test(m)) { loginErrou(); $('#le-erro').textContent = 'E-mail ou senha incorretos.'; }
+    else if (st === 429 || /rate limit|too many/i.test(m)) $('#le-erro').textContent = 'Muitas tentativas. Espere alguns minutos e tente de novo.';
+    else if (/fetch|network/i.test(m)) $('#le-erro').textContent = 'Sem conexão com a internet.';
+    else $('#le-erro').textContent = 'Não foi possível entrar agora. Tente de novo.';
+    return;
+  }
+  loginZerar();
   iniciarSessao(data.session);
 });
 $('#f-criar').addEventListener('submit', async e => {
   e.preventDefault();
   const s1 = $('#lc-senha').value, s2 = $('#lc-senha2').value, email = $('#lc-email').value.trim();
   if (s1 !== s2) { $('#lc-erro').textContent = 'As duas senhas não são iguais.'; return; }
+  const ps = problemaSenha(s1, email); if (ps) { $('#lc-erro').textContent = ps; return; }
   const btn = e.submitter || $('#f-criar button'); btn.disabled = true; $('#lc-erro').textContent = '';
   const { error } = await sb.functions.invoke('acesso', { body: { acao: 'criar-dono', nome: $('#lc-nome').value.trim(), email, senha: s1 } });
   if (error) { btn.disabled = false; $('#lc-erro').textContent = await lerErroFuncao(error, 'Não foi possível criar o acesso.'); return; }
@@ -261,8 +293,17 @@ PBR.lerNotaIA = async body => {
   }
   return data;
 };
-PBR.sair = async () => { await sb.auth.signOut(); location.reload(); };
-PBR.trocarSenha = async senha => { if (String(senha).length < 8) throw new Error('A senha precisa ter pelo menos 8 caracteres.'); const { error } = await sb.auth.updateUser({ password: senha }); if (error) throw new Error(/same/i.test(error.message) ? 'A nova senha é igual à atual.' : error.message); };
+// ao sair, as telas com senha voltam a ficar fechadas (a próxima pessoa nesta aba precisa da senha)
+const fecharTelas = () => { try { sessionStorage.removeItem('pbr.livre'); } catch { } };
+PBR.sair = async () => { fecharTelas(); await sb.auth.signOut(); location.reload(); };
+PBR.trocarSenha = async senha => {
+  const p = problemaSenha(senha, PBR.eu && PBR.eu.email); if (p) throw new Error(p);
+  const { error } = await sb.auth.updateUser({ password: senha });
+  if (error) throw new Error(/same/i.test(error.message) ? 'A nova senha é igual à atual.' : /weak|password/i.test(error.message) ? 'A senha não foi aceita. Use pelo menos 8 caracteres, com letras e números.' : 'Não foi possível trocar a senha agora.');
+};
+// senha das telas (Caixa, Faturamento, Balanço, Preços): conferida e guardada no servidor
+PBR.travaConferir = async senha => { const { data, error } = await sb.functions.invoke('acesso', { body: { acao: 'trava-conferir', senha } }); if (error) throw new Error(await lerErroFuncao(error, 'Não foi possível conferir a senha agora.')); return data; };
+PBR.travaDefinir = async senha => { const { data, error } = await sb.functions.invoke('acesso', { body: { acao: 'trava-definir', senha } }); if (error) throw new Error(await lerErroFuncao(error, 'Não foi possível salvar a senha agora.')); return data; };
 async function acaoEquipe(body) { const { data, error } = await sb.functions.invoke('acesso', { body }); if (error) throw new Error(await lerErroFuncao(error, 'Não foi possível concluir.')); return data; }
 PBR.renderConta = async () => {
   const box = $('#a-conta'); if (!box || !PBR.eu) return;
@@ -270,22 +311,37 @@ PBR.renderConta = async () => {
     <div class="toolbar"><input class="inp" type="password" id="a-senha-nova" placeholder="Nova senha (mín. 8)" autocomplete="new-password" style="flex:1;min-width:180px"><button class="btn sm" type="button" data-acao="pbr-senha">Trocar minha senha</button></div>
     <div class="toolbar"><button class="btn sm ghost" type="button" data-acao="pbr-sair">Sair desta conta</button></div>`;
   const eq = $('#a-equipe'); if (!eq) return;
-  if (PBR.eu.papel !== 'dono') { eq.closest('section').hidden = true; return; }
+  if (PBR.eu.papel !== 'dono') { eq.closest('section').hidden = true; const ts = $('#a-trava'); if (ts) ts.closest('section').hidden = true; return; }
+  renderTrava();
   eq.innerHTML = '<p class="muted" style="margin:0">Carregando…</p>';
   try {
     const { lista } = await acaoEquipe({ acao: 'listar' });
     eq.innerHTML = (lista || []).map(p => `<div class="pessoa"><div><b>${esc(p.nome || p.email)}</b><small>${esc(p.email)} · ${p.papel === 'dono' ? 'dono' : 'funcionário'}${p.ultimo ? ' · entrou em ' + new Date(p.ultimo).toLocaleDateString('pt-BR') : ' · ainda não entrou'}</small></div>
       <div class="acoes">${p.user_id !== PBR.eu.id ? `<button class="btn sm" type="button" data-acao="pbr-redef" data-id="${esc(p.user_id)}">Nova senha</button><button class="btn sm ghost" type="button" data-acao="pbr-remover" data-id="${esc(p.user_id)}">Remover</button>` : '<span class="muted" style="font-size:12.5px">você</span>'}</div></div>`).join('') +
-      `<div class="form-g3" style="margin-top:10px"><label class="f">Nome<input class="inp" id="a-p-nome"></label><label class="f">E-mail<input class="inp" type="email" id="a-p-email"></label><label class="f">Senha inicial<input class="inp" type="text" id="a-p-senha" placeholder="mín. 8"></label></div>
+      `<div class="form-g3" style="margin-top:10px"><label class="f">Nome<input class="inp" id="a-p-nome"></label><label class="f">E-mail<input class="inp" type="email" id="a-p-email"></label><label class="f">Senha inicial<input class="inp" type="text" id="a-p-senha" placeholder="mín. 8, letras e números" autocomplete="off"></label></div>
       <div class="toolbar"><button class="btn sm primary" type="button" data-acao="pbr-add">Dar acesso a esta pessoa</button></div>`;
   } catch (e) { eq.innerHTML = `<p class="erro-txt">${esc(e.message)}</p>`; }
 };
+async function renderTrava() {
+  const el = $('#a-trava'); if (!el) return;
+  el.innerHTML = '<p class="muted" style="margin:0">Carregando…</p>';
+  let configurada = null;
+  try { const { data } = await sb.functions.invoke('acesso', { body: { acao: 'trava-status' } }); configurada = !!(data && data.configurada); } catch { }
+  el.innerHTML = `<p style="margin:0;font-size:13.5px;color:var(--ink-2)">Caixa, Faturamento, Balanço e Preços pedem esta senha. Ela fica guardada no servidor (só o resumo, não a senha) e há limite de tentativas.</p>
+    ${configurada === false ? '<p class="erro-txt" style="margin:0">Ainda vale a senha antiga, que pode ser descoberta pelo código público do site. Crie uma senha nova.</p>' : configurada ? '<p class="muted" style="margin:0;font-size:13px">Senha nova ativa.</p>' : ''}
+    <div class="toolbar"><input class="inp" type="password" id="a-trava-1" placeholder="Nova senha (mín. 6)" autocomplete="new-password" style="flex:1;min-width:160px"><input class="inp" type="password" id="a-trava-2" placeholder="Repita" autocomplete="new-password" style="flex:1;min-width:120px"><button class="btn sm" type="button" data-acao="pbr-trava">Salvar senha das telas</button></div>`;
+}
 function aviso(msg, erro) { const el = document.createElement('div'); el.className = 'toast' + (erro ? ' err' : ''); el.textContent = msg; $('#toasts').appendChild(el); setTimeout(() => el.remove(), erro ? 7000 : 3500); }
 document.addEventListener('click', async e => {
   const a = e.target.closest('[data-acao^="pbr-"]'); if (!a) return;
   const acao = a.dataset.acao;
   try {
     if (acao === 'pbr-sair') { await PBR.sair(); return; }
+    if (acao === 'pbr-trava') {
+      const a1 = $('#a-trava-1').value, a2 = $('#a-trava-2').value;
+      if (a1.trim().toUpperCase() !== a2.trim().toUpperCase()) { aviso('As duas senhas não são iguais.', true); return; }
+      await PBR.travaDefinir(a1); $('#a-trava-1').value = ''; $('#a-trava-2').value = ''; aviso('Senha das telas trocada. A senha antiga não vale mais.'); renderTrava(); return;
+    }
     if (acao === 'pbr-senha') { await PBR.trocarSenha($('#a-senha-nova').value); $('#a-senha-nova').value = ''; aviso('Senha trocada.'); return; }
     if (acao === 'pbr-add') { await acaoEquipe({ acao: 'criar-func', nome: $('#a-p-nome').value.trim(), email: $('#a-p-email').value.trim(), senha: $('#a-p-senha').value }); aviso('Acesso criado. Passe o e-mail e a senha para a pessoa.'); PBR.renderConta(); return; }
     if (acao === 'pbr-redef') {
@@ -307,7 +363,7 @@ async function boot() {
     if (data && data.session) await iniciarSessao(data.session); else await prepararLogin();
   } catch (e) { tela('login-falha', 'Não foi possível conectar. Confira a internet.'); }
 }
-sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT' && PBR.eu) location.reload(); });
+sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT' && PBR.eu) { fecharTelas(); location.reload(); } });
 boot();
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => { });

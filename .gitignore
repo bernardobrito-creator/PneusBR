@@ -1,0 +1,15 @@
+# Nunca publicar segredos nem dados de clientes (o repositório é público)
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*service-account*.json
+*-sa.json
+google-sa*.json
+segredos/
+dados-clientes/
+*.xlsx
+*.csv
+node_modules/
+.DS_Store

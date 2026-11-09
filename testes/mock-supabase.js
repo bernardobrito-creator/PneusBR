@@ -42,14 +42,19 @@
           if (st.op === 'select') return { data: [], error: null };
           return { data: null, error: { code: '42501', message: 'new row violates row-level security policy for table "docs"' } };
         }
+        // mesmas regras do servidor: configurações só o dono grava; apagar só produtos, retornos e planilha
+        const dono = membro().papel === 'dono';
+        const negado = () => ({ data: null, error: { code: '42501', message: 'new row violates row-level security policy for table "docs"' } });
         if (st.op === 'upsert') {
           const o = st.obj, existia = !!db.docs[o.path];
+          if (o.colecao === 'config' && !dono) return negado();
           const row = { ...o, atualizado_em: new Date().toISOString(), por: sessao.user.id };
           db.docs[o.path] = row; save(db);
           publicar({ eventType: existia ? 'UPDATE' : 'INSERT', new: row, old: {} });
           return { data: null, error: null };
         }
         const rows = Object.values(db.docs).filter(r => st.filtros.every(([c, op, v]) => OPS[op](valor(r, c), v)));
+        if (st.op === 'delete' && rows.some(r => !['produtos', 'retornos', 'planilha'].includes(r.colecao))) return negado();
         if (st.op === 'delete') { for (const r of rows) { delete db.docs[r.path]; publicar({ eventType: 'DELETE', new: {}, old: r }); } save(db); return { data: null, error: null }; }
         rows.sort((a, b) => a.doc_id < b.doc_id ? -1 : 1);
         return { data: rows.slice(st.de, st.ate + 1).map(r => ({ doc_id: r.doc_id, data: r.data })), error: null };
@@ -64,6 +69,7 @@
         const criarUser = (papel) => {
           if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(body.email || '')) return erroFn('E-mail inválido.', 400);
           if (String(body.senha || '').length < 8) return erroFn('A senha precisa ter pelo menos 8 caracteres.', 400);
+          if (!/\p{L}/u.test(body.senha) || !/\d/.test(body.senha)) return erroFn('Use letras e números na senha.', 400);
           if (Object.values(db.users).some(u => u.email === body.email)) return erroFn('Já existe uma conta com este e-mail.', 400);
           const id = uid(); db.users[id] = { email: body.email, senha: body.senha }; db.membros[id] = { nome: body.nome || body.email, papel, criado_em: new Date().toISOString() }; save(db);
           return { data: { ok: true }, error: null };
@@ -71,7 +77,19 @@
         if (body.acao === 'criar-dono') return temDono ? erroFn('O acesso da loja já foi criado. Entre com o e-mail e a senha.', 409) : criarUser('dono');
         const eu = sessao && db.membros[sessao.user.id];
         if (!eu) return erroFn('Entre no sistema primeiro.', 401);
-        if (eu.papel !== 'dono') return erroFn('Só o dono pode gerenciar as pessoas.', 403);
+        if (body.acao === 'trava-status') return { data: { configurada: !!db.trava }, error: null };
+        if (body.acao === 'trava-conferir') {
+          db.travaTent = (db.travaTent || 0) + 1; save(db);
+          if (db.travaTent > 8) return erroFn('Muitas tentativas de senha. Espere 10 minutos e tente de novo.', 429);
+          if (!db.trava) return { data: { configurada: false }, error: null };
+          return { data: { configurada: true, ok: String(body.senha || '').trim().toUpperCase() === db.trava }, error: null };
+        }
+        if (eu.papel !== 'dono') return erroFn('Só o dono pode fazer isso.', 403);
+        if (body.acao === 'trava-definir') {
+          const n = String(body.senha || '').trim().toUpperCase();
+          if (n.length < 6) return erroFn('A senha das telas precisa ter pelo menos 6 caracteres.', 400);
+          db.trava = n; db.travaTent = 0; save(db); return { data: { ok: true }, error: null };
+        }
         if (body.acao === 'listar') return { data: { lista: Object.entries(db.membros).map(([user_id, m]) => ({ user_id, ...m, email: db.users[user_id]?.email, ultimo: null })) }, error: null };
         if (body.acao === 'criar-func') return criarUser('func');
         if (body.acao === 'senha') { if (String(body.senha).length < 8) return erroFn('A senha precisa ter pelo menos 8 caracteres.', 400); db.users[body.user_id].senha = body.senha; save(db); return { data: { ok: true }, error: null }; }
@@ -84,10 +102,11 @@
         if (!window.__iaResposta) return { data: null, error: { message: 'Edge Function returned a non-2xx status code', context: { status: 503, json: async () => ({ erro: 'A leitura com IA ainda não foi configurada.', codigo: 'ia-nao-configurada' }) } } };
         return { data: { dados: window.__iaResposta, modelo: 'teste' }, error: null };
       },
-      async planilha() {
+      async planilha(body) {
         if (!membro()) return erroFn('Sem acesso ao sistema.', 403);
+        if (body && body.acao === 'link') return { data: { link: 'https://docs.google.com/spreadsheets/d/PLANILHA-DE-TESTE/edit' }, error: null };
         if (window.__planilhaFalha) return erroFn('A planilha não está compartilhada para qualquer pessoa com o link (o Google pediu login).', 502);
-        return { data: { content: window.__xlsxB64, bytes: 1, lidoEm: Date.now() }, error: null };
+        return { data: { content: window.__xlsxB64, bytes: 1, lidoEm: Date.now(), link: 'https://docs.google.com/spreadsheets/d/PLANILHA-DE-TESTE/edit' }, error: null };
       }
     };
     return {
