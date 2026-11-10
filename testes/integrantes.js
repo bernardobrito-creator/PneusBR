@@ -41,11 +41,11 @@ const ok = (cond, msg, out) => { if (!cond) out.falhas.push(msg); };
   // 1) Registrar: botões de quem fez no modo Saída
   await A.keyboard.press('F4'); await A.waitForTimeout(200);
   out.c.chips = await A.evaluate(() => ({ visivel: !document.querySelector('#linha-quem').hidden, nomes: [...document.querySelectorAll('#quem-chips [data-quem]')].map(b => b.textContent) }));
-  ok(out.c.chips.visivel && out.c.chips.nomes.join(',') === 'Brenda,Cláudio,Fábio Vinícius,Lucas', 'chips de quem fez', out);
+  ok(out.c.chips.visivel && out.c.chips.nomes.join(',') === 'Brito,Brenda,Cláudio,Lucas,Bernardo,Vinícius', 'chips de quem fez', out);
   // serviço sem escolher: pergunta
   await scan('S01');
   out.c.pergunta = await A.evaluate(() => ({ card: !!document.querySelector('.pede-quem'), botoes: [...document.querySelectorAll('.pede-quem .btn')].map(b => b.textContent), titulo: document.querySelector('#ultimo .u-nome')?.textContent }));
-  ok(out.c.pergunta.card && out.c.pergunta.botoes.length === 4, 'pergunta quem fez', out);
+  ok(out.c.pergunta.card && out.c.pergunta.botoes.length === 6, 'pergunta quem fez', out);
   const antes = await ultimoItem(); ok(!antes, 'não registrou antes de escolher', out);
   await A.screenshot({ path: path.join(SP, 'teste/i1-pergunta.png') });
   await A.click('.pede-quem .btn:has-text("Cláudio")'); await A.waitForTimeout(300);
@@ -73,7 +73,7 @@ const ok = (cond, msg, out) => { if (!cond) out.falhas.push(msg); };
   // 2) Cadastro do CNPJ do Cláudio (busca na Receita)
   await A.evaluate(() => { location.hash = '#integrantes'; }); await A.waitForTimeout(400);
   out.c.cards = await A.evaluate(() => [...document.querySelectorAll('#i-cards .int-card')].map(c => c.innerText.replace(/\s+/g, ' ')));
-  ok(out.c.cards.length === 4, '4 cards', out);
+  ok(out.c.cards.length === 6, '6 cards', out);
   await A.click('#i-cards [data-acao="abrir-integrante"][data-id="claudio"]'); await A.waitForTimeout(300);
   await A.fill('#ig-cnpj', '11.222.333/0001-81'); await A.waitForTimeout(800);
   out.c.cad = await A.evaluate(() => ({ razao: document.querySelector('#ig-razao').value, mun: document.querySelector('#ig-mun').value, uf: document.querySelector('#ig-uf').value, mei: document.querySelector('#ig-mei').checked, st: document.querySelector('#ig-st').textContent }));
@@ -169,7 +169,7 @@ const ok = (cond, msg, out) => { if (!cond) out.falhas.push(msg); };
   await A.evaluate(() => { location.hash = '#balanco'; }); await A.waitForTimeout(300);
   await A.fill('#trava-senha', 'TREPNIAYKS'); await A.press('#trava-senha', 'Enter'); await A.waitForTimeout(400);
   out.c.balancoQuem = await A.evaluate(() => [...document.querySelectorAll('#b-quem .rank li')].map(l => l.innerText.replace(/\s+/g, ' ')));
-  ok(out.c.balancoQuem.length === 4, 'quadro do balanço', out);
+  ok(out.c.balancoQuem.length === 6, 'quadro do balanço', out);
   await A.evaluate(() => { location.hash = '#integrantes'; }); await A.waitForTimeout(300);
   out.c.cardsLiberado = await A.evaluate(() => [...document.querySelectorAll('#i-cards .int-card dl')].map(c => c.innerText.replace(/\s+/g, ' ')));
   out.c.notaNaTabela = await A.evaluate(() => [...document.querySelectorAll('#i-tab tbody td:last-child')].map(td => td.innerText.trim()));

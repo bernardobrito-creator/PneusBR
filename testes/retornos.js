@@ -1,4 +1,4 @@
-// Teste: aba "Retorno de clientes" (lembrete de volta com WhatsApp) e o atalho no Registrar.
+// Teste: aba "Clientes" (lembrete de volta com WhatsApp, visão Retornos) e o atalho no Registrar.
 // Uso: node testes/retornos.js <pasta-de-rascunho>
 const { chromium } = require('playwright'); const fs = require('fs'); const path = require('path'); const { spawn } = require('child_process');
 const SP = process.argv[2];
@@ -85,7 +85,8 @@ const addMeses = (key, n) => { const [y, m, d] = key.split('-').map(Number); con
   out.c.hoje2 = (await txt('#rt-hoje .rt-lista li')).length;
   ok(out.c.hoje2 === 1, 'saiu da lista de hoje', out);
 
-  // 5) ficha: voltou hoje e lembra a próxima
+  // 5) ficha: voltou hoje e lembra a próxima (na visão Retornos)
+  await A.click('[data-acao="rt-visao"][data-v="retornos"]'); await A.waitForTimeout(150);
   await A.click('[data-acao="rt-filtro"][data-v="avisado"]'); await A.waitForTimeout(150);
   await A.click(`#rt-tab tr[data-id="${idOleo}"]`); await A.waitForTimeout(250);
   out.c.ficha = (await txt('#drawer-pn'))[0]?.slice(0, 400);
@@ -95,7 +96,7 @@ const addMeses = (key, n) => { const [y, m, d] = key.split('-').map(Number); con
   const novo = R.find(r => r.origem?.anterior === idOleo);
   ok(R.find(r => r.id === idOleo).status === 'voltou' && novo && novo.volta === addMeses(hoje, 6) && novo.tel === '(33) 99999-8888', 'voltou e criou o próximo', out);
   out.c.voltaramKpi = (await txt('#rt-kpis .kpi'))[3];
-  ok(/^VOLTARAM NO MÊS 1/i.test(out.c.voltaramKpi), 'voltaram no mês', out);
+  ok(/1 voltaram no mês/i.test(out.c.voltaramKpi), 'voltaram no mês', out);
 
   // 6) adiar o alinhamento 7 dias
   await A.click(`#rt-hoje [data-acao="rt-abrir"][data-id="${idAlin}"]`); await A.waitForTimeout(250);
@@ -128,8 +129,8 @@ const addMeses = (key, n) => { const [y, m, d] = key.split('-').map(Number); con
   ok(/Retorno cadastrado: Maria/.test(out.c.uret2 || ''), 'mostra o retorno cadastrado', out);
   // montagem de pneu não tem prazo: sem atalho
   await A.fill('#scan', 'S02'); await A.press('#scan', 'Enter'); await A.waitForTimeout(400);
-  out.c.semAtalho = await A.evaluate(() => !document.querySelector('#ultimo .u-ret'));
-  ok(out.c.semAtalho, 'sem atalho para serviço sem prazo', out);
+  out.c.semAtalho = (await txt('#ultimo .u-ret'))[0];
+  ok(/Ligue este serviço a um cliente/.test(out.c.semAtalho || ''), 'serviço sem prazo: atalho para ligar ao cliente', out);
   R = await rets(); const maria = R.find(r => r.nome === 'Maria');
   ok(maria && maria.origem?.item && maria.volta === addMeses(hoje, 3), 'retorno da Maria', out);
   // número sem DDD vira 33

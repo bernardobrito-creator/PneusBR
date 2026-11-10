@@ -89,3 +89,13 @@ grant execute on function public.ajuste_servidor_gravar(text, text) to service_r
 -- 8) funções antigas e de gatilho fora do alcance de visitantes
 revoke all on function public.docs_carimbo() from public, anon, authenticated;
 revoke all on function public.eh_dono(), public.eh_membro(), public.tem_dono() from public, anon, authenticated;
+
+-- 9) (10/11/2026) coleção "pagamentos" (vales, pagamento da semana, retiradas do sócio). A lista de coleções aceitas
+-- passou para uma função: coleção nova = trocar a função, sem mexer na tabela.
+create or replace function privado.colecao_valida(c text) returns boolean
+language sql immutable set search_path = '' as $$
+  select c = any (array['caixa','clientes','config','lancamentos','notasfiscais','pagamentos','pagar','planilha','produtos','receber','retornos','rotina','servicos','vinculos']);
+$$;
+alter table public.docs drop constraint docs_colecao_ok;
+alter table public.docs add constraint docs_colecao_ok check (privado.colecao_valida(colecao));
+-- e o gatilho docs_guardar_historico passou a guardar também a versão anterior de 'pagamentos'.
