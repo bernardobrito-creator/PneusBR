@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-3xNhwTXfcxjH781TWXHf6QBo3Y/0o2NVO/+r25nEEFE=' 'sha256-KiXc48Kv2H4Nfuk3xGQB9hcdBwoiIqzzeq/HFM4qXKg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-3xNhwTXfcxjH781TWXHf6QBo3Y/0o2NVO/+r25nEEFE=' 'sha256-PyOUh4AX2fQu4p84S9GvDarTfEurVUoKznbgdZ90CZo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <style id="sem-moldura">html{display:none!important}</style>
 <script>if (window.top === window.self) document.getElementById('sem-moldura').remove();</script>
@@ -237,6 +237,7 @@ table.t{width:100%;border-collapse:collapse;font-size:14px}
 .t th.num{text-align:right}
 /* botão de alinhar as colunas (esquerda, centro, direita) acima de cada tabela */
 .alinhar-bar{display:flex;justify-content:flex-end;margin:0 0 6px}
+.alinhar-bar[hidden],.seg[hidden]{display:none}
 .alinhar button{padding:5px 9px}
 .alinhar svg.i{width:16px;height:16px}
 table.t.al-esq th,table.t.al-esq td{text-align:left}
@@ -546,6 +547,33 @@ tr.grupo .preoc{margin-left:12px}
 .u-ret{display:flex;gap:6px 10px;align-items:center;flex-wrap:wrap;margin-top:10px;padding:8px 10px;border-radius:9px;background:var(--surface-2);font-size:13.5px;color:var(--ink-2)}
 .u-ret svg.i{width:16px;height:16px}
 @media (max-width:520px){ .rt-cfg-l{grid-template-columns:minmax(0,1fr) auto} .rt-cfg-l .chk{grid-column:1 / -1} .rt-lista li .rt-b{width:100%} }
+/* clientes: serviços ligados ao cliente, com ou sem retorno */
+.rt-add{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.rt-outros{display:grid;gap:6px}
+.rt-outro{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:6px 6px 6px 11px}
+.rt-outro b{font-size:14px;font-weight:600;min-width:0;overflow-wrap:anywhere}
+.rt-outro select{width:auto}
+.lk{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:left}
+.lk:hover b{text-decoration:underline}
+/* pagamentos dos colaboradores */
+.pag-card{padding:14px 16px;display:grid;gap:12px;margin-bottom:12px}
+.pag-h{display:flex;justify-content:space-between;gap:10px 16px;align-items:center;flex-wrap:wrap}
+.pag-h h2{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em}
+.pag-h p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.pag-vales{display:grid;gap:1px;font-size:13px;font-variant-numeric:tabular-nums}
+.pag-vales span{white-space:nowrap}
+.pag-trava{display:flex;justify-content:space-between;gap:10px 16px;align-items:center;flex-wrap:wrap;padding:14px 16px;margin-bottom:12px}
+.pag-trava form{display:flex;gap:8px;flex-wrap:wrap}
+.pag-trava .inp{width:170px}
+.pag-sem{display:grid;gap:4px;padding:10px 0;border-top:1px solid var(--line)}
+.pag-sem:first-of-type{border-top:0}
+.pag-sem-h{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.pag-li{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:4px 10px;align-items:center;font-size:13.5px;padding:3px 0}
+.pag-li .q{color:var(--muted);font-size:12.5px;overflow-wrap:anywhere}
+.pag-li.desfeito{opacity:.55}
+.pag-li.desfeito .vl{text-decoration:line-through}
+.pag-li .vl{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+@media (max-width:520px){ .rt-outro{grid-template-columns:minmax(0,1fr) auto} .rt-outro select{grid-column:1 / -1;grid-row:2;width:100%} .pag-trava .inp{width:100%;flex:1} .pag-li{grid-template-columns:auto minmax(0,1fr) auto} .pag-li .acao{grid-column:1 / -1} }
 .banner.conf{background:var(--red-soft);border-color:var(--red-line);color:var(--red-ink)}
 #nf-placa{text-transform:uppercase}
 .sel-quem{width:auto;min-width:132px;padding:4px 8px}
@@ -636,6 +664,7 @@ button.pill{cursor:pointer;font-family:inherit}
     <symbol id="ic-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></symbol>
     <symbol id="ic-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
     <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+    <symbol id="ic-person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></symbol>
     <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.2a6.5 6.5 0 0 1 3 5.8"/></symbol>
     <symbol id="ic-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4L6 21V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
     <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9 15.5 2 2 4-4"/></symbol>
@@ -653,7 +682,7 @@ button.pill{cursor:pointer;font-family:inherit}
   <hr>
   <a href="#pagar" data-tab="pagar" data-tip="Notas a pagar" aria-label="Notas a pagar"><svg class="i"><use href="#ic-docout"/></svg><span class="badge" id="badge-pagar" hidden></span></a>
   <a href="#receber" data-tab="receber" data-tip="Notas a receber" aria-label="Notas a receber"><svg class="i"><use href="#ic-docin"/></svg><span class="badge" id="badge-receber" hidden></span></a>
-  <a href="#retornos" data-tab="retornos" data-tip="Retorno de clientes" aria-label="Retorno de clientes"><svg class="i"><use href="#ic-cal"/></svg><span class="badge" id="badge-retornos" hidden></span></a>
+  <a href="#retornos" data-tab="retornos" data-tip="Clientes" aria-label="Clientes"><svg class="i"><use href="#ic-person"/></svg><span class="badge" id="badge-retornos" hidden></span></a>
   <div class="fim">
     <button class="rb" type="button" id="btn-ajustes" data-tip="Configurações" aria-label="Configurações: caixa, faturamento, balanço, preços, rotina e ajustes"><svg class="i"><use href="#ic-gear"/></svg><span class="badge" id="badge-rotina" hidden></span><span class="sdot" id="rail-dot"></span></button>
   </div>
@@ -884,16 +913,17 @@ button.pill{cursor:pointer;font-family:inherit}
     <div class="tabela-wrap"><table class="t" id="nr-tab"><thead><tr><th>Data da nota</th><th>Cliente</th><th>Nota / descrição</th><th>Parcela</th><th class="num">Valor</th><th>Preocupação</th></tr></thead><tbody></tbody></table></div>
   </section>
 
-  <!-- RETORNO DE CLIENTES -->
+  <!-- CLIENTES (serviços de cada cliente e retorno) -->
   <section data-view="retornos" hidden>
     <div class="sec-h">
-      <div><h1>Retorno de clientes</h1><p>Quem fez serviço com a gente e quando deve voltar. Todo dia aparece aqui quem chamar, com a mensagem pronta para o WhatsApp.</p></div>
-      <div class="toolbar"><button class="btn" type="button" data-acao="rt-config"><svg class="i"><use href="#ic-gear"/></svg>Serviços e prazos</button><button class="btn primary" type="button" data-acao="rt-novo"><svg class="i"><use href="#ic-plus"/></svg>Cadastrar cliente</button></div>
+      <div><h1>Clientes</h1><p>Cada cliente com os serviços feitos para ele, mesmo os que não têm retorno. Quando o serviço tem prazo, o cliente aparece aqui no dia de chamar, com a mensagem pronta para o WhatsApp.</p></div>
+      <div class="toolbar"><button class="btn" type="button" data-acao="rt-config"><svg class="i"><use href="#ic-gear"/></svg>Serviços e prazos</button><button class="btn primary" type="button" data-acao="rt-novo"><svg class="i"><use href="#ic-plus"/></svg>Cadastrar serviço</button></div>
     </div>
     <div class="kpis mb" id="rt-kpis"></div>
     <div class="mb" id="rt-hoje"></div>
-    <div class="toolbar mb"><div class="seg" id="rt-filtro"></div><input class="inp" id="rt-q" type="search" placeholder="Buscar cliente, WhatsApp, veículo, placa ou serviço" style="flex:1;min-width:180px"></div>
-    <div class="tabela-wrap"><table class="t" id="rt-tab"><thead><tr><th>Cliente</th><th>Serviço</th><th>Feito em</th><th>Volta em</th><th>Situação</th><th></th></tr></thead><tbody></tbody></table></div>
+    <div class="toolbar mb"><div class="seg" id="rt-visao" aria-label="Mostrar"></div><div class="seg" id="rt-filtro"></div><input class="inp" id="rt-q" type="search" placeholder="Buscar cliente, WhatsApp, veículo, placa ou serviço" style="flex:1;min-width:180px"></div>
+    <div class="tabela-wrap" id="cl-wrap"><table class="t" id="cl-tab"><thead><tr><th>Cliente</th><th>Veículo</th><th class="num">Serviços</th><th>Último serviço</th><th>Próximo retorno</th></tr></thead><tbody></tbody></table></div>
+    <div class="tabela-wrap" id="rt-wrap"><table class="t" id="rt-tab"><thead><tr><th>Cliente</th><th>Serviço</th><th>Feito em</th><th>Volta em</th><th>Situação</th><th></th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <!-- ROTINA -->
@@ -908,12 +938,13 @@ button.pill{cursor:pointer;font-family:inherit}
   <!-- INTEGRANTES -->
   <section data-view="integrantes" hidden>
     <div class="sec-h">
-      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Integrantes</h1><p>Quem fez o quê no mês e o CNPJ de cada um para as notas fiscais. Todo serviço fica ligado a quem fez; nas peças, é opcional.</p></div>
+      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Colaboradores</h1><p>Pagamentos da semana, vales e retiradas, quem fez o quê no mês e o CNPJ de quem tem, para as notas fiscais. Todo serviço fica ligado a quem fez; nas peças, é opcional.</p></div>
       <div class="semana-nav"><button class="btn sm" type="button" data-acao="int-mes-ant" aria-label="Mês anterior"><svg class="i"><use href="#ic-left"/></svg></button><b id="i-mes"></b><button class="btn sm" type="button" data-acao="int-mes-prox" aria-label="Próximo mês"><svg class="i"><use href="#ic-right"/></svg></button><button class="btn sm ghost" type="button" data-acao="int-mes-hoje">Este mês</button></div>
     </div>
-    <div class="toolbar mb"><a class="btn primary" href="#nfse"><svg class="i"><use href="#ic-receipt"/></svg>Gerar nota fiscal</a><button class="btn" type="button" data-acao="int-csv"><svg class="i"><use href="#ic-down"/></svg>Exportar o mês</button><button class="btn ghost" type="button" data-acao="abrir-integrante"><svg class="i"><use href="#ic-plus"/></svg>Novo integrante</button></div>
+    <div class="toolbar mb"><a class="btn primary" href="#nfse"><svg class="i"><use href="#ic-receipt"/></svg>Gerar nota fiscal</a><button class="btn" type="button" data-acao="int-csv"><svg class="i"><use href="#ic-down"/></svg>Exportar o mês</button><button class="btn ghost" type="button" data-acao="abrir-integrante"><svg class="i"><use href="#ic-plus"/></svg>Novo colaborador</button></div>
+    <div id="i-pag"></div>
     <div class="int-grid mb" id="i-cards"></div>
-    <div class="toolbar mb"><div class="seg" id="i-filtro"></div><select class="inp" id="i-quem" aria-label="Integrante"></select><input class="inp" id="i-q" type="search" placeholder="Buscar serviço ou peça" style="flex:1;min-width:180px"></div>
+    <div class="toolbar mb"><div class="seg" id="i-filtro"></div><select class="inp" id="i-quem" aria-label="Colaborador"></select><input class="inp" id="i-q" type="search" placeholder="Buscar serviço ou peça" style="flex:1;min-width:180px"></div>
     <p class="resumo" id="i-resumo"></p>
     <div class="tabela-wrap"><table class="t" id="i-tab"><thead><tr><th>Quando</th><th>Serviço / peça</th><th>Quem fez</th><th class="num">Qtd</th><th class="num">Valor</th><th>Nota fiscal</th></tr></thead><tbody></tbody></table></div>
   </section>
@@ -921,8 +952,8 @@ button.pill{cursor:pointer;font-family:inherit}
   <!-- NOTA FISCAL -->
   <section data-view="nfse" hidden>
     <div class="sec-h">
-      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Gerar nota fiscal (NFS-e)</h1><p>Escolha quem fez, informe o CPF ou CNPJ do cliente e marque o serviço. O sistema monta a nota pelo CNPJ do integrante e abre o Emissor Nacional (gov.br) para você conferir e emitir.</p></div>
-      <div class="toolbar"><a class="btn" href="#integrantes"><svg class="i"><use href="#ic-users"/></svg>Integrantes</a><button class="btn" type="button" data-acao="nf-nova"><svg class="i"><use href="#ic-plus"/></svg>Nova nota</button></div>
+      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Gerar nota fiscal (NFS-e)</h1><p>Escolha quem fez, informe o CPF ou CNPJ do cliente e marque o serviço. O sistema monta a nota pelo CNPJ do colaborador e abre o Emissor Nacional (gov.br) para você conferir e emitir.</p></div>
+      <div class="toolbar"><a class="btn" href="#integrantes"><svg class="i"><use href="#ic-users"/></svg>Colaboradores</a><button class="btn" type="button" data-acao="nf-nova"><svg class="i"><use href="#ic-plus"/></svg>Nova nota</button></div>
     </div>
     <div class="nf-grid">
       <div class="card bloco nf-form">
@@ -1367,17 +1398,20 @@ const TELAS_CONFIG = [
   ['precificacao', 'tag', 'Preços e markup', 'Planilha de precificação, markup do mês e calculadora'],
   ['rotina', 'check', 'Rotina da empresa', 'Tarefas do dia, da semana, do mês e do ano'],
   ['nfse', 'receipt', 'Gerar nota fiscal (NFS-e)', 'Monta a nota pelo CNPJ de quem fez e abre o Emissor Nacional'],
-  ['integrantes', 'users', 'Integrantes', 'Quem fez o quê no mês e o CNPJ de cada um']
+  ['integrantes', 'users', 'Colaboradores', 'Pagamentos, vales, retiradas e quem fez o quê no mês']
 ];
 const ehTelaConfig = tab => TELAS_CONFIG.some(t => t[0] === tab);
 const TELAS_SENHA = ['caixa', 'faturamento', 'balanco', 'precificacao'];
 const TELAS_REVELA = [...TELAS_SENHA, 'integrantes']; // com a senha, mostram os números normais
-// integrantes que emitem nota pelo próprio CNPJ (o dono cadastra o CNPJ em Configurações → Integrantes)
+// colaboradores (lista do dono, 10/11/2026). Quem tem CNPJ emite nota pelo próprio CNPJ; Brito é sócio: recebe
+// retiradas quando precisa, em vez do pagamento semanal. O id "fabio" continua por causa do histórico.
 const INTEGRANTES_PADRAO = [
-  { id: 'brenda', nome: 'Brenda', mei: false, certificado: true },
-  { id: 'claudio', nome: 'Cláudio', mei: true },
-  { id: 'fabio', nome: 'Fábio Vinícius', mei: true },
-  { id: 'lucas', nome: 'Lucas', mei: true }
+  { id: 'brito', nome: 'Brito', nomeCompleto: 'José Aparecido de Brito', socio: true },
+  { id: 'brenda', nome: 'Brenda', nomeCompleto: 'Brenda Pereira de Brito', mei: false, certificado: true },
+  { id: 'claudio', nome: 'Cláudio', nomeCompleto: 'Cláudio de Oliveira', mei: true },
+  { id: 'lucas', nome: 'Lucas', nomeCompleto: 'Lucas Gabriel Esteves de Brito', mei: true },
+  { id: 'bernardo', nome: 'Bernardo', nomeCompleto: 'Bernardo Pereira de Brito' },
+  { id: 'fabio', nome: 'Vinícius', nomeCompleto: 'Fábio Vinícius Oliveira de Souza', mei: true }
 ];
 const CTRIB_PADRAO = '140101'; // 14.01.01: conserto, revisão e manutenção de veículos (peças ficam no ICMS)
 const CTRIB_DESC = { '140101': 'Lubrificação, limpeza, revisão, conserto, restauração, manutenção e conservação de veículos e motores (exceto peças e partes, sujeitas ao ICMS)' };
@@ -1391,6 +1425,20 @@ const TRAVA_TENT = 'pbr.trava.tent';
 function travaEspera() { try { const t = JSON.parse(localStorage.getItem(TRAVA_TENT) || 'null'); return t && t.ate > Date.now() ? Math.ceil((t.ate - Date.now()) / 1000) : 0; } catch { return 0; } }
 function travaErrou() { try { const t = JSON.parse(localStorage.getItem(TRAVA_TENT) || 'null') || { n: 0 }; t.n = (t.n || 0) + 1; t.ate = t.n >= 5 ? Date.now() + Math.min(900, 30 * 2 ** (t.n - 5)) * 1000 : 0; localStorage.setItem(TRAVA_TENT, JSON.stringify(t)); } catch { } }
 function travaZerar() { try { localStorage.removeItem(TRAVA_TENT); } catch { } }
+// confere a senha das telas (com o limite de tentativas) e libera as telas; devolve true se abriu
+async function destravar(texto, msg, btn) {
+  const espera = travaEspera();
+  if (espera) { msg(`Muitas tentativas erradas. Espere ${espera > 60 ? Math.ceil(espera / 60) + ' min' : espera + ' s'} e tente de novo.`); return false; }
+  const v = String(texto || '').trim().toUpperCase();
+  if (!v) return false;
+  if (btn) btn.disabled = true;
+  let ok = false;
+  try { ok = await conferirSenhaTelas(v); }
+  catch (err) { if (btn) btn.disabled = false; msg(err && err.message ? err.message : 'Não foi possível conferir a senha agora.'); return false; }
+  if (btn) btn.disabled = false;
+  if (ok) { travaZerar(); liberarTelas(true); return true; }
+  travaErrou(); msg('Senha incorreta.'); return false;
+}
 async function conferirSenhaTelas(v) {
   if (window.PBR && typeof window.PBR.travaConferir === 'function') {
     const r = await window.PBR.travaConferir(v); // erro de rede ou excesso de tentativas sobe como exceção
@@ -1534,7 +1582,7 @@ const S = {
   tab: 'registrar', ultimo: null, pendente: null, semPreco: null,
   sync: { rodando: false, erro: null, perm: 'unknown' },
   pGrupo: 'Todos', semana: inicioSemana(hoje()), filtroNotas: { pagar: 'aberto', receber: 'aberto' }, nivelNotas: null, medAjuste: false, ordemNotas: { pagar: ls.get('ordem-pagar') || 'data', receber: ls.get('ordem-receber') || 'data' }, rotEditar: false, nd: null,
-  integrantesDoc: null, vinculos: new Map(), nfs: new Map(), clientes: new Map(), dono: null, retornos: new Map(), rtConfigDoc: null, rtFiltro: 'proximo', rtDraft: null,
+  integrantesDoc: null, vinculos: new Map(), nfs: new Map(), clientes: new Map(), dono: null, retornos: new Map(), rtConfigDoc: null, rtFiltro: 'proximo', rtDraft: null, rtVisao: 'clientes', rtOutros: [], pagamentos: new Map(), semPag: null,
   quem: null, pedeQuem: null, nf: null, nfFiltro: 'mes', mesInt: hoje().slice(0, 7), intFiltro: 'todos'
 };
 const SESSAO = rid(6);
@@ -1832,6 +1880,7 @@ function estornar(id) {
   }
   if (it.nota && it.nota.parc != null) desmarcarParcela(it.nota.col, it.nota.id, it.nota.parc, it.id);
   if (it.nota && it.nota.abat) removerAbatimento(it.nota.col, it.nota.id, it.nota.abat);
+  if (it.pag) desfazerPagamento(it.pag, true);
   toast('Desfeito: ' + (it.nome || it.desc || ''));
   render();
 }
@@ -3105,7 +3154,8 @@ const RT_SUGESTOES = [
 ];
 const RT_MSG_PADRAO = 'Olá, {nome}! Aqui é da {loja}. Já faz {tempo} {do_servico} {do_veiculo}: está na hora de fazer de novo. Quer agendar um horário?';
 const RT_FILTROS = [['proximo', 'Próximos'], ['avisado', 'Avisados'], ['voltou', 'Voltaram'], ['parado', 'Parados'], ['todos', 'Todos']];
-const RT_SIT = { chamar: ['Chamar hoje', 'red'], proximo: ['Aguardando', 'soft'], avisado: ['Avisado', 'ink'], voltou: ['Voltou', 'soft'], parado: ['Parado', 'soft'] };
+const RT_SIT = { chamar: ['Chamar hoje', 'red'], proximo: ['Aguardando', 'soft'], avisado: ['Avisado', 'ink'], voltou: ['Voltou', 'soft'], parado: ['Parado', 'soft'], feito: ['Sem retorno', 'soft'] };
+const RT_MESES_OP = [1, 2, 3, 6, 12, 24];
 function rtCfg() {
   const d = S.rtConfigDoc || {};
   return { servicos: Array.isArray(d.servicos) ? d.servicos : RT_PADRAO, msg: d.msg || RT_MSG_PADRAO, ddd: /^\d{2}$/.test(d.ddd || '') ? d.ddd : '33' };
@@ -3133,6 +3183,7 @@ function rtWhats(tel) {
   return d.length === 10 || d.length === 11 ? '55' + d : null;
 }
 function rtEstado(r) {
+  if (!r.volta) return 'feito'; // serviço guardado no histórico do cliente, sem lembrete de voltar
   if (r.status === 'voltou' || r.status === 'parado') return r.status;
   if (r.avisadoEm) return 'avisado';
   return (r.adiadoPara || r.volta) <= hoje() ? 'chamar' : 'proximo';
@@ -3148,31 +3199,55 @@ function rtSalvar(id) { fila('retornos/' + id, 'set', () => S.retornos.get(id));
 function rtMudar(id, patch) { const r = S.retornos.get(id); if (!r) return; S.retornos.set(id, { ...r, ...patch, atualizadoEm: Date.now(), atualizadoPor: S.uid || null }); rtSalvar(id); }
 function rtUltimoHtml(it, est) {
   if (it.k !== 'serv' || est) return '';
-  const svs = rtServDe(it.nome); if (!svs.length) return '';
   const ja = [...S.retornos.values()].find(r => r.origem?.item === it.id);
-  if (ja) return `<div class="u-ret">${ico('cal')}<span>Retorno cadastrado: <b>${esc(ja.nome)}</b> deve voltar em ${fmtData(ja.volta)}.</span></div>`;
+  if (ja) return ja.volta ? `<div class="u-ret">${ico('cal')}<span>Retorno cadastrado: <b>${esc(ja.nome)}</b> deve voltar em ${fmtData(ja.volta)}.</span></div>` : `<div class="u-ret">${ico('person')}<span>Serviço ligado ao cliente <b>${esc(ja.nome)}</b>.</span></div>`;
   if (!S.podeEscrever) return '';
-  return `<div class="u-ret">${ico('cal')}<span>Cadastre o cliente para ele ser chamado ${svs.length > 1 ? 'quando vencer' : 'daqui a ' + rtPrazoTxt(svs[0].meses)} (${esc(svs.map(s => s.nome.toLowerCase()).join(' e '))}).</span><button class="btn sm" type="button" data-acao="rt-de-item" data-id="${esc(it.id)}">Cadastrar retorno</button></div>`;
+  const svs = rtServDe(it.nome);
+  if (svs.length) return `<div class="u-ret">${ico('cal')}<span>Cadastre o cliente para ele ser chamado ${svs.length > 1 ? 'quando vencer' : 'daqui a ' + rtPrazoTxt(svs[0].meses)} (${esc(svs.map(s => s.nome.toLowerCase()).join(' e '))}).</span><button class="btn sm" type="button" data-acao="rt-de-item" data-id="${esc(it.id)}">Cadastrar retorno</button></div>`;
+  return `<div class="u-ret">${ico('person')}<span>Ligue este serviço a um cliente: ele fica no histórico do cliente.</span><button class="btn sm" type="button" data-acao="rt-de-item" data-id="${esc(it.id)}">Ligar ao cliente</button></div>`;
 }
+// cliente = mesmo nome e mesmo WhatsApp; serviço sem WhatsApp entra no único cliente com aquele nome
+const telChave = t => String(t || '').replace(/\D/g, '').slice(-8);
+function clientesLista() {
+  const recs = [...S.retornos.entries()].filter(([, r]) => r && r.nome).sort((a, b) => (a[1].criadoEm || 0) - (b[1].criadoEm || 0));
+  const grupos = new Map(), porNome = new Map(), g = k => { if (!grupos.has(k)) grupos.set(k, { key: k, recs: [] }); return grupos.get(k); };
+  for (const [id, r] of recs) { const t = telChave(r.tel); if (!t) continue; const n = norm(r.nome), k = n + '|' + t; g(k).recs.push({ id, r }); if (!porNome.has(n)) porNome.set(n, new Set()); porNome.get(n).add(k); }
+  for (const [id, r] of recs) { if (telChave(r.tel)) continue; const n = norm(r.nome), ks = porNome.get(n); g(ks && ks.size === 1 ? [...ks][0] : n + '|').recs.push({ id, r }); }
+  return [...grupos.values()].map(c => {
+    c.recs.sort((a, b) => (b.r.feito || '').localeCompare(a.r.feito || '') || (b.r.criadoEm || 0) - (a.r.criadoEm || 0));
+    const ult = c.recs[0].r, comTel = c.recs.find(x => x.r.tel), veics = new Map();
+    for (const x of c.recs) { const v = [x.r.veiculo, x.r.placa].filter(Boolean).join(' '); if (v && !veics.has(norm(v))) veics.set(norm(v), v); }
+    const abertos = c.recs.filter(x => ['chamar', 'proximo', 'avisado'].includes(rtEstado(x.r))).map(x => x.r.adiadoPara || x.r.volta).sort();
+    return { key: c.key, nome: ult.nome, tel: comTel ? comTel.r.tel : '', veics: [...veics.values()], recs: c.recs, ultimo: ult.feito, ultServ: ult.servico, proximo: abertos[0] || null, chamar: c.recs.some(x => rtEstado(x.r) === 'chamar') };
+  }).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+}
+const clienteDe = id => clientesLista().find(c => c.recs.some(x => x.id === id)) || null;
 VIEWS.retornos = () => {
   const h = hoje(), mesIni = h.slice(0, 8) + '01';
-  const todos = [...S.retornos.entries()].filter(([, r]) => r && r.nome).map(([id, r]) => ({ id, r, st: rtEstado(r), vence: r.adiadoPara || r.volta }));
+  const regs = [...S.retornos.entries()].filter(([, r]) => r && r.nome).map(([id, r]) => ({ id, r, st: rtEstado(r), vence: r.adiadoPara || r.volta }));
+  const todos = regs.filter(x => x.r.volta), clientes = clientesLista();
   const chamar = todos.filter(x => x.st === 'chamar').sort((a, b) => a.vence.localeCompare(b.vence));
   const avis = todos.filter(x => x.st === 'avisado'), em30 = todos.filter(x => x.st === 'proximo' && x.vence <= addDays(h, 30));
   const voltaram = todos.filter(x => x.st === 'voltou' && (x.r.voltouEm || '') >= mesIni && x.r.avisos?.length);
-  $('#rt-kpis').innerHTML = kpi('Para chamar hoje', String(chamar.length), 'o prazo de voltar já chegou', chamar.length ? 'red' : '') +
-    kpi('Avisados', String(avis.length), 'chamados, esperando voltar') + kpi('Vencem em 30 dias', String(em30.length), 'ainda não é hora de chamar') +
-    kpi('Voltaram no mês', String(voltaram.length), 'depois de chamados');
+  const servMes = regs.filter(x => (x.r.feito || '') >= mesIni).length;
+  $('#rt-kpis').innerHTML = kpi('Clientes', String(clientes.length), `${servMes} serviço${servMes === 1 ? '' : 's'} cadastrado${servMes === 1 ? '' : 's'} no mês`) +
+    kpi('Para chamar hoje', String(chamar.length), 'o prazo de voltar já chegou', chamar.length ? 'red' : '') +
+    kpi('Avisados', String(avis.length), 'chamados, esperando voltar') + kpi('Vencem em 30 dias', String(em30.length), `ainda não é hora de chamar${voltaram.length ? ` · ${voltaram.length} voltaram no mês` : ''}`);
   const linhaHoje = x => {
     const r = x.r, atraso = difDias(x.vence, h), tem = !!rtWhats(r.tel);
     return `<li><div class="rt-q"><b>${esc(r.nome)}${r.veiculo ? ' · ' + esc(r.veiculo) : ''}</b><small>${esc(r.servico)} · feito há ${rtTempo(r.feito)} (${fmtData(r.feito)})${atraso > 0 ? ` · venceu há ${atraso} dia${atraso === 1 ? '' : 's'}` : ' · vence hoje'}</small></div>
       <div class="rt-b">${tem ? `<button class="btn primary sm" type="button" data-acao="rt-chamar" data-id="${esc(x.id)}" ${S.podeEscrever ? '' : 'disabled'}>${ico('chat')}Chamar no WhatsApp</button>` : `<span class="pill red">Sem WhatsApp</span>`}<button class="btn sm" type="button" data-acao="rt-abrir" data-id="${esc(x.id)}">${tem ? 'Mais' : 'Pôr WhatsApp'}</button></div></li>`;
   };
   const prox = todos.filter(x => x.st === 'proximo').sort((a, b) => a.vence.localeCompare(b.vence))[0];
-  $('#rt-hoje').innerHTML = !todos.length
-    ? `<div class="card bloco"><b>Nenhum cliente cadastrado ainda</b><p class="muted" style="margin:0">Depois do serviço, clique em <b>Cadastrar cliente</b> (ou em <b>Cadastrar retorno</b>, que aparece no Registrar quando você registra ${esc(rtCfg().servicos.filter(s => s.ativo !== false).map(s => s.nome.toLowerCase()).join(', ') || 'um serviço com prazo')}). Quando chegar a hora, o cliente aparece aqui para chamar no WhatsApp.</p></div>`
-    : `<div class="card rt-hoje"><div class="rt-hoje-h"><h3>Clientes para chamar hoje</h3><span class="muted">${chamar.length ? `${chamar.length} cliente${chamar.length === 1 ? '' : 's'}` : 'ninguém hoje' + (prox ? ` · o próximo é ${esc(prox.r.nome)} (${esc(prox.r.servico.toLowerCase())}), em ${fmtData(prox.vence)}` : '')}</span></div>
+  $('#rt-hoje').innerHTML = !regs.length
+    ? `<div class="card bloco"><b>Nenhum cliente cadastrado ainda</b><p class="muted" style="margin:0">Depois do serviço, clique em <b>Cadastrar serviço</b> (ou em <b>Ligar ao cliente</b>, que aparece no Registrar depois de cada serviço). Serviços com prazo (${esc(rtCfg().servicos.filter(s => s.ativo !== false).map(s => s.nome.toLowerCase()).join(', ') || 'nenhum ainda')}) também entram nos lembretes: quando chegar a hora, o cliente aparece aqui para chamar no WhatsApp.</p></div>`
+    : !todos.length ? '' : `<div class="card rt-hoje"><div class="rt-hoje-h"><h3>Clientes para chamar hoje</h3><span class="muted">${chamar.length ? `${chamar.length} cliente${chamar.length === 1 ? '' : 's'}` : 'ninguém hoje' + (prox ? ` · o próximo é ${esc(prox.r.nome)} (${esc(prox.r.servico.toLowerCase())}), em ${fmtData(prox.vence)}` : '')}</span></div>
       ${chamar.length ? `<ul class="rt-lista">${chamar.map(linhaHoje).join('')}</ul>` : ''}</div>`;
+  const vis = S.rtVisao === 'retornos' ? 'retornos' : 'clientes';
+  $('#rt-visao').innerHTML = [['clientes', `Clientes (${clientes.length})`], ['retornos', `Retornos (${todos.length})`]].map(([v, n]) => `<button type="button" data-acao="rt-visao" data-v="${v}" aria-pressed="${vis === v}">${n}</button>`).join('');
+  const mostrar = (id, sim) => { const w = $('#' + id); w.hidden = !sim; const bar = w.previousElementSibling; if (bar?.classList.contains('alinhar-bar')) bar.hidden = !sim; };
+  $('#rt-filtro').hidden = vis !== 'retornos'; mostrar('rt-wrap', vis === 'retornos'); mostrar('cl-wrap', vis === 'clientes');
+  if (vis === 'clientes') { renderClientesTab(clientes, norm($('#rt-q').value)); return; }
   const f = S.rtFiltro;
   $('#rt-filtro').innerHTML = RT_FILTROS.map(([v, n]) => `<button type="button" data-acao="rt-filtro" data-v="${v}" aria-pressed="${f === v}">${n}</button>`).join('');
   const q = norm($('#rt-q').value);
@@ -3180,7 +3255,7 @@ VIEWS.retornos = () => {
   if (q) l = l.filter(x => norm([x.r.nome, x.r.tel, x.r.veiculo, x.r.placa, x.r.servico, x.r.obs].join(' ')).includes(q) || (q.replace(/\D/g, '') && String(x.r.tel || '').replace(/\D/g, '').includes(q.replace(/\D/g, ''))));
   l.sort((a, b) => f === 'voltou' ? (b.r.voltouEm || '').localeCompare(a.r.voltouEm || '') : a.vence.localeCompare(b.vence) || (a.r.nome || '').localeCompare(b.r.nome || '', 'pt-BR'));
   const tb = $('#rt-tab tbody');
-  if (!l.length) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">${todos.length ? 'Nada nesse filtro.' : 'Os clientes cadastrados aparecem aqui.'}</td></tr>`; return; }
+  if (!l.length) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">${todos.length ? 'Nada nesse filtro.' : 'Os serviços com prazo de voltar aparecem aqui.'}</td></tr>`; return; }
   tb.innerHTML = l.slice(0, 500).map(x => {
     const r = x.r, [sn, sc] = RT_SIT[x.st], dv = difDias(h, x.vence);
     const volta = x.st === 'voltou' ? `${r.voltouEm ? fmtData(r.voltouEm) : '—'}<span class="sub">voltou</span>` : `${fmtData(x.vence)}<span class="sub">${dv > 0 ? `em ${dv} dia${dv === 1 ? '' : 's'}` : dv === 0 ? 'hoje' : `venceu há ${-dv} dia${dv === -1 ? '' : 's'}`}${r.adiadoPara ? ' · adiado' : ''}</span>`;
@@ -3189,22 +3264,69 @@ VIEWS.retornos = () => {
     return `<tr class="click" data-acao="rt-abrir" data-id="${esc(x.id)}"><td class="nome"><b>${esc(r.nome)}</b><span class="sub">${esc([r.tel, r.veiculo, r.placa].filter(Boolean).join(' · '))}</span></td><td>${esc(r.servico)}<span class="sub">a cada ${rtPrazoTxt(r.meses)}</span></td><td class="mono" style="white-space:nowrap">${fmtData(r.feito)}<span class="sub" style="font-family:var(--f-ui)">há ${rtTempo(r.feito)}</span></td><td class="mono" style="white-space:nowrap">${volta}</td><td>${sit}</td><td class="num">${btn}</td></tr>`;
   }).join('');
 };
+function renderClientesTab(lista, q) {
+  let l = lista;
+  if (q) { const qd = q.replace(/\D/g, ''); l = l.filter(c => norm([c.nome, c.tel, ...c.veics, ...c.recs.map(x => [x.r.servico, x.r.placa, x.r.obs].join(' '))].join(' ')).includes(q) || (qd && String(c.tel || '').replace(/\D/g, '').includes(qd))); }
+  const tb = $('#cl-tab tbody');
+  if (!l.length) { tb.innerHTML = `<tr><td colspan="5" class="vazio-t">${lista.length ? 'Nenhum cliente com essa busca.' : 'Os clientes aparecem aqui, cada um com os serviços feitos.'}</td></tr>`; return; }
+  tb.innerHTML = l.slice(0, 500).map(c => `<tr class="click" data-acao="cl-abrir" data-key="${esc(c.key)}"><td class="nome"><b>${esc(c.nome)}</b><span class="sub">${esc(c.tel || 'sem WhatsApp')}</span></td><td>${esc(c.veics.join(' · ') || '—')}</td><td class="num">${c.recs.length}</td><td>${esc(c.ultServ)}<span class="sub">${fmtData(c.ultimo)}</span></td><td>${c.proximo ? `<span class="mono">${fmtData(c.proximo)}</span>${c.chamar ? ' <span class="pill red">Chamar</span>' : ''}` : '<span class="muted">—</span>'}</td></tr>`).join('');
+}
+function abrirCliente(key) {
+  const c = clientesLista().find(x => x.key === key);
+  if (!c) { fecharDrawer(); return; }
+  const ed = S.podeEscrever, num = rtWhats(c.tel);
+  abrirDrawer(`<div class="pn-h"><div><h2>${esc(c.nome)}</h2><div class="sub">${esc([c.tel || 'sem WhatsApp', ...c.veics].join(' · '))}</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+    <div class="toolbar">${ed ? `<button class="btn primary" type="button" data-acao="cl-servico" data-key="${esc(key)}">${ico('plus')}Cadastrar serviço</button>` : ''}${num ? `<button class="btn" type="button" data-acao="cl-whats" data-key="${esc(key)}">${ico('chat')}Conversar no WhatsApp</button>` : ''}</div>
+    <section><h3>Serviços feitos (${c.recs.length})</h3>
+      <div class="tabela-wrap"><table class="t" id="cl-hist"><thead><tr><th>Data</th><th>Serviço</th><th>Veículo</th><th>Retorno</th></tr></thead><tbody>${c.recs.map(x => { const st = rtEstado(x.r), [sn, sc] = RT_SIT[st]; return `<tr class="click" data-acao="rt-abrir" data-id="${esc(x.id)}"><td class="mono" style="white-space:nowrap">${fmtData(x.r.feito)}</td><td>${esc(x.r.servico)}${x.r.quem ? `<span class="sub">feito por ${esc(nomeInteg(x.r.quem))}</span>` : ''}${x.r.obs ? `<span class="sub">${esc(x.r.obs)}</span>` : ''}</td><td>${esc([x.r.veiculo, x.r.placa].filter(Boolean).join(' ') || '—')}</td><td><span class="pill ${sc}">${st === 'proximo' ? 'Volta em ' + fmtData(x.r.adiadoPara || x.r.volta) : sn}</span></td></tr>`; }).join('')}</tbody></table></div></section>
+    ${ed ? `<section><h3>Dados do cliente</h3><div class="form-g"><label class="f">Nome<input class="inp" id="cl-nome" value="${esc(c.nome)}"></label><label class="f">WhatsApp<input class="inp" id="cl-tel" type="tel" inputmode="tel" value="${esc(c.tel)}" placeholder="(33) 99999-9999"></label></div>
+      <span class="erro-txt" id="cl-erro"></span><div><button class="btn" type="button" data-acao="cl-salvar" data-key="${esc(key)}">Salvar em todos os serviços do cliente</button></div></section>` : ''}
+    <div class="pn-acoes"><span class="sp"></span><button class="btn primary" type="button" data-acao="fechar-drawer">Fechar</button></div>`, { tipo: 'cliente', key });
+}
+function clSalvar(key) {
+  const c = clientesLista().find(x => x.key === key); if (!c) return;
+  const nome = ($('#cl-nome')?.value || '').trim(), tel = ($('#cl-tel')?.value || '').trim(), er = m => { $('#cl-erro').textContent = m; };
+  if (!nome) return er('Informe o nome.');
+  if (tel && !rtWhats(tel)) return er('Confira o WhatsApp: DDD e número (ex.: 33 99999-9999).');
+  for (const x of c.recs) if (x.r.nome !== nome || (x.r.tel || '') !== tel) rtMudar(x.id, { nome, tel });
+  toast('Dados do cliente salvos.'); render();
+  const novo = clienteDe(c.recs[0].id); if (novo) abrirCliente(novo.key);
+}
+function renderRtOutros() {
+  const el = $('#rt-outros'); if (!el) return;
+  el.innerHTML = S.rtOutros.length ? S.rtOutros.map((o, i) => { const ms = RT_MESES_OP.includes(o.meses) || !o.meses ? RT_MESES_OP : [...RT_MESES_OP, o.meses].sort((a, b) => a - b); return `<div class="rt-outro"><b>${esc(o.nome)}</b><select class="inp" data-rtom="${i}" aria-label="Retorno de ${esc(o.nome)}"><option value="0">Sem retorno</option>${ms.map(m => `<option value="${m}" ${o.meses === m ? 'selected' : ''}>Chamar em ${rtPrazoTxt(m)}</option>`).join('')}</select><button class="btn sm ghost" type="button" data-acao="rt-outro-del" data-i="${i}" aria-label="Tirar ${esc(o.nome)}">${ico('x')}</button></div>`; }).join('')
+    : '<p class="muted" style="margin:0;font-size:13px">Qualquer serviço da aba Serviços (ou escrito aqui), com ou sem aviso de retorno.</p>';
+}
+function rtOutroAdd() {
+  const inp = $('#rt-outro'), v = (inp?.value || '').trim(); if (!v) return;
+  if (S.rtOutros.some(o => norm(o.nome) === norm(v))) { toast('Esse serviço já está na lista.', true); return; }
+  const sv = servicosAtivos().find(x => norm(x.nome) === norm(v)), pr = rtServDe(v)[0];
+  S.rtOutros.push({ nome: sv ? sv.nome : v, sid: sv ? sv.id : null, meses: pr ? pr.meses : 0 });
+  inp.value = ''; renderRtOutros(); inp.focus();
+}
 function abrirNovoRetorno(pre = {}) {
   const c = rtCfg(), ativos = c.servicos.filter(s => s.ativo !== false && s.nome), sel = new Set(pre.servicos || []), feito = pre.feito || hoje();
   const nomes = [...new Set([...S.retornos.values()].map(r => r.nome).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-  abrirDrawer(`<div class="pn-h"><div><h2>Cadastrar cliente</h2><div class="sub">Quem fez o serviço e quando. O sistema calcula quando ele deve voltar.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+  S.rtOutros = (pre.outros || []).map(o => ({ ...o }));
+  abrirDrawer(`<div class="pn-h"><div><h2>Cadastrar serviço do cliente</h2><div class="sub">Cliente, veículo e o que foi feito. Quando o serviço tem prazo, o sistema avisa a hora de chamar de novo.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
     <section>
       <label class="f">Nome do cliente<input class="inp" id="rt-nome" list="rt-nomes" value="${esc(pre.nome || '')}" autocomplete="off" placeholder="Ex.: João"></label>
       <datalist id="rt-nomes">${nomes.map(n => `<option value="${esc(n)}">`).join('')}</datalist>
       <div class="form-g"><label class="f">WhatsApp<input class="inp" id="rt-tel" type="tel" inputmode="tel" value="${esc(pre.tel || '')}" placeholder="(33) 99999-9999"></label><label class="f">Veículo<input class="inp" id="rt-veic" value="${esc(pre.veiculo || '')}" placeholder="Ex.: Gol"></label></div>
       <div class="form-g"><label class="f">Placa<input class="inp mono" id="rt-placa" value="${esc(pre.placa || '')}" placeholder="ABC1D23"></label><label class="f">Data do serviço<input class="inp" type="date" id="rt-feito" value="${feito}" max="${hoje()}"></label></div>
     </section>
-    <section><h3>Serviços feitos</h3>
+    <section><h3>Serviços com retorno</h3>
       ${ativos.length ? `<div class="rt-servs">${ativos.map(s => `<label class="chk rt-sv"><input type="checkbox" data-rtsv="${esc(s.id)}" ${sel.has(s.id) ? 'checked' : ''}><span><b>${esc(s.nome)}</b><small>a cada ${rtPrazoTxt(s.meses)} · volta em <span data-rtvolta="${esc(s.id)}">${fmtData(addMeses(feito, s.meses))}</span></small></span></label>`).join('')}</div>` : '<p class="muted" style="margin:0">Nenhum serviço com prazo. Abra "Serviços e prazos".</p>'}
+    </section>
+    <section><h3>Outros serviços</h3>
+      <div class="rt-add"><input class="inp" id="rt-outro" list="rt-cat" placeholder="Ex.: Troca do pivô" autocomplete="off" aria-label="Outro serviço"><button class="btn" type="button" data-acao="rt-outro-add">${ico('plus')}Adicionar</button></div>
+      <datalist id="rt-cat">${servicosAtivos().map(x => `<option value="${esc(x.nome)}">`).join('')}</datalist>
+      <div class="rt-outros" id="rt-outros"></div>
     </section>
     <section><label class="f">Observação<textarea class="inp" id="rt-obs" rows="2" placeholder="Ex.: óleo 5W30, filtro LB145">${esc(pre.obs || '')}</textarea></label><span class="erro-txt" id="rt-erro"></span></section>
     <div class="pn-acoes"><span class="sp"></span><button class="btn ghost" type="button" data-acao="fechar-drawer">Cancelar</button><button class="btn primary" type="button" data-acao="rt-salvar-novo" ${S.podeEscrever ? '' : 'disabled'}>Salvar</button></div>`, { tipo: 'rt-novo', item: pre.item || null });
-  setTimeout(() => $('#rt-nome')?.focus(), 30);
+  renderRtOutros();
+  setTimeout(() => $(pre.nome ? '#rt-veic' : '#rt-nome')?.focus(), 30);
 }
 // nome de um cliente já cadastrado: completa WhatsApp, veículo e placa que estiverem vazios
 function rtCompletar() {
@@ -3215,34 +3337,49 @@ function rtCompletar() {
 function salvarNovoRetorno() {
   const v = id => ($('#' + id)?.value || '').trim(), er = m => { $('#rt-erro').textContent = m; };
   const nome = v('rt-nome'), tel = v('rt-tel'), veiculo = v('rt-veic'), placa = v('rt-placa').toUpperCase(), feito = v('rt-feito'), obs = v('rt-obs');
-  const ids = $$('[data-rtsv]').filter(x => x.checked).map(x => x.dataset.rtsv);
+  const ids = $$('[data-rtsv]').filter(x => x.checked).map(x => x.dataset.rtsv), outros = S.rtOutros || [];
+  if ((v('rt-outro') || '') && !outros.some(o => norm(o.nome) === norm(v('rt-outro')))) return er('Clique em "Adicionar" para pôr o serviço que você digitou (ou apague o campo).');
   if (!nome) return er('Informe o nome do cliente.');
-  if (!ids.length) return er('Marque pelo menos um serviço.');
+  if (!ids.length && !outros.length) return er('Marque ou adicione pelo menos um serviço.');
   if (!feito || feito > hoje()) return er('A data do serviço não pode ser no futuro.');
   if (tel && !rtWhats(tel)) return er('Confira o WhatsApp: DDD e número (ex.: 33 99999-9999).');
-  const c = rtCfg(), item = drawerAberto?.item || null, novos = [];
+  const c = rtCfg(), item = drawerAberto?.item || null, novos = [], extra = {};
+  // veio de um registro do Registrar com um só serviço: guarda o valor e quem fez
+  if (item && ids.length + outros.length === 1) { const f = acharItem(item); if (f) { extra.valor = f.it.total; const q = quemDe(f.it); if (q) extra.quem = q; } }
+  const fecharAnterior = (servicoId, novoId) => { for (const [oid, o] of S.retornos) if (o.volta && o.status !== 'voltou' && o.status !== 'parado' && o.servicoId === servicoId && norm(o.nome || '') === norm(nome) && (!o.placa || !placa || o.placa === placa) && o.feito <= feito) rtMudar(oid, { status: 'voltou', voltouEm: feito, voltouPor: novoId }); };
   for (const sid of ids) {
     const s = c.servicos.find(x => x.id === sid); if (!s) continue;
     const id = rid(12);
     // o mesmo cliente fez de novo o mesmo serviço: o lembrete antigo fica como "voltou"
-    for (const [oid, o] of S.retornos) if (o.status !== 'voltou' && o.status !== 'parado' && o.servicoId === sid && norm(o.nome || '') === norm(nome) && (!o.placa || !placa || o.placa === placa) && o.feito <= feito) rtMudar(oid, { status: 'voltou', voltouEm: feito, voltouPor: id });
-    S.retornos.set(id, { nome, tel, veiculo, placa, servicoId: s.id, servico: s.nome, meses: s.meses, feito, volta: addMeses(feito, s.meses), status: 'aberto', avisos: [], avisadoEm: null, adiadoPara: null, obs, origem: item ? { item } : null, criadoEm: Date.now(), por: S.uid || null });
+    fecharAnterior(sid, id);
+    S.retornos.set(id, { nome, tel, veiculo, placa, servicoId: s.id, servico: s.nome, meses: s.meses, feito, volta: addMeses(feito, s.meses), status: 'aberto', avisos: [], avisadoEm: null, adiadoPara: null, obs, origem: item ? { item } : null, ...extra, criadoEm: Date.now(), por: S.uid || null });
     rtSalvar(id); novos.push(s.nome.toLowerCase());
   }
+  for (const o of outros) {
+    const id = rid(12), m = Number(o.meses) || 0, chave = o.sid ? 'cat:' + o.sid : 'txt:' + norm(o.nome).slice(0, 60);
+    if (m) fecharAnterior(chave, id);
+    S.retornos.set(id, { nome, tel, veiculo, placa, servicoId: chave, servico: o.nome, servCat: o.sid || null, meses: m, feito, volta: m ? addMeses(feito, m) : null, status: m ? 'aberto' : 'feito', avisos: [], avisadoEm: null, adiadoPara: null, obs, origem: item ? { item } : null, ...extra, criadoEm: Date.now(), por: S.uid || null });
+    rtSalvar(id); novos.push(o.nome.toLowerCase());
+  }
+  S.rtOutros = [];
   fecharDrawer(); toast(`${nome}: ${novos.join(' e ')} cadastrado${novos.length > 1 ? 's' : ''}.`); render();
 }
 function abrirRetorno(id) {
   const r = S.retornos.get(id); if (!r) return;
-  const st = rtEstado(r), [sn, sc] = RT_SIT[st], tem = rtWhats(r.tel), ed = S.podeEscrever, aberto = st !== 'voltou' && st !== 'parado';
-  abrirDrawer(`<div class="pn-h"><div><h2>${esc(r.nome)}</h2><div class="sub">${esc(r.servico)} · a cada ${rtPrazoTxt(r.meses)}</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+  const st = rtEstado(r), [sn, sc] = RT_SIT[st], tem = rtWhats(r.tel), ed = S.podeEscrever, aberto = st !== 'voltou' && st !== 'parado' && st !== 'feito', cli = clienteDe(id);
+  abrirDrawer(`<div class="pn-h"><div><h2>${esc(r.nome)}</h2><div class="sub">${esc(r.servico)} · ${r.volta ? 'a cada ' + rtPrazoTxt(r.meses) : 'sem retorno'}</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
     <dl class="dl">
       <dt>Situação</dt><dd><span class="pill ${sc}">${sn}</span></dd>
       <dt>Feito em</dt><dd>${fmtData(r.feito)} (há ${rtTempo(r.feito)})</dd>
-      <dt>Volta em</dt><dd>${fmtData(r.volta)}${r.adiadoPara ? ` · adiado para ${fmtData(r.adiadoPara)}` : ''}</dd>
+      ${r.volta ? `<dt>Volta em</dt><dd>${fmtData(r.volta)}${r.adiadoPara ? ` · adiado para ${fmtData(r.adiadoPara)}` : ''}</dd>` : ''}
       ${r.status === 'voltou' ? `<dt>Voltou</dt><dd>${r.voltouEm ? fmtData(r.voltouEm) : '—'}</dd>` : ''}
-      <dt>Avisos</dt><dd>${(r.avisos || []).length ? r.avisos.map(a => fmtData(dkey(new Date(a.em)))).join(', ') : 'nenhum'}</dd>
+      ${r.volta ? `<dt>Avisos</dt><dd>${(r.avisos || []).length ? r.avisos.map(a => fmtData(dkey(new Date(a.em)))).join(', ') : 'nenhum'}</dd>` : ''}
+      ${[r.veiculo, r.placa].some(Boolean) ? `<dt>Veículo</dt><dd>${esc([r.veiculo, r.placa].filter(Boolean).join(' '))}</dd>` : ''}
+      ${r.quem ? `<dt>Feito por</dt><dd>${esc(nomeInteg(r.quem))}</dd>` : ''}
+      ${r.valor ? `<dt>Valor</dt><dd>${moneyV(r.valor)}</dd>` : ''}
       ${r.obs ? `<dt>Observação</dt><dd>${esc(r.obs)}</dd>` : ''}
     </dl>
+    ${st === 'feito' && ed ? `<section><h3>Lembrar de chamar de novo?</h3><div class="toolbar"><select class="inp" id="rt-lm" aria-label="Daqui a quanto tempo" style="width:auto">${RT_MESES_OP.map(m => `<option value="${m}" ${m === 6 ? 'selected' : ''}>Daqui a ${rtPrazoTxt(m)} do serviço</option>`).join('')}</select><button class="btn" type="button" data-acao="rt-lembrar" data-id="${esc(id)}">${ico('cal')}Lembrar</button></div></section>` : ''}
     ${aberto ? `<section><h3>Mensagem do WhatsApp</h3><p class="rt-msg" id="rt-msg">${esc(rtMensagem(r))}</p>
       ${tem ? '' : '<p class="erro-txt" style="margin:0">Sem WhatsApp válido: preencha abaixo para poder chamar.</p>'}
       <div class="toolbar">${tem && ed ? `<button class="btn primary" type="button" data-acao="rt-chamar" data-id="${esc(id)}">${ico('chat')}Chamar no WhatsApp</button>` : ''}<button class="btn" type="button" data-acao="rt-copiar" data-id="${esc(id)}">${ico('copy')}Copiar mensagem</button></div></section>
@@ -3252,10 +3389,10 @@ function abrirRetorno(id) {
       <label class="f">Nome<input class="inp" id="re-nome" value="${esc(r.nome || '')}"></label>
       <div class="form-g"><label class="f">WhatsApp<input class="inp" id="re-tel" type="tel" inputmode="tel" value="${esc(r.tel || '')}"></label><label class="f">Veículo<input class="inp" id="re-veic" value="${esc(r.veiculo || '')}"></label></div>
       <div class="form-g"><label class="f">Placa<input class="inp mono" id="re-placa" value="${esc(r.placa || '')}"></label><label class="f">Data do serviço<input class="inp" type="date" id="re-feito" value="${esc(r.feito)}" max="${hoje()}"></label></div>
-      <div class="form-g"><label class="f">Volta em<input class="inp" type="date" id="re-volta" value="${esc(r.volta)}"></label><span></span></div>
+      <div class="form-g"><label class="f">Volta em (vazio = sem retorno)<input class="inp" type="date" id="re-volta" value="${esc(r.volta || '')}"></label><span></span></div>
       <label class="f">Observação<textarea class="inp" id="re-obs" rows="2">${esc(r.obs || '')}</textarea></label>
       <span class="erro-txt" id="re-erro"></span><div><button class="btn" type="button" data-acao="rt-salvar" data-id="${esc(id)}">Salvar dados</button></div></section>` : ''}
-    <div class="pn-acoes">${ed ? `<button class="btn ghost" type="button" data-acao="rt-excluir" data-id="${esc(id)}">Excluir</button>${aberto ? `<button class="btn ghost" type="button" data-acao="rt-parar" data-id="${esc(id)}">Parar de lembrar</button>` : `<button class="btn ghost" type="button" data-acao="rt-reativar" data-id="${esc(id)}">Lembrar de novo</button>`}` : ''}<span class="sp"></span><button class="btn primary" type="button" data-acao="fechar-drawer">Fechar</button></div>`, { tipo: 'retorno', id });
+    <div class="pn-acoes">${ed ? `<button class="btn ghost" type="button" data-acao="rt-excluir" data-id="${esc(id)}">Excluir</button>${aberto ? `<button class="btn ghost" type="button" data-acao="rt-parar" data-id="${esc(id)}">Parar de lembrar</button>` : st === 'feito' ? '' : `<button class="btn ghost" type="button" data-acao="rt-reativar" data-id="${esc(id)}">Lembrar de novo</button>`}` : ''}<span class="sp"></span>${cli ? `<button class="btn" type="button" data-acao="cl-abrir" data-key="${esc(cli.key)}">${ico('person')}Ver o cliente</button>` : ''}<button class="btn primary" type="button" data-acao="fechar-drawer">Fechar</button></div>`, { tipo: 'retorno', id });
 }
 function rtChamar(id) {
   const r = S.retornos.get(id), num = r && rtWhats(r.tel);
@@ -3273,11 +3410,15 @@ function rtSalvarDados(id) {
   if (!nome) return er('Informe o nome.');
   if (tel && !rtWhats(tel)) return er('Confira o WhatsApp: DDD e número.');
   if (!feito || feito > hoje()) return er('A data do serviço não pode ser no futuro.');
-  if (!volta || volta < feito) return er('A data de volta precisa ser depois da data do serviço.');
+  if (volta && volta < feito) return er('A data de volta precisa ser depois da data do serviço.');
   const patch = { nome, tel, veiculo: v('re-veic'), placa: v('re-placa').toUpperCase(), feito, obs: v('re-obs') };
-  // mudou só a data do serviço: a volta acompanha o prazo do serviço
-  patch.volta = feito !== r.feito && volta === r.volta ? addMeses(feito, r.meses) : volta;
-  if (patch.volta !== r.volta) { patch.adiadoPara = null; patch.avisadoEm = null; }
+  if (!volta) { patch.volta = null; patch.meses = 0; if (r.volta) { patch.status = 'feito'; patch.adiadoPara = null; patch.avisadoEm = null; } }
+  else {
+    // mudou só a data do serviço: a volta acompanha o prazo do serviço
+    patch.volta = r.volta && feito !== r.feito && volta === r.volta ? addMeses(feito, r.meses) : volta;
+    if (!r.volta) { patch.status = 'aberto'; patch.meses = Math.max(1, mesesEntre(feito, patch.volta)); }
+    if (patch.volta !== r.volta) { patch.adiadoPara = null; patch.avisadoEm = null; }
+  }
   rtMudar(id, patch); toast('Dados salvos.'); abrirRetorno(id); render();
 }
 function abrirRtConfig() {
@@ -3998,13 +4139,14 @@ function quemFezHtml(l, rotulo) {
   const { por } = agruparQuem(l);
   const lista = integrantes().filter(x => x.ativo !== false || por.has(x.id)).map(x => ({ x, o: por.get(x.id) || vazioQuem() })).sort((a, b) => (b.o.serv + b.o.pecas) - (a.o.serv + a.o.pecas));
   const max = Math.max(1, ...lista.map(r => r.o.serv + r.o.pecas)), sem = por.get('');
-  return `<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline"><h2>Quem fez o quê na ${rotulo}</h2><a class="btn sm ghost" href="#integrantes">Ver o mês por integrante</a></div>
+  return `<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline"><h2>Quem fez o quê na ${rotulo}</h2><a class="btn sm ghost" href="#integrantes">Ver o mês por colaborador</a></div>
     <ol class="rank">${lista.map((r, i) => { const v = r.o.serv + r.o.pecas; return `<li><span class="pos">${i + 1}</span><span class="nm"><b>${esc(r.x.nome)}</b><small>${r.o.servN} serviço${r.o.servN === 1 ? '' : 's'} · ${qn(r.o.pecasQtd)} peça${r.o.pecasQtd === 1 ? '' : 's'}</small><div class="bar ${i === 0 && v ? 'red' : ''}"><i style="width:${v ? Math.max(3, v / max * 100) : 0}%"></i></div></span><span class="vl">${money(v)}<small>serviços ${money(r.o.serv)}</small></span></li>`; }).join('')}</ol>
     ${sem && sem.servN ? `<p style="color:var(--red-ink)">${sem.servN} serviço${sem.servN === 1 ? '' : 's'} sem quem fez (${money(sem.serv)}). <a href="#integrantes" data-acao="int-filtro" data-v="sem">Escolher quem fez</a></p>` : ''}`;
 }
 function mesIntervalo(ym) { const [y, m] = ym.split('-').map(Number); return [`${ym}-01`, dkey(new Date(y, m, 0))]; }
 function mesSomar(ym, n) { const [y, m] = ym.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}`; }
 VIEWS.integrantes = () => {
+  renderPagamentos();
   const [de, ate] = mesIntervalo(S.mesInt); garantirPeriodo(de);
   const [y, m] = S.mesInt.split('-').map(Number), rot = new Date(y, m - 1, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
   $('#i-mes').textContent = rot.charAt(0).toUpperCase() + rot.slice(1);
@@ -4016,17 +4158,18 @@ VIEWS.integrantes = () => {
   const sem = por.get('');
   $('#i-cards').innerHTML = lista.map(x => {
     const o = por.get(x.id) || vazioQuem(), tot = o.serv + o.pecas;
-    return `<div class="int-card"><h2>${esc(x.nome)}${x.mei ? '<span class="pill soft">MEI</span>' : ''}${x.certificado ? '<span class="pill soft">Certificado A1</span>' : ''}${x.ativo === false ? '<span class="pill soft">Fora dos botões</span>' : ''}</h2>
-      ${cnpjOk(x.cnpj) ? `<div class="doc">CNPJ ${esc(fmtDocBR(x.cnpj))}${x.municipio ? ' · ' + esc(x.municipio) + (x.uf ? '/' + esc(x.uf) : '') : ''}</div>` : '<div class="doc falta">CNPJ não cadastrado</div>'}
+    return `<div class="int-card"><h2>${esc(x.nome)}${x.socio ? '<span class="pill ink">Sócio</span>' : ''}${x.mei ? '<span class="pill soft">MEI</span>' : ''}${x.certificado ? '<span class="pill soft">Certificado A1</span>' : ''}${x.ativo === false ? '<span class="pill soft">Fora dos botões</span>' : ''}</h2>
+      ${x.nomeCompleto ? `<div class="doc" style="font-family:var(--f-ui)">${esc(x.nomeCompleto)}</div>` : ''}
+      ${cnpjOk(x.cnpj) ? `<div class="doc">CNPJ ${esc(fmtDocBR(x.cnpj))}${x.municipio ? ' · ' + esc(x.municipio) + (x.uf ? '/' + esc(x.uf) : '') : ''}</div>` : '<div class="doc" style="font-family:var(--f-ui)">Sem CNPJ (não emite nota)</div>'}
       <dl><dt>Serviços</dt><dd>${o.servN} · ${money(o.serv)}</dd><dt>Peças vendidas</dt><dd>${qn(o.pecasQtd)} un. · ${money(o.pecas)}</dd><dt class="tot">Total do mês</dt><dd class="tot">${money(tot)}</dd><dt>Notas emitidas</dt><dd>${o.nfN} · ${money(o.nfV)}</dd>${o.nfPrep ? `<dt style="color:var(--red-ink)">Falta emitir</dt><dd style="color:var(--red-ink)">${o.nfPrep}</dd>` : ''}</dl>
       <div class="bar" aria-hidden="true"><i style="width:${tot ? Math.max(3, tot / max * 100) : 0}%"></i></div>
-      <div class="acoes"><button class="btn sm" type="button" data-acao="abrir-integrante" data-id="${esc(x.id)}">Dados e CNPJ</button><button class="btn sm" type="button" data-acao="int-nf" data-id="${esc(x.id)}">${ico('receipt')}Gerar nota</button></div></div>`;
+      <div class="acoes"><button class="btn sm" type="button" data-acao="abrir-integrante" data-id="${esc(x.id)}">Dados e CNPJ</button>${cnpjOk(x.cnpj) ? `<button class="btn sm" type="button" data-acao="int-nf" data-id="${esc(x.id)}">${ico('receipt')}Gerar nota</button>` : ''}${telasLivres() ? `<button class="btn sm" type="button" data-acao="pag-hist" data-id="${esc(x.id)}">${ico('cash')}${x.socio ? 'Retiradas' : 'Pagamentos'}</button>` : ''}</div></div>`;
   }).join('') + (sem && sem.servN ? `<div class="int-card sem"><h2>Sem quem fez</h2><div class="doc">registros de antes do vínculo ou sem escolha</div>
       <dl><dt>Serviços</dt><dd>${sem.servN} · ${money(sem.serv)}</dd><dt>Peças vendidas</dt><dd>${qn(sem.pecasQtd)} un. · ${money(sem.pecas)}</dd></dl>
       <div class="acoes"><button class="btn sm" type="button" data-acao="int-filtro" data-v="sem">Escolher na tabela</button></div></div>` : '');
   const f = S.intFiltro;
   $('#i-filtro').innerHTML = [['todos', 'Tudo'], ['serv', 'Serviços'], ['pecas', 'Peças'], ['sem', 'Sem quem fez']].map(([v, n]) => `<button type="button" data-acao="int-filtro" data-v="${v}" aria-pressed="${f === v}">${n}</button>`).join('');
-  const sq = $('#i-quem'), vq = sq.value, ops = `<option value="">Todos os integrantes</option>` + integrantes().map(x => `<option value="${esc(x.id)}">${esc(x.nome)}</option>`).join('');
+  const sq = $('#i-quem'), vq = sq.value, ops = `<option value="">Todos os colaboradores</option>` + integrantes().map(x => `<option value="${esc(x.id)}">${esc(x.nome)}</option>`).join('');
   if (sq.dataset.ops !== ops) { sq.innerHTML = ops; sq.dataset.ops = ops; sq.value = vq; }
   const q = norm($('#i-q').value), qq = sq.value, refs = refsEmNota();
   let rows = l;
@@ -4045,6 +4188,141 @@ VIEWS.integrantes = () => {
       <td>${n ? `<button class="pill ${n.status === 'emitida' ? 'ink' : 'red'}" type="button" data-acao="abrir-nf" data-id="${esc(n.id)}">${n.status === 'emitida' ? (n.tipo === 'nfe' ? 'Nota de peça' : 'NFS-e') + (n.numero ? ' nº ' + esc(n.numero) : ' emitida') : 'Falta emitir'}</button>` : `<button class="btn sm" type="button" data-acao="nf-de-item" data-id="${esc(it.id)}">${ico('receipt')}Gerar nota</button>`}</td></tr>`;
   }).join('') : `<tr><td colspan="6" class="vazio-t">${l.length ? 'Nada nesse filtro.' : 'Nenhum serviço ou venda registrado neste mês.'}</td></tr>`;
 };
+/* ================= pagamentos dos colaboradores ================= */
+// Pedido do dono (10/11/2026): o pagamento é semanal; os vales (dinheiro pego antes) somam com o que o colaborador
+// recebe no fim de semana. Brito, como dono, recebe partes quando precisa: o sistema vai somando, sempre com a data.
+// Tudo sai do caixa do dia como despesa (resposta do dono). Nada é apagado: desfazer marca o registro e estorna o caixa.
+const PAG_NOME = { vale: 'Vale', pagamento: 'Pagamento da semana', retirada: 'Retirada' };
+const PAG_CAT = { vale: 'Vale de colaborador', pagamento: 'Pagamento de colaborador', retirada: 'Retirada do sócio' };
+const PAG_FORMAS = [['dinheiro', 'Dinheiro'], ['pix', 'Pix'], ['banco', 'Transferência / banco']];
+const semanaTxt = ini => `${fmtDM(ini)} a ${fmtDM(addDays(ini, 6))}`;
+const pagLista = () => [...S.pagamentos.entries()].filter(([, p]) => p && !p.desfeito && p.valor > 0 && p.data).map(([id, p]) => ({ id, ...p }));
+const somaV = l => r2(l.reduce((t, p) => t + (Number(p.valor) || 0), 0));
+function pagSalvar(id) { fila('pagamentos/' + id, 'set', () => S.pagamentos.get(id)); }
+function registrarPagamento(d) {
+  if (!S.podeEscrever) { toast('Seu acesso é só de leitura.', true); return false; }
+  const x = integ(d.quem); if (!x) return false;
+  const id = rid(12), valor = r2(d.valor), semana = d.tipo === 'pagamento' ? d.semana : inicioSemana(d.data);
+  const t = d.data === hoje() ? Date.now() : kdate(d.data).getTime() + 12 * 3600000;
+  const desc = (d.tipo === 'vale' ? `Vale: ${x.nome}` : d.tipo === 'pagamento' ? `Pagamento da semana ${semanaTxt(semana)}: ${x.nome}` : `Retirada: ${x.nome}`) + (d.obs ? ' · ' + d.obs : '');
+  const item = { id: rid(8), t, k: 'caixa', tipo: 'despesa', desc, cat: PAG_CAT[d.tipo], valor, caixa: -valor, pg: d.pg, u: S.uid || null, pag: id };
+  addItem(item, d.data);
+  S.pagamentos.set(id, { quem: d.quem, tipo: d.tipo, valor, data: d.data, semana, pg: d.pg, obs: d.obs || '', item: item.id, criadoEm: Date.now(), por: S.uid || null });
+  pagSalvar(id);
+  return true;
+}
+// pelo Caixa (doCaixa) o estorno já foi feito; daqui, o valor volta para o caixa com um estorno
+function desfazerPagamento(id, doCaixa) {
+  const p = S.pagamentos.get(id); if (!p || p.desfeito) return;
+  S.pagamentos.set(id, { ...p, desfeito: { em: Date.now(), por: S.uid || null } }); pagSalvar(id);
+  if (!doCaixa && p.item && !estornados().has(p.item)) addItem({ id: rid(8), t: Date.now(), k: 'estorno', ref: p.item, u: S.uid || null });
+}
+function renderPagamentos() {
+  const el = $('#i-pag'); if (!el) return;
+  if (!telasLivres()) {
+    el.innerHTML = `<div class="card pag-trava"><div><b>Pagamentos, vales e retiradas</b><p class="muted" style="margin:2px 0 0;font-size:13.5px">Ficam protegidos pela senha das telas (a mesma do Caixa).</p></div>
+      <form id="pag-trava-form" autocomplete="off"><input class="inp" type="password" id="pag-senha" placeholder="Senha das telas" autocapitalize="characters" aria-label="Senha das telas"><button class="btn primary" type="submit">${ico('lock')}Abrir</button></form><p class="erro-txt" id="pag-trava-erro" hidden style="flex-basis:100%;margin:0"></p></div>`;
+    return;
+  }
+  const h = hoje(), ini = S.semPag || (S.semPag = inicioSemana(h)), fim = addDays(ini, 6), estaSem = inicioSemana(h);
+  garantirPeriodo(ini);
+  const pags = pagLista(), serv = itensPeriodo(ini, fim).filter(it => !it._est && it.k === 'serv'), ed = S.podeEscrever ? '' : 'disabled';
+  const colabs = integrantes().filter(x => !x.socio && (x.ativo !== false || pags.some(p => p.quem === x.id && p.semana === ini)));
+  let tV = 0, tP = 0;
+  const linhas = colabs.map(x => {
+    const vs = pags.filter(p => p.quem === x.id && p.tipo === 'vale' && p.semana === ini).sort((a, b) => a.data.localeCompare(b.data) || a.criadoEm - b.criadoEm);
+    const ps = pags.filter(p => p.quem === x.id && p.tipo === 'pagamento' && p.semana === ini).sort((a, b) => a.data.localeCompare(b.data));
+    const sv = serv.filter(it => quemDe(it) === x.id), sV = somaV(vs), sP = somaV(ps);
+    tV += sV; tP += sP;
+    return `<tr data-colab="${esc(x.id)}"><td class="nome"><button class="lk" type="button" data-acao="pag-hist" data-id="${esc(x.id)}"><b>${esc(x.nome)}</b></button><span class="sub">${sv.length} serviço${sv.length === 1 ? '' : 's'} na semana · ${money(sv.reduce((t, it) => t + it.total, 0))}</span></td>
+      <td>${vs.length ? `<div class="pag-vales">${vs.map(p => `<span>${fmtDM(p.data)} · ${money(p.valor)}</span>`).join('')}</div>` : '<span class="muted">—</span>'}</td>
+      <td class="num">${money(sV)}</td>
+      <td class="num">${ps.length ? `${money(sP)}<span class="sub">${ps.map(p => fmtDM(p.data)).join(', ')}</span>` : '<span class="muted">—</span>'}</td>
+      <td class="num"><b>${money(r2(sV + sP))}</b></td>
+      <td class="num"><div class="rt-b" style="justify-content:flex-end"><button class="btn sm" type="button" data-acao="pag-novo" data-tipo="vale" data-colab="${esc(x.id)}" ${ed}>Vale</button><button class="btn sm${ps.length ? '' : ' primary'}" type="button" data-acao="pag-novo" data-tipo="pagamento" data-colab="${esc(x.id)}" ${ed}>Pagar</button></div></td></tr>`;
+  }).join('');
+  el.innerHTML = `<div class="card pag-card"><div class="pag-h"><div><h2>Pagamentos da semana</h2><p>Vales pegos na semana + o pagamento do fim de semana = o que cada um recebeu. Tudo sai do caixa do dia.</p></div>
+      <div class="semana-nav"><button class="btn sm" type="button" data-acao="pag-sem-ant" aria-label="Semana anterior">${ico('left')}</button><b id="pag-semana">${semanaTxt(ini)}</b><button class="btn sm" type="button" data-acao="pag-sem-prox" aria-label="Próxima semana" ${ini >= estaSem ? 'disabled' : ''}>${ico('right')}</button>${ini !== estaSem ? '<button class="btn sm ghost" type="button" data-acao="pag-sem-hoje">Esta semana</button>' : ''}</div></div>
+    <div class="tabela-wrap"><table class="t" id="pag-tab"><thead><tr><th>Colaborador</th><th>Vales</th><th class="num">Total de vales</th><th class="num">Pagamento</th><th class="num">Recebeu na semana</th><th></th></tr></thead>
+      <tbody>${linhas || '<tr><td colspan="6" class="vazio-t">Nenhum colaborador com pagamento semanal.</td></tr>'}</tbody>
+      <tfoot><tr><td><b>Total</b></td><td></td><td class="num"><b>${money(r2(tV))}</b></td><td class="num"><b>${money(r2(tP))}</b></td><td class="num"><b>${money(r2(tV + tP))}</b></td><td></td></tr></tfoot></table></div></div>
+    ${integrantes().filter(x => x.socio).map(x => renderSocio(x, pags)).join('')}`;
+}
+function renderSocio(x, pags) {
+  const rs = pags.filter(p => p.quem === x.id && p.tipo === 'retirada').sort((a, b) => a.data.localeCompare(b.data) || a.criadoEm - b.criadoEm);
+  let acum = 0; const linhas = rs.map(p => { acum = r2(acum + p.valor); return { p, acum }; }).reverse();
+  const tot = somaV(rs), mes = hoje().slice(0, 7), doMes = rs.filter(p => p.data.startsWith(mes)), ult = linhas[0]?.p;
+  return `<div class="card pag-card" id="socio-${esc(x.id)}"><div class="pag-h"><div><h2>Retiradas do ${esc(x.nome)}</h2><p>${x.nomeCompleto ? esc(x.nomeCompleto) + ' · ' : ''}sócio: recebe partes quando precisa e o sistema vai somando, com a data de cada uma.</p></div>
+      <button class="btn primary" type="button" data-acao="pag-novo" data-tipo="retirada" data-colab="${esc(x.id)}" ${S.podeEscrever ? '' : 'disabled'}>${ico('plus')}Registrar retirada</button></div>
+    <div class="kpis k3">${kpi('Total retirado', money(tot), rs.length ? `${rs.length} retirada${rs.length === 1 ? '' : 's'} desde ${fmtData(rs[0].data)}` : 'nenhuma retirada ainda')}${kpi('Neste mês', money(somaV(doMes)), `${doMes.length} retirada${doMes.length === 1 ? '' : 's'}`)}${kpi('Última', ult ? money(ult.valor) : '—', ult ? fmtData(ult.data) : '')}</div>
+    ${linhas.length ? `<div class="tabela-wrap"><table class="t socio-tab"><thead><tr><th>Data</th><th class="num">Valor</th><th class="num">Somando</th><th>Forma</th><th>Observação</th></tr></thead><tbody>${linhas.slice(0, 12).map(({ p, acum }) => `<tr><td class="mono">${fmtData(p.data)}</td><td class="num">${money(p.valor)}</td><td class="num"><b>${money(acum)}</b></td><td>${esc(PAG_FORMAS.find(f => f[0] === p.pg)?.[1] || PG_NOME[p.pg] || '')}</td><td>${esc(p.obs || '')}</td></tr>`).join('')}</tbody></table></div>
+      ${linhas.length > 12 ? `<div><button class="btn sm ghost" type="button" data-acao="pag-hist" data-id="${esc(x.id)}">Ver todas as ${linhas.length} retiradas</button></div>` : `<div><button class="btn sm ghost" type="button" data-acao="pag-hist" data-id="${esc(x.id)}">Ver e desfazer</button></div>`}` : ''}</div>`;
+}
+function abrirPagNovo(tipo, quem) {
+  if (!telasLivres()) { toast('Digite a senha das telas primeiro.', true); return; }
+  if (!PAG_NOME[tipo]) return;
+  const h = hoje(), estaSem = inicioSemana(h), ini = S.semPag || estaSem;
+  const ops = integrantes().filter(x => (tipo === 'retirada' ? x.socio : !x.socio) && (x.ativo !== false || x.id === quem));
+  // pagamento de uma semana que já passou: a data sugerida é o sábado dela
+  const dataPadrao = tipo === 'pagamento' && ini < estaSem ? addDays(ini, 5) : h;
+  const semanas = [...new Set([0, 1, 2, 3, 4, 5].map(i => addDays(estaSem, -7 * i)).concat(ini))].sort().reverse();
+  const tit = { vale: 'Dar vale', pagamento: 'Pagamento da semana', retirada: 'Registrar retirada' }[tipo];
+  const sub = { vale: 'Dinheiro adiantado durante a semana. Soma com o pagamento do fim de semana.', pagamento: 'O que o colaborador recebe no fim de semana. Os vales da semana somam com este valor.', retirada: 'Parte que o sócio pegou. Fica somada com as outras, com a data.' }[tipo];
+  abrirDrawer(`<div class="pn-h"><div><h2>${tit}</h2><div class="sub">${sub}</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+    <section><div class="form-g">
+      <label class="f">${tipo === 'retirada' ? 'Sócio' : 'Colaborador'}<select class="inp" id="pg-quem">${ops.map(x => `<option value="${esc(x.id)}" ${x.id === quem ? 'selected' : ''}>${esc(x.nome)}</option>`).join('')}</select></label>
+      <label class="f">Valor (R$)<input class="inp num" id="pg-valor" inputmode="decimal" placeholder="0,00" autocomplete="off"></label>
+      <label class="f">Data<input class="inp" type="date" id="pg-data" value="${dataPadrao}" max="${h}"></label>
+      <label class="f">Como saiu<select class="inp" id="pg-forma">${PAG_FORMAS.map(([v, n]) => `<option value="${v}">${n}</option>`).join('')}</select></label>
+      ${tipo === 'pagamento' ? `<label class="f">Semana<select class="inp" id="pg-semana">${semanas.map(x => `<option value="${x}" ${x === ini ? 'selected' : ''}>${semanaTxt(x)}</option>`).join('')}</select></label>` : ''}
+    </div>
+    <label class="f">Observação<input class="inp" id="pg-obs" placeholder="Opcional" maxlength="120"></label>
+    <p class="nf-info" id="pg-info"></p><span class="erro-txt" id="pg-erro"></span></section>
+    <div class="pn-acoes"><span class="sp"></span><button class="btn ghost" type="button" data-acao="fechar-drawer">Cancelar</button><button class="btn primary" type="button" data-acao="pag-salvar" data-tipo="${tipo}" ${S.podeEscrever ? '' : 'disabled'}>Salvar e tirar do caixa</button></div>`, { tipo: 'pag-novo', pag: tipo });
+  pgInfo(); setTimeout(() => $('#pg-valor')?.focus(), 30);
+}
+function pgInfo() {
+  const el = $('#pg-info'); if (!el || drawerAberto?.tipo !== 'pag-novo') return;
+  const tipo = drawerAberto.pag, quem = $('#pg-quem')?.value, data = $('#pg-data')?.value || hoje(), valor = parseNum($('#pg-valor')?.value) || 0, x = integ(quem), pags = pagLista();
+  if (!x) { el.textContent = ''; return; }
+  const cx = `Sai do caixa de ${fmtData(data)} como despesa.`;
+  if (tipo === 'retirada') { const tot = somaV(pags.filter(p => p.quem === quem && p.tipo === 'retirada')); el.innerHTML = `${cx} ${esc(x.nome)} já retirou <b>${money(tot)}</b> no total${valor > 0 ? `; com esta, fica <b>${money(r2(tot + valor))}</b>` : ''}.`; return; }
+  const sem = tipo === 'pagamento' ? ($('#pg-semana')?.value || S.semPag) : inicioSemana(data);
+  const vs = pags.filter(p => p.quem === quem && p.tipo === 'vale' && p.semana === sem), ps = pags.filter(p => p.quem === quem && p.tipo === 'pagamento' && p.semana === sem);
+  const ja = r2(somaV(vs) + somaV(ps));
+  el.innerHTML = `${cx} Semana de ${semanaTxt(sem)}: ${vs.length ? `${vs.length} vale${vs.length === 1 ? '' : 's'} (${money(somaV(vs))})` : 'nenhum vale'}${ps.length ? ` e pagamento de ${money(somaV(ps))}` : ''}. ${valor > 0 ? `Com este ${tipo === 'vale' ? 'vale' : 'pagamento'}, ${esc(x.nome)} recebe <b>${money(r2(ja + valor))}</b> na semana.` : `Até agora: <b>${money(ja)}</b>.`}`;
+}
+function salvarPagNovo(tipo) {
+  const er = m => { $('#pg-erro').textContent = m; };
+  const quem = $('#pg-quem')?.value, valor = parseNum($('#pg-valor')?.value), data = $('#pg-data')?.value, pg = $('#pg-forma')?.value || 'dinheiro', obs = ($('#pg-obs')?.value || '').trim(), semana = tipo === 'pagamento' ? $('#pg-semana')?.value : null;
+  if (!quem) return er('Escolha quem recebeu.');
+  if (!(valor > 0)) return er('Informe um valor maior que zero.');
+  if (!data || data > hoje()) return er('A data não pode ser no futuro.');
+  if (tipo === 'pagamento' && !/^\d{4}-\d{2}-\d{2}$/.test(semana || '')) return er('Escolha a semana.');
+  if (!registrarPagamento({ quem, tipo, valor, data, pg, obs, semana })) return;
+  fecharDrawer(); render();
+  toast(`${PAG_NOME[tipo]} de ${nomeInteg(quem)} registrad${tipo === 'retirada' ? 'a' : 'o'} e tirad${tipo === 'retirada' ? 'a' : 'o'} do caixa de ${fmtData(data)}.`);
+}
+function abrirPagHist(quem) {
+  const x = integ(quem); if (!x) return;
+  if (!telasLivres()) { toast('Digite a senha das telas primeiro.', true); return; }
+  const todos = [...S.pagamentos.entries()].filter(([, p]) => p && p.quem === quem && p.data).map(([id, p]) => ({ id, ...p })).sort((a, b) => b.data.localeCompare(a.data) || b.criadoEm - a.criadoEm);
+  const ed = S.podeEscrever;
+  const li = p => `<div class="pag-li${p.desfeito ? ' desfeito' : ''}"><span class="mono">${fmtDM(p.data)}</span><span>${esc(PAG_NOME[p.tipo] || p.tipo)}${p.obs ? `<span class="q"> · ${esc(p.obs)}</span>` : ''}<span class="q"> · ${esc(PAG_FORMAS.find(f => f[0] === p.pg)?.[1] || PG_NOME[p.pg] || '')}</span></span><span class="vl">${money(p.valor)}</span><span class="acao">${p.desfeito ? '<span class="pill soft">Desfeito</span>' : ed ? `<button class="btn sm ghost" type="button" data-acao="pag-desfazer" data-id="${esc(p.id)}">Desfazer</button>` : ''}</span></div>`;
+  let corpo;
+  if (x.socio) {
+    const ok = todos.filter(p => !p.desfeito && p.tipo === 'retirada');
+    corpo = `<section><h3>Retiradas · total ${money(somaV(ok))}</h3>${todos.length ? todos.map(li).join('') : '<p class="muted" style="margin:0">Nenhuma retirada registrada.</p>'}</section>`;
+  } else {
+    const sems = [...new Set(todos.map(p => p.semana))].sort().reverse();
+    corpo = sems.length ? `<section>${sems.map(sm => { const l = todos.filter(p => p.semana === sm), ok = l.filter(p => !p.desfeito); return `<div class="pag-sem"><div class="pag-sem-h"><b>Semana de ${semanaTxt(sm)}</b><span>recebeu <b>${money(somaV(ok))}</b></span></div>${l.map(li).join('')}</div>`; }).join('')}</section>` : '<section><p class="muted" style="margin:0">Nenhum vale ou pagamento registrado.</p></section>';
+  }
+  abrirDrawer(`<div class="pn-h"><div><h2>${esc(x.nome)}: ${x.socio ? 'retiradas' : 'pagamentos e vales'}</h2><div class="sub">${esc(x.nomeCompleto || '')}</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+    ${ed ? `<div class="toolbar">${x.socio ? `<button class="btn primary" type="button" data-acao="pag-novo" data-tipo="retirada" data-colab="${esc(x.id)}">${ico('plus')}Registrar retirada</button>` : `<button class="btn" type="button" data-acao="pag-novo" data-tipo="vale" data-colab="${esc(x.id)}">${ico('plus')}Vale</button><button class="btn primary" type="button" data-acao="pag-novo" data-tipo="pagamento" data-colab="${esc(x.id)}">${ico('plus')}Pagamento da semana</button>`}</div>` : ''}
+    ${corpo}
+    <p class="muted" style="margin:0;font-size:12.5px">Desfazer devolve o valor ao caixa (estorno com a data de hoje) e deixa o registro riscado.</p>
+    <div class="pn-acoes"><span class="sp"></span><button class="btn primary" type="button" data-acao="fechar-drawer">Fechar</button></div>`, { tipo: 'pag-hist', id: quem });
+}
 function exportarIntegrantes() {
   const [de, ate] = mesIntervalo(S.mesInt), refs = refsEmNota();
   const l = itensPeriodo(de, ate).filter(it => !it._est && ehVenda(it));
@@ -4088,14 +4366,18 @@ async function buscarCnpj(cnpj) {
 
 /* ================= cadastro do integrante ================= */
 function abrirIntegrante(id) {
-  const x = id ? integ(id) : { id: '', nome: '', mei: true, ativo: true };
+  const x = id ? integ(id) : { id: '', nome: '', mei: false, ativo: true };
   if (!x) return;
   const pode = podeCadastrar(), dis = pode ? '' : 'disabled';
-  abrirDrawer(`<div class="pn-h"><div><h2>${id ? esc(x.nome) : 'Novo integrante'}</h2><div class="sub">Dados usados nas notas fiscais emitidas pelo CNPJ deste integrante.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+  abrirDrawer(`<div class="pn-h"><div><h2>${id ? esc(x.nome) : 'Novo colaborador'}</h2><div class="sub">Nome, forma de pagamento e, para quem tem CNPJ, os dados das notas fiscais.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
     ${pode ? '' : '<div class="banner">Só o dono da loja altera estes dados.</div>'}
     <section><div class="form-g">
       <label class="f">Nome nos botões<input class="inp" id="ig-nome" value="${esc(x.nome)}" ${dis} placeholder="Ex.: Cláudio"></label>
-      <label class="f">CNPJ<input class="inp mono" id="ig-cnpj" value="${esc(fmtDocBR(x.cnpj || ''))}" inputmode="numeric" autocomplete="off" ${dis} placeholder="00.000.000/0000-00"></label>
+      <label class="f">Nome completo<input class="inp" id="ig-completo" value="${esc(x.nomeCompleto || '')}" ${dis}></label>
+    </div>
+    <label class="chk"><input type="checkbox" id="ig-socio" ${x.socio ? 'checked' : ''} ${dis}>Sócio: recebe retiradas quando precisa (sem pagamento semanal)</label>
+    <div class="form-g">
+      <label class="f">CNPJ (se tiver)<input class="inp mono" id="ig-cnpj" value="${esc(fmtDocBR(x.cnpj || ''))}" inputmode="numeric" autocomplete="off" ${dis} placeholder="00.000.000/0000-00"></label>
       <label class="f">Razão social (nome no CNPJ)<input class="inp" id="ig-razao" value="${esc(x.razao || '')}" ${dis}></label>
       <label class="f">Inscrição municipal (se tiver)<input class="inp mono" id="ig-im" value="${esc(x.im || '')}" ${dis}></label>
       <label class="f">Município<input class="inp" id="ig-mun" value="${esc(x.municipio || '')}" ${dis}></label>
@@ -4111,7 +4393,7 @@ function abrirIntegrante(id) {
         <label class="f">Código de tributação nacional<input class="inp mono" id="ig-ctrib" value="${esc(fmtCtrib(x.cTrib || CTRIB_PADRAO))}" ${dis}></label>
         <label class="f">Item da NBS (opcional)<input class="inp mono" id="ig-nbs" value="${esc(x.nbs || '')}" ${dis} placeholder="1.0000.00.00"></label>
       </div>
-      <p class="muted" style="margin:0;font-size:13px">14.01.01 é conserto, revisão e manutenção de veículos; as peças ficam de fora (pagam ICMS e vão na nota de peças). Confira com o contador se o serviço de algum integrante tem outro código.</p>
+      <p class="muted" style="margin:0;font-size:13px">14.01.01 é conserto, revisão e manutenção de veículos; as peças ficam de fora (pagam ICMS e vão na nota de peças). Confira com o contador se o serviço de algum colaborador tem outro código.</p>
       <label class="f">Inscrição estadual (para a nota de peças)<input class="inp mono" id="ig-ie" value="${esc(x.ie || '')}" ${dis}></label>
       <label class="f">Onde emitir a nota de peças (link)<input class="inp" id="ig-pecas" value="${esc(x.linkPecas || '')}" ${dis} placeholder="Vazio: Nota Fiscal Avulsa da Fazenda de Minas Gerais"></label>
       <label class="chk"><input type="checkbox" id="ig-ativo" ${x.ativo !== false ? 'checked' : ''} ${dis}>Aparece nos botões de quem fez</label>
@@ -4140,8 +4422,8 @@ function salvarIntegranteDrawer(id) {
   if (ctrib && ctrib.length !== 6) return erro('O código de tributação tem 6 números (ex.: 14.01.01).');
   if (v('ig-pecas') && !safeUrl(v('ig-pecas'))) return erro('O link do emissor de peças precisa começar com https://');
   const lista = integrantes().map(x => ({ ...x }));
-  if (cnpj && lista.some(x => x.id !== id && docLimpo(x.cnpj) === cnpj)) return erro('Este CNPJ já está em outro integrante.');
-  const dados = { nome, cnpj, razao: v('ig-razao'), im: v('ig-im'), ie: v('ig-ie'), municipio: v('ig-mun'), uf: v('ig-uf').toUpperCase().slice(0, 2), email: v('ig-email'), tel: v('ig-tel'), mei: $('#ig-mei').checked, certificado: $('#ig-cert').checked, cTrib: ctrib || CTRIB_PADRAO, nbs: v('ig-nbs'), linkPecas: v('ig-pecas'), ativo: $('#ig-ativo').checked };
+  if (cnpj && lista.some(x => x.id !== id && docLimpo(x.cnpj) === cnpj)) return erro('Este CNPJ já está em outro colaborador.');
+  const dados = { nome, nomeCompleto: v('ig-completo'), socio: !!$('#ig-socio')?.checked, cnpj, razao: v('ig-razao'), im: v('ig-im'), ie: v('ig-ie'), municipio: v('ig-mun'), uf: v('ig-uf').toUpperCase().slice(0, 2), email: v('ig-email'), tel: v('ig-tel'), mei: $('#ig-mei').checked, certificado: $('#ig-cert').checked, cTrib: ctrib || CTRIB_PADRAO, nbs: v('ig-nbs'), linkPecas: v('ig-pecas'), ativo: $('#ig-ativo').checked };
   const i = id ? lista.findIndex(x => x.id === id) : -1;
   if (i >= 0) lista[i] = { ...lista[i], ...dados }; else lista.push({ id: (norm(nome).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'pessoa') + '-' + rid(3), ...dados });
   salvarIntegrantes(lista); fecharDrawer(); render(); toast('Dados de ' + nome + ' salvos.');
@@ -4203,13 +4485,13 @@ function linhasNf(n) {
   const p = n.prestador || {}, t = n.tomador || {}, nfe = n.tipo === 'nfe', L = [];
   const mun = p.municipio ? p.municipio + (p.uf ? '/' + p.uf : '') : '';
   L.push([nfe ? 'Emitente' : 'Prestador', (p.razao || p.nome || '—') + (p.cnpj ? `\nCNPJ ${fmtDocBR(p.cnpj)}` : '') + (p.mei ? ' · MEI' : ''), p.cnpj || '']);
-  if (nfe) L.push(['Inscrição estadual', p.ie || 'cadastre em Integrantes', p.ie || '']);
+  if (nfe) L.push(['Inscrição estadual', p.ie || 'cadastre em Colaboradores', p.ie || '']);
   L.push([nfe ? 'Data da venda' : 'Data de competência', fmtData(n.competencia || hoje()), fmtData(n.competencia || hoje())]);
   L.push([nfe ? 'Destinatário (cliente)' : 'Tomador (cliente)', t.doc ? `${docTipo(t.doc) || 'CPF/CNPJ'} ${fmtDocBR(t.doc)}${t.nome ? '\n' + t.nome : ''}` : '—', t.doc || '']);
   if (t.email) L.push(['E-mail do cliente', t.email, t.email]);
   if (t.tel) L.push(['Telefone do cliente', t.tel, t.tel]);
   if (!nfe) {
-    L.push(['Local da prestação', mun || 'cadastre o município em Integrantes', mun]);
+    L.push(['Local da prestação', mun || 'cadastre o município em Colaboradores', mun]);
     L.push(['Código de tributação nacional', fmtCtrib(n.cTrib) + (CTRIB_DESC[n.cTrib] ? '\n' + CTRIB_DESC[n.cTrib] : ''), fmtCtrib(n.cTrib)]);
     if (n.nbs) L.push(['Item da NBS', n.nbs, n.nbs]);
     L.push(['Descrição do serviço', n.descricao || '—', n.descricao || '']);
@@ -4403,18 +4685,14 @@ function ligarUI() {
   montarAlinhadores();
   $('#trava-form').addEventListener('submit', async e => {
     e.preventDefault();
-    const erroEl = $('#trava-erro'), btn = $('#trava-form button'), msg = m => { erroEl.textContent = m; erroEl.hidden = false; $('#trava-senha').select(); };
-    const espera = travaEspera();
-    if (espera) return msg(`Muitas tentativas erradas. Espere ${espera > 60 ? Math.ceil(espera / 60) + ' min' : espera + ' s'} e tente de novo.`);
-    const v = $('#trava-senha').value.trim().toUpperCase();
-    if (!v) return;
-    btn.disabled = true;
-    let ok = false;
-    try { ok = await conferirSenhaTelas(v); }
-    catch (err) { btn.disabled = false; return msg(err && err.message ? err.message : 'Não foi possível conferir a senha agora.'); }
-    btn.disabled = false;
-    if (ok) { travaZerar(); liberarTelas(true); aplicarRota(); render(); toast('Caixa, Faturamento, Balanço e Preços liberados até você fechar esta aba.'); }
-    else { travaErrou(); msg('Senha incorreta.'); }
+    const erroEl = $('#trava-erro'), msg = m => { erroEl.textContent = m; erroEl.hidden = false; $('#trava-senha').select(); };
+    if (await destravar($('#trava-senha').value, msg, $('#trava-form button'))) { aplicarRota(); render(); toast('Caixa, Faturamento, Balanço e Preços liberados até você fechar esta aba.'); }
+  });
+  document.addEventListener('submit', async e => {
+    if (e.target.id !== 'pag-trava-form') return;
+    e.preventDefault();
+    const erroEl = $('#pag-trava-erro'), msg = m => { if (erroEl) { erroEl.textContent = m; erroEl.hidden = false; } $('#pag-senha')?.select(); };
+    if (await destravar($('#pag-senha')?.value || '', msg, e.target.querySelector('button'))) { render(); toast('Pagamentos, Caixa, Faturamento, Balanço e Preços liberados até você fechar esta aba.'); }
   });
   $('.rail').addEventListener('scroll', esconderTip);
 
@@ -4521,7 +4799,7 @@ function ligarUI() {
       'nd-salvar': () => salvarNovaNota(),
       'nf': () => { S.filtroNotas[a.dataset.col] = a.dataset.v; if (a.dataset.col === 'receber') S.nivelNotas = null; renderNotas(a.dataset.col); },
       'rt-novo': () => abrirNovoRetorno(),
-      'rt-de-item': () => { const f = acharItem(a.dataset.id); if (!f) return; abrirNovoRetorno({ servicos: rtServDe(f.it.nome).map(s => s.id), feito: f.L.data || hoje(), item: f.it.id }); },
+      'rt-de-item': () => { const f = acharItem(a.dataset.id); if (!f) return; const svs = rtServDe(f.it.nome).map(s => s.id); abrirNovoRetorno({ servicos: svs, outros: svs.length ? [] : [{ nome: f.it.nome, sid: f.it.sid || null, meses: 0 }], feito: f.L.data || hoje(), item: f.it.id }); },
       'rt-salvar-novo': () => salvarNovoRetorno(),
       'rt-abrir': () => { if (e.target.closest('[data-acao="rt-chamar"]')) return; abrirRetorno(a.dataset.id); },
       'rt-chamar': () => rtChamar(a.dataset.id),
@@ -4540,6 +4818,21 @@ function ligarUI() {
       'rt-reativar': () => { const r = S.retornos.get(a.dataset.id); if (!r) return; rtMudar(a.dataset.id, { status: 'aberto', avisadoEm: null }); toast('Voltou para a lista de lembretes.'); abrirRetorno(a.dataset.id); render(); },
       'rt-excluir': () => { if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.textContent = 'Clique de novo para excluir'; return; } const id = a.dataset.id; S.retornos.delete(id); fila('retornos/' + id, 'delete', () => null); toast('Lembrete excluído.'); fecharDrawer(); render(); },
       'rt-salvar': () => rtSalvarDados(a.dataset.id),
+      'rt-visao': () => { S.rtVisao = a.dataset.v; VIEWS.retornos(); },
+      'rt-outro-add': () => rtOutroAdd(),
+      'rt-outro-del': () => { S.rtOutros.splice(Number(a.dataset.i), 1); renderRtOutros(); },
+      'rt-lembrar': () => { const id = a.dataset.id, r = S.retornos.get(id), m = Number($('#rt-lm')?.value) || 6; if (!r) return; rtMudar(id, { meses: m, volta: addMeses(r.feito, m), status: 'aberto', avisadoEm: null, adiadoPara: null }); toast(`Vai lembrar de chamar ${r.nome} em ${fmtData(addMeses(r.feito, m))}.`); abrirRetorno(id); render(); },
+      'cl-abrir': () => abrirCliente(a.dataset.key),
+      'cl-salvar': () => clSalvar(a.dataset.key),
+      'cl-servico': () => { const c = clientesLista().find(x => x.key === a.dataset.key); if (!c) return; const u = c.recs[0].r; abrirNovoRetorno({ nome: c.nome, tel: c.tel, veiculo: u.veiculo, placa: u.placa }); },
+      'cl-whats': () => { const c = clientesLista().find(x => x.key === a.dataset.key), n = c && rtWhats(c.tel); if (n) window.open(`https://wa.me/${n}`, '_blank', 'noopener'); },
+      'pag-novo': () => abrirPagNovo(a.dataset.tipo, a.dataset.colab),
+      'pag-salvar': () => salvarPagNovo(a.dataset.tipo),
+      'pag-hist': () => abrirPagHist(a.dataset.id),
+      'pag-desfazer': () => { if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.textContent = 'Clique de novo para desfazer'; return; } const p = S.pagamentos.get(a.dataset.id); if (!p) return; desfazerPagamento(a.dataset.id); toast(`Desfeito: ${PAG_NOME[p.tipo] || ''} de ${nomeInteg(p.quem)}. O valor voltou para o caixa.`); render(); if (drawerAberto?.tipo === 'pag-hist') abrirPagHist(drawerAberto.id); },
+      'pag-sem-ant': () => { S.semPag = addDays(S.semPag || inicioSemana(hoje()), -7); renderPagamentos(); },
+      'pag-sem-prox': () => { const n = addDays(S.semPag || inicioSemana(hoje()), 7); if (n <= inicioSemana(hoje())) { S.semPag = n; renderPagamentos(); } },
+      'pag-sem-hoje': () => { S.semPag = inicioSemana(hoje()); renderPagamentos(); },
       'rt-config': () => { S.rtDraft = null; abrirRtConfig(); },
       'rt-cfg-add': () => { S.rtDraft.servicos.push({ id: rid(6), nome: '', meses: 6, ativo: true }); abrirRtConfig(); setTimeout(() => { const l = $$('[data-rtc="nome"]'); l[l.length - 1]?.focus(); }, 30); },
       'rt-cfg-usar': () => { const sg = RT_SUGESTOES.find(x => x.id === a.dataset.id); if (sg) S.rtDraft.servicos.push({ id: sg.id, nome: sg.nome, meses: sg.meses, ativo: true, sugerido: true }); abrirRtConfig(); },
@@ -4657,6 +4950,7 @@ function ligarUI() {
     const tg = e.target, ds = tg.dataset || {};
     if (tg.id === 'vinc-q') renderVinc(tg.value);
     if (tg.id === 'rt-q') VIEWS.retornos();
+    if (tg.id === 'pg-valor' || tg.id === 'pg-data') pgInfo();
     if (tg.id === 'rt-nome') rtCompletar();
     if (tg.id === 'rt-feito' && tg.value) { const c = rtCfg(); $$('[data-rtvolta]').forEach(el => { const sv = c.servicos.find(x => x.id === el.dataset.rtvolta); if (sv) el.textContent = fmtData(addMeses(tg.value, sv.meses)); }); }
     if (ds.rtc && S.rtDraft) { const sv = S.rtDraft.servicos[Number(ds.i)]; if (sv) sv[ds.rtc] = ds.rtc === 'ativo' ? tg.checked : ds.rtc === 'meses' ? parseInt(tg.value, 10) || '' : tg.value; }
@@ -4694,9 +4988,11 @@ function ligarUI() {
   });
   document.addEventListener('change', e => {
     const tg = e.target;
+    if (tg.dataset?.rtom != null) { const o = S.rtOutros[Number(tg.dataset.rtom)]; if (o) o.meses = Number(tg.value) || 0; return; }
+    if (['pg-quem', 'pg-semana', 'pg-data'].includes(tg.id)) { pgInfo(); return; }
     if (tg.dataset?.rtc === 'ativo' && S.rtDraft) { const sv = S.rtDraft.servicos[Number(tg.dataset.i)]; if (sv) sv.ativo = tg.checked; return; }
     if (tg.name === 'ab-caixa') { const l = $('#ab-pg-l'); if (l) l.hidden = tg.value !== 'sim'; const er = $('#ab-erro'); if (er) er.textContent = ''; return; }
-    if (tg.dataset?.atrib) { const id = tg.dataset.atrib, v = tg.value || null; atribuir(id, v); toast(v ? 'Ligado a ' + nomeInteg(v) + '.' : 'Sem integrante.'); render(); return; }
+    if (tg.dataset?.atrib) { const id = tg.dataset.atrib, v = tg.value || null; atribuir(id, v); toast(v ? 'Ligado a ' + nomeInteg(v) + '.' : 'Sem colaborador.'); render(); return; }
     if (tg.dataset?.nfsel && S.nf) { const id = tg.dataset.nfsel; if (tg.checked) { S.nf.sel.add(id); const f = acharItem(id), q = f && quemDe(f.it); if (!S.nf.quem && q) S.nf.quem = q; if (f && S.nf.sel.size === 1 && f.L.data) { S.nf.comp = f.L.data; $('#nf-comp').value = f.L.data; } } else S.nf.sel.delete(id); nfAtualizarDesc(); renderNfQuem(); renderNfPrevia(); return; }
     if (tg.id === 'i-quem') { VIEWS.integrantes(); return; }
     if (tg.id === 'nf-doc' && S.nf) { tg.value = S.nf.doc ? fmtDocBR(S.nf.doc) : ''; return; }
@@ -4708,6 +5004,8 @@ function ligarUI() {
   document.addEventListener('keydown', e => {
     const id = e.target.id;
     if (id === 'd-novo-cod' && e.key === 'Enter') { e.preventDefault(); addCodDrawer(); }
+    if (id === 'rt-outro' && e.key === 'Enter') { e.preventDefault(); rtOutroAdd(); }
+    if (id === 'pg-valor' && e.key === 'Enter') { e.preventDefault(); $('[data-acao="pag-salvar"]')?.click(); }
     if (id === 'vinc-q' && e.key === 'Enter') { e.preventDefault(); $('#vinc-res button')?.click(); }
     if (id === 'sp-preco' && e.key === 'Enter') { e.preventDefault(); $('[data-acao="confirmar-sem-preco"]')?.click(); }
     if (id === 'u-vu' && e.key === 'Enter') { e.preventDefault(); $('[data-acao="u-salvar"]')?.click(); }
@@ -4820,6 +5118,7 @@ function assinar() {
   assinarLeve('notasfiscais', 'nfs');
   assinarLeve('clientes', 'clientes');
   assinarLeve('retornos', 'retornos');
+  assinarLeve('pagamentos', 'pagamentos');
   S.db.doc('config/retornos').onSnapshot(d => { if (pendente('config/retornos')) return; S.rtConfigDoc = d.exists ? d.data() : null; agendarRender(); }, erroAssinatura);
   S.db.collection('rotina').onSnapshot(snap => {
     const m = new Map(); let lista = null;
