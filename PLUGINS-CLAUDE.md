@@ -12,6 +12,24 @@ Os 5 plugins do guia "5 Plugins do Claude Code" (fabiano.app), instalados na ord
 
 Na primeira vez que abrir o projeto, o Claude Code pede para confiar nos marketplaces `claude-plugins-official` e `thedotmack`. Responda que sim.
 
+## Vibe Coding Toolkit (soumatheusgomes/vibe-coding-toolkit, revisão `7ef68dd`)
+
+O toolkit não é um plugin. É uma receita (documentos, prompts e modelos). Neste projeto foram instalados os plugins do toolkit que servem a qualquer stack, todos ligados no `.claude/settings.json`:
+
+| Plugin | Para que serve | Como usar |
+|--------|----------------|-----------|
+| Superpowers (`claude-plugins-official`) | Processo: brainstorming, plano, TDD, depuração, revisão | Ativo sozinho; skills como `superpowers:brainstorming` |
+| Caveman (`JuliusBrussee/caveman`) | Respostas curtas, sem enrolação | `/caveman lite\|full\|ultra`; "stop caveman" desliga |
+| Ponytail (`DietrichGebert/ponytail`) | A solução mais simples que funciona | `/ponytail lite\|full\|ultra`, `/ponytail-review` |
+
+O Ponytail grava uma linha por tarefa (tokens, turnos) em `~/.config/ponytail/band/`, na sua máquina. O webhook dele fica vazio, então nada sai do computador.
+
+Para rodar a adoção completa do toolkit (Prompt 12), abra o Claude na raiz do projeto e cole:
+
+```text
+Leia https://raw.githubusercontent.com/soumatheusgomes/vibe-coding-toolkit/main/docs/prompts/12-existing-project-setup.md e execute integralmente o bloco da seção "Prompt" neste projeto, começando pelo brainstorming.
+```
+
 ## Por que OmniRoute e Headroom não estão no `.claude/settings.json`
 
 Os dois funcionam como proxy: trocam o `ANTHROPIC_BASE_URL` para um servidor local (`localhost:20128` e `localhost:8787`). Se isso ficasse fixo no projeto, toda sessão sem o proxy ligado (incluindo as sessões na nuvem do claude.ai) ficaria sem resposta. Por isso, eles são ligados por comando, só no seu computador.

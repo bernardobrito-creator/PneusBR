@@ -2,6 +2,13 @@
 
 Veja o README.md para a arquitetura. Plugins e skills deste projeto estão descritos em `PLUGINS-CLAUDE.md`.
 
+## Estilo (Caveman e Ponytail, do Vibe Coding Toolkit)
+
+- Caveman ativo por padrão: conversa concisa, em português, sem perder clareza.
+- Explicação completa quando pedida. Código, documentação, comentários e mensagens de commit usam redação normal.
+- "stop caveman" desliga o estilo nesta conversa. `/caveman lite|full|ultra` muda a intensidade.
+- Ponytail (nível full): a menor mudança completa que resolve. Não crie abstrações nem dependências que não foram pedidas.
+
 ## Task Observer (aprende com as correções)
 
 Regras deste projeto, que valem por cima do bloco abaixo:
