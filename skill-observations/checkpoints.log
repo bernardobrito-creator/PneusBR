@@ -12,3 +12,5 @@
 2026-11-11 22:23 [PneusBR] session-start scan: files=0 parsed=0 principles=0
 2026-11-11 22:23 loaded transcrever-audio — 0 open observations
 2026-11-11 22:39 [PneusBR] session-start scan: files=1 parsed=1 principles=0
+2026-11-11 22:51 loaded hyperframes — 0 open observations
+2026-11-11 23:03 [PneusBR] no observations — since 0001: CTB page redirected (used other sources), PDF unreadable via fetch (read with pdftotext), TTS mis-said a 3-word line (lengthened it): tool/one-off, no skill rule involved
