@@ -24,6 +24,31 @@ O toolkit não é um plugin. É uma receita (documentos, prompts e modelos). Nes
 
 O Ponytail grava uma linha por tarefa (tokens, turnos) em `~/.config/ponytail/band/`, na sua máquina. O webhook dele fica vazio, então nada sai do computador.
 
+Também adotados (12/11/2026):
+
+| Peça | Onde | Situação |
+|------|------|----------|
+| Context7 (`upstash/context7`) | Plugin no `.claude/settings.json` | O MCP pede login (OAuth): rode `/mcp` no Claude Code e autorize. Até lá, o CLI `npx -y ctx7@latest` funciona sem login (testado com supabase-js) e está descrito no `AGENTS.md` |
+| `supabase-postgres-best-practices` | `.claude/skills/` (registro em `skills-lock.json`) | Carregada antes de mexer em `supabase/seguranca.sql` e no banco |
+| `differential-review` (Trail of Bits) | `.claude/skills/` | Usada no modo diff da revisão de segurança |
+| Revisão de segurança (Prompt 13) | `.claude/commands/revisao-seguranca.md` | `/revisao-seguranca` ou `/revisao-seguranca <base>..<head>`. Só lê; relatório fora do repositório |
+| `AGENTS.md` e `PRODUCT.md` | Raiz | `CLAUDE.md` importa o `AGENTS.md` |
+
+Atualizar as skills: `npx --yes skills@latest update` (lê o `skills-lock.json`).
+
+Decisões sobre o resto do catálogo do toolkit:
+
+| Peça | Decisão | Motivo |
+|------|---------|--------|
+| ESLint / limite de 350 linhas | Não adotado | Medido em 12/11/2026 com `eslint:recommended` no JS de `app.html` e `shim.html` (4.107 linhas): 30 avisos, nenhum bug real (21 `catch {}` vazios de propósito, 5 variáveis sem uso, 3 escapes desnecessários, 1 espaço especial usado de propósito numa regex). O projeto não tem `package.json`; dividir o `app.html` mexe no build e no CSP. Reavaliar se o JS sair do HTML |
+| Os 9 documentos do toolkit em `docs/` | Só `AGENTS.md` e `PRODUCT.md` | Aqui `docs/` é o site publicado no GitHub Pages; o `README.md` já cobre arquitetura, setup e segurança |
+| RTK | Só no seu computador | Intercepta comandos, como o Headroom |
+| Graphify | Não adotado | O código são 3 arquivos-fonte; o grafo não ajuda |
+| Navegador / Chrome DevTools MCP | Reaproveitado | O Playwright já faz os testes |
+| Memória (Obsidian etc.) | Reaproveitado | O Claude Mem já faz esse papel |
+| Next.js, Vercel, shadcn, Sentry, gh-fix-ci | Não se aplica | O projeto não usa nada disso (não há GitHub Actions) |
+| Harness2 / avaliação do harness | Não adotado agora | Sem falha concreta para comparar; o Prompt 15 do toolkit fica disponível |
+
 Para rodar a adoção completa do toolkit (Prompt 12), abra o Claude na raiz do projeto e cole:
 
 ```text

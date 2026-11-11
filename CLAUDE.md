@@ -1,13 +1,8 @@
 # PneusBR — instruções para o Claude
 
-Veja o README.md para a arquitetura. Plugins e skills deste projeto estão descritos em `PLUGINS-CLAUDE.md`.
+@AGENTS.md
 
-## Estilo (Caveman e Ponytail, do Vibe Coding Toolkit)
-
-- Caveman ativo por padrão: conversa concisa, em português, sem perder clareza.
-- Explicação completa quando pedida. Código, documentação, comentários e mensagens de commit usam redação normal.
-- "stop caveman" desliga o estilo nesta conversa. `/caveman lite|full|ultra` muda a intensidade.
-- Ponytail (nível full): a menor mudança completa que resolve. Não crie abstrações nem dependências que não foram pedidas.
+Plugins e skills do Claude Code neste projeto: `PLUGINS-CLAUDE.md`. Intensidade do estilo: `/caveman lite|full|ultra` e `/ponytail lite|full|ultra`.
 
 ## Task Observer (aprende com as correções)
 

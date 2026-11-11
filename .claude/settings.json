@@ -4,7 +4,8 @@
     "claude-mem@thedotmack": true,
     "superpowers@claude-plugins-official": true,
     "caveman@caveman": true,
-    "ponytail@ponytail": true
+    "ponytail@ponytail": true,
+    "context7@context7-marketplace": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
@@ -29,6 +30,12 @@
       "source": {
         "source": "github",
         "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "context7-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "upstash/context7"
       }
     }
   }

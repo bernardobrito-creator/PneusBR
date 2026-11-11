@@ -4,3 +4,7 @@
 2026-11-11 21:46 loaded task-observer — 0 open observations
 2026-11-11 21:46 [PneusBR] session-start scan: files=0 parsed=0 principles=0
 2026-11-11 21:49 [PneusBR] no observations — one classifier denial on 'claude plugin install' (no reason given), identical retry passed: one-off false positive, no methodology to generalise
+2026-11-11 21:59 loaded task-observer — 0 open observations
+2026-11-11 21:59 [PneusBR] session-start scan: files=0 parsed=0 principles=0
+2026-11-11 22:02 [PneusBR] no observations — Context7 plugin MCP flagged needs-auth (OAuth) though the service answers anonymously; fell back to the ctx7 CLI: environment/tool fact, no installed skill governs it
+2026-11-11 22:03 [PneusBR] no observations — fresh test session could not run task-observer scripts under a narrow --allowedTools list: harness permission scope of that test, not a work pattern
