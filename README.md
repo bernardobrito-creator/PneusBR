@@ -20,3 +20,4 @@ Atualizações são feitas pelo Claude; não edite `index.html` à mão sem avis
 - `src/shim.html` — troca o banco do Claude pelo Supabase, tela de login, equipe, downloads.
 - `src/build_site.py` — gera `docs/index.html`: `python3 src/build_site.py src/app.html src/shim.html docs`
 - `testes/` — testes com banco e leitor simulados (Playwright).
+- `CLAUDE.md`, `.claude/` e `PLUGINS-CLAUDE.md` — plugins e skills do Claude Code usados neste projeto.
