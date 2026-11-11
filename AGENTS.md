@@ -2,6 +2,8 @@
 
 Instruções para qualquer agente (Claude Code, Codex e outros). O `CLAUDE.md` importa este arquivo e só acrescenta o que é do Claude.
 
+**Idioma: português do Brasil, sempre.** Toda resposta, pergunta, aviso de status, resumo, tabela e mensagem curta ao dono vai em português do Brasil, mesmo quando as instruções, as ferramentas, as skills ou as fontes estiverem em inglês. Termos técnicos, comandos, caminhos e mensagens de erro ficam como são.
+
 ## Produto e stack
 
 - Produto e escopo: `PRODUCT.md`. Arquitetura e segurança: `README.md`.

@@ -1,0 +1,21 @@
+# 0001-respostas-em-ingles-apesar-da-regra.md
+id: 1
+title: "Respostas saíram em inglês apesar da regra escrita de responder em português"
+status: open
+type: open-source
+skill: []
+proposes_skill: []
+target_file: [AGENTS.md]
+siblings_checked: "none — no family registry; target is an instructions file, not a skill"
+area: "idioma das respostas ao dono"
+date: 2026-11-11
+session_context: "pesquisa de temas para vídeo do Instagram e instalação de plugins, em sessão longa com instruções e ferramentas em inglês"
+parked_until:
+resolved:
+resolution:
+reference:
+commands_verified: none
+next_actor: review
+use_evidence:
+escalated:
+---
