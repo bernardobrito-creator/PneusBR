@@ -120,8 +120,9 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
     await A.keyboard.press('Escape');
   } else out.c.linkRecusado = 'painel do integrante não abriu';
 
-  // 5) CSV: texto que parece fórmula sai com apóstrofo
+  // 5) CSV: texto que parece fórmula sai com apóstrofo (o aviso de notas a pagar fica por cima do botão: minimiza antes)
   await A.evaluate(() => { location.hash = '#produtos'; }); await A.waitForTimeout(400);
+  await A.evaluate(() => document.querySelector('#aviso [data-acao="aviso-min"]')?.click()); await A.waitForTimeout(150);
   const [dl] = await Promise.all([A.waitForEvent('download', { timeout: 5000 }), A.click('#p-csv')]);
   const csv = fs.readFileSync(await dl.path(), 'utf8');
   const linhasCsv = csv.split('\n').filter(l => /HYPERLINK|SUM\(/.test(l));
