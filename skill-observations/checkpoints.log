@@ -14,3 +14,4 @@
 2026-11-11 22:39 [PneusBR] session-start scan: files=1 parsed=1 principles=0
 2026-11-11 22:51 loaded hyperframes — 0 open observations
 2026-11-11 23:03 [PneusBR] no observations — since 0001: CTB page redirected (used other sources), PDF unreadable via fetch (read with pdftotext), TTS mis-said a 3-word line (lengthened it): tool/one-off, no skill rule involved
+2026-11-12 00:05 [PneusBR] no observations — container restart killed a background render; re-ran it writing to a temp file first: environment event, handled, no skill rule involved
