@@ -9,6 +9,7 @@
   --bg:#F3F2F2; --surface:#FFFFFF; --surface-2:#EDEBEB; --ink:#161314; --ink-2:#463F3F; --muted:#77706F;
   --line:#E2DEDE; --line-2:#CFC9C9;
   --red:#B4393E; --red-ink:#9A2D32; --red-soft:#F6E7E7; --red-line:#E7C5C6; --on-red:#FFFFFF;
+  --blue:#2F5FA8; --blue-ink:#244C88; --blue-soft:#E7EDF7; --blue-line:#C3D2EA;
   --p1:#B9B2B2; --p2:#DDA9AB; --p3:#CC6D72; --p4:#B4393E; --p5:#6F1519;
   --bar:#141112; --bar-ink:#F3F0F0; --bar-muted:#9C9494; --bar-line:#2A2526; --bar-hover:rgba(255,255,255,.08); --bar-active:rgba(255,255,255,.13);
   --label-bg:#FFFFFF; --label-ink:#000000;
@@ -23,6 +24,7 @@
   --bg:#0E0C0D; --surface:#171415; --surface-2:#211D1E; --ink:#F2EFEF; --ink-2:#CEC7C7; --muted:#958D8D;
   --line:#2B2627; --line-2:#3B3536;
   --red:#DE575D; --red-ink:#F18D91; --red-soft:#34191B; --red-line:#5B2B2E; --on-red:#FFFFFF;
+  --blue:#5B8FDB; --blue-ink:#9DBDF0; --blue-soft:#162030; --blue-line:#2C3F5C;
   --p1:#4F4849; --p2:#6E3A3D; --p3:#A8464C; --p4:#DE575D; --p5:#FF7F85;
   --bar:#060505; --bar-ink:#F2EFEF; --bar-muted:#8E8687; --bar-line:#1E1A1B; --bar-hover:rgba(255,255,255,.07); --bar-active:rgba(255,255,255,.12);
   --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); --backdrop:rgba(0,0,0,.6);
@@ -32,6 +34,7 @@
   --bg:#0E0C0D; --surface:#171415; --surface-2:#211D1E; --ink:#F2EFEF; --ink-2:#CEC7C7; --muted:#958D8D;
   --line:#2B2627; --line-2:#3B3536;
   --red:#DE575D; --red-ink:#F18D91; --red-soft:#34191B; --red-line:#5B2B2E; --on-red:#FFFFFF;
+  --blue:#5B8FDB; --blue-ink:#9DBDF0; --blue-soft:#162030; --blue-line:#2C3F5C;
   --p1:#4F4849; --p2:#6E3A3D; --p3:#A8464C; --p4:#DE575D; --p5:#FF7F85;
   --bar:#060505; --bar-ink:#F2EFEF; --bar-muted:#8E8687; --bar-line:#1E1A1B; --bar-hover:rgba(255,255,255,.07); --bar-active:rgba(255,255,255,.12);
   --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); --backdrop:rgba(0,0,0,.6);
@@ -598,6 +601,25 @@ button.pill{cursor:pointer;font-family:inherit}
 .aviso-f{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;border-top:1px solid var(--line);font-size:13px}
 .aviso-f a{color:var(--red-ink);font-weight:600}
 body.tem-aviso .topo .status{margin-right:52px}
+.aviso-card.so-cli{border-top-color:var(--blue)}
+.aviso-card.so-cli .aviso-h>.i{color:var(--blue)}
+.aviso-bola.cli{background:var(--blue)}
+.aviso-bola i{position:absolute;bottom:-5px;right:-5px;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:var(--blue);color:#fff;font-style:normal;font-size:10.5px;font-weight:700;display:grid;place-items:center;border:2px solid var(--bg)}
+.aviso-l li.nt button{box-shadow:inset 3px 0 0 var(--red)}
+.aviso-l li.cli button{box-shadow:inset 3px 0 0 var(--blue)}
+.aviso-l li.cli button:hover{background:var(--blue-soft)}
+.aviso-l .aviso-g.g-cli{color:var(--blue-ink)}
+.aviso-l small.qd.cli{color:var(--blue-ink)}
+.aviso-l .vl.cli{font-family:var(--f-ui);font-size:12px;font-weight:600;color:var(--blue-ink)}
+.aviso-f .lks{display:flex;gap:12px}
+.aviso-f a.cli{color:var(--blue-ink)}
+.np-cats{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.np-cats .seg button b{font-weight:600;color:var(--muted);margin-left:4px;font-size:12px}
+.pill.cat{color:var(--ink-2);border-color:var(--line-2);background:var(--surface-2);margin-right:6px}
+.arq-info{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:14px}
+.arq-info b{font-size:15px}
+#np-arq-btn[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+#np-arq-btn .n{font-family:var(--f-mono);font-size:12px;opacity:.8}
 .np-forn{max-width:280px}
 .np-forn.on{border-color:var(--red);box-shadow:inset 0 0 0 1px var(--red)}
 
@@ -682,6 +704,7 @@ body.tem-aviso .topo .status{margin-right:52px}
     <symbol id="ic-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
     <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M6 9.5a6 6 0 0 1 12 0c0 5.5 2.5 7 2.5 7h-17S6 15 6 9.5Z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></symbol>
     <symbol id="ic-min" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="ic-archive" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4.5" rx="1"/><path d="M5 8.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5"/><path d="M10 12.5h4"/></symbol>
   </defs>
 </svg>
 
@@ -907,9 +930,11 @@ body.tem-aviso .topo .status{margin-right:52px}
   <section data-view="pagar" hidden>
     <div class="sec-h">
       <div><h1>Notas a pagar</h1><p>Contas de fornecedores e despesas a prazo. Leia o boleto ou a nota fiscal com o leitor para preencher sozinho, ou leia os produtos da nota para somar o valor.</p></div>
-      <div class="toolbar"><button class="btn" type="button" data-acao="scan-nota" data-col="pagar"><svg class="i"><use href="#ic-scan"/></svg>Escanear nota</button><button class="btn primary" type="button" data-acao="nova-nota" data-col="pagar"><svg class="i"><use href="#ic-plus"/></svg>Nova nota a pagar</button></div>
+      <div class="toolbar"><button class="btn" type="button" id="np-arq-btn" data-acao="np-arquivo" aria-pressed="false"><svg class="i"><use href="#ic-archive"/></svg>Arquivo <span class="n" id="np-arq-n"></span></button><button class="btn" type="button" data-acao="scan-nota" data-col="pagar"><svg class="i"><use href="#ic-scan"/></svg>Escanear nota</button><button class="btn primary" type="button" data-acao="nova-nota" data-col="pagar"><svg class="i"><use href="#ic-plus"/></svg>Nova nota a pagar</button></div>
     </div>
+    <div class="arq-info" id="np-arq-info" hidden></div>
     <div class="kpis mb" id="np-kpis"></div>
+    <div class="np-cats mb" id="np-cats"><div class="seg" id="np-cat" aria-label="Classe"></div><div class="seg" id="np-site" aria-label="Site" hidden></div></div>
     <div class="toolbar mb"><div class="seg" id="np-filtro"></div><div class="seg" id="np-ordem" aria-label="Organizar"></div><select class="inp np-forn" id="np-forn" aria-label="Fornecedor"></select><input class="inp" id="np-q" type="search" placeholder="Buscar fornecedor, nota, código ou item" style="flex:1;min-width:180px"></div>
     <div class="tabela-wrap"><table class="t" id="np-tab"><thead><tr><th>Vencimento</th><th>Fornecedor</th><th>Nota / descrição</th><th>Parcela</th><th class="num">Valor</th><th>Situação</th></tr></thead><tbody></tbody></table></div>
   </section>
@@ -1170,8 +1195,9 @@ const hoje = () => dkey(new Date());
 const kdate = key => { const [y, m, d] = key.split('-').map(Number); return new Date(y, m - 1, d); };
 function addDays(key, n) { const d = kdate(key); d.setDate(d.getDate() + n); return dkey(d); }
 const difDias = (a, b) => Math.round((kdate(b) - kdate(a)) / 86400000);
-const fmtData = key => { const [y, m, d] = key.split('-'); return `${d}/${m}/${y}`; };
-const fmtDM = key => { const [, m, d] = key.split('-'); return `${d}/${m}`; };
+// data vazia (nota sem emissão, pagamento sem data) aparece como traço em vez de quebrar a tela
+const fmtData = key => { if (!key) return '—'; const [y, m, d] = String(key).split('-'); return `${d}/${m}/${y}`; };
+const fmtDM = key => { if (!key) return '—'; const [, m, d] = String(key).split('-'); return `${d}/${m}`; };
 const fmtHora = t => new Date(t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 const fmtQuando = t => { const k = dkey(new Date(t)); return (k === hoje() ? 'hoje' : fmtData(k)) + ' às ' + fmtHora(t); };
 const diaSemana = key => kdate(key).toLocaleDateString('pt-BR', { weekday: 'long' });
@@ -1728,6 +1754,7 @@ function salvarNovaNota() {
   const id = 'n' + Date.now().toString(36) + rid(4);
   const nota = { parte: nd.parte.trim(), doc: nd.doc.trim(), numero: nd.numero.trim(), descricao: nd.descricao.trim(), emissao: nd.emissao || hoje(), itens: nd.itens.map(x => ({ ...x })), total, parcelas: parcelasNd(nd), criadoEm: Date.now(), por: S.uid || null, movimentou: !!(nd.movimentar && nd.itens.length), movs: [] };
   if (!isP && nd.quem) nota.quem = nd.quem;
+  if (isP) { const c = nd.categoria || catDoFornecedor(nota.parte); if (c) nota.categoria = c; if (c === ONLINE && (nd.site || '').trim()) nota.site = nd.site.trim(); }
   if (nd.boleto) nota.boleto = nd.boleto;
   if (nd.chave) nota.chave = nd.chave;
   if (nd.escaneado) nota.escaneado = nd.escaneado;
@@ -2078,33 +2105,44 @@ function renderBadges() {
   set('badge-rotina', nRot);
   $('#btn-ajustes').dataset.tip = nRot ? `Configurações · ${nRot} tarefa${nRot > 1 ? 's' : ''} da rotina para hoje` : 'Configurações';
 }
-/* aviso de notas a pagar: quadrado no canto superior direito, em todas as telas, com as parcelas que vencem hoje
-   e as atrasadas. Minimiza numa bolinha; abre de novo sozinho no dia seguinte ou quando entra nota nova no aviso. */
+/* aviso no canto superior direito, em todas as telas: parcelas a pagar que vencem hoje e as atrasadas (vermelho) e,
+   desde 13/11/2026, clientes com retorno pendente (troca de óleo etc. com prazo vencido e ainda não chamados), em azul.
+   Minimiza numa bolinha; abre de novo sozinho no dia seguinte ou quando entra algo novo no aviso. */
 let avisoHtml = '';
 function avisoItens() {
   return parcelasDe('pagar').filter(x => x.st === 'hoje' || x.st === 'vencida')
     .sort((a, b) => a.pc.venc.localeCompare(b.pc.venc) || (a.n.parte || '').localeCompare(b.n.parte || '', 'pt-BR'));
 }
-const avisoChave = its => hoje() + '|' + its.map(x => x.id + ':' + x.i).sort().join(',');
+function avisoClientes() {
+  return [...S.retornos.entries()].filter(([, r]) => r && r.nome && rtEstado(r) === 'chamar')
+    .map(([id, r]) => ({ id, r, vence: r.adiadoPara || r.volta }))
+    .sort((a, b) => a.vence.localeCompare(b.vence) || (a.r.nome || '').localeCompare(b.r.nome || '', 'pt-BR'));
+}
+const avisoChave = (its, cls = avisoClientes()) => hoje() + '|' + its.map(x => x.id + ':' + x.i).sort().join(',') + (cls.length ? '|c:' + cls.map(c => c.id).sort().join(',') : '');
 function renderAviso() {
   const el = $('#aviso'); if (!el) return;
-  const its = avisoItens();
-  if (!its.length) { if (!el.hidden || avisoHtml) { el.hidden = true; el.innerHTML = ''; avisoHtml = ''; } document.body.classList.remove('tem-aviso'); return; }
-  const min = ls.get('aviso-min', '') === avisoChave(its), h = hoje();
+  const its = avisoItens(), cls = avisoClientes();
+  if (!its.length && !cls.length) { if (!el.hidden || avisoHtml) { el.hidden = true; el.innerHTML = ''; avisoHtml = ''; } document.body.classList.remove('tem-aviso'); return; }
+  const min = ls.get('aviso-min', '') === avisoChave(its, cls), h = hoje();
   const hj = its.filter(x => x.st === 'hoje'), at = its.filter(x => x.st === 'vencida');
   const soma = a => a.reduce((t, x) => t + restParc(x.pc), 0);
-  const resumo = [hj.length ? `${hj.length} vence${hj.length > 1 ? 'm' : ''} hoje` : '', at.length ? `${at.length} atrasada${at.length > 1 ? 's' : ''}` : ''].filter(Boolean).join(' · ');
+  const resumo = [hj.length ? `${hj.length} vence${hj.length > 1 ? 'm' : ''} hoje` : '', at.length ? `${at.length} atrasada${at.length > 1 ? 's' : ''}` : '', cls.length ? `${cls.length} cliente${cls.length > 1 ? 's' : ''} para chamar` : ''].filter(Boolean).join(' · ');
   const item = x => {
     const atraso = x.st === 'vencida' ? difDias(x.pc.venc, h) : 0;
     const sub = [x.n.numero ? 'Nota ' + x.n.numero : '', x.n.parcelas.length > 1 ? `parcela ${x.pc.n}/${x.n.parcelas.length}` : ''].filter(Boolean).join(' · ');
-    return `<li><button type="button" data-acao="aviso-nota" data-id="${esc(x.id)}"><span class="nm">${esc(x.n.parte || '—')}</span><span class="vl">${money(restParc(x.pc))}</span><small>${esc(sub || fmtData(x.pc.venc))}</small><small class="qd">${atraso ? `${atraso} dia${atraso > 1 ? 's' : ''} de atraso` : 'vence hoje'}</small></button></li>`;
+    return `<li class="nt"><button type="button" data-acao="aviso-nota" data-id="${esc(x.id)}"><span class="nm">${esc(x.n.parte || '—')}</span><span class="vl">${money(restParc(x.pc))}</span><small>${esc(sub || fmtData(x.pc.venc))}</small><small class="qd">${atraso ? `${atraso} dia${atraso > 1 ? 's' : ''} de atraso` : 'vence hoje'}</small></button></li>`;
+  };
+  const itemCli = c => {
+    const atraso = difDias(c.vence, h);
+    return `<li class="cli"><button type="button" data-acao="aviso-cliente" data-id="${esc(c.id)}"><span class="nm">${esc(c.r.nome)}</span><span class="vl cli">Chamar</span><small>${esc([c.r.servico, [c.r.veiculo, c.r.placa].filter(Boolean).join(' ')].filter(Boolean).join(' · '))}</small><small class="qd cli">${atraso > 0 ? `venceu há ${atraso} dia${atraso > 1 ? 's' : ''}` : 'vence hoje'}</small></button></li>`;
   };
   const grupo = (t, a) => a.length ? `<li class="aviso-g">${t} · ${money(soma(a))}</li>${a.map(item).join('')}` : '';
+  const soCli = !its.length, total = its.length + cls.length;
   const html = min
-    ? `<button class="aviso-bola" type="button" data-acao="aviso-abrir" aria-label="Notas a pagar: ${esc(resumo)}. Abrir o aviso" title="Notas a pagar: ${esc(resumo)}">${ico('bell')}<b>${its.length > 99 ? '99+' : its.length}</b></button>`
-    : `<section class="aviso-card" role="region" aria-label="Aviso de notas a pagar"><div class="aviso-h">${ico('bell')}<div class="t"><b>Notas a pagar</b><small>${esc(resumo)}</small></div><button class="btn sm ghost" type="button" data-acao="aviso-min" aria-label="Minimizar o aviso" title="Minimizar">${ico('min')}</button></div>
-      <ul class="aviso-l">${grupo('Vencem hoje', hj)}${grupo('Atrasadas', at)}</ul>
-      <div class="aviso-f"><span>Total ${money(soma(its))}</span><a href="#pagar">Ver em Notas a pagar</a></div></section>`;
+    ? `<button class="aviso-bola${soCli ? ' cli' : ''}" type="button" data-acao="aviso-abrir" aria-label="Avisos: ${esc(resumo)}. Abrir o aviso" title="Avisos: ${esc(resumo)}">${ico('bell')}<b>${(soCli ? cls.length : its.length) > 99 ? '99+' : (soCli ? cls.length : its.length)}</b>${!soCli && cls.length ? `<i title="clientes para chamar">${cls.length > 99 ? '99+' : cls.length}</i>` : ''}</button>`
+    : `<section class="aviso-card${soCli ? ' so-cli' : ''}" role="region" aria-label="Avisos"><div class="aviso-h">${ico('bell')}<div class="t"><b>${!cls.length ? 'Notas a pagar' : soCli ? 'Clientes para chamar' : 'Avisos'}</b><small>${esc(resumo)}</small></div><button class="btn sm ghost" type="button" data-acao="aviso-min" aria-label="Minimizar o aviso" title="Minimizar">${ico('min')}</button></div>
+      <ul class="aviso-l">${grupo('Vencem hoje', hj)}${grupo('Atrasadas', at)}${cls.length ? `<li class="aviso-g g-cli">Clientes para chamar · ${cls.length}</li>${cls.map(itemCli).join('')}` : ''}</ul>
+      <div class="aviso-f"><span>${its.length ? 'Total ' + money(soma(its)) : `${total} cliente${total > 1 ? 's' : ''}`}</span><span class="lks">${its.length ? '<a href="#pagar">Notas a pagar</a>' : ''}${cls.length ? '<a class="cli" href="#retornos">Clientes</a>' : ''}</span></div></section>`;
   if (html !== avisoHtml) { el.innerHTML = html; avisoHtml = html; }
   el.hidden = false; document.body.classList.add('tem-aviso');
 }
@@ -2712,9 +2750,49 @@ VIEWS.balanco = () => {
 
 /* ================= Notas ================= */
 const ST_NOME = { paga: ['Paga', 'soft'], vencida: ['Vencida', 'red'], hoje: ['Vence hoje', 'solid-red'], aberta: ['A vencer', ''], cancelada: ['Cancelada', 'soft'] };
-// a pagar: filtro por fornecedor (o mesmo nome, sem acento e maiúsculas, conta como um fornecedor só)
+/* classes das notas a pagar (pedido do dono, 13/11/2026): peças, boletos de banco, contas fixas, supermercado e
+   compras online, estas separadas por site. Nota paga por inteiro sai da lista e vai para o Arquivo. */
+const CAT_PAGAR = ['Peças', 'Boletos', 'Contas fixas', 'Supermercado', 'Compras online'];
+const ONLINE = 'Compras online';
+const SITES_SUGESTAO = ['Mercado Livre', 'Shopee', 'Amazon', 'Magazine Luiza', 'AliExpress', 'Shein', 'Americanas'];
+const notaPaga = n => !!n && !n.cancelada && (n.parcelas || []).length > 0 && n.parcelas.every(pc => pc.pago);
+const siteDe = n => (n.site || '').trim() || 'Sem site';
+// classe que o fornecedor já tem nas notas dele (a da nota mais nova), para nota nova sem classe escolhida
+function catDoFornecedor(parte) {
+  const k = norm(parte || ''); if (!k) return '';
+  let melhor = null;
+  for (const n of S.pagar.values()) if (n && n.categoria && norm(n.parte || '') === k && (!melhor || (n.criadoEm || 0) > (melhor.criadoEm || 0))) melhor = n;
+  return melhor ? melhor.categoria : '';
+}
+function sitesConhecidos() { const s = new Set(SITES_SUGESTAO); for (const n of S.pagar.values()) if (n?.site?.trim()) s.add(n.site.trim()); return [...s].sort((a, b) => a.localeCompare(b, 'pt-BR')); }
+const pillCat = n => n.categoria ? `<span class="pill cat">${esc(n.categoria)}${n.categoria === ONLINE && n.site ? ' · ' + esc(n.site) : ''}</span>` : '';
+let catHtml = '';
+function filtroClasse(lista) {
+  const notas = new Map(); for (const x of lista) if (x.st !== 'cancelada') notas.set(x.id, x.n);
+  const cont = new Map(), sites = new Map(); let sem = 0;
+  for (const n of notas.values()) {
+    const c = n.categoria || ''; if (!c) sem++; else cont.set(c, (cont.get(c) || 0) + 1);
+    if (c === ONLINE) sites.set(siteDe(n), (sites.get(siteDe(n)) || 0) + 1);
+  }
+  const cats = [...CAT_PAGAR, ...[...cont.keys()].filter(c => !CAT_PAGAR.includes(c)).sort((a, b) => a.localeCompare(b, 'pt-BR'))];
+  if (S.catPagar && S.catPagar !== '__sem' && !cats.includes(S.catPagar)) S.catPagar = '';
+  if (S.catPagar === '__sem' && !sem) S.catPagar = '';
+  if (S.catPagar !== ONLINE || (S.sitePagar && !sites.has(S.sitePagar))) S.sitePagar = '';
+  const bt = (acao, atual, v, nome, n) => `<button type="button" data-acao="${acao}" data-v="${esc(v)}" aria-pressed="${(atual || '') === v}">${esc(nome)}<b>${n}</b></button>`;
+  const html = bt('np-cat', S.catPagar, '', 'Todas', notas.size) + cats.map(c => bt('np-cat', S.catPagar, c, c, cont.get(c) || 0)).join('') + (sem ? bt('np-cat', S.catPagar, '__sem', 'Sem classe', sem) : '')
+    + '|' + (S.catPagar === ONLINE ? bt('np-site', S.sitePagar, '', 'Todos os sites', cont.get(ONLINE) || 0) + [...sites.entries()].sort((a, b) => a[0].localeCompare(b[0], 'pt-BR')).map(([st, n]) => bt('np-site', S.sitePagar, st, st, n)).join('') : '');
+  if (html !== catHtml) { const [a, b] = html.split('|'); $('#np-cat').innerHTML = a; $('#np-site').innerHTML = b; $('#np-site').hidden = !b; catHtml = html; }
+  return lista.filter(x => {
+    const c = x.n.categoria || '';
+    if (S.catPagar === '__sem') return !c;
+    if (S.catPagar && c !== S.catPagar) return false;
+    return !S.sitePagar || siteDe(x.n) === S.sitePagar;
+  });
+}
+// a pagar: filtro por fornecedor (o mesmo nome, sem acento e maiúsculas, conta como um fornecedor só).
+// As opções saem de "todas"; o filtro vale para "lista" (a da tela atual: notas em aberto ou o Arquivo).
 let fornHtml = '';
-function filtroFornecedor(todas) {
+function filtroFornecedor(todas, lista = todas) {
   const forn = new Map();
   for (const x of todas) {
     if (x.st === 'cancelada') continue;
@@ -2727,7 +2805,42 @@ function filtroFornecedor(todas) {
   const html = `<option value="">Todos os fornecedores (${forn.size})</option>` + opts.map(([k, o]) => `<option value="${esc(k)}">${esc(o.nome)} · ${o.notas.size} nota${o.notas.size === 1 ? '' : 's'}${o.ab > 0 ? ' · ' + money(o.ab) : ''}</option>`).join('');
   const sel = $('#np-forn');
   if (sel) { if (html !== fornHtml) { sel.innerHTML = html; fornHtml = html; } sel.value = S.fornPagar || ''; sel.classList.toggle('on', !!S.fornPagar); }
-  return S.fornPagar ? todas.filter(x => norm(x.n.parte || '—') === S.fornPagar) : todas;
+  return S.fornPagar ? lista.filter(x => norm(x.n.parte || '—') === S.fornPagar) : lista;
+}
+// busca por texto; só números (com ou sem pontos) também procura no número da nota e nos códigos de barras e boletos
+function notaBate(n, q) {
+  if (!q) return true;
+  const qd = /^[\d.\/\s-]+$/.test(q) ? q.replace(/\D/g, '') : '';
+  return norm([n.parte, n.numero, n.descricao, n.doc, n.veiculo, n.obs, n.combinado, n.codBarras, n.categoria, n.site, ...(n.infos || []).map(i => i.v), ...(n.linhas || []), ...(n.itens || []).map(i => i.nome + ' ' + (i.cod || ''))].join(' ')).includes(q)
+    || (qd.length >= 3 && [String(n.numero || '').replace(/\D/g, ''), ...codigosNota(n)].some(c => c.includes(qd)));
+}
+// quando a nota foi paga: a data do último pagamento, ou "até" a data informada pelo dono quando não se sabe o dia
+function pagaEm(n) {
+  const ds = (n.parcelas || []).map(pc => pc.pago?.data).filter(Boolean).sort(), ate = (n.parcelas || []).map(pc => pc.pago?.ate).filter(Boolean).sort();
+  const data = ds[ds.length - 1] || '', limite = ate[ate.length - 1] || '';
+  return { ord: data || limite, txt: data ? fmtData(data) : limite ? 'até ' + fmtData(limite) : 'sem data' };
+}
+function renderArquivo(lista) {
+  const notas = new Map(); for (const x of lista) if (!notas.has(x.id)) notas.set(x.id, x.n);
+  const q = norm($('#np-q').value);
+  let l = [...notas.entries()].map(([id, n]) => ({ id, n, quando: pagaEm(n), pago: recebidoNota(n) }));
+  const total = r2(l.reduce((s, x) => s + x.pago, 0)), mesIni = hoje().slice(0, 8) + '01';
+  const doMes = l.filter(x => x.quando.ord >= mesIni && x.quando.ord !== '');
+  // pagas fora do caixa: marcadas como pagas sem lançar saída (pagamentos antigos)
+  const fora = l.filter(x => x.n.parcelas.every(pc => pc.pago?.abat && (x.n.abatimentos || []).some(ab => ab.id === pc.pago.abat && !ab.caixa)));
+  $('#np-kpis').innerHTML = kpi('No arquivo', money(total), `${l.length} nota(s) paga(s)`) + kpi('Pagas neste mês', money(doMes.reduce((s, x) => s + x.pago, 0)), `${doMes.length} nota(s)`) + kpi('Fora do caixa', money(fora.reduce((s, x) => s + x.pago, 0)), `${fora.length} nota(s) paga(s) antes do sistema`) + kpi('Fornecedores', String(new Set(l.map(x => norm(x.n.parte || ''))).size), 'no arquivo');
+  $('#np-arq-info').innerHTML = `<div><b>Arquivo de notas pagas</b><br><small class="muted">Toda nota paga por inteiro vem para cá. Desfazer o pagamento dela traz a nota de volta.</small></div><button class="btn" type="button" data-acao="np-arquivo">Voltar às notas em aberto</button>`;
+  $('#np-tab thead').innerHTML = '<tr><th>Pago em</th><th>Fornecedor</th><th>Nota / descrição</th><th>Parcelas</th><th class="num">Valor pago</th><th>Situação</th></tr>';
+  if (q) l = l.filter(x => notaBate(x.n, q));
+  const tb = $('#np-tab tbody');
+  if (!l.length) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">${notas.size ? 'Nada nesse filtro.' : 'Nenhuma nota paga ainda. Quando uma nota for paga por inteiro, ela vem para o Arquivo.'}</td></tr>`; return; }
+  const forma = n => { const ps = n.parcelas.map(pc => pc.pago).filter(Boolean), ult = ps[ps.length - 1]; if (!ult) return ''; if (ult.abat) { const ab = (n.abatimentos || []).find(a => a.id === ult.abat); return ab && !ab.caixa ? 'fora do caixa' : PG_NOME[ab?.pg] || ''; } return PG_NOME[ult.pg] || ''; };
+  const linha = x => { const desc = x.n.descricao || (x.n.itens?.length ? x.n.itens.length + ' item(ns)' : ''); return `<tr class="click" data-acao="abrir-nota" data-col="pagar" data-id="${esc(x.id)}"><td class="mono" style="white-space:nowrap">${esc(x.quando.txt)}</td><td class="nome"><b>${esc(x.n.parte)}</b><span class="sub">${esc(fmtCnpj(x.n.doc))}</span></td><td>${esc(x.n.numero ? 'Nota ' + x.n.numero : '')}<span class="sub">${pillCat(x.n)}${esc(desc)}</span></td><td class="mono">${x.n.parcelas.length}</td><td class="num"><b>${money(x.pago)}</b></td><td><span class="pill soft">Paga</span><span class="sub">${esc(forma(x.n))}</span></td></tr>`; };
+  const porData = (a, b) => b.quando.ord.localeCompare(a.quando.ord) || (a.n.parte || '').localeCompare(b.n.parte || '', 'pt-BR');
+  if (S.ordemNotas.pagar !== 'parte') { tb.innerHTML = l.sort(porData).slice(0, 800).map(linha).join(''); return; }
+  const grupos = new Map();
+  for (const x of l) { const k = norm(x.n.parte || '—'); if (!grupos.has(k)) grupos.set(k, { nome: x.n.parte || '—', itens: [] }); grupos.get(k).itens.push(x); }
+  tb.innerHTML = [...grupos.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' })).map(g => `<tr class="grupo"><td colspan="6"><b>${esc(g.nome)}</b><span class="g-info">${g.itens.length} nota${g.itens.length === 1 ? '' : 's'}</span><span class="g-val">pago ${money(g.itens.reduce((s, x) => s + x.pago, 0))}</span></td></tr>` + g.itens.sort(porData).map(linha).join('')).join('');
 }
 // códigos de uma nota (código de barras do papel, boletos, chave da NF-e), só os dígitos
 function codigosNota(n) {
@@ -2750,13 +2863,22 @@ function acharNotaPorCodigo(raw, solto) {
 }
 function renderNotas(col) {
   const isP = col === 'pagar', pre = isP ? 'np' : 'nr';
-  const todas = isP ? filtroFornecedor(parcelasDe(col)) : parcelasDe(col);
+  let todas = parcelasDe(col);
+  if (isP) {
+    const base = todas, arq = base.filter(x => notaPaga(x.n)), nArq = new Set(arq.map(x => x.id)).size;
+    $('#np-arq-n').textContent = nArq ? `(${nArq})` : '';
+    $('#np-arq-btn').setAttribute('aria-pressed', S.npArquivo ? 'true' : 'false');
+    $('#np-arq-info').hidden = !S.npArquivo; $('#np-filtro').hidden = !!S.npArquivo;
+    todas = filtroClasse(filtroFornecedor(base, S.npArquivo ? arq : base.filter(x => !notaPaga(x.n))));
+    if (S.npArquivo) { renderArquivo(todas); return; }
+    $('#np-tab thead').innerHTML = '<tr><th>Vencimento</th><th>Fornecedor</th><th>Nota / descrição</th><th>Parcela</th><th class="num">Valor</th><th>Situação</th></tr>';
+  }
   const abertas = todas.filter(x => x.st !== 'paga' && x.st !== 'cancelada');
   const venc = abertas.filter(x => x.st === 'vencida'), h = hoje(), em7 = addDays(h, 7), mesIni = h.slice(0, 8) + '01';
   const soma = a => a.reduce((s, x) => s + restParc(x.pc), 0);
   // recebido no mês: parcelas baixadas + abatimentos com data no mês
   let recMes = 0, recN = 0;
-  const doForn = n => !isP || !S.fornPagar || norm(n.parte || '—') === S.fornPagar;
+  const doForn = n => !isP || ((!S.fornPagar || norm(n.parte || '—') === S.fornPagar) && (!S.catPagar || (S.catPagar === '__sem' ? !n.categoria : n.categoria === S.catPagar) && (!S.sitePagar || siteDe(n) === S.sitePagar)));
   for (const n of colMap(col).values()) {
     if (!n || n.cancelada || !doForn(n)) continue;
     for (const pc of n.parcelas || []) if (pc.pago && !pc.pago.abat && (pc.pago.data || '') >= mesIni) { recMes += pc.pago.valor || pc.valor; recN++; }
@@ -2782,9 +2904,11 @@ function renderNotas(col) {
   }
   if (!isP && S.filtroNotas[col] === 'vencida') S.filtroNotas[col] = 'aberto';
   const f = S.filtroNotas[col], ordem = S.ordemNotas[col];
-  const nConf = [...colMap(col).values()].filter(n => n && !n.cancelada && n.conferir?.length && doForn(n)).length;
+  const nConf = new Set(todas.filter(x => x.st !== 'cancelada' && x.n.conferir?.length).map(x => x.id)).size;
   if (f === 'conferir' && !nConf) S.filtroNotas[col] = 'aberto';
-  const filtros = isP ? [['aberto', 'Em aberto'], ['vencida', 'Vencidas'], ['paga', 'Pagas'], ['todas', 'Todas']] : [['aberto', 'Em aberto'], ['paga', 'Recebidas'], ['todas', 'Todas']];
+  // a pagar: as notas pagas por inteiro ficam no Arquivo (botão no topo), por isso não há filtro "Pagas"
+  if (isP && S.filtroNotas[col] === 'paga') S.filtroNotas[col] = 'aberto';
+  const filtros = isP ? [['aberto', 'Em aberto'], ['vencida', 'Vencidas'], ['todas', 'Todas']] : [['aberto', 'Em aberto'], ['paga', 'Recebidas'], ['todas', 'Todas']];
   $('#' + pre + '-filtro').innerHTML = [...filtros, ...(nConf ? [['conferir', `Conferir (${nConf})`]] : [])].map(([v, n]) => `<button type="button" data-acao="nf" data-col="${col}" data-v="${v}" aria-pressed="${S.filtroNotas[col] === v}">${n}</button>`).join('');
   $('#' + pre + '-ordem').innerHTML = [['data', 'Por data'], ['parte', isP ? 'Por fornecedor' : 'Por comprador']].map(([v, n]) => `<button type="button" data-acao="nota-ordem" data-col="${col}" data-v="${v}" aria-pressed="${ordem === v}">${n}</button>`).join('');
   const q = norm($('#' + pre + '-q').value);
@@ -2792,9 +2916,7 @@ function renderNotas(col) {
   const fa = S.filtroNotas[col];
   if (fa === 'aberto') l = abertas; else if (fa === 'vencida') l = venc; else if (fa === 'paga') l = todas.filter(x => x.st === 'paga'); else if (fa === 'conferir') l = todas.filter(x => x.st !== 'cancelada' && x.n.conferir?.length);
   if (!isP && fa === 'aberto' && S.nivelNotas) l = l.filter(x => nivel(x) === S.nivelNotas);
-  // busca por texto; só números (com ou sem pontos) também procura no número da nota e nos códigos de barras e boletos
-  const qd = /^[\d.\/\s-]+$/.test(q) ? q.replace(/\D/g, '') : '';
-  if (q) l = l.filter(x => norm([x.n.parte, x.n.numero, x.n.descricao, x.n.doc, x.n.veiculo, x.n.obs, x.n.combinado, x.n.codBarras, ...(x.n.infos || []).map(i => i.v), ...(x.n.linhas || []), ...(x.n.itens || []).map(i => i.nome + ' ' + (i.cod || ''))].join(' ')).includes(q) || (qd.length >= 3 && [String(x.n.numero || '').replace(/\D/g, ''), ...codigosNota(x.n)].some(c => c.includes(qd))));
+  if (q) l = l.filter(x => notaBate(x.n, q));
   // a pagar: por vencimento; a receber: pela data da nota, da mais antiga (mais preocupante) para a mais nova
   const dataRef = x => isP ? x.pc.venc : emissaoNota(x.n);
   const porData = (a, b) => fa === 'paga' ? (b.pc.pago?.data || '').localeCompare(a.pc.pago?.data || '') : dataRef(a).localeCompare(dataRef(b)) || a.pc.venc.localeCompare(b.pc.venc) || (a.n.parte || '').localeCompare(b.n.parte || '', 'pt-BR');
@@ -2803,7 +2925,7 @@ function renderNotas(col) {
   const linha = x => {
     const resto = restParc(x.pc), sub = [x.n.veiculo, isP ? fmtCnpj(x.n.doc) : x.n.doc].filter(Boolean).join(' · ');
     const desc = x.n.descricao || (x.n.itens?.length ? x.n.itens.length + ' item(ns)' : x.n.linhas?.length ? x.n.linhas.length + ' item(ns) anotados' : '');
-    const valCol = x.pc.pago ? `<b>${money(x.pc.valor)}</b><span class="sub">${isP ? 'pago' : 'recebido'} ${fmtDM(x.pc.pago.data)}</span>` : `<b>${money(resto)}</b>${x.pc.abatido ? `<span class="sub">de ${money(x.pc.valor)} · abatido ${money(x.pc.abatido)}</span>` : ''}`;
+    const valCol = x.pc.pago ? `<b>${money(x.pc.valor)}</b><span class="sub">${isP ? 'pago' : 'recebido'} ${x.pc.pago.data ? fmtDM(x.pc.pago.data) : x.pc.pago.ate ? 'até ' + fmtDM(x.pc.pago.ate) : ''}</span>` : `<b>${money(resto)}</b>${x.pc.abatido ? `<span class="sub">de ${money(x.pc.valor)} · abatido ${money(x.pc.abatido)}</span>` : ''}`;
     let dataCol, stCol;
     if (isP) {
       const [sn, sc] = ST_NOME[x.st], atraso = x.st === 'vencida' ? difDias(x.pc.venc, h) : 0;
@@ -2814,7 +2936,7 @@ function renderNotas(col) {
       dataCol = `${fmtData(em)}${x.pc.venc !== em ? `<span class="sub" style="font-family:var(--f-ui)">combinado ${fmtDM(x.pc.venc)}</span>` : ''}`;
       stCol = x.st === 'paga' ? '<span class="pill soft">Recebida</span>' : x.st === 'cancelada' ? '<span class="pill soft">Cancelada</span>' : preocHtml(diasNota(x.n));
     }
-    return `<tr class="click" data-acao="abrir-nota" data-col="${col}" data-id="${esc(x.id)}"><td class="mono" style="white-space:nowrap">${dataCol}</td><td class="nome"><b>${esc(x.n.parte)}</b><span class="sub">${esc(sub)}</span></td><td>${esc(x.n.numero ? 'Nota ' + x.n.numero : '')}${x.n.conferir?.length && !x.n.cancelada ? '<span class="pill red" style="margin-right:6px">Conferir</span>' : ''}<span class="sub">${esc(desc)}</span></td><td class="mono">${x.pc.n}/${x.n.parcelas.length}</td><td class="num">${valCol}</td><td>${stCol}</td></tr>`;
+    return `<tr class="click" data-acao="abrir-nota" data-col="${col}" data-id="${esc(x.id)}"><td class="mono" style="white-space:nowrap">${dataCol}</td><td class="nome"><b>${esc(x.n.parte)}</b><span class="sub">${esc(sub)}</span></td><td>${esc(x.n.numero ? 'Nota ' + x.n.numero : '')}${x.n.conferir?.length && !x.n.cancelada ? '<span class="pill red" style="margin-right:6px">Conferir</span>' : ''}<span class="sub">${isP ? pillCat(x.n) : ''}${esc(desc)}</span></td><td class="mono">${x.pc.n}/${x.n.parcelas.length}</td><td class="num">${valCol}</td><td>${stCol}</td></tr>`;
   };
   if (ordem !== 'parte') { tb.innerHTML = l.sort(porData).slice(0, 600).map(linha).join(''); return; }
   // agrupado por comprador/fornecedor: nomes iguais (sem acento e maiúsculas) ficam juntos
@@ -3174,7 +3296,7 @@ VIEWS.pagar = () => renderNotas('pagar');
 VIEWS.receber = () => renderNotas('receber');
 function nomesConhecidos(col) { const s = new Map(); for (const n of colMap(col).values()) if (n.parte) s.set(norm(n.parte), n); return [...s.values()]; }
 function abrirNovaNota(col, codigoInicial) {
-  S.nd = { col, parte: '', doc: '', numero: '', descricao: '', emissao: hoje(), itens: [], total: 0, totalManual: false, nParc: 1, venc1: addDays(hoje(), 30), intervalo: 30, movimentar: true, boleto: null, chave: '', parcelasLidas: null, lidos: new Set(), scanMsg: '' };
+  S.nd = { col, categoria: '', site: '', parte: '', doc: '', numero: '', descricao: '', emissao: hoje(), itens: [], total: 0, totalManual: false, nParc: 1, venc1: addDays(hoje(), 30), intervalo: 30, movimentar: true, boleto: null, chave: '', parcelasLidas: null, lidos: new Set(), scanMsg: '' };
   renderNovaNota();
   if (codigoInicial) ndLer(codigoInicial);
   if (temPastaApi() && S.pastaNome === undefined) idbGet('pastaScanner').then(h => { S.pastaNome = h?.name || null; const el = $('#nd-pasta'); if (el) el.innerHTML = botaoPasta(); });
@@ -3205,6 +3327,8 @@ function renderNovaNota() {
       <label class="f">${isP ? 'Número da nota' : 'Número da nota ou pedido'}<input class="inp${lidoCls('numero')}" data-nd="numero" value="${esc(nd.numero)}"></label>
       <label class="f">Descrição<input class="inp${lidoCls('descricao')}" data-nd="descricao" value="${esc(nd.descricao)}" placeholder="${isP ? 'Ex.: pneus do pedido 459122' : 'Ex.: 4 pneus e alinhamento'}"></label>
       <label class="f">Emissão<input class="inp${lidoCls('emissao')}" type="date" data-nd="emissao" value="${esc(nd.emissao)}"></label>
+      ${isP ? `<label class="f">Classe<select class="inp" data-nd="categoria"><option value="">${nd.categoria ? 'Sem classe' : 'Automática (a do fornecedor)'}</option>${CAT_PAGAR.map(c => `<option value="${esc(c)}" ${nd.categoria === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></label>
+      <label class="f">Site (só compras online)<input class="inp" data-nd="site" list="nd-sites" value="${esc(nd.site || '')}" placeholder="Ex.: Mercado Livre"><datalist id="nd-sites">${sitesConhecidos().map(x => `<option value="${esc(x)}">`).join('')}</datalist></label>` : ''}
     </div></section>
     <section><h3>Itens da nota</h3>
       <div class="tabela-wrap"><table class="t"><thead><tr><th>Item</th><th class="num" style="width:90px">Qtd</th><th class="num" style="width:120px">${isP ? 'Custo unit.' : 'Preço unit.'}</th><th class="num">Total</th><th></th></tr></thead><tbody id="nd-itens"></tbody></table></div>
@@ -3551,7 +3675,9 @@ function abrirNota(col, id, parcAberta, modo) {
       <label class="f">Data da nota<input class="inp" type="date" id="ne-emissao" value="${esc(n.emissao || '')}"></label>
       <label class="f">Descrição<input class="inp" id="ne-desc" value="${esc(n.descricao || '')}"></label>
       <label class="f">Número da nota<input class="inp" id="ne-num" value="${esc(n.numero || '')}"></label>
-      ${isP ? `<label class="f">Código de barras do papel<input class="inp mono" id="ne-cb" value="${esc(n.codBarras || '')}" inputmode="numeric" autocomplete="off"></label>` : ''}
+      ${isP ? `<label class="f">Código de barras do papel<input class="inp mono" id="ne-cb" value="${esc(n.codBarras || '')}" inputmode="numeric" autocomplete="off"></label>
+      <label class="f">Classe<select class="inp" id="ne-cat"><option value="">Sem classe</option>${[...new Set([...CAT_PAGAR, ...(n.categoria ? [n.categoria] : [])])].map(c => `<option value="${esc(c)}" ${n.categoria === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></label>
+      <label class="f">Site (só compras online)<input class="inp" id="ne-site" list="ne-sites" value="${esc(n.site || '')}" placeholder="Ex.: Mercado Livre"><datalist id="ne-sites">${sitesConhecidos().map(x => `<option value="${esc(x)}">`).join('')}</datalist></label>` : ''}
       ${umaParc && (isP || n.parcelas[0].venc !== n.emissao) ? `<label class="f">${isP ? 'Vencimento' : 'Data combinada'}<input class="inp" type="date" id="ne-venc" value="${esc(n.parcelas[0].venc || '')}"></label>` : ''}
       ${umaParc && semPag ? `<label class="f">Valor total (R$)<input class="inp num" id="ne-total" inputmode="decimal" value="${esc(fmtMoneyIn(n.total))}"></label>` : ''}
     </div>
@@ -3598,7 +3724,7 @@ function abrirNota(col, id, parcAberta, modo) {
         ${pc.boleto ? `<tr class="parc-bol"><td colspan="5"><div class="doc-lido">${ico('scan')}<div style="min-width:0;flex:1"><b>Boleto ${esc(pc.boleto.bancoNome || '')} da parcela ${pc.n}</b><div class="mono">${esc(pc.boleto.linha || pc.boleto.codigo)}</div></div><button class="btn sm" type="button" data-acao="copiar" data-txt="${esc(pc.boleto.linha || pc.boleto.codigo)}">${ico('copy')}Copiar</button></div></td></tr>` : ''}
         <tr class="parc-row" id="pf-${i}" ${parcAberta === i ? '' : 'hidden'}><td colspan="5"><div class="toolbar" style="align-items:flex-end"><label class="f">Data<input class="inp" type="date" id="pf-data-${i}" value="${hoje()}" max="${hoje()}"></label><label class="f">Forma<select class="inp" id="pf-pg-${i}">${FORMAS.map(([v, nn]) => `<option value="${v}" ${v === (isP ? 'banco' : 'pix') ? 'selected' : ''}>${nn}</option>`).join('')}</select></label><label class="f">Valor (R$)<input class="inp num" id="pf-valor-${i}" inputmode="decimal" value="${esc(fmtMoneyIn(restParc(pc)))}" style="width:120px"></label><button class="btn primary" type="button" data-acao="parc-ok" data-i="${i}">Confirmar</button></div></td></tr>`; }).join('')}
     </tbody></table></div></section>
-    ${abats.length ? `<section><h3>Abatimentos</h3><ul class="abat-lista">${abats.slice().sort((a, b) => (a.data || '').localeCompare(b.data || '')).map(ab => `<li><span><b>${money(ab.valor)}</b> ${ab.data ? 'em ' + fmtData(ab.data) : '(sem data)'}<small>${ab.anotado ? 'anotado na nota de papel' : ab.caixa ? 'entrou no caixa · ' + esc(PG_NOME[ab.pg] || '') : 'pagamento antigo, não mexeu no caixa'}${ab.obs ? ' · ' + esc(ab.obs) : ''}</small></span><span></span>${pode ? `<button class="btn sm ghost" type="button" data-acao="abat-desfazer" data-col="${col}" data-id="${esc(id)}" data-ab="${esc(ab.id)}">Desfazer</button>` : '<span></span>'}</li>`).join('')}</ul></section>` : ''}
+    ${abats.length ? `<section><h3>Abatimentos</h3><ul class="abat-lista">${abats.slice().sort((a, b) => (a.data || '').localeCompare(b.data || '')).map(ab => `<li><span><b>${money(ab.valor)}</b> ${ab.data ? 'em ' + fmtData(ab.data) : ab.ate ? 'até ' + fmtData(ab.ate) : '(sem data)'}<small>${ab.anotado ? 'anotado na nota de papel' : ab.caixa ? 'entrou no caixa · ' + esc(PG_NOME[ab.pg] || '') : 'pagamento antigo, não mexeu no caixa'}${ab.obs ? ' · ' + esc(ab.obs) : ''}</small></span><span></span>${pode ? `<button class="btn sm ghost" type="button" data-acao="abat-desfazer" data-col="${col}" data-id="${esc(id)}" data-ab="${esc(ab.id)}">Desfazer</button>` : '<span></span>'}</li>`).join('')}</ul></section>` : ''}
     ${n.linhas?.length ? `<section><h3>Itens anotados na nota</h3><ul class="nota-linhas">${n.linhas.map(t => `<li>${esc(t)}</li>`).join('')}</ul></section>` : ''}
     ${n.itens?.length ? `<section><h3>Itens</h3><div class="tabela-wrap"><table class="t"><tbody>${n.itens.map(it => `<tr><td class="nome"><b>${esc(it.nome)}</b><span class="sub">${esc(it.tipo === 'serv' ? 'Serviço' : it.mod || '')}</span></td><td class="num">${qn(parseNum(it.qtd))}×</td><td class="num">${(isP ? money : moneyV)(parseNum(it.vu))}</td><td class="num"><b>${(isP ? money : moneyV)(r2((parseNum(it.qtd) || 0) * (parseNum(it.vu) || 0)))}</b></td></tr>`).join('')}</tbody></table></div>${n.movimentou ? `<p class="muted" style="font-size:13px;margin:0">${isP ? 'Estes itens deram entrada no estoque quando a nota foi salva.' : 'Estes itens saíram do estoque e entraram no faturamento quando a nota foi salva.'}</p>` : ''}</section>` : ''}
     <div class="pn-acoes">${pode && !editar ? `<button class="btn ghost" type="button" data-acao="nota-cancelar" data-col="${col}" data-id="${esc(id)}">Cancelar nota</button>` : ''}${!isP && !n.cancelada && !editar ? `<button class="btn" type="button" data-acao="cobranca" data-id="${esc(id)}">${ico('copy')}Copiar mensagem de cobrança</button>` : ''}<span class="sp"></span>${pode && !editar ? `<button class="btn" type="button" data-acao="nota-editar" data-col="${col}" data-id="${esc(id)}">Editar</button>${falta > 0 ? `<button class="btn red" type="button" data-acao="abat-abrir">Abater valor</button>` : ''}` : ''}<button class="btn primary" type="button" data-acao="fechar-drawer">Fechar</button></div>`, { tipo: 'nota', col, id }, true);
@@ -3611,6 +3737,7 @@ function salvarEdicaoNota(col, id) {
   const novo = JSON.parse(JSON.stringify(n));
   Object.assign(novo, { parte, doc: v('ne-doc'), veiculo: v('ne-veic'), descricao: v('ne-desc'), numero: v('ne-num'), combinado: v('ne-comb'), obs: v('ne-obs') });
   if ($('#ne-cb')) { const cb = v('ne-cb'); if (cb) novo.codBarras = cb; else delete novo.codBarras; }
+  if ($('#ne-cat')) { const c = v('ne-cat'), st = v('ne-site'); if (c) novo.categoria = c; else delete novo.categoria; if (c === ONLINE && st) novo.site = st; else delete novo.site; }
   const juntas = col === 'receber' && novo.parcelas.length === 1 && n.parcelas[0].venc === n.emissao;
   if (v('ne-emissao')) novo.emissao = v('ne-emissao');
   if (juntas) novo.parcelas[0].venc = novo.emissao;
@@ -4594,6 +4721,10 @@ function ligarUI() {
       'aviso-min': () => { ls.set('aviso-min', avisoChave(avisoItens())); renderAviso(); $('#aviso .aviso-bola')?.focus(); },
       'aviso-abrir': () => { ls.set('aviso-min', ''); renderAviso(); $('#aviso [data-acao="aviso-min"]')?.focus(); },
       'aviso-nota': () => { const id = a.dataset.id; if (S.tab !== 'pagar') location.hash = '#pagar'; setTimeout(() => abrirNota('pagar', id), 60); },
+      'aviso-cliente': () => { const id = a.dataset.id; if (S.tab !== 'retornos') location.hash = '#retornos'; setTimeout(() => abrirRetorno(id), 60); },
+      'np-arquivo': () => { S.npArquivo = !S.npArquivo; renderNotas('pagar'); },
+      'np-cat': () => { S.catPagar = a.dataset.v; S.sitePagar = ''; renderNotas('pagar'); },
+      'np-site': () => { S.sitePagar = a.dataset.v; renderNotas('pagar'); },
       'parc-abrir': () => { const r = $('#pf-' + a.dataset.i); r.hidden = !r.hidden; },
       'parc-ok': () => {
         const i = Number(a.dataset.i), info = drawerAberto; if (!info) return;

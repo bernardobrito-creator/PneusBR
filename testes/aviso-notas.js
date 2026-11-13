@@ -139,7 +139,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   ok(/2 parcela/.test(out.c.kpiAlfa || ''), 'os números do topo seguem o fornecedor escolhido', out);
   await A.selectOption('#np-forn', ''); await A.waitForTimeout(150);
   out.c.todas = (await txt('#np-tab tbody tr')).length;
-  ok(out.c.todas === 7, 'sem filtro volta a mostrar todas as parcelas', out);
+  ok(out.c.todas === 6, 'sem filtro volta a mostrar todas as parcelas (a nota paga fica no Arquivo)', out);
   await A.fill('#np-q', '22533'); await A.waitForTimeout(200);
   out.c.busca1 = await txt('#np-tab tbody tr');
   ok(out.c.busca1.length === 1 && /Beta/.test(out.c.busca1[0]), 'busca 22533 acha a nota 22.533', out);
