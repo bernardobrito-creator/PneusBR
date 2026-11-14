@@ -564,6 +564,8 @@ tr.grupo .preoc{margin-left:12px}
 .pag-li .vl{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
 @media (max-width:520px){ .rt-outro{grid-template-columns:minmax(0,1fr) auto} .rt-outro select{grid-column:1 / -1;grid-row:2;width:100%} .pag-trava .inp{width:100%;flex:1} .pag-li{grid-template-columns:auto minmax(0,1fr) auto} .pag-li .acao{grid-column:1 / -1} }
 .banner.conf{background:var(--red-soft);border-color:var(--red-line);color:var(--red-ink)}
+.banner.parado{background:var(--bg-2,var(--line));border-color:var(--line);color:var(--ink);justify-content:space-between;flex-wrap:wrap;align-items:center}
+.banner.parado b{color:var(--ink)}
 #nf-placa{text-transform:uppercase}
 .sel-quem{width:auto;min-width:132px;padding:4px 8px}
 button.pill{cursor:pointer;font-family:inherit}
@@ -880,6 +882,7 @@ body.tem-aviso .topo .status{margin-right:52px}
       <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Faturamento</h1><p>Tudo o que foi vendido no período, à vista e a prazo: produtos e serviços.</p></div>
       <div class="toolbar"><select class="inp" id="f-per" aria-label="Período"></select><input class="inp" id="f-de" type="date" hidden aria-label="De"><input class="inp" id="f-ate" type="date" hidden aria-label="Até"><button class="btn ghost" type="button" data-acao="bloquear"><svg class="i"><use href="#ic-lock"/></svg>Bloquear</button></div>
     </div>
+    <div id="f-parado"></div>
     <div class="kpis k5 mb" id="f-kpis"></div>
     <div class="grid2">
       <div class="card chart"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px"><b>Faturamento por dia</b><span class="legend"><span><i style="background:var(--ink-2)"></i>Produtos</span><span><i style="background:var(--red)"></i>Serviços</span></span></div><div id="f-chart"></div></div>
@@ -911,6 +914,7 @@ body.tem-aviso .topo .status{margin-right:52px}
       <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Balanço geral</h1><p>Como foi a semana: o que entrou, o que saiu, os campeões de venda e as contas da semana.</p></div>
       <div class="semana-nav"><button class="btn sm" type="button" data-acao="sem-ant" aria-label="Semana anterior"><svg class="i"><use href="#ic-left"/></svg></button><b id="b-semana"></b><button class="btn sm" type="button" data-acao="sem-prox" aria-label="Próxima semana"><svg class="i"><use href="#ic-right"/></svg></button><button class="btn sm ghost" type="button" data-acao="sem-hoje">Esta semana</button><button class="btn sm ghost" type="button" data-acao="bloquear"><svg class="i"><use href="#ic-lock"/></svg>Bloquear</button></div>
     </div>
+    <div id="b-parado"></div>
     <div class="kpis mb" id="b-kpis"></div>
     <div class="destaques" id="b-dest"></div>
     <div class="card bloco mb" id="b-quem"></div>
@@ -930,7 +934,7 @@ body.tem-aviso .topo .status{margin-right:52px}
   <section data-view="pagar" hidden>
     <div class="sec-h">
       <div><h1>Notas a pagar</h1><p>Contas de fornecedores e despesas a prazo. Leia o boleto ou a nota fiscal com o leitor para preencher sozinho, ou leia os produtos da nota para somar o valor.</p></div>
-      <div class="toolbar"><button class="btn" type="button" id="np-arq-btn" data-acao="np-arquivo" aria-pressed="false"><svg class="i"><use href="#ic-archive"/></svg>Arquivo <span class="n" id="np-arq-n"></span></button><button class="btn" type="button" data-acao="scan-nota" data-col="pagar"><svg class="i"><use href="#ic-scan"/></svg>Escanear nota</button><button class="btn primary" type="button" data-acao="nova-nota" data-col="pagar"><svg class="i"><use href="#ic-plus"/></svg>Nova nota a pagar</button></div>
+      <div class="toolbar"><button class="btn" type="button" id="np-arq-btn" data-acao="np-arquivo" aria-pressed="false"><svg class="i"><use href="#ic-archive"/></svg>Arquivo <span class="n" id="np-arq-n"></span></button><button class="btn" type="button" data-acao="dsc-abrir">%&nbsp;Descontos</button><button class="btn" type="button" data-acao="scan-nota" data-col="pagar"><svg class="i"><use href="#ic-scan"/></svg>Escanear nota</button><button class="btn primary" type="button" data-acao="nova-nota" data-col="pagar"><svg class="i"><use href="#ic-plus"/></svg>Nova nota a pagar</button></div>
     </div>
     <div class="arq-info" id="np-arq-info" hidden></div>
     <div class="kpis mb" id="np-kpis"></div>
@@ -1476,6 +1480,16 @@ function totais(itens) {
   t.fat = t.vendas + t.servTotal;
   return t;
 }
+// caixa parado (pedido do dono em 14/11/2026): enquanto parado, nada entra nem sai do caixa (notas pagas, vales e
+// pagamentos ficam só como controle) e Caixa, Faturamento e Balanço não contam nada. Quando o dono começar,
+// caixaInicio guarda o dia: só conta o que for desse dia em diante (o que veio antes fica só no histórico).
+const caixaParado = () => S.config.caixaParado === true;
+function soCaixa(l) { if (caixaParado()) return []; const ini = S.config.caixaInicio; return ini ? l.filter(it => (it._d || '') >= ini) : l; }
+function avisoCaixaHtml() {
+  if (caixaParado()) return `<div class="banner parado" role="status"><div><b>Caixa e faturamento parados</b> desde ${esc(fmtData(S.config.caixaParadoEm || hoje()))}, a pedido do dono. Nada entra nem sai do caixa: notas pagas, vales e pagamentos ficam só como controle, e estas telas mostram zero até o caixa começar.</div>${!podeConfig() ? '' : S.caixaConfirma ? '<div class="toolbar"><span>Contar só de hoje em diante?</span><button class="btn sm red" type="button" data-acao="caixa-comecar-sim">Sim, começar hoje</button><button class="btn sm ghost" type="button" data-acao="caixa-comecar-nao">Cancelar</button></div>' : '<button class="btn sm" type="button" data-acao="caixa-comecar">Começar o caixa hoje</button>'}</div>`;
+  if (S.config.caixaInicio) return `<p class="muted" style="font-size:13px;margin:0 0 12px">Caixa contando desde ${esc(fmtData(S.config.caixaInicio))}.</p>`;
+  return '';
+}
 // taxa da maquininha (% da venda): a do sistema (Configurações → Preços) ou a anotada na planilha (aba Custos Fixos)
 function taxaCartaoPct(pg) {
   if (pg !== 'debito' && pg !== 'credito') return 0;
@@ -1722,13 +1736,14 @@ function abaterNota(col, id, d) {
     if (restParc(pc) <= 0.004) pc.pago = { data: d.data, pg: d.caixa ? d.pg : 'abatimento', valor: tira, abat: abId, em: Date.now(), por: S.uid || null };
   }
   let item = null;
-  if (d.caixa) {
+  const fora = !!d.caixa && caixaParado();
+  if (d.caixa && !fora) {
     const t = d.data === hoje() ? Date.now() : kdate(d.data).getTime() + 12 * 3600000;
     item = { id: rid(8), t, k: 'caixa', tipo: isP ? 'despesa' : 'receita', desc: `${isP ? 'Pagamento parcial' : 'Recebimento parcial'}: ${n.parte}${n.numero ? ' · nota ' + n.numero : ''}`, cat: isP ? 'Fornecedor (nota)' : 'Recebimento de nota', valor, caixa: isP ? -valor : valor, pg: d.pg, u: S.uid || null, nota: { col, id, abat: abId } };
     if (!isP) aplicarTaxaCartao(item, valor);
     addItem(item, d.data);
   }
-  novo.abatimentos = [...(novo.abatimentos || []), { id: abId, valor, data: d.data, caixa: !!d.caixa, pg: d.caixa ? d.pg : null, item: item ? item.id : null, obs: d.obs || '', parcs, em: Date.now(), por: S.uid || null }];
+  novo.abatimentos = [...(novo.abatimentos || []), { id: abId, valor, data: d.data, caixa: !!d.caixa && !fora, pg: d.caixa ? d.pg : null, item: item ? item.id : null, obs: d.obs || '', parcs, em: Date.now(), por: S.uid || null, ...(fora ? { foraCaixa: true } : {}) }];
   colMap(col).set(id, novo); salvarNotaDoc(col, id);
   return true;
 }
@@ -1759,6 +1774,13 @@ function baixarParcela(col, id, i, dados) {
   const isP = col === 'pagar';
   const valor = r2(dados.valor);
   const t = dados.data === hoje() ? Date.now() : kdate(dados.data).getTime() + 12 * 3600000;
+  if (caixaParado()) {
+    const novo = JSON.parse(JSON.stringify(n));
+    novo.parcelas[i].pago = { data: dados.data, pg: dados.pg, valor, item: null, foraCaixa: true, em: Date.now(), por: S.uid || null };
+    colMap(col).set(id, novo); salvarNotaDoc(col, id);
+    toast(isP ? 'Pagamento anotado (só controle: o caixa está parado).' : 'Recebimento anotado (só controle: o caixa está parado).');
+    return;
+  }
   const item = { id: rid(8), t, k: 'caixa', tipo: isP ? 'despesa' : 'receita', desc: `${isP ? 'Pagamento' : 'Recebimento'}: ${n.parte}${n.numero ? ' · nota ' + n.numero : ''}${n.parcelas.length > 1 ? ` (${pc.n}/${n.parcelas.length})` : ''}`, cat: isP ? 'Fornecedor (nota)' : 'Recebimento de nota', valor, caixa: isP ? -valor : valor, pg: dados.pg, u: S.uid || null, nota: { col, id, parc: i } };
   if (!isP) aplicarTaxaCartao(item, valor);
   addItem(item, dados.data);
@@ -1778,14 +1800,16 @@ function salvarNovaNota() {
   const isP = nd.col === 'pagar';
   const erro = m => { $('#nd-erro').textContent = m; };
   if (!nd.parte.trim()) return erro(isP ? 'Informe o fornecedor.' : 'Informe o cliente.');
-  const total = r2(nd.total || 0);
-  if (!(total > 0)) return erro('O valor da nota precisa ser maior que zero.');
+  const valorNota = r2(nd.total || 0);
+  if (!(valorNota > 0)) return erro('O valor da nota precisa ser maior que zero.');
+  const { total, desconto } = comDesconto(valorNota, ndPct(nd), nd.descManual ? 'manual' : 'fornecedor');
   if (!nd.venc1) return erro('Informe o primeiro vencimento.');
   if (!S.podeEscrever) return erro('Seu acesso é só de leitura.');
   if (!isP && nd.itens.some(it => it.tipo === 'serv') && !nd.quem && integrantesAtivos().length) return erro('Escolha quem fez o serviço.');
   const id = 'n' + Date.now().toString(36) + rid(4);
-  const nota = { parte: nd.parte.trim(), doc: nd.doc.trim(), numero: nd.numero.trim(), descricao: nd.descricao.trim(), emissao: nd.emissao || hoje(), itens: nd.itens.map(x => ({ ...x })), total, parcelas: parcelasNd(nd), criadoEm: Date.now(), por: S.uid || null, movimentou: !!(nd.movimentar && nd.itens.length), movs: [] };
+  const nota = { parte: nd.parte.trim(), doc: nd.doc.trim(), numero: nd.numero.trim(), descricao: nd.descricao.trim(), emissao: nd.emissao || hoje(), itens: nd.itens.map(x => ({ ...x })), total, parcelas: ndParcelasFinais(nd), criadoEm: Date.now(), por: S.uid || null, movimentou: !!(nd.movimentar && nd.itens.length), movs: [] };
   if (!isP && nd.quem) nota.quem = nd.quem;
+  if (desconto) nota.desconto = desconto;
   if (isP) { const c = nd.categoria || catDoFornecedor(nota.parte); if (c) nota.categoria = c; if (c === ONLINE && (nd.site || '').trim()) nota.site = nd.site.trim(); }
   if (nd.boleto) nota.boleto = nd.boleto;
   if (nd.chave) nota.chave = nd.chave;
@@ -1800,11 +1824,12 @@ function salvarNovaNota() {
       }
       const p = S.produtos.get(it.pk); if (!p) continue;
       const tipo = isP ? 'entrada' : 'saida', motivo = isP ? 'compra' : 'venda';
-      const mv = { id: rid(8), t: Date.now(), k: 'mov', tipo, motivo, pk: p.k, cod: p.cod || '', lido: '', nome: p.nome, mod: nomeCurto(p), qtd: q, vu: r2(vu), cu: isP ? (vu > 0 ? r2(vu) : p.custo || null) : (p.custo || null), total: r2(q * vu), caixa: 0, pg: 'prazo', u: S.uid || null, nota: { col: nd.col, id } };
+      const vuReal = isP && desconto ? r2(vu * (1 - desconto.pct / 100)) : vu;
+      const mv = { id: rid(8), t: Date.now(), k: 'mov', tipo, motivo, pk: p.k, cod: p.cod || '', lido: '', nome: p.nome, mod: nomeCurto(p), qtd: q, vu: r2(vuReal), cu: isP ? (vuReal > 0 ? r2(vuReal) : p.custo || null) : (p.custo || null), total: r2(q * vuReal), caixa: 0, pg: 'prazo', u: S.uid || null, nota: { col: nd.col, id } };
       if (!isP && nd.quem) mv.quem = nd.quem;
       addItem(mv); nota.movs.push(mv.id);
       const patch = { estoque: r3((p.estoque || 0) + (isP ? q : -q)) };
-      if (isP && vu > 0) patch.custoManual = r2(vu);
+      if (isP && vuReal > 0) patch.custoManual = r2(vuReal);
       salvarProduto(p.k, patch);
     }
   }
@@ -2201,7 +2226,7 @@ function rankHtml(lista, vazio, valor, sub) {
 /* ================= Registrar ================= */
 function valorEstoque() { let custo = 0, venda = 0, un = 0, semCusto = 0, baixos = 0; for (const p of S.produtos.values()) { if (p.estoque > 0) { un += p.estoque; if (p.custo) custo += p.estoque * p.custo; else semCusto += p.estoque; if (p.preco) venda += p.estoque * p.preco; } if (p.min != null && p.estoque <= p.min) baixos++; } return { custo, venda, un, semCusto, baixos }; }
 VIEWS.registrar = () => {
-  const h = hoje(), its = itensPeriodo(h, h), t = totais(its), ve = valorEstoque();
+  const h = hoje(), its = soCaixa(itensPeriodo(h, h)), t = totais(its), ve = valorEstoque();
   $('#kpis-hoje').innerHTML =
     kpi('Faturado hoje', money(t.fat), `produtos ${money(t.vendas)} · serviços ${money(t.servTotal)}`) +
     kpi('Lucro bruto hoje', money(t.lucro + t.servTotal), t.semCusto ? `${money(t.semCusto)} vendidos sem custo` : 'venda − custo, mais serviços') +
@@ -2380,13 +2405,13 @@ VIEWS.produtos = () => {
 /* ================= Serviços ================= */
 VIEWS.servicos = () => {
   const lista = servicosAtivos();
-  const h = hoje(), t = totais(itensPeriodo(h.slice(0, 8) + '01', h));
+  const h = hoje(), lm = itensPeriodo(h.slice(0, 8) + '01', h), t = totais(lm), tf = totais(soCaixa(lm));
   const existentes = new Set(lista.map(s => norm(s.nome)));
   const sugs = SERV_SUGEST.filter(s => !existentes.has(norm(s)));
   $('#s-sugestoes').innerHTML = sugs.length && S.podeEscrever ? `<div class="card bloco mb"><b>Adicionar com um clique</b><p>Serviços comuns em loja de pneus. O preço você define depois, clicando no serviço.</p><div class="chips">${sugs.map(s => `<button type="button" class="chip" data-acao="serv-sug" data-nome="${esc(s)}">${ico('plus')}${esc(s)}</button>`).join('')}</div></div>` : '';
   const tb = $('#s-tab tbody');
   if (!lista.length) { tb.innerHTML = `<tr><td colspan="5" class="vazio-t">Nenhum serviço cadastrado. Use os botões acima ou "Novo serviço".</td></tr>`; return; }
-  tb.innerHTML = lista.map(s => { const o = t.porServ.get(s.id) || { qtd: 0, total: 0 }; return `<tr class="click" data-acao="abrir-servico" data-id="${esc(s.id)}"><td class="nome"><b>${esc(s.nome)}</b></td><td class="mono">${esc(s.cod || '—')}</td><td class="num">${s.preco ? moneyV(s.preco) : '<span class="pill red">Sem preço</span>'}</td><td class="num">${qn(o.qtd)}</td><td class="num">${money(o.total)}</td></tr>`; }).join('');
+  tb.innerHTML = lista.map(s => { const o = t.porServ.get(s.id) || { qtd: 0, total: 0 }, of = tf.porServ.get(s.id) || { total: 0 }; return `<tr class="click" data-acao="abrir-servico" data-id="${esc(s.id)}"><td class="nome"><b>${esc(s.nome)}</b></td><td class="mono">${esc(s.cod || '—')}</td><td class="num">${s.preco ? moneyV(s.preco) : '<span class="pill red">Sem preço</span>'}</td><td class="num">${qn(o.qtd)}</td><td class="num">${caixaParado() ? '<span class="muted" title="Faturamento parado a pedido do dono">parado</span>' : money(of.total)}</td></tr>`; }).join('');
 };
 function abrirServico(id) {
   const s = id ? S.servicos.get(id) : null;
@@ -2464,7 +2489,7 @@ function atualizarFormula() {
   if (direto) el.innerHTML = T.geral ? `<div class="mono">Preço de venda = custo × markup${doMes ? ' do mês' : ''}</div><div class="big">= custo ${mk(T.geral)}</div>${doMes ? `<div class="muted">${T.mkPlanilha ? 'Markup do mês lido da planilha.' : 'Markup informado aqui (a planilha ainda não tem o do mês).'}</div>` : ''}${ex}` : `<div class="erro-txt">Informe um markup maior que zero (ex.: 1,80).</div>`;
   else el.innerHTML = `<div class="mono">Markup = 1 ÷ (1 − fixos − variáveis − margem)</div><div class="mono">= 1 ÷ (1 − ${cod(f(T.fixosPct))} − ${cod(f(T.varPct))} − ${cod(f(T.margem))})</div>${T.mkCalc ? `<div class="big">Preço = custo ${mk(T.mkCalc)}</div>${ex}<div class="muted">Custos fixos = ${pct(T.fixosPct)} do faturamento${T.fat ? '' : ' (informe o faturamento para incluí-los)'}.</div>` : `<div class="erro-txt">Fixos + variáveis + margem somam ${pct(T.soma)}. Precisa ficar abaixo de 95%.</div>`}`;
   const b = $('#fat-real');
-  if (b) { const tt = totais(itensPeriodo(addDays(hoje(), -29), hoje())); b.textContent = tt.fat > 0 ? `Usar o faturamento real dos últimos 30 dias (${money(tt.fat)})` : ''; b.hidden = !(tt.fat > 0); b.dataset.v = String(r2(tt.fat)); }
+  if (b) { const tt = totais(soCaixa(itensPeriodo(addDays(hoje(), -29), hoje()))); b.textContent = tt.fat > 0 ? `Usar o faturamento real dos últimos 30 dias (${money(tt.fat)})` : ''; b.hidden = !(tt.fat > 0); b.dataset.v = String(r2(tt.fat)); }
   $$('[data-mkcat]').forEach(i => i.placeholder = T.geral ? fmtIn(r3(T.geral)) : '—');
 }
 function renderCalc() {
@@ -2570,7 +2595,7 @@ function filtrarMovs() {
 }
 VIEWS.movimentacoes = () => {
   const { l } = filtrarMovs(), t = totais(l), tb = $('#m-tab tbody');
-  $('#m-resumo').innerHTML = `<span><b>${l.length}</b> registros</span><span>entraram <b>${qn(t.qEnt)}</b> un.</span><span>saíram <b>${qn(t.qSai)}</b> un.</span><span>serviços <b>${qn(t.servQtd)}</b></span><span>saldo de caixa <b>${sinal(t.saldo)}</b></span>`;
+  $('#m-resumo').innerHTML = `<span><b>${l.length}</b> registros</span><span>entraram <b>${qn(t.qEnt)}</b> un.</span><span>saíram <b>${qn(t.qSai)}</b> un.</span><span>serviços <b>${qn(t.servQtd)}</b></span><span>saldo de caixa <b>${caixaParado() ? 'parado' : sinal(totais(soCaixa(l)).saldo)}</b></span>`;
   if (!l.length) { tb.innerHTML = `<tr><td colspan="8" class="vazio-t">Nenhum movimento nesse período.</td></tr>`; return; }
   tb.innerHTML = l.slice(0, 1000).map(it => {
     const ent = it.k === 'mov' && it.tipo === 'entrada';
@@ -2590,7 +2615,8 @@ VIEWS.movimentacoes = () => {
 /* ================= Caixa ================= */
 function renderCaixaDia() {
   const el = $('#caixa-dia'), cd = S.caixaDia, h = hoje();
-  const t = totais(itensPeriodo(h, h)), din = t.porPg.dinheiro || { ent: 0, sai: 0 };
+  if (caixaParado()) { el.innerHTML = avisoCaixaHtml(); return; }
+  const t = totais(soCaixa(itensPeriodo(h, h))), din = t.porPg.dinheiro || { ent: 0, sai: 0 };
   const ab = cd?.abertura, fe = cd?.fechamento;
   const esperado = r2((ab?.valor || 0) + din.ent - din.sai);
   let html = `<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline"><h2>Caixa de hoje</h2><span class="muted" style="font-size:13px">${esc(new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' }))}</span></div>`;
@@ -2610,7 +2636,7 @@ function salvarCaixaDia(dados) { S.caixaDia = dados; fila('caixa/' + hoje(), 'se
 VIEWS.caixa = () => {
   renderCaixaDia();
   const [de, ate] = lerPeriodo('c');
-  const l = itensPeriodo(de, ate), t = totais(l);
+  const l = soCaixa(itensPeriodo(de, ate)), t = totais(l);
   $('#c-kpis').innerHTML =
     kpi('Entrou no caixa', money(t.ent), t.taxas > 0 ? `já sem as taxas da maquininha (${money(t.taxas)})` : `vendas e serviços à vista, recebimentos, outras receitas`) +
     kpi('Saiu do caixa', money(t.sai), `compras à vista ${money(t.comprasVista)} · despesas e notas pagas ${money(t.despesas)}`) +
@@ -2667,11 +2693,12 @@ function grafico(itens, de, ate, fA, fB, nA, nB, espelhado) {
 /* ================= Faturamento ================= */
 VIEWS.faturamento = () => {
   const [de, ate] = lerPeriodo('f');
-  const l = itensPeriodo(de, ate), t = totais(l);
+  const l = soCaixa(itensPeriodo(de, ate)), t = totais(l);
+  { const av = $('#f-parado'); if (av) av.innerHTML = avisoCaixaHtml(); }
   const dias = difDias(de, ate) + 1;
   const deA = addDays(de, -dias), ateA = addDays(de, -1);
   garantirPeriodo(deA);
-  const tA = totais(itensPeriodo(deA, ateA));
+  const tA = totais(soCaixa(itensPeriodo(deA, ateA)));
   const varA = tA.fat > 0 ? (t.fat / tA.fat - 1) * 100 : null;
   const T = S.T || taxas();
   $('#f-kpis').innerHTML =
@@ -2682,7 +2709,7 @@ VIEWS.faturamento = () => {
     kpi('Lucro bruto', money(t.lucro + t.servTotal), t.fat ? `${pctC(r2((t.lucro + t.servTotal) / t.fat * 100))} do faturamento` : '—');
   $('#f-chart').innerHTML = grafico(l.filter(it => (it.k === 'mov' && it.tipo === 'saida' && it.motivo === 'venda') || it.k === 'serv'), de, ate, it => it.k === 'mov' ? it.total : 0, it => it.k === 'serv' ? it.total : 0, 'Produtos', 'Serviços', false);
   $('#f-lp').innerHTML = lucroPrejuizoHtml(l);
-  const h = hoje(), iniMes = h.slice(0, 8) + '01', tm = totais(itensPeriodo(iniMes, h));
+  const h = hoje(), iniMes = h.slice(0, 8) + '01', tm = totais(soCaixa(itensPeriodo(iniMes, h)));
   const diasMes = new Date(Number(h.slice(0, 4)), Number(h.slice(5, 7)), 0).getDate(), diaAtual = Number(h.slice(8, 10));
   const proj = tm.fat / diaAtual * diasMes, meta = parseNum(S.config.metaMensal) || 0;
   $('#f-meta').innerHTML = `<h2>Meta do mês</h2>
@@ -2750,7 +2777,8 @@ VIEWS.balanco = () => {
   const ini = S.semana, fim = addDays(ini, 6), ate = fim > hoje() ? hoje() : fim;
   garantirPeriodo(addDays(ini, -7));
   $('#b-semana').textContent = `${fmtDM(ini)} a ${fmtDM(fim)}${ini === inicioSemana(hoje()) ? ' (esta semana)' : ''}`;
-  const l = itensPeriodo(ini, fim), t = totais(l), tA = totais(itensPeriodo(addDays(ini, -7), addDays(ini, -1)));
+  const l = soCaixa(itensPeriodo(ini, fim)), t = totais(l), tA = totais(soCaixa(itensPeriodo(addDays(ini, -7), addDays(ini, -1))));
+  { const av = $('#b-parado'); if (av) av.innerHTML = avisoCaixaHtml(); }
   const comp = (a, b) => b > 0 ? `${a >= b ? '+' : ''}${pct(r2((a / b - 1) * 100))} vs semana anterior` : 'semana anterior sem valores';
   $('#b-kpis').innerHTML =
     kpi('Faturamento da semana', money(t.fat), comp(t.fat, tA.fat)) +
@@ -2813,6 +2841,26 @@ function catDoFornecedor(parte) {
   let melhor = null;
   for (const n of S.pagar.values()) if (n && n.categoria && norm(n.parte || '') === k && (!melhor || (n.criadoEm || 0) > (melhor.criadoEm || 0))) melhor = n;
   return melhor ? melhor.categoria : '';
+}
+// desconto que o fornecedor dá (lista do dono em config/geral.descontosFornecedor). Casa pela palavra inteira:
+// "Trevo" vale para "Trevo Auto Peças". naNota = o desconto já vem escrito no papel (ex.: Bruno).
+const palavrasNome = s => norm(s).replace(/[^a-z0-9]+/g, ' ').trim();
+function descontoDoFornecedor(parte) {
+  const nome = ' ' + palavrasNome(parte || '') + ' '; if (!nome.trim()) return null;
+  let melhor = null;
+  for (const d of Array.isArray(S.config.descontosFornecedor) ? S.config.descontosFornecedor : []) {
+    const k = palavrasNome(d?.nome || ''); if (!k || !(Number(d.pct) > 0)) continue;
+    if (nome.includes(' ' + k + ' ') && (!melhor || k.length > palavrasNome(melhor.nome).length)) melhor = d;
+  }
+  return melhor ? { nome: melhor.nome, pct: Number(melhor.pct), naNota: !!melhor.naNota } : null;
+}
+const pctTxt = v => String(r2(Number(v) || 0)).replace('.', ',');
+// aplica o desconto: devolve o valor a pagar e o registro do desconto (ou null sem desconto)
+function comDesconto(bruto, pct, origem) {
+  bruto = r2(bruto); pct = Number(pct) || 0;
+  if (!(pct > 0) || !(bruto > 0)) return { total: bruto, desconto: null };
+  const total = r2(bruto * (1 - pct / 100));
+  return { total, desconto: { bruto, valor: r2(bruto - total), pct: r2(pct), origem: origem || 'fornecedor', em: Date.now() } };
 }
 function sitesConhecidos() { const s = new Set(SITES_SUGESTAO); for (const n of S.pagar.values()) if (n?.site?.trim()) s.add(n.site.trim()); return [...s].sort((a, b) => a.localeCompare(b, 'pt-BR')); }
 const pillCat = n => n.categoria ? `<span class="pill cat">${esc(n.categoria)}${n.categoria === ONLINE && n.site ? ' · ' + esc(n.site) : ''}</span>` : '';
@@ -2975,7 +3023,8 @@ function renderNotas(col) {
   const linha = x => {
     const resto = restParc(x.pc), sub = [x.n.veiculo, isP ? fmtCnpj(x.n.doc) : x.n.doc].filter(Boolean).join(' · ');
     const desc = x.n.descricao || (x.n.itens?.length ? x.n.itens.length + ' item(ns)' : x.n.linhas?.length ? x.n.linhas.length + ' item(ns) anotados' : '');
-    const valCol = x.pc.pago ? `<b>${money(x.pc.valor)}</b><span class="sub">${isP ? 'pago' : 'recebido'} ${x.pc.pago.data ? fmtDM(x.pc.pago.data) : x.pc.pago.ate ? 'até ' + fmtDM(x.pc.pago.ate) : ''}</span>` : `<b>${money(resto)}</b>${x.pc.abatido ? `<span class="sub">de ${money(x.pc.valor)} · abatido ${money(x.pc.abatido)}</span>` : ''}`;
+    const dsc = x.n.desconto?.valor && x.n.desconto.pct ? `com ${pctTxt(x.n.desconto.pct)}% de desconto` : '';
+    const valCol = x.pc.pago ? `<b>${money(x.pc.valor)}</b><span class="sub">${isP ? 'pago' : 'recebido'} ${x.pc.pago.data ? fmtDM(x.pc.pago.data) : x.pc.pago.ate ? 'até ' + fmtDM(x.pc.pago.ate) : ''}${dsc ? ' · ' + dsc : ''}</span>` : `<b>${money(resto)}</b>${x.pc.abatido ? `<span class="sub">de ${money(x.pc.valor)} · abatido ${money(x.pc.abatido)}</span>` : ''}${dsc ? `<span class="sub">${dsc}</span>` : ''}`;
     let dataCol, stCol;
     if (isP) {
       const [sn, sc] = ST_NOME[x.st], atraso = x.st === 'vencida' ? difDias(x.pc.venc, h) : 0;
@@ -3346,7 +3395,7 @@ VIEWS.pagar = () => renderNotas('pagar');
 VIEWS.receber = () => renderNotas('receber');
 function nomesConhecidos(col) { const s = new Map(); for (const n of colMap(col).values()) if (n.parte) s.set(norm(n.parte), n); return [...s.values()]; }
 function abrirNovaNota(col, codigoInicial) {
-  S.nd = { col, categoria: '', site: '', parte: '', doc: '', numero: '', descricao: '', emissao: hoje(), itens: [], total: 0, totalManual: false, nParc: 1, venc1: addDays(hoje(), 30), intervalo: 30, movimentar: true, boleto: null, chave: '', parcelasLidas: null, lidos: new Set(), scanMsg: '' };
+  S.nd = { col, categoria: '', site: '', parte: '', doc: '', numero: '', descricao: '', emissao: hoje(), itens: [], total: 0, totalManual: false, descPct: 0, descManual: false, nParc: 1, venc1: addDays(hoje(), 30), intervalo: 30, movimentar: true, boleto: null, chave: '', parcelasLidas: null, lidos: new Set(), scanMsg: '' };
   renderNovaNota();
   if (codigoInicial) ndLer(codigoInicial);
   if (temPastaApi() && S.pastaNome === undefined) idbGet('pastaScanner').then(h => { S.pastaNome = h?.name || null; const el = $('#nd-pasta'); if (el) el.innerHTML = botaoPasta(); });
@@ -3387,7 +3436,8 @@ function renderNovaNota() {
     </section>
     <section><h3>Valor e vencimentos</h3>
       <div class="form-g3">
-        <label class="f">Valor total (R$)<input class="inp num${lidoCls('total')}" id="nd-total" data-nd="total" inputmode="decimal" value="${esc(fmtMoneyIn(nd.total))}" placeholder="0,00" style="font-weight:650"></label>
+        <label class="f">${isP ? 'Valor da nota, sem desconto (R$)' : 'Valor total (R$)'}<input class="inp num${lidoCls('total')}" id="nd-total" data-nd="total" inputmode="decimal" value="${esc(fmtMoneyIn(nd.total))}" placeholder="0,00" style="font-weight:650"></label>
+        ${isP ? `<label class="f">Desconto do fornecedor (%)<input class="inp num" id="nd-desc" data-nd="descPct" inputmode="decimal" value="${nd.descPct ? esc(pctTxt(nd.descPct)) : ''}" placeholder="0"></label>` : ''}
         <label class="f">Parcelas<select class="inp${lidoCls('nParc')}" data-nd="nParc">${Array.from({ length: 24 }, (_, i) => `<option value="${i + 1}" ${nd.nParc === i + 1 ? 'selected' : ''}>${i + 1}×</option>`).join('')}</select></label>
         <label class="f">1º vencimento<input class="inp${lidoCls('venc1')}" type="date" data-nd="venc1" value="${esc(nd.venc1)}"></label>
       </div>
@@ -3421,11 +3471,28 @@ function atualizarNdTotais() {
   if (!nd.totalManual && nd.itens.length) { nd.total = s; const ti = $('#nd-total'); if (ti && document.activeElement !== ti) ti.value = fmtMoneyIn(s); }
   renderNdParc();
 }
+// nota a pagar: o valor digitado é o da nota (sem desconto); a pagar = valor − desconto do fornecedor
+const ndPct = nd => nd.col === 'pagar' ? (Number(nd.descPct) || 0) : 0;
+const ndAPagar = nd => comDesconto(nd.total || 0, ndPct(nd)).total;
+function ndParcelasFinais(nd) {
+  const pct = ndPct(nd), ps = parcelasNd({ ...nd, total: ndAPagar(nd) });
+  if (!(pct > 0) || !nd.parcelasLidas?.length) return ps;
+  // parcelas lidas do papel vêm sem o desconto: cada uma cai na mesma proporção e a soma fecha no valor a pagar
+  const tot = ndAPagar(nd), out = ps.map(p => ({ ...p, valor: r2(p.valor * (1 - pct / 100)) }));
+  const dif = r2(tot - out.reduce((s, p) => s + p.valor, 0)); if (out.length) out[out.length - 1].valor = r2(out[out.length - 1].valor + dif);
+  return out;
+}
+function ndAtualizarDescAuto() {
+  const nd = S.nd; if (!nd || nd.col !== 'pagar' || nd.descManual) return;
+  const d = descontoDoFornecedor(nd.parte); nd.descPct = d ? d.pct : 0; nd.descNaNota = !!d?.naNota;
+  const el = $('#nd-desc'); if (el && document.activeElement !== el) el.value = nd.descPct ? pctTxt(nd.descPct) : '';
+}
 function renderNdParc() {
   const nd = S.nd, el = $('#nd-parc'); if (!el) return;
   if (!(nd.total > 0) || !nd.venc1) { el.textContent = 'Informe o valor e o vencimento.'; return; }
-  const ps = parcelasNd(nd);
-  el.innerHTML = (nd.parcelasLidas?.length ? '<b style="color:var(--ink)">Parcelas da nota:</b> ' : '') + ps.map(p => `${p.n}ª ${fmtData(p.venc)} · <b style="color:var(--ink)">${money(p.valor)}</b>`).join(' &nbsp;|&nbsp; ');
+  const ps = ndParcelasFinais(nd), pct = ndPct(nd);
+  const desc = pct > 0 ? `<div style="margin-bottom:4px">Desconto do fornecedor de ${esc(pctTxt(pct))}%: − ${money(r2(nd.total - ndAPagar(nd)))} · <b style="color:var(--ink)">a pagar ${money(ndAPagar(nd))}</b>${nd.descNaNota && !nd.descManual ? '<br><small>Esse fornecedor já escreve o desconto na nota: confira se o valor acima é o de antes do desconto.</small>' : ''}</div>` : '';
+  el.innerHTML = desc + (nd.parcelasLidas?.length ? '<b style="color:var(--ink)">Parcelas da nota:</b> ' : '') + ps.map(p => `${p.n}ª ${fmtData(p.venc)} · <b style="color:var(--ink)">${money(p.valor)}</b>`).join(' &nbsp;|&nbsp; ');
 }
 function renderNdDoc() {
   const nd = S.nd, el = $('#nd-doc'); if (!el) return;
@@ -3657,6 +3724,7 @@ function aplicarLeitura(r) {
   if (r.parcelas.length) { nd.parcelasLidas = r.parcelas.map(p => ({ venc: p.venc, valor: r2(p.valor) })); nd.nParc = r.parcelas.length; nd.venc1 = r.parcelas[0].venc; lidos.add('nParc'); lidos.add('venc1'); }
   if (r.total > 0) { nd.total = r2(r.total); nd.totalManual = true; lidos.add('total'); }
   nd.lidos = lidos;
+  ndAtualizarDescAuto();
   return lidos.size;
 }
 async function lerArquivoNota(file) {
@@ -3729,7 +3797,8 @@ function abrirNota(col, id, parcAberta, modo) {
       <label class="f">Classe<select class="inp" id="ne-cat"><option value="">Sem classe</option>${[...new Set([...CAT_PAGAR, ...(n.categoria ? [n.categoria] : [])])].map(c => `<option value="${esc(c)}" ${n.categoria === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></label>
       <label class="f">Site (só compras online)<input class="inp" id="ne-site" list="ne-sites" value="${esc(n.site || '')}" placeholder="Ex.: Mercado Livre"><datalist id="ne-sites">${sitesConhecidos().map(x => `<option value="${esc(x)}">`).join('')}</datalist></label>` : ''}
       ${umaParc && (isP || n.parcelas[0].venc !== n.emissao) ? `<label class="f">${isP ? 'Vencimento' : 'Data combinada'}<input class="inp" type="date" id="ne-venc" value="${esc(n.parcelas[0].venc || '')}"></label>` : ''}
-      ${umaParc && semPag ? `<label class="f">Valor total (R$)<input class="inp num" id="ne-total" inputmode="decimal" value="${esc(fmtMoneyIn(n.total))}"></label>` : ''}
+      ${umaParc && semPag ? `<label class="f">${isP ? 'Valor da nota, sem desconto (R$)' : 'Valor total (R$)'}<input class="inp num" id="ne-total" inputmode="decimal" value="${esc(fmtMoneyIn(n.desconto?.bruto || n.total))}"></label>
+      ${isP ? `<label class="f">Desconto do fornecedor (%)<input class="inp num" id="ne-dpct" inputmode="decimal" value="${n.desconto?.pct ? esc(pctTxt(n.desconto.pct)) : ''}" placeholder="0"></label>` : ''}` : ''}
     </div>
     <label class="f">Combinado com o ${quem}<input class="inp" id="ne-comb" value="${esc(n.combinado || '')}" placeholder="Ex.: 3x de R$ 400,00 todo dia 10"></label>
     <label class="f">Observação<textarea class="inp" id="ne-obs" rows="2">${esc(n.obs || '')}</textarea></label>
@@ -3742,8 +3811,8 @@ function abrirNota(col, id, parcAberta, modo) {
       ${n.descricao ? `<dt>Descrição</dt><dd>${esc(n.descricao)}</dd>` : ''}
       ${isP && n.emissao ? `<dt>Emissão</dt><dd>${fmtData(n.emissao)}</dd>` : ''}
       ${(n.infos || []).filter(i => i && i.r && i.v).map(i => `<dt>${esc(i.r)}</dt><dd>${esc(i.v)}</dd>`).join('')}
-      ${n.desconto?.valor ? `<dt>Valor dos itens</dt><dd>${money(n.desconto.bruto)}</dd><dt>Desconto</dt><dd>− ${money(n.desconto.valor)}${n.desconto.pct ? ` (${esc(String(n.desconto.pct).replace('.', ','))}%)` : ''}</dd>` : ''}
-      <dt>Valor total</dt><dd><b>${money(n.total)}</b></dd>
+      ${n.desconto?.valor ? `<dt>Valor da nota</dt><dd>${money(n.desconto.bruto)}</dd><dt>${isP && n.desconto.origem !== 'manual' ? 'Desconto do fornecedor' : 'Desconto'}${n.desconto.pct ? ` (${esc(pctTxt(n.desconto.pct))}%)` : ''}</dt><dd>− ${money(n.desconto.valor)}</dd>` : ''}
+      <dt>${n.desconto?.valor ? (isP ? 'Valor a pagar' : 'Valor a receber') : 'Valor total'}</dt><dd><b>${money(n.total)}</b></dd>
       <dt>${isP ? 'Já pago' : 'Já recebido'}</dt><dd>${money(pagoTot)}</dd>
       <dt>Falta</dt><dd><b>${money(falta)}</b></dd>
       ${!isP && falta > 0 && !n.cancelada ? `<dt>Preocupação</dt><dd>${preocHtml(diasNota(n))}</dd>` : ''}
@@ -3757,6 +3826,7 @@ function abrirNota(col, id, parcAberta, modo) {
     </section>`;
   const formAbat = pode && falta > 0 ? `<section id="abat-sec" ${modo === 'abater' ? '' : 'hidden'}><h3>Abater valor</h3><div class="abat-form">
       <div class="form-g"><label class="f">Valor pago (R$)<input class="inp num" id="ab-valor" inputmode="decimal" placeholder="0,00"></label><label class="f">Data do pagamento<input class="inp" type="date" id="ab-data" value="${hoje()}" max="${hoje()}"></label></div>
+      ${caixaParado() ? '<p class="muted" style="margin:0;font-size:13px">O caixa está parado a pedido do dono: o abatimento fica só como controle na nota e não mexe no caixa.</p>' : ''}
       <div class="op" role="radiogroup" aria-label="Entrou no caixa?"><b style="font-size:14px">Esse dinheiro entrou no caixa?</b>
         <label><input type="radio" name="ab-caixa" value="sim">Sim, entrou no caixa agora (vai para o caixa do dia do pagamento)</label>
         <label><input type="radio" name="ab-caixa" value="nao">Não, é um pagamento antigo: só diminui o que falta na nota</label></div>
@@ -3770,11 +3840,11 @@ function abrirNota(col, id, parcAberta, modo) {
     ${cab}
     ${formAbat}
     <section><h3>Parcelas</h3><div class="tabela-wrap"><table class="t"><thead><tr><th>Parcela</th><th>${isP ? 'Vencimento' : 'Data'}</th><th class="num">Valor</th><th>Situação</th><th></th></tr></thead><tbody>
-      ${n.parcelas.map((pc, i) => { const st = n.cancelada ? 'cancelada' : statusParc(pc); const [sn, sc] = isP || st === 'cancelada' ? ST_NOME[st] : st === 'paga' ? ['Recebida', 'soft'] : ['Em aberto', '']; return `<tr><td class="mono">${pc.n}/${n.parcelas.length}</td><td class="mono">${fmtData(pc.venc)}</td><td class="num">${money(pc.valor)}${pc.pago && !pc.pago.abat ? `<span class="sub">${money(pc.pago.valor)} em ${fmtDM(pc.pago.data)} · ${esc(PG_NOME[pc.pago.pg] || '')}</span>` : ''}${pc.abatido ? `<span class="sub">abatido ${money(pc.abatido)}${pc.pago ? '' : ` · falta ${money(restParc(pc))}`}</span>` : ''}</td><td><span class="pill ${sc}">${sn}</span></td><td class="num">${!pc.pago && pode ? `<button class="btn sm ${isP && (st === 'vencida' || st === 'hoje') ? 'red' : ''}" type="button" data-acao="parc-abrir" data-i="${i}">${isP ? 'Pagar' : 'Receber'}</button>` : ''}</td></tr>
+      ${n.parcelas.map((pc, i) => { const st = n.cancelada ? 'cancelada' : statusParc(pc); const [sn, sc] = isP || st === 'cancelada' ? ST_NOME[st] : st === 'paga' ? ['Recebida', 'soft'] : ['Em aberto', '']; return `<tr><td class="mono">${pc.n}/${n.parcelas.length}</td><td class="mono">${fmtData(pc.venc)}</td><td class="num">${money(pc.valor)}${pc.pago && !pc.pago.abat ? `<span class="sub">${money(pc.pago.valor)} em ${pc.pago.data ? fmtDM(pc.pago.data) : '—'} · ${esc(PG_NOME[pc.pago.pg] || '')}${pc.pago.foraCaixa ? ' · só controle' : ''}</span>` : ''}${pc.abatido ? `<span class="sub">abatido ${money(pc.abatido)}${pc.pago ? '' : ` · falta ${money(restParc(pc))}`}</span>` : ''}</td><td><span class="pill ${sc}">${sn}</span></td><td class="num">${!pc.pago && pode ? `<button class="btn sm ${isP && (st === 'vencida' || st === 'hoje') ? 'red' : ''}" type="button" data-acao="parc-abrir" data-i="${i}">${isP ? 'Pagar' : 'Receber'}</button>` : pc.pago && !pc.pago.abat && pode ? `<button class="btn sm ghost" type="button" data-acao="parc-desfazer" data-i="${i}">Desfazer</button>` : ''}</td></tr>
         ${pc.boleto ? `<tr class="parc-bol"><td colspan="5"><div class="doc-lido">${ico('scan')}<div style="min-width:0;flex:1"><b>Boleto ${esc(pc.boleto.bancoNome || '')} da parcela ${pc.n}</b><div class="mono">${esc(pc.boleto.linha || pc.boleto.codigo)}</div></div><button class="btn sm" type="button" data-acao="copiar" data-txt="${esc(pc.boleto.linha || pc.boleto.codigo)}">${ico('copy')}Copiar</button></div></td></tr>` : ''}
-        <tr class="parc-row" id="pf-${i}" ${parcAberta === i ? '' : 'hidden'}><td colspan="5"><div class="toolbar" style="align-items:flex-end"><label class="f">Data<input class="inp" type="date" id="pf-data-${i}" value="${hoje()}" max="${hoje()}"></label><label class="f">Forma<select class="inp" id="pf-pg-${i}">${FORMAS.map(([v, nn]) => `<option value="${v}" ${v === (isP ? 'banco' : 'pix') ? 'selected' : ''}>${nn}</option>`).join('')}</select></label><label class="f">Valor (R$)<input class="inp num" id="pf-valor-${i}" inputmode="decimal" value="${esc(fmtMoneyIn(restParc(pc)))}" style="width:120px"></label><button class="btn primary" type="button" data-acao="parc-ok" data-i="${i}">Confirmar</button></div></td></tr>`; }).join('')}
+        <tr class="parc-row" id="pf-${i}" ${parcAberta === i ? '' : 'hidden'}><td colspan="5"><div class="toolbar" style="align-items:flex-end"><label class="f">Data<input class="inp" type="date" id="pf-data-${i}" value="${hoje()}" max="${hoje()}"></label><label class="f">Forma<select class="inp" id="pf-pg-${i}">${FORMAS.map(([v, nn]) => `<option value="${v}" ${v === (isP ? 'banco' : 'pix') ? 'selected' : ''}>${nn}</option>`).join('')}</select></label><label class="f">Valor (R$)<input class="inp num" id="pf-valor-${i}" inputmode="decimal" value="${esc(fmtMoneyIn(restParc(pc)))}" style="width:120px"></label><button class="btn primary" type="button" data-acao="parc-ok" data-i="${i}">Confirmar</button></div>${caixaParado() ? '<p class="muted" style="margin:6px 0 0;font-size:13px">O caixa está parado a pedido do dono: fica só anotado como pago, sem mexer no caixa.</p>' : ''}</td></tr>`; }).join('')}
     </tbody></table></div></section>
-    ${abats.length ? `<section><h3>Abatimentos</h3><ul class="abat-lista">${abats.slice().sort((a, b) => (a.data || '').localeCompare(b.data || '')).map(ab => `<li><span><b>${money(ab.valor)}</b> ${ab.data ? 'em ' + fmtData(ab.data) : ab.ate ? 'até ' + fmtData(ab.ate) : '(sem data)'}<small>${ab.anotado ? 'anotado na nota de papel' : ab.caixa ? 'entrou no caixa · ' + esc(PG_NOME[ab.pg] || '') : 'pagamento antigo, não mexeu no caixa'}${ab.obs ? ' · ' + esc(ab.obs) : ''}</small></span><span></span>${pode ? `<button class="btn sm ghost" type="button" data-acao="abat-desfazer" data-col="${col}" data-id="${esc(id)}" data-ab="${esc(ab.id)}">Desfazer</button>` : '<span></span>'}</li>`).join('')}</ul></section>` : ''}
+    ${abats.length ? `<section><h3>Abatimentos</h3><ul class="abat-lista">${abats.slice().sort((a, b) => (a.data || '').localeCompare(b.data || '')).map(ab => `<li><span><b>${money(ab.valor)}</b> ${ab.data ? 'em ' + fmtData(ab.data) : ab.ate ? 'até ' + fmtData(ab.ate) : '(sem data)'}<small>${ab.anotado ? 'anotado na nota de papel' : ab.caixa ? 'entrou no caixa · ' + esc(PG_NOME[ab.pg] || '') : ab.foraCaixa ? 'só controle (caixa parado)' + (ab.pg ? ' · ' + esc(PG_NOME[ab.pg] || '') : '') : 'pagamento antigo, não mexeu no caixa'}${ab.obs ? ' · ' + esc(ab.obs) : ''}</small></span><span></span>${pode ? `<button class="btn sm ghost" type="button" data-acao="abat-desfazer" data-col="${col}" data-id="${esc(id)}" data-ab="${esc(ab.id)}">Desfazer</button>` : '<span></span>'}</li>`).join('')}</ul></section>` : ''}
     ${n.linhas?.length ? `<section><h3>Itens anotados na nota</h3><ul class="nota-linhas">${n.linhas.map(t => `<li>${esc(t)}</li>`).join('')}</ul></section>` : ''}
     ${n.itens?.length ? `<section><h3>Itens</h3><div class="tabela-wrap"><table class="t"><tbody>${n.itens.map(it => `<tr><td class="nome"><b>${esc(it.nome)}</b><span class="sub">${esc(it.tipo === 'serv' ? 'Serviço' : it.mod || '')}</span></td><td class="num">${qn(parseNum(it.qtd))}×</td><td class="num">${(isP ? money : moneyV)(parseNum(it.vu))}</td><td class="num"><b>${(isP ? money : moneyV)(r2((parseNum(it.qtd) || 0) * (parseNum(it.vu) || 0)))}</b></td></tr>`).join('')}</tbody></table></div>${n.movimentou ? `<p class="muted" style="font-size:13px;margin:0">${isP ? 'Estes itens deram entrada no estoque quando a nota foi salva.' : 'Estes itens saíram do estoque e entraram no faturamento quando a nota foi salva.'}</p>` : ''}</section>` : ''}
     <div class="pn-acoes">${pode && !editar ? `<button class="btn ghost" type="button" data-acao="nota-cancelar" data-col="${col}" data-id="${esc(id)}">Cancelar nota</button>` : ''}${!isP && !n.cancelada && !editar ? `<button class="btn" type="button" data-acao="cobranca" data-id="${esc(id)}">${ico('copy')}Copiar mensagem de cobrança</button>` : ''}<span class="sp"></span>${pode && !editar ? `<button class="btn" type="button" data-acao="nota-editar" data-col="${col}" data-id="${esc(id)}">Editar</button>${falta > 0 ? `<button class="btn red" type="button" data-acao="abat-abrir">Abater valor</button>` : ''}` : ''}<button class="btn primary" type="button" data-acao="fechar-drawer">Fechar</button></div>`, { tipo: 'nota', col, id }, true);
@@ -3794,7 +3864,16 @@ function salvarEdicaoNota(col, id) {
   if (novo.parcelas.length === 1 && $('#ne-venc') && v('ne-venc')) novo.parcelas[0].venc = v('ne-venc');
   if ($('#ne-total')) {
     const t = parseNum(v('ne-total')); if (!(t > 0)) return erro('O valor precisa ser maior que zero.');
-    novo.total = r2(t); novo.parcelas[0].valor = r2(t);
+    const pct = $('#ne-dpct') ? (parseNum(v('ne-dpct')) || 0) : 0;
+    if (pct < 0 || pct >= 100) return erro('O desconto precisa ficar entre 0 e 99%.');
+    if ($('#ne-dpct')) {
+      const mudou = !n.desconto ? pct > 0 || r2(t) !== r2(n.total) : (r2(n.desconto.pct) !== r2(pct) || r2(n.desconto.bruto) !== r2(t));
+      if (mudou) {
+        const r = comDesconto(t, pct, n.desconto && r2(n.desconto.pct) === r2(pct) ? n.desconto.origem : 'manual');
+        novo.total = r.total; novo.parcelas[0].valor = r.total;
+        if (r.desconto) novo.desconto = r.desconto; else delete novo.desconto;
+      }
+    } else { novo.total = r2(t); novo.parcelas[0].valor = r2(t); }
   }
   // entrar em Editar e salvar = nota conferida: a marca "Conferir" sai (a dúvida fica guardada em conferirResolvido)
   const tinhaConf = !!n.conferir?.length;
@@ -3844,6 +3923,30 @@ function salvarRotinaLista(lista) { S.rotinaLista = lista; fila('rotina/lista', 
 /* ================= drawer produto ================= */
 let drawerAberto = null;
 function abrirDrawer(html, info, largo) { const pn = $('#drawer-pn'); pn.className = 'pn' + (largo ? ' largo' : ''); pn.innerHTML = html; $('#drawer').hidden = false; drawerAberto = info; esconderTip(); }
+// lista de descontos dos fornecedores (só o dono muda)
+function abrirDescontos() { S.descDraft = (Array.isArray(S.config.descontosFornecedor) ? S.config.descontosFornecedor : []).map(d => ({ nome: d.nome || '', pct: Number(d.pct) || 0, naNota: !!d.naNota })); renderDescontos(); }
+function renderDescontos() {
+  const l = S.descDraft || [], ed = S.podeEscrever && podeConfig(), dis = ed ? '' : 'disabled';
+  abrirDrawer(`<div class="pn-h"><div><h2>Descontos dos fornecedores</h2><div class="sub">Nota a pagar nova desses fornecedores já entra com o desconto: valor da nota, desconto e valor a pagar.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
+    <section><div class="tabela-wrap"><table class="t"><thead><tr><th>Fornecedor</th><th class="num" style="width:120px">Desconto (%)</th><th style="width:130px">Já vem escrito na nota</th><th style="width:44px"></th></tr></thead><tbody>
+      ${l.length ? l.map((d, i) => `<tr><td><input class="inp" data-dsc="${i}" data-campo="nome" value="${esc(d.nome)}" placeholder="Ex.: Trevo" aria-label="Fornecedor" ${dis}></td><td><input class="inp num" data-dsc="${i}" data-campo="pct" inputmode="decimal" value="${d.pct ? esc(pctTxt(d.pct)) : ''}" placeholder="0" aria-label="Desconto em %" ${dis}></td><td><label class="chk" style="margin:0"><input type="checkbox" data-dsc="${i}" data-campo="naNota" ${d.naNota ? 'checked' : ''} ${dis}>sim</label></td><td>${ed ? `<button class="undo" type="button" data-acao="dsc-del" data-i="${i}" aria-label="Tirar ${esc(d.nome)}" title="Tirar">${ico('x')}</button>` : ''}</td></tr>`).join('') : '<tr><td colspan="4" class="vazio-t">Nenhum desconto cadastrado.</td></tr>'}
+    </tbody></table></div>
+    ${ed ? `<div><button class="btn sm" type="button" data-acao="dsc-add">${ico('plus')}Adicionar fornecedor</button></div>` : ''}
+    <p class="muted" style="margin:0;font-size:13px">Vale pela palavra do nome: "Trevo" vale para "Trevo Auto Peças". Mudar esta lista não mexe nas notas já lançadas; para uma delas, abra a nota e use Editar. Quando o desconto já vem escrito na nota, o valor da nota a digitar é o de antes do desconto.</p></section>
+    <div class="pn-acoes"><span class="erro-txt" id="dsc-erro"></span><span class="sp"></span>${ed ? '<button class="btn ghost" type="button" data-acao="fechar-drawer">Cancelar</button><button class="btn primary" type="button" data-acao="dsc-salvar">Salvar</button>' : '<span class="muted" style="font-size:13px">Só o dono muda esta lista.</span><button class="btn primary" type="button" data-acao="fechar-drawer">Fechar</button>'}</div>`, { tipo: 'descontos' }, true);
+}
+function salvarDescontos() {
+  if (!podeConfig()) return avisoSoDono();
+  const erro = m => { const e = $('#dsc-erro'); if (e) e.textContent = m; };
+  const l = (S.descDraft || []).map(d => ({ nome: String(d.nome || '').trim(), pct: r2(Number(d.pct) || 0), naNota: !!d.naNota })).filter(d => d.nome || d.pct);
+  for (const d of l) {
+    if (!d.nome) return erro('Falta o nome de um fornecedor.');
+    if (!(d.pct > 0 && d.pct < 100)) return erro(`O desconto de ${d.nome} precisa ficar entre 0 e 99%.`);
+  }
+  const vistos = new Set(); for (const d of l) { const k = palavrasNome(d.nome); if (vistos.has(k)) return erro(`${d.nome} aparece duas vezes.`); vistos.add(k); }
+  mudarConfig({ descontosFornecedor: l.map(d => d.naNota ? d : { nome: d.nome, pct: d.pct }) });
+  S.descDraft = null; fecharDrawer(); toast('Descontos dos fornecedores salvos.');
+}
 function fecharDrawer() { if (drawerAberto?.tipo === 'nota-nova') S.nd = null; if (drawerAberto?.tipo === 'rt-config') S.rtDraft = null; $('#drawer').hidden = true; $('#drawer-pn').innerHTML = ''; drawerAberto = null; if (S.tab === 'registrar') $('#scan').focus(); }
 function abrirProduto(k, novo) {
   const p = novo ? null : S.produtos.get(k);
@@ -4102,9 +4205,9 @@ function registrarPagamento(d) {
   const id = rid(12), valor = r2(d.valor), semana = d.tipo === 'pagamento' ? d.semana : inicioSemana(d.data);
   const t = d.data === hoje() ? Date.now() : kdate(d.data).getTime() + 12 * 3600000;
   const desc = (d.tipo === 'vale' ? `Vale: ${x.nome}` : d.tipo === 'pagamento' ? `Pagamento da semana ${semanaTxt(semana)}: ${x.nome}` : `Retirada: ${x.nome}`) + (d.obs ? ' · ' + d.obs : '');
-  const item = { id: rid(8), t, k: 'caixa', tipo: 'despesa', desc, cat: PAG_CAT[d.tipo], valor, caixa: -valor, pg: d.pg, u: S.uid || null, pag: id };
-  addItem(item, d.data);
-  S.pagamentos.set(id, { quem: d.quem, tipo: d.tipo, valor, data: d.data, semana, pg: d.pg, obs: d.obs || '', item: item.id, criadoEm: Date.now(), por: S.uid || null });
+  const item = caixaParado() ? null : { id: rid(8), t, k: 'caixa', tipo: 'despesa', desc, cat: PAG_CAT[d.tipo], valor, caixa: -valor, pg: d.pg, u: S.uid || null, pag: id };
+  if (item) addItem(item, d.data);
+  S.pagamentos.set(id, { quem: d.quem, tipo: d.tipo, valor, data: d.data, semana, pg: d.pg, obs: d.obs || '', item: item ? item.id : null, ...(item ? {} : { foraCaixa: true }), criadoEm: Date.now(), por: S.uid || null });
   pagSalvar(id);
   return true;
 }
@@ -4138,7 +4241,7 @@ function renderPagamentos() {
       <td class="num"><b>${money(r2(sV + sP))}</b></td>
       <td class="num"><div class="rt-b" style="justify-content:flex-end"><button class="btn sm" type="button" data-acao="pag-novo" data-tipo="vale" data-colab="${esc(x.id)}" ${ed}>Vale</button><button class="btn sm${ps.length ? '' : ' primary'}" type="button" data-acao="pag-novo" data-tipo="pagamento" data-colab="${esc(x.id)}" ${ed}>Pagar</button></div></td></tr>`;
   }).join('');
-  el.innerHTML = `<div class="card pag-card"><div class="pag-h"><div><h2>Pagamentos da semana</h2><p>Vales pegos na semana + o pagamento do fim de semana = o que cada um recebeu. Tudo sai do caixa do dia.</p></div>
+  el.innerHTML = `<div class="card pag-card"><div class="pag-h"><div><h2>Pagamentos da semana</h2><p>Vales pegos na semana + o pagamento do fim de semana = o que cada um recebeu. ${caixaParado() ? 'O caixa está parado a pedido do dono: por enquanto fica só anotado, sem sair do caixa.' : 'Tudo sai do caixa do dia.'}</p></div>
       <div class="semana-nav"><button class="btn sm" type="button" data-acao="pag-sem-ant" aria-label="Semana anterior">${ico('left')}</button><b id="pag-semana">${semanaTxt(ini)}</b><button class="btn sm" type="button" data-acao="pag-sem-prox" aria-label="Próxima semana" ${ini >= estaSem ? 'disabled' : ''}>${ico('right')}</button>${ini !== estaSem ? '<button class="btn sm ghost" type="button" data-acao="pag-sem-hoje">Esta semana</button>' : ''}</div></div>
     <div class="tabela-wrap"><table class="t" id="pag-tab"><thead><tr><th>Colaborador</th><th>Vales</th><th class="num">Total de vales</th><th class="num">Pagamento</th><th class="num">Recebeu na semana</th><th></th></tr></thead>
       <tbody>${linhas || '<tr><td colspan="6" class="vazio-t">Nenhum colaborador com pagamento semanal.</td></tr>'}</tbody>
@@ -4198,7 +4301,8 @@ function salvarPagNovo(tipo) {
   if (tipo === 'pagamento' && !/^\d{4}-\d{2}-\d{2}$/.test(semana || '')) return er('Escolha a semana.');
   if (!registrarPagamento({ quem, tipo, valor, data, pg, obs, semana })) return;
   fecharDrawer(); render();
-  toast(`${PAG_NOME[tipo]} de ${nomeInteg(quem)} registrad${tipo === 'retirada' ? 'a' : 'o'} e tirad${tipo === 'retirada' ? 'a' : 'o'} do caixa de ${fmtData(data)}.`);
+  const fem = tipo === 'retirada' ? 'a' : 'o';
+  toast(caixaParado() ? `${PAG_NOME[tipo]} de ${nomeInteg(quem)} anotad${fem} (só controle: o caixa está parado).` : `${PAG_NOME[tipo]} de ${nomeInteg(quem)} registrad${fem} e tirad${fem} do caixa de ${fmtData(data)}.`);
 }
 function abrirPagHist(quem) {
   const x = integ(quem); if (!x) return;
@@ -4671,6 +4775,14 @@ function ligarUI() {
       'tema': () => { const v = a.dataset.v; ls.set('tema', v); aplicarTema(v); $$('[data-acao="tema"]').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.v === v)); b.setAttribute('aria-checked', String(b.dataset.v === v)); }); },
       'salvar-ajustes': () => { ls.set('som', $('#a-som').checked); mudarConfig({ loja: $('#a-loja').value.trim() }); fecharDrawer(); render(); toast('Configurações salvas.'); },
       'abrir-config': () => abrirAjustes(),
+      'caixa-comecar': () => { if (!podeConfig()) return avisoSoDono(); S.caixaConfirma = true; render(); },
+      'caixa-comecar-nao': () => { S.caixaConfirma = false; render(); },
+      'caixa-comecar-sim': () => {
+        if (!podeConfig()) return avisoSoDono();
+        S.caixaConfirma = false;
+        mudarConfig({ caixaParado: false, caixaInicio: hoje(), caixaComecouEm: Date.now() }); render();
+        toast('Caixa começado hoje: caixa, faturamento e balanço contam de hoje em diante.');
+      },
       'alinhar': () => { const id = a.dataset.tabela, pref = ls.get('alinhar', {}), v = pref[id] === a.dataset.v ? null : a.dataset.v; if (v) pref[id] = v; else delete pref[id]; ls.set('alinhar', pref); aplicarAlinhamento(id, v); esconderTip(); },
       'bloquear': () => { liberarTelas(false); aplicarRota(); render(); toast('Caixa, Faturamento, Balanço e Preços bloqueados.'); },
       'serv-sug': () => { if (!S.podeEscrever) return; salvarServico('s' + rid(8), { nome: a.dataset.nome, preco: 0, cod: proximoCodServ(), ativo: true }); render(); toast(`${a.dataset.nome} adicionado. Clique nele para definir o preço.`); },
@@ -4763,7 +4875,7 @@ function ligarUI() {
         if (data > hoje()) return erro('A data não pode ser no futuro.');
         if (!op) return erro('Diga se o dinheiro entrou no caixa.');
         if (!abaterNota(col, id, { valor, data, caixa: op === 'sim', pg: $('#ab-pg').value, obs: $('#ab-obs').value.trim() })) return erro('Não deu para abater.');
-        toast(op === 'sim' ? 'Abatido e lançado no caixa.' : 'Abatido da nota (o caixa não mudou).');
+        toast(op === 'sim' && !caixaParado() ? 'Abatido e lançado no caixa.' : op === 'sim' ? 'Abatido da nota (só controle: o caixa está parado).' : 'Abatido da nota (o caixa não mudou).');
         abrirNota(col, id); render();
       },
       'abat-desfazer': () => { if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.textContent = 'Confirmar'; a.classList.add('red'); return; } desfazerAbatimento(a.dataset.col, a.dataset.id, a.dataset.ab); if (drawerAberto?.tipo === 'nota') abrirNota(a.dataset.col, a.dataset.id); },
@@ -4772,10 +4884,26 @@ function ligarUI() {
       'aviso-abrir': () => { ls.set('aviso-min', ''); renderAviso(); $('#aviso [data-acao="aviso-min"]')?.focus(); },
       'aviso-nota': () => { const id = a.dataset.id; if (S.tab !== 'pagar') location.hash = '#pagar'; setTimeout(() => abrirNota('pagar', id), 60); },
       'aviso-cliente': () => { const id = a.dataset.id; if (S.tab !== 'retornos') location.hash = '#retornos'; setTimeout(() => abrirRetorno(id), 60); },
+      'dsc-abrir': () => abrirDescontos(),
+      'dsc-add': () => { if (!podeConfig()) return avisoSoDono(); (S.descDraft ||= []).push({ nome: '', pct: 0, naNota: false }); renderDescontos(); setTimeout(() => $(`[data-dsc="${S.descDraft.length - 1}"][data-campo="nome"]`)?.focus(), 30); },
+      'dsc-del': () => { if (!podeConfig()) return avisoSoDono(); S.descDraft.splice(Number(a.dataset.i), 1); renderDescontos(); },
+      'dsc-salvar': () => salvarDescontos(),
       'np-arquivo': () => { S.npArquivo = !S.npArquivo; renderNotas('pagar'); },
       'np-cat': () => { S.catPagar = a.dataset.v; S.sitePagar = ''; renderNotas('pagar'); },
       'np-site': () => { S.sitePagar = a.dataset.v; renderNotas('pagar'); },
       'parc-abrir': () => { const r = $('#pf-' + a.dataset.i); r.hidden = !r.hidden; },
+      'parc-desfazer': () => {
+        if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.textContent = 'Confirmar'; a.classList.add('red'); return; }
+        const info = drawerAberto; if (!info) return;
+        const i = Number(a.dataset.i), n = colMap(info.col).get(info.id), pc = n?.parcelas[i];
+        if (!pc?.pago || pc.pago.abat) return;
+        const it = pc.pago.item;
+        if (it && !estornados().has(it)) {
+          if (!acharItem(it)) { toast('O lançamento de caixa desse pagamento é antigo e não está carregado. Desfaça pela tela Caixa.', true); return; }
+          estornar(it);
+        } else { desmarcarParcela(info.col, info.id, i); toast(info.col === 'pagar' ? 'Pagamento desfeito.' : 'Recebimento desfeito.'); }
+        abrirNota(info.col, info.id); render();
+      },
       'parc-ok': () => {
         const i = Number(a.dataset.i), info = drawerAberto; if (!info) return;
         const data = $('#pf-data-' + i).value || hoje(), pgv = $('#pf-pg-' + i).value, v = parseNum($('#pf-valor-' + i).value);
@@ -4789,7 +4917,7 @@ function ligarUI() {
       'cd-abrir': () => { const v = parseNum($('#cd-abre').value); salvarCaixaDia({ abertura: { valor: v > 0 ? r2(v) : 0, em: Date.now(), por: S.uid || null } }); toast('Caixa aberto.'); },
       'cd-fechar': () => {
         const v = parseNum($('#cd-conta').value); if (!(v >= 0)) { toast('Informe quanto dinheiro há na gaveta.', true); return; }
-        const h = hoje(), din = totais(itensPeriodo(h, h)).porPg.dinheiro || { ent: 0, sai: 0 };
+        const h = hoje(), din = totais(soCaixa(itensPeriodo(h, h))).porPg.dinheiro || { ent: 0, sai: 0 };
         const esperado = r2((S.caixaDia?.abertura?.valor || 0) + din.ent - din.sai);
         salvarCaixaDia({ ...S.caixaDia, fechamento: { contado: r2(v), esperado, dif: r2(v - esperado), em: Date.now(), por: S.uid || null } }); toast('Caixa fechado.');
       },
@@ -4885,10 +5013,12 @@ function ligarUI() {
       if (['total', 'nParc', 'intervalo', 'venc1'].includes(c) && S.nd.parcelasLidas) { S.nd.parcelasLidas = null; ['total', 'nParc', 'venc1'].forEach(k => { S.nd.lidos?.delete(k); }); $$('#drawer .inp.lido[data-nd="total"],#drawer .inp.lido[data-nd="nParc"],#drawer .inp.lido[data-nd="venc1"]').forEach(x => x.classList.remove('lido')); }
       if (c === 'movimentar') S.nd.movimentar = tg.checked;
       else if (c === 'total') { S.nd.total = parseNum(tg.value) || 0; S.nd.totalManual = true; renderNdParc(); }
+      else if (c === 'descPct') { const v = parseNum(tg.value) || 0; S.nd.descPct = Math.min(99, Math.max(0, v)); S.nd.descManual = true; renderNdParc(); }
       else if (c === 'nParc' || c === 'intervalo') { S.nd[c] = parseInt(tg.value, 10) || (c === 'nParc' ? 1 : 30); renderNdParc(); }
       else if (c === 'doc') S.nd.doc = S.nd.col === 'pagar' ? tg.value.replace(/\D/g, '') : tg.value;
-      else { S.nd[c] = tg.value; if (c === 'venc1') renderNdParc(); }
+      else { S.nd[c] = tg.value; if (c === 'venc1') renderNdParc(); if (c === 'parte') { ndAtualizarDescAuto(); renderNdParc(); } }
     }
+    if (ds.dsc != null && S.descDraft) { const d = S.descDraft[Number(ds.dsc)]; if (d) d[ds.campo] = ds.campo === 'naNota' ? tg.checked : ds.campo === 'pct' ? (parseNum(tg.value) || 0) : tg.value; }
     if (ds.ndi != null && S.nd) { const it = S.nd.itens[Number(ds.ndi)]; if (it) { it[ds.campo] = parseNum(tg.value) || 0; atualizarNdTotais(); } }
   });
   document.addEventListener('change', e => {
@@ -4946,6 +5076,7 @@ function ligarUI() {
   $('#c-form').addEventListener('submit', e => {
     e.preventDefault();
     if (!S.podeEscrever) { toast('Seu acesso é só de leitura.', true); return; }
+    if (caixaParado()) { $('#l-erro').textContent = 'O caixa está parado a pedido do dono: nenhum lançamento entra até o caixa começar.'; return; }
     const tipo = $('#l-tipo').value, desc = $('#l-desc').value.trim(), valor = parseNum($('#l-valor').value), data = $('#l-data').value || hoje();
     if (!desc) { $('#l-erro').textContent = 'Escreva uma descrição.'; return; }
     if (!(valor > 0)) { $('#l-erro').textContent = 'Informe um valor maior que zero.'; return; }
@@ -5046,7 +5177,7 @@ async function iniciar() {
   assinar(); render();
   verificarPlanilhaAuto();
 }
-if (window.__pbrTeste && /^(127\.0\.0\.1|localhost)$/.test(location.hostname)) window.__pbrTeste({ S, interpretar, lerTextoPlanilha, lerXlsx, carregarScript, XLSX_URL, lerCodigoDoc, gerarParcelas, totais, itensPeriodo, taxas, cpfOk, cnpjOk, fmtDocBR, textoNf, notaDoForm, quemDe, render, abrirNota, acharNotaPorCodigo });
+if (window.__pbrTeste && /^(127\.0\.0\.1|localhost)$/.test(location.hostname)) window.__pbrTeste({ S, interpretar, lerTextoPlanilha, lerXlsx, carregarScript, XLSX_URL, lerCodigoDoc, gerarParcelas, totais, itensPeriodo, taxas, cpfOk, cnpjOk, fmtDocBR, textoNf, notaDoForm, quemDe, render, abrirNota, acharNotaPorCodigo, soCaixa, caixaParado, descontoDoFornecedor });
 iniciar();
 })();
 </script>

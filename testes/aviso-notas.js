@@ -111,7 +111,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   await A.click('#aviso .aviso-l button >> text=Fornecedor Beta'); await A.waitForTimeout(500);
   out.c.cliqueNota = await A.evaluate(() => ({ tab: location.hash, titulo: document.querySelector('#drawer:not([hidden]) .pn-h h2')?.textContent, texto: document.querySelector('#drawer:not([hidden])')?.innerText.replace(/\s+/g, ' ') }));
   ok(out.c.cliqueNota.tab === '#pagar' && out.c.cliqueNota.titulo === 'Fornecedor Beta', 'clicar no aviso abre a nota em Notas a pagar', out);
-  ok(/Valor dos itens/.test(out.c.cliqueNota.texto || '') && /Desconto/.test(out.c.cliqueNota.texto || '') && /25%/.test(out.c.cliqueNota.texto || ''), 'nota mostra valor dos itens e desconto', out);
+  ok(/Valor da nota/.test(out.c.cliqueNota.texto || '') && /Desconto/.test(out.c.cliqueNota.texto || '') && /25%/.test(out.c.cliqueNota.texto || '') && /Valor a pagar/.test(out.c.cliqueNota.texto || ''), 'nota mostra valor da nota, desconto e valor a pagar', out);
   ok(/Emissão/.test(out.c.cliqueNota.texto || ''), 'nota mostra a emissão', out);
   await A.keyboard.press('Escape'); await A.waitForTimeout(200);
   /* ---------- 4) detalhes: código de barras do papel, infos e boleto de cada parcela ---------- */
