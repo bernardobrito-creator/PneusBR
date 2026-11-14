@@ -1,6 +1,6 @@
 # Planilha de teste no formato de 13/11/2026: "Tabela de preços" é a 1ª aba e o cadastro principal,
 # com as colunas Código de barras | Produto | Tipo | Código de identificação | Preço de custo | Preço de venda,
-# markup do mês em E3/F3 e as taxas da maquininha anotadas na aba Custos Fixos.
+# markup do mês em E3/F3 (margem bruta em G3/H3), a área de pesquisa nas linhas 4–14 e as taxas da maquininha anotadas na aba Custos Fixos.
 # Uso (dentro da pasta de rascunho): python3 /caminho/testes/mkprecos3.py
 import base64, io, json, re, openpyxl
 wb = openpyxl.load_workbook(io.BytesIO(base64.b64decode(open('teste/planilha.xlsx.b64').read())))
@@ -11,8 +11,12 @@ for row in cf.iter_rows(min_row=5):
 ws = wb.create_sheet('Tabela de preços', 0)
 ws.append(['TABELA DE PREÇOS'])
 ws.append(['Cadastro principal da loja: todo produto novo entra aqui.'])
-ws.append([None, None, None, None, 'Markup do mês', 1.43])
-ws.append([])
+ws.append([None, None, None, None, 'Markup do mês', 1.43, 'Margem bruta', 0.3])
+# área de pesquisa (desde 14/11/2026): linha 4 com o campo, linhas 5–14 com os resultados (cópias, acima do cabeçalho real)
+ws.append(['Pesquisar:', 'ba8003', '1 produto encontrado'])
+ws.append(['Código de barras', 'Produto', 'Tipo', 'Código', 'Custo (R$)', 'Venda (R$)', 'Na tabela'])
+ws.append(['7898435680699', 'ARTICULAÇÃO AXIAL MECÂNICA UNO/FIORINO APÓS 93', 'Peça', 'BA-8003', 38.36, 54.85, 'ir para a linha 26'])
+for _ in range(8): ws.append([])
 ws.append(['Código de barras', 'Produto', 'Tipo', 'Código de identificação', 'Preço de custo (R$)', 'Preço de venda (R$)'])
 barras = {'ARTICULAÇÃO AXIAL MECÂNICA UNO/FIORINO APÓS 93': '7898435680699', 'CHAVE P/ FILTRO DE ÓLEO 66,3MM 101035': '7890000000031'}
 cods = {'ARTICULAÇÃO AXIAL MECÂNICA UNO/FIORINO APÓS 93': 'BA-8003', 'ARTICULAÇÃO AXIAL HIDRÁULICA UNO/FIORINO APÓS 93': 'BA-8037', 'CHAVE P/ FILTRO DE ÓLEO 66,3MM 101035': '101035'}
