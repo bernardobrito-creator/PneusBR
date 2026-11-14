@@ -147,13 +147,14 @@ const dec = s => String(s || '').replace(/R\$(\s?)([STREPNIAYK][STREPNIAYK.,]*)/
   await A.click('[data-acao="caixa-comecar"]'); await A.waitForTimeout(200);
   await A.click('[data-acao="caixa-comecar-sim"]'); await A.waitForTimeout(900);
   out.c.comecou = await A.evaluate(() => { const a = window.__api, S = a.S, h = new Date().toLocaleDateString('sv'); const l = a.soCaixa(a.itensPeriodo('2026-01-01', h)); return { parado: S.config.caixaParado, ini: S.config.caixaInicio, ids: l.map(x => x.id), ontem: l.some(x => x.id === 'itOntem1'), aviso: !!document.querySelector('[data-view="caixa"] .banner.parado') }; });
-  ok(out.c.comecou.parado === false && out.c.comecou.ini === HOJE && !out.c.comecou.ontem && out.c.comecou.ids.length >= 1 && !out.c.comecou.aviso, 'caixa começado hoje: só conta de hoje em diante', out);
+  ok(out.c.comecou.parado === false && out.c.comecou.ini === HOJE && !out.c.comecou.ontem && out.c.comecou.ids.length === 0 && !out.c.comecou.aviso, 'caixa começado: não conta nada de antes (nem a venda feita hoje com o caixa parado)', out);
   await A.screenshot({ path: path.join(SP, 'teste/cp6-caixa-comecou.png') });
   // depois de começar, pagar volta a lançar no caixa
   const cx1 = (await itensCaixa()).length;
   await A.evaluate(() => window.__api.abrirNota('pagar', 'np-trevo-2')); await A.waitForTimeout(300);
   await A.click('[data-acao="parc-abrir"][data-i="0"]'); await A.click('[data-acao="parc-ok"][data-i="0"]'); await A.waitForTimeout(400);
-  ok((await itensCaixa()).length === cx1 + 1, 'com o caixa começado, o pagamento sai do caixa', out);
+  out.c.depois = await A.evaluate(() => { const a = window.__api, h = new Date().toLocaleDateString('sv'); return a.soCaixa(a.itensPeriodo('2026-01-01', h)).map(x => ({ valor: x.valor, caixa: x.caixa })); });
+  ok((await itensCaixa()).length === cx1 + 1 && out.c.depois.length === 1 && out.c.depois[0].caixa === -150, 'com o caixa começado, o pagamento sai do caixa e conta', out);
 
   // 9) celular
   const M = await ctx.newPage(); await M.setViewportSize({ width: 390, height: 844 }); M.on('pageerror', e => out.errors.push(e.message));

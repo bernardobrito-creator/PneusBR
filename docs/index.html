@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-3xNhwTXfcxjH781TWXHf6QBo3Y/0o2NVO/+r25nEEFE=' 'sha256-ODI54yCrWni9bnrUcjcue+20AKRBXwxupQyl986nguo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-3xNhwTXfcxjH781TWXHf6QBo3Y/0o2NVO/+r25nEEFE=' 'sha256-KmKxTh1GcEZan15t0jP7r/Qi4/Ym/eTSKIk/pXz9d+k='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <style id="sem-moldura">html{display:none!important}</style>
 <script>if (window.top === window.self) document.getElementById('sem-moldura').remove();</script>
@@ -1872,11 +1872,17 @@ function totais(itens) {
 }
 // caixa parado (pedido do dono em 14/11/2026): enquanto parado, nada entra nem sai do caixa (notas pagas, vales e
 // pagamentos ficam só como controle) e Caixa, Faturamento e Balanço não contam nada. Quando o dono começar,
-// caixaInicio guarda o dia: só conta o que for desse dia em diante (o que veio antes fica só no histórico).
+// caixaInicio guarda o dia e caixaComecouEm a hora: só conta o que vier depois disso (o que veio antes fica só no histórico).
 const caixaParado = () => S.config.caixaParado === true;
-function soCaixa(l) { if (caixaParado()) return []; const ini = S.config.caixaInicio; return ini ? l.filter(it => (it._d || '') >= ini) : l; }
+function soCaixa(l) {
+  if (caixaParado()) return [];
+  const ini = S.config.caixaInicio, desde = Number(S.config.caixaComecouEm) || 0;
+  if (!ini) return l;
+  // no dia do começo, só o que foi lançado depois do clique (o que entrou com o caixa parado continua fora)
+  return l.filter(it => (it._d || '') > ini || ((it._d || '') === ini && (!desde || (it.t || 0) >= desde)));
+}
 function avisoCaixaHtml() {
-  if (caixaParado()) return `<div class="banner parado" role="status"><div><b>Caixa e faturamento parados</b> desde ${esc(fmtData(S.config.caixaParadoEm || hoje()))}, a pedido do dono. Nada entra nem sai do caixa: notas pagas, vales e pagamentos ficam só como controle, e estas telas mostram zero até o caixa começar.</div>${!podeConfig() ? '' : S.caixaConfirma ? '<div class="toolbar"><span>Contar só de hoje em diante?</span><button class="btn sm red" type="button" data-acao="caixa-comecar-sim">Sim, começar hoje</button><button class="btn sm ghost" type="button" data-acao="caixa-comecar-nao">Cancelar</button></div>' : '<button class="btn sm" type="button" data-acao="caixa-comecar">Começar o caixa hoje</button>'}</div>`;
+  if (caixaParado()) return `<div class="banner parado" role="status"><div><b>Caixa e faturamento parados</b> desde ${esc(fmtData(S.config.caixaParadoEm || hoje()))}, a pedido do dono. Nada entra nem sai do caixa: notas pagas, vales e pagamentos ficam só como controle, e estas telas mostram zero até o caixa começar.</div>${!podeConfig() ? '' : S.caixaConfirma ? '<div class="toolbar"><span>Contar só daqui para frente?</span><button class="btn sm red" type="button" data-acao="caixa-comecar-sim">Sim, começar hoje</button><button class="btn sm ghost" type="button" data-acao="caixa-comecar-nao">Cancelar</button></div>' : '<button class="btn sm" type="button" data-acao="caixa-comecar">Começar o caixa hoje</button>'}</div>`;
   if (S.config.caixaInicio) return `<p class="muted" style="font-size:13px;margin:0 0 12px">Caixa contando desde ${esc(fmtData(S.config.caixaInicio))}.</p>`;
   return '';
 }
@@ -5173,7 +5179,7 @@ function ligarUI() {
         if (!podeConfig()) return avisoSoDono();
         S.caixaConfirma = false;
         mudarConfig({ caixaParado: false, caixaInicio: hoje(), caixaComecouEm: Date.now() }); render();
-        toast('Caixa começado hoje: caixa, faturamento e balanço contam de hoje em diante.');
+        toast('Caixa começado: caixa, faturamento e balanço contam daqui para frente.');
       },
       'alinhar': () => { const id = a.dataset.tabela, pref = ls.get('alinhar', {}), v = pref[id] === a.dataset.v ? null : a.dataset.v; if (v) pref[id] = v; else delete pref[id]; ls.set('alinhar', pref); aplicarAlinhamento(id, v); esconderTip(); },
       'bloquear': () => { liberarTelas(false); aplicarRota(); render(); toast('Caixa, Faturamento, Balanço e Preços bloqueados.'); },
