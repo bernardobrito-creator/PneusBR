@@ -81,12 +81,12 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   ok(out.c.geo.bola[2] > out.c.geo.vw - 60 && out.c.geo.bola[1] < 60, 'bolinha fica no canto superior direito', out);
   await A.screenshot({ path: path.join(SP, 'teste/av2-bolinha.png') });
   // continua minimizado ao recarregar no mesmo dia
-  await A.reload(); await A.waitForTimeout(2500);
+  await A.reload(); await A.waitForTimeout(2500); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
   out.c.recarga = await aviso();
   ok(out.c.recarga.bola && !out.c.recarga.aberto, 'continua minimizado ao recarregar no mesmo dia', out);
   // dia seguinte (a chave guardada é de outro dia): abre sozinho
   await A.evaluate(() => { const k = JSON.parse(localStorage.getItem('pbr.aviso-min')); localStorage.setItem('pbr.aviso-min', JSON.stringify(k.replace(/^\d{4}-\d{2}-\d{2}/, '2000-01-01'))); });
-  await A.reload(); await A.waitForTimeout(2500);
+  await A.reload(); await A.waitForTimeout(2500); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
   out.c.outroDia = await aviso();
   ok(out.c.outroDia.aberto, 'no dia seguinte o aviso abre sozinho', out);
   // minimiza e entra nota nova vencendo hoje: abre sozinho
