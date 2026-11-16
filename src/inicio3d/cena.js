@@ -50,7 +50,9 @@ export async function criarCena(palco, { url = 'carro.glb', cor } = {}) {
   function redimensionar() {
     const w = palco.clientWidth || 1, h = palco.clientHeight || 1;
     renderer.setSize(w, h, false); aspecto = w / h; camera.aspect = aspecto;
-    distancia = aspecto < 1 ? 1.45 / aspecto : Math.max(1.06, 1.75 / aspecto); // tela deitada: o carro inteiro com folga nas bordas camera.updateProjectionMatrix();
+    // a câmera se afasta conforme a largura da tela, para o carro inteiro caber com folga nas bordas (em pé ou deitada)
+    distancia = Math.max(1.06, 1.75 / aspecto);
+    camera.updateProjectionMatrix();
   }
   redimensionar();
   const ro = new ResizeObserver(() => { redimensionar(); if (!E.rodando && E.modo === 'parado') { E.rodando = true; quadro(); } }); ro.observe(palco);
