@@ -1,0 +1,15 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Gera carro-bruto.glb a partir de modelo.js (rodar num servidor local com three@0.170.0, three-mesh-bvh e three-bvh-csg em /libs/node_modules; depois: gltf-transform weld + meshopt -> docs/carro.glb) -->
+<script type="importmap">{"imports":{"three":"/libs/node_modules/three/build/three.module.js","three/addons/":"/libs/node_modules/three/examples/jsm/","three-mesh-bvh":"/libs/node_modules/three-mesh-bvh/src/index.js","three-bvh-csg":"/libs/node_modules/three-bvh-csg/src/index.js"}}</script>
+</head><body><script type="module">
+import * as THREE from 'three';
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+import { montarCarro } from './modelo.js';
+const carro = montarCarro();
+const unico = new THREE.MeshStandardMaterial({ name: 'x' });
+carro.traverse(o => { if (o.isMesh) { o.material = unico; const g = o.geometry; for (const k of Object.keys(g.attributes)) if (k !== 'position' && k !== 'normal') g.deleteAttribute(k); } });
+new GLTFExporter().parse(carro, buf => {
+  const b = new Uint8Array(buf); let s = ''; for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+  window.__glb = btoa(s); window.__pronto = true;
+}, e => { window.__erro = String(e); window.__pronto = true; }, { binary: true });
+</script></body></html>
