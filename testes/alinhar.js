@@ -59,7 +59,7 @@ const migr = { 'config/geral': { path: 'config/geral', colecao: 'config', doc_id
   const ctxM = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
   await ctxM.addInitScript(l => { if (!sessionStorage.getItem('c')) { for (const [k, v] of l) localStorage.setItem(k, v); sessionStorage.setItem('c', '1'); } }, ls); await prep(ctxM);
   const M = await ctxM.newPage(); M.on('pageerror', e => out.errors.push('M ' + e.message));
-  await M.goto('http://127.0.0.1:8771/#produtos'); await M.waitForTimeout(1800);
+  await M.goto('http://127.0.0.1:8771/#produtos'); await M.waitForTimeout(1800); await M.evaluate(() => { location.hash = '#produtos'; }); await M.waitForTimeout(1200);
   out.c.mobile = await M.evaluate(() => document.documentElement.scrollWidth);
   await M.screenshot({ path: path.join(SP, 'teste/a4-mobile.png') });
   console.log(JSON.stringify(out, null, 1));

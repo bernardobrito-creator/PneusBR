@@ -179,7 +179,7 @@ const ok = (cond, msg, out) => { if (!cond) out.falhas.push(msg); };
   const lsCopia = await A.evaluate(() => Object.entries(localStorage));
   const ctxM = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, colorScheme: 'dark' }); await prep(ctxM, lsCopia);
   const M = await nova(ctxM);
-  await M.goto('http://127.0.0.1:8768/#nfse'); await M.waitForTimeout(1800);
+  await M.goto('http://127.0.0.1:8768/#nfse'); await M.waitForTimeout(1800); await M.evaluate(() => { location.hash = '#nfse'; }); await M.waitForTimeout(1200);
   out.c.mobileNf = await M.evaluate(() => document.documentElement.scrollWidth);
   await M.click('#nf-quem [data-id="claudio"]'); await M.waitForTimeout(200);
   await M.screenshot({ path: path.join(SP, 'teste/i7-mobile-nfse.png'), fullPage: true });

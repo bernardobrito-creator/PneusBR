@@ -133,7 +133,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   const lsCopia = await A.evaluate(() => Object.entries(localStorage));
   const ctxM = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, colorScheme: 'dark' }); await prep(ctxM, lsCopia);
   const M = await nova(ctxM);
-  await M.goto('http://127.0.0.1:8769/#receber'); await M.waitForTimeout(1800);
+  await M.goto('http://127.0.0.1:8769/#receber'); await M.waitForTimeout(1800); await M.evaluate(() => { location.hash = '#receber'; }); await M.waitForTimeout(1200);
   out.c.mobileW = await M.evaluate(() => document.documentElement.scrollWidth);
   await M.screenshot({ path: path.join(SP, 'teste/r6-mobile.png') });
   await M.evaluate(id => document.querySelector(`[data-acao="abrir-nota"][data-id="${id}"]`).click(), idAug); await M.waitForTimeout(300);

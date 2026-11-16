@@ -116,7 +116,7 @@ const r2 = v => Math.round(v * 100) / 100;
   const lsCopia = await A.evaluate(() => Object.entries(localStorage));
   await ctxM.addInitScript(l => { if (!sessionStorage.getItem('copiado')) { for (const [k, v] of l) localStorage.setItem(k, v); sessionStorage.setItem('copiado', '1'); } }, lsCopia);
   const M = await ctxM.newPage(); M.on('pageerror', e => out.errors.push(e.message));
-  await M.goto('http://127.0.0.1:8783/#produtos'); await M.waitForTimeout(2000);
+  await M.goto('http://127.0.0.1:8783/#produtos'); await M.waitForTimeout(2000); await M.evaluate(() => { location.hash = '#produtos'; }); await M.waitForTimeout(1200);
   out.c.cel = await M.evaluate(() => ({ rola: document.documentElement.scrollWidth > innerWidth }));
   ok(!out.c.cel.rola, 'celular sem rolagem lateral', out);
   await M.screenshot({ path: path.join(SP, 'teste/tt5-celular.png') });

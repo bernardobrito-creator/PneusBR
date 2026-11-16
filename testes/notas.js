@@ -82,7 +82,7 @@ const b64 = f => fs.readFileSync(path.join(N, f)).toString('base64');
   const ctxM = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, colorScheme: 'dark' });
   await ctxM.addInitScript(l => { if (!sessionStorage.getItem('c')) { for (const [k, v] of l) localStorage.setItem(k, v); sessionStorage.setItem('c', '1'); } }, ls);
   await prep(ctxM, true);
-  const M = await nova(ctxM); await M.goto('http://127.0.0.1:8770/#pagar'); await M.waitForTimeout(1800);
+  const M = await nova(ctxM); await M.goto('http://127.0.0.1:8770/#pagar'); await M.waitForTimeout(1800); await M.evaluate(() => { location.hash = '#pagar'; }); await M.waitForTimeout(1200);
   await M.click('[data-acao="nova-nota"][data-col="pagar"]'); await M.waitForTimeout(400);
   out.c.mobile = await M.evaluate(() => ({ largura: document.documentElement.scrollWidth, botoes: [...document.querySelectorAll('.nd-scan-acoes button')].map(x => x.innerText.trim()), captura: document.querySelector('#nd-foto')?.getAttribute('capture') }));
   await M.setInputFiles('#nd-foto', path.join(N, 'danfe.png')); await M.waitForFunction(() => /preenchid|Não/.test(document.querySelector('#nd-scan-st')?.innerText || ''), null, { timeout: 60000 });

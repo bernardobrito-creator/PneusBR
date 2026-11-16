@@ -138,7 +138,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   ok(/Senha nova ativa/.test(out.c.travaDepois), 'senha nova ativa', out);
   await A.keyboard.press('Escape');
   const B = await nova(ctx); // nova aba: precisa da senha de novo
-  await B.goto('http://127.0.0.1:8775/#caixa'); await B.waitForTimeout(2500);
+  await B.goto('http://127.0.0.1:8775/#caixa'); await B.waitForTimeout(2500); await B.evaluate(() => { location.hash = '#caixa'; }); await B.waitForTimeout(1200);
   await B.fill('#trava-senha', 'TREPNIAYKS'); await B.press('#trava-senha', 'Enter'); await B.waitForTimeout(500);
   out.c.antiga = await B.evaluate(() => ({ travada: !document.querySelector('[data-view="trava"]').hidden, msg: document.querySelector('#trava-erro').textContent }));
   ok(out.c.antiga.travada && /incorreta/.test(out.c.antiga.msg), 'senha antiga não abre mais', out);
@@ -146,7 +146,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   out.c.nova = await B.evaluate(() => document.querySelector('[data-view="trava"]').hidden);
   ok(out.c.nova, 'senha nova abre o Caixa', out);
   // limite: 5 erros seguidos bloqueiam neste aparelho sem nem perguntar ao servidor
-  const C = await nova(ctx); await C.goto('http://127.0.0.1:8775/#faturamento'); await C.waitForTimeout(2500);
+  const C = await nova(ctx); await C.goto('http://127.0.0.1:8775/#faturamento'); await C.waitForTimeout(2500); await C.evaluate(() => { location.hash = '#faturamento'; }); await C.waitForTimeout(1200);
   for (let i = 0; i < 5; i++) { await C.fill('#trava-senha', 'errada' + i); await C.press('#trava-senha', 'Enter'); await C.waitForTimeout(250); }
   const antes = await C.evaluate(() => window.__mockSb.chamadas.filter(x => x === 'fn:acesso:').length);
   await C.fill('#trava-senha', 'novasenha9'); await C.press('#trava-senha', 'Enter'); await C.waitForTimeout(300);

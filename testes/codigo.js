@@ -81,7 +81,7 @@ const temDigito = s => /\d/.test(String(s).replace(/R\$\s?/g, ''));
   await A.reload(); await A.waitForTimeout(1800); await A.evaluate(() => { location.hash = '#caixa'; }); await A.waitForTimeout(300);
   out.c.aposRecarregar = await A.evaluate(() => !document.querySelector('[data-view="caixa"]').hidden);
   // outra aba: pede senha de novo
-  const B = await nova(ctx); await B.goto('http://127.0.0.1:8767/#faturamento'); await B.waitForTimeout(1800);
+  const B = await nova(ctx); await B.goto('http://127.0.0.1:8767/#faturamento'); await B.waitForTimeout(1800); await B.evaluate(() => { location.hash = '#faturamento'; }); await B.waitForTimeout(1200);
   out.c.outraAba = await B.evaluate(() => ({ trava: !document.querySelector('[data-view="trava"]').hidden, titulo: document.querySelector('#trava-titulo').textContent }));
   await B.close();
   // bloquear
@@ -91,7 +91,7 @@ const temDigito = s => /\d/.test(String(s).replace(/R\$\s?/g, ''));
   const lsCopia = await A.evaluate(() => Object.entries(localStorage));
   const ctxM = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, colorScheme: 'dark' }); await prep(ctxM, lsCopia);
   const M = await nova(ctxM);
-  await M.goto('http://127.0.0.1:8767/#faturamento'); await M.waitForTimeout(1800);
+  await M.goto('http://127.0.0.1:8767/#faturamento'); await M.waitForTimeout(1800); await M.evaluate(() => { location.hash = '#faturamento'; }); await M.waitForTimeout(1200);
   await M.fill('#trava-senha', 'TREPNIAYKS'); await M.press('#trava-senha', 'Enter'); await M.waitForTimeout(500);
   out.c.mobile = { fat: await M.evaluate(() => document.documentElement.scrollWidth) };
   const lp = await M.$('#f-lp'); await lp.screenshot({ path: path.join(SP, 'teste/c6-mobile-lp.png') });

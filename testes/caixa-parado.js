@@ -158,7 +158,7 @@ const dec = s => String(s || '').replace(/R\$(\s?)([STREPNIAYK][STREPNIAYK.,]*)/
 
   // 9) celular
   const M = await ctx.newPage(); await M.setViewportSize({ width: 390, height: 844 }); M.on('pageerror', e => out.errors.push(e.message));
-  await M.goto('http://127.0.0.1:8784/#pagar'); await M.waitForTimeout(2000);
+  await M.goto('http://127.0.0.1:8784/#pagar'); await M.waitForTimeout(2000); await M.evaluate(() => { location.hash = '#pagar'; }); await M.waitForTimeout(1200);
   out.c.cel = await M.evaluate(() => document.documentElement.scrollWidth > innerWidth);
   ok(!out.c.cel, 'celular sem rolagem lateral', out);
   ok(!out.errors.length, 'sem erros no console', out);

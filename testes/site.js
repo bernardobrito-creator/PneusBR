@@ -24,7 +24,7 @@ const migr = {
   await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
   out.c.posLogin = await A.evaluate(() => ({ overlay: !document.querySelector('#login').hidden, produtos: window.__api.S.produtos.size, e12071: window.__api.S.produtos.get('e12071')?.preco, servicos: [...window.__api.S.servicos.values()].map(s => s.nome), planilhaDoc: !!JSON.parse(localStorage.getItem('mock-sb-db')).docs['planilha/meta'], status: document.querySelector('#st-sync-txt').textContent }));
   const B = await nova();
-  await B.goto('http://127.0.0.1:8765/#produtos'); await B.waitForTimeout(1500);
+  await B.goto('http://127.0.0.1:8765/#produtos'); await B.waitForTimeout(1500); await B.evaluate(() => { location.hash = '#produtos'; }); await B.waitForTimeout(1200);
   const scan = async (p, v) => { await p.fill('#scan', v); await p.press('#scan', 'Enter'); await p.waitForTimeout(200); };
   await A.keyboard.press('F2'); await A.fill('#qtd', '2'); await scan(A, '12077');
   await A.waitForTimeout(500);
