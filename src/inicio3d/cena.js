@@ -12,7 +12,7 @@ const suave = (a, b, t) => a + (b - a) * t;
 const saida = t => 1 - Math.pow(1 - t, 3);        // desacelera
 const bez = (p0, p1, p2, p3, t) => { const u = 1 - t; return p0 * u * u * u + 3 * p1 * u * u * t + 3 * p2 * u * t * t + p3 * t * t * t; };
 
-export async function criarCena(palco, { url = 'carro.glb', cor = '#C40A0A' } = {}) {
+export async function criarCena(palco, { url = 'carro.glb', cor } = {}) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
   renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = 1.0;

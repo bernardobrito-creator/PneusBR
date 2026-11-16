@@ -1,5 +1,5 @@
 // Teste (16/11/2026): tela de início com o carro 3D. Abre no início; o carro (docs/inicio3d.js + docs/carro.glb) carrega
-// quando a tela de login sai; no início não há barra lateral, só a engrenagem embaixo à esquerda; "BR" em vermelho rubi;
+// quando a tela de login sai; no início não há barra lateral, só a engrenagem embaixo à esquerda; "BR" em vermelho escuro sobre o rubi do alto;
 // sino sem a bola vermelha; ao ir para outra aba o início some e o menu volta; o leitor vai para Registrar; a animação
 // pode ser desligada; celular sem rolagem lateral. Dados fictícios.
 // Uso: ./testes/preparar-site.sh <rascunho> && cp docs/inicio3d.js docs/carro.glb <rascunho>/site/ && node testes/inicio.js <rascunho>
@@ -50,7 +50,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   ok(out.c.inicio.canvas && out.c.inicio.cw > 100, 'carro 3D carregado', out);
   ok(!out.c.inicio.menuLinks && !out.c.inicio.marca && out.c.inicio.engrenagem, 'sem barra lateral: só a engrenagem', out);
   ok(out.c.inicio.gearX < 60 && out.c.inicio.gearY > 740, 'engrenagem no canto de baixo à esquerda', out);
-  ok(out.c.inicio.br === 'rgb(155, 17, 30)', 'BR em vermelho rubi', out);
+  ok(out.c.inicio.br === 'rgb(90, 10, 19)', 'BR em vermelho escuro', out);
   ok(out.c.inicio.atalhos.join('|') === 'Registrar|Produtos|Serviços|Movimentações|Notas a pagar|Notas a receber|Clientes', 'sete atalhos', out);
   ok(out.c.inicio.bola === 'rgba(0, 0, 0, 0)', 'aviso sem a bola vermelha no início', out);
   await A.screenshot({ path: path.join(SP, 'teste/in1-inicio3d.png'), timeout: 120000 });

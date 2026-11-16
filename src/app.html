@@ -76,18 +76,18 @@ svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-widt
 /* ---------- início (16/11/2026): tela de entrada só estética, com o carro; o leitor fica na tela Registrar ---------- */
 .inicio{position:fixed;z-index:20;top:0;bottom:0;right:0;left:0;overflow:hidden;color:#161314;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:calc(env(safe-area-inset-top,0px) + 66px) clamp(18px,4.2vw,72px) calc(env(safe-area-inset-bottom,0px) + 30px)}
 .inicio.saindo{pointer-events:none}
-.in-fundo{position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,#EFEFF1 0%,#E5E5E8 30%,#D9D2D4 46%,#C9A3A8 60%,#B45F69 74%,#A42433 87%,#9B111E 100%)}
+.in-fundo{position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,#9B111E 0%,#9A1520 12%,#8E2C35 26%,#7E4A50 40%,#76666A 52%,#727377 64%,#696B70 80%,#5F6166 100%)}
 .in-cab{display:flex;align-items:flex-start;justify-content:space-between;gap:14px 40px;flex-wrap:wrap}
 .in-marca{margin:0;font-weight:700;font-size:clamp(54px,10.4vw,178px);line-height:.8;letter-spacing:-.055em;white-space:nowrap}
-.in-marca span{color:#9B111E}
+.in-marca span{color:#5A0A13}
 .in-frase{margin:.15em 0 0;font-weight:700;font-size:clamp(20px,2.45vw,40px);line-height:1.04;letter-spacing:-.025em;text-align:right}
 .in-palco{position:absolute;inset:0;z-index:-1;pointer-events:none}
 .in-palco canvas.cp3d{display:block;width:100%;height:100%}
 .in-cab,.in-atalhos{position:relative}
 .in-atalhos{grid-row:3;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px;padding-inline:calc(var(--rail) - 4px)}
-.in-atalhos a{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px 0 14px;border-radius:999px;background:#161314;color:#F3F0F0;text-decoration:none;font-weight:600;font-size:14.5px;white-space:nowrap;transition:background .2s,transform .2s}
-.in-atalhos a:hover{background:#3A3436;transform:translateY(-1px)}
-.in-atalhos a:focus-visible{outline:2px solid #161314;outline-offset:3px}
+.in-atalhos a{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px 0 14px;border-radius:999px;background:#161314;border:1px solid rgba(229,228,226,.16);color:#F3F0F0;text-decoration:none;font-weight:600;font-size:14.5px;white-space:nowrap;transition:background .2s,transform .2s}
+.in-atalhos a:hover{background:#2C2729;border-color:rgba(229,228,226,.34);transform:translateY(-1px)}
+.in-atalhos a:focus-visible{outline:2px solid #E5E4E2;outline-offset:3px}
 .in-atalhos .i{width:18px;height:18px;color:#D9D7D4}
 /* menu, avisos e números ficam platinados só no início; nas outras telas voltam às cores de sempre */
 .rail{transition:background-color .35s}
