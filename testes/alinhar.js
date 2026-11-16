@@ -18,7 +18,7 @@ const migr = { 'config/geral': { path: 'config/geral', colecao: 'config', doc_id
   const A = await ctx.newPage(); A.on('pageerror', e => out.errors.push(e.message));
   await A.goto('http://127.0.0.1:8771/'); await A.waitForTimeout(600);
   await A.fill('#lc-nome', 'Bernardo'); await A.fill('#lc-email', 'loja@pneusbr.com'); await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(2500);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(2500); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
   // uma venda e um serviço para ter linhas em Movimentações
   await A.keyboard.press('F4'); await A.fill('#scan', '7891234567895'); await A.press('#scan', 'Enter'); await A.waitForTimeout(200);
   await A.fill('#scan', 'S01'); await A.press('#scan', 'Enter'); await A.waitForTimeout(300); await A.click('.pede-quem .btn'); await A.waitForTimeout(250);

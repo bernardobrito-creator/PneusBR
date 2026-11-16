@@ -28,7 +28,7 @@ const r2 = v => Math.round(v * 100) / 100;
   A.on('pageerror', e => out.errors.push(e.message)); A.on('console', m => { if (m.type() === 'error' && !/ERR_FAILED|net::/.test(m.text())) out.errors.push(m.text()); });
   await A.goto('http://127.0.0.1:8783/'); await A.waitForTimeout(600);
   await A.fill('#lc-nome', 'Bernardo'); await A.fill('#lc-email', 'loja@pneusbr.com'); await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
 
   // 1) planilha: Tabela como principal, markup em F3, taxas da maquininha da aba Custos Fixos
   out.c.meta = await A.evaluate(() => { const S = window.__api.S, m = S.planilha.meta; const ach = n => [...S.produtos.values()].find(p => p.nome.startsWith(n) || (p.nome + ' ' + p.modelo).includes(n));

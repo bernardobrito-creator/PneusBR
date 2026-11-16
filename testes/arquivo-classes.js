@@ -52,7 +52,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   const entrar = async P => {
     await P.goto('http://127.0.0.1:8781/'); await P.waitForTimeout(700);
     await P.fill('#lc-nome', 'Bernardo'); await P.fill('#lc-email', 'loja@pneusbr.com'); await P.fill('#lc-senha', 'senha-forte-1'); await P.fill('#lc-senha2', 'senha-forte-1');
-    await P.click('#f-criar button[type=submit]'); await P.waitForTimeout(3000);
+    await P.click('#f-criar button[type=submit]'); await P.waitForTimeout(3000); await P.evaluate(() => { location.hash = '#registrar'; }); await P.waitForTimeout(1200);
   };
   const ctx = await b.newContext({ viewport: { width: 1360, height: 900 } }); await prep(ctx);
   const A = await ctx.newPage();

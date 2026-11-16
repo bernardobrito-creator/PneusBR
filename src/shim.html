@@ -3,10 +3,10 @@
 .login{position:fixed;inset:0;z-index:90;background:var(--bar);color:var(--bar-ink);display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));overflow:auto}
 .login-card{width:min(400px,100%);background:var(--surface);color:var(--ink);border-radius:16px;padding:28px 26px;display:grid;gap:16px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .login-marca{display:flex;align-items:center;gap:12px}
-.login-marca .bars{display:inline-flex;align-items:stretch;gap:2px;height:26px;color:var(--ink)}
-.login-marca .bars i{display:block;background:currentColor;width:2px}
-.login-marca .bars i:nth-child(2){width:1px}.login-marca .bars i:nth-child(3){width:3px}.login-marca .bars i:nth-child(5){width:1px}
-.login-marca .bars i:last-child{background:var(--red);width:3px}
+.login-marca svg{width:34px;height:34px;display:block;color:var(--ink)}
+.login-marca .pn,.login-marca .aro,.login-marca .sulco{fill:none;stroke:currentColor}
+.login-marca .sulco{stroke:var(--surface)}
+.login-marca .cubo{fill:var(--red)}
 .login-marca b{font-size:24px;font-weight:700;letter-spacing:-.03em}
 .login-marca b span{color:var(--red)}
 .login-card h2{margin:0;font-size:18px;letter-spacing:-.01em}
@@ -22,7 +22,7 @@
 </style>
 <div class="login" id="login">
   <div class="login-card">
-    <div class="login-marca"><span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Pneus<span>BR</span></b></div>
+    <div class="login-marca"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle class="pn" cx="16" cy="16" r="12.4" stroke-width="4.4"/><circle class="sulco" cx="16" cy="16" r="14.1" stroke-width="1.3" stroke-dasharray="1.6 2.1"/><circle class="aro" cx="16" cy="16" r="8.2" stroke-width="1.3"/><path class="aro" d="M16 13.4V7.8M18.47 15.2l5.33-1.73M17.53 18.1l3.29 4.53M14.47 18.1l-3.29 4.53M13.53 15.2l-5.33-1.73" stroke-width="1.6" stroke-linecap="round"/><circle class="cubo" cx="16" cy="16" r="2.5"/></svg><b>Pneus<span>BR</span></b></div>
     <div id="login-carregando"><p>Conectando…</p></div>
     <form id="f-entrar" hidden autocomplete="on">
       <h2>Entrar</h2>

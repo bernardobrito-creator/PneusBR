@@ -24,7 +24,7 @@ const temDigito = s => /\d/.test(String(s).replace(/R\$\s?/g, ''));
   const A = await nova(ctx);
   await A.goto('http://127.0.0.1:8767/'); await A.waitForTimeout(600);
   await A.fill('#lc-nome', 'Bernardo'); await A.fill('#lc-email', 'loja@pneusbr.com'); await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
   out.c.planilha = await A.evaluate(() => { const S = window.__api.S, m = S.planilha.meta; return { total: S.produtos.size, markupMes: m.markupMes, aba: m.abaPrecos, nTabela: m.nTabela, venda: m.contagem.venda, zero: S.indice.has('0789000000048') }; });
   // movimentos
   const scan = async v => { await A.fill('#scan', v); await A.press('#scan', 'Enter'); await A.waitForTimeout(250); };

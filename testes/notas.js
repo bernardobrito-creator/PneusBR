@@ -24,7 +24,7 @@ const b64 = f => fs.readFileSync(path.join(N, f)).toString('base64');
   const A = await nova(ctx);
   await A.goto('http://127.0.0.1:8770/'); await A.waitForTimeout(600);
   await A.fill('#lc-nome', 'Bernardo'); await A.fill('#lc-email', 'loja@pneusbr.com'); await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(2500);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(2500); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
   await A.evaluate(() => { location.hash = '#pagar'; }); await A.waitForTimeout(300);
   const estado = () => A.evaluate(() => { const nd = window.__api.S.nd; return nd && { parte: nd.parte, doc: nd.doc, numero: nd.numero, emissao: nd.emissao, descricao: nd.descricao, total: nd.total, nParc: nd.nParc, venc1: nd.venc1, parcelas: nd.parcelasLidas, chave: nd.chave, boleto: nd.boleto && { valor: nd.boleto.valor, venc: nd.boleto.venc }, lidos: [...(nd.lidos || [])], msg: document.querySelector('#nd-scan-st')?.innerText.replace(/\s+/g, ' ') }; });
   const esperarLeitura = async () => { await A.waitForFunction(() => window.__api.S.nd && !window.__api.S.nd.lendo && /preenchid|Não consegui|Não foi possível/.test(document.querySelector('#nd-scan-st')?.innerText || ''), null, { timeout: 60000 }); };

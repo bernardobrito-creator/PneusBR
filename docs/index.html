@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-3xNhwTXfcxjH781TWXHf6QBo3Y/0o2NVO/+r25nEEFE=' 'sha256-KmKxTh1GcEZan15t0jP7r/Qi4/Ym/eTSKIk/pXz9d+k='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-3xNhwTXfcxjH781TWXHf6QBo3Y/0o2NVO/+r25nEEFE=' 'sha256-DQJ49qS/f5J4kxzxcemcgbJwSMPfqOrD8sv5/m8IWTk='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <style id="sem-moldura">html{display:none!important}</style>
 <script>if (window.top === window.self) document.getElementById('sem-moldura').remove();</script>
@@ -70,10 +70,11 @@ svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-widt
 /* ---------- trilho lateral ---------- */
 .rail{position:fixed;z-index:30;left:0;top:0;bottom:0;width:calc(var(--rail) + env(safe-area-inset-left,0px));padding:calc(env(safe-area-inset-top,0px) + 14px) 0 calc(env(safe-area-inset-bottom,0px) + 12px) env(safe-area-inset-left,0px);background:var(--bar);color:var(--bar-ink);display:flex;flex-direction:column;align-items:center;gap:3px;overflow-y:auto;scrollbar-width:none}
 .rail::-webkit-scrollbar{display:none}
-.rail .marca{display:flex;align-items:stretch;gap:2px;height:22px;margin:0 0 14px;color:var(--bar-ink);text-decoration:none}
-.marca i{display:block;background:currentColor;width:2px}
-.marca i:nth-child(2){width:1px}.marca i:nth-child(3){width:3px}.marca i:nth-child(5){width:1px}
-.marca i:last-child{background:var(--red);width:3px}
+.rail a.marca{height:42px;margin:0 0 10px;color:var(--bar-ink)}
+.marca svg{width:30px;height:30px;display:block}
+.marca .pn,.marca .aro,.marca .sulco{fill:none;stroke:currentColor}
+.marca .sulco{stroke:var(--bar)}
+.marca .cubo{fill:var(--red)}
 .rail hr{width:28px;border:0;border-top:1px solid var(--bar-line);margin:7px 0}
 .rail a,.rail button.rb{position:relative;width:46px;height:44px;flex:none;border-radius:12px;display:grid;place-items:center;color:var(--bar-muted);background:none;border:0;cursor:pointer;text-decoration:none}
 .rail a:hover,.rail button.rb:hover{color:var(--bar-ink);background:var(--bar-hover)}
@@ -86,6 +87,54 @@ svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-widt
 .sdot.ok{background:var(--bar-ink)!important}.sdot.busy{background:var(--bar-ink)!important;animation:pulse 1s ease-in-out infinite}.sdot.err{background:var(--red)!important}
 @keyframes pulse{50%{opacity:.25}}
 .tip{position:fixed;z-index:80;pointer-events:none;background:var(--ink);color:var(--surface);font-size:13px;font-weight:600;padding:6px 10px;border-radius:8px;white-space:nowrap;box-shadow:var(--shadow)}
+
+/* ---------- início (16/11/2026): tela de entrada só estética, com o carro; o leitor fica na tela Registrar ---------- */
+.inicio{position:fixed;z-index:20;top:0;bottom:0;right:0;left:calc(var(--rail) + env(safe-area-inset-left,0px));overflow:hidden;color:#161314;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:calc(env(safe-area-inset-top,0px) + 66px) clamp(18px,4.2vw,72px) calc(env(safe-area-inset-bottom,0px) + 30px)}
+.inicio.saindo{pointer-events:none}
+.in-fundo{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#E4B2B5 0%,#EBC6C8 22%,#EDD9DA 42%,#E2E1E3 55%,#D3D6D9 63%,#C6CACE 80%,#B7BBC0 100%)}
+.in-cab{display:flex;align-items:flex-start;justify-content:space-between;gap:14px 40px;flex-wrap:wrap}
+.in-marca{margin:0;font-weight:700;font-size:clamp(54px,10.4vw,178px);line-height:.8;letter-spacing:-.055em;white-space:nowrap}
+.in-marca span{color:#B4393E}
+.in-frase{margin:.15em 0 0;font-weight:700;font-size:clamp(20px,2.45vw,40px);line-height:1.04;letter-spacing:-.025em;text-align:right}
+.in-palco{position:relative;display:grid;align-items:end;justify-items:center;min-height:0;padding-top:12px}
+.in-carro{width:min(100%,1160px,calc((100vh - 350px) * 2.63))}
+.in-carro svg.cp{display:block;width:100%;height:auto;overflow:visible;will-change:transform;pointer-events:none}
+.cp .cp-corpo{transform-origin:238px 232px}
+.in-atalhos{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
+.in-atalhos a{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px 0 14px;border-radius:999px;background:#161314;color:#F3F0F0;text-decoration:none;font-weight:600;font-size:14.5px;white-space:nowrap;transition:background .2s,transform .2s}
+.in-atalhos a:hover{background:#3A3436;transform:translateY(-1px)}
+.in-atalhos a:focus-visible{outline:2px solid #161314;outline-offset:3px}
+.in-atalhos .i{width:18px;height:18px;color:#D9D7D4}
+/* menu, avisos e números ficam platinados só no início; nas outras telas voltam às cores de sempre */
+.rail{transition:background-color .35s}
+body.em-inicio .rail{background:#34373B}
+body.em-inicio .rail a,body.em-inicio .rail button.rb{color:#E5E4E2}
+body.em-inicio .rail a:hover,body.em-inicio .rail button.rb:hover{color:#FFFFFF;background:rgba(229,228,226,.10)}
+body.em-inicio .rail a[aria-current="page"],body.em-inicio .rail button.rb[aria-current="page"]{background:none}
+body.em-inicio .rail a[aria-current="page"]::before,body.em-inicio .rail button.rb[aria-current="page"]::before{display:none}
+body.em-inicio .rail hr{display:none}
+body.em-inicio .marca .cubo{fill:#E5E4E2}
+body.em-inicio .marca .sulco{stroke:#34373B}
+body.em-inicio .rail .badge{background:none;color:#E5E4E2;font-size:10.5px}
+body.em-inicio .rail .sdot{background:#E5E4E2;border-color:#34373B}
+body.em-inicio .topo{position:relative;z-index:21}
+body.em-inicio .topo .marca-txt{visibility:hidden}
+body.em-inicio #banner{display:none}
+body.em-inicio .aviso-bola,body.em-inicio .aviso-bola.cli{background:none;box-shadow:none;color:#E5E4E2;filter:drop-shadow(0 1px 1px rgba(0,0,0,.65)) drop-shadow(0 0 5px rgba(0,0,0,.3))}
+body.em-inicio .aviso-bola .i{width:23px;height:23px}
+body.em-inicio .aviso-bola b,body.em-inicio .aviso-bola i{background:none;border:0;color:#E5E4E2}
+@media (max-width:760px){
+  .inicio{padding-top:calc(env(safe-area-inset-top,0px) + 62px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 18px)}
+  .in-cab{flex-direction:column;gap:12px}
+  .in-frase{text-align:left;margin:0}
+  .in-palco{align-items:center}
+  .in-carro{width:min(calc(100% + 28px),calc((100vh - 420px) * 2.63))}
+  .in-atalhos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .in-atalhos a{height:40px;padding:0 10px 0 12px;gap:7px;font-size:13px;justify-content:flex-start}
+  .in-atalhos .i{width:16px;height:16px}
+  .in-atalhos a:last-child{grid-column:1 / -1;justify-content:center}
+}
+@media (prefers-reduced-motion: reduce){ .rail{transition:none} .in-atalhos a{transition:none} }
 
 /* ---------- área ---------- */
 .app{margin-left:calc(var(--rail) + env(safe-area-inset-left,0px));min-width:0}
@@ -729,7 +778,7 @@ body.tem-aviso .topo .status{margin-right:52px}
 </svg>
 
 <nav class="rail" aria-label="Seções">
-  <a class="marca" href="#registrar" aria-label="PneusBR, início" data-tip="PneusBR"><i></i><i></i><i></i><i></i><i></i><i></i></a>
+  <a class="marca" href="#inicio" aria-label="PneusBR, início" data-tip="Início"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle class="pn" cx="16" cy="16" r="12.4" stroke-width="4.4"/><circle class="sulco" cx="16" cy="16" r="14.1" stroke-width="1.3" stroke-dasharray="1.6 2.1"/><circle class="aro" cx="16" cy="16" r="8.2" stroke-width="1.3"/><path class="aro" d="M16 13.4V7.8M18.47 15.2l5.33-1.73M17.53 18.1l3.29 4.53M14.47 18.1l-3.29 4.53M13.53 15.2l-5.33-1.73" stroke-width="1.6" stroke-linecap="round"/><circle class="cubo" cx="16" cy="16" r="2.5"/></svg></a>
   <a href="#registrar" data-tab="registrar" data-tip="Registrar (leitor)" aria-label="Registrar"><svg class="i"><use href="#ic-scan"/></svg></a>
   <a href="#produtos" data-tab="produtos" data-tip="Produtos e estoque" aria-label="Produtos e estoque"><svg class="i"><use href="#ic-box"/></svg></a>
   <a href="#servicos" data-tab="servicos" data-tip="Serviços" aria-label="Serviços"><svg class="i"><use href="#ic-wrench"/></svg></a>
@@ -744,6 +793,225 @@ body.tem-aviso .topo .status{margin-right:52px}
 </nav>
 <div class="tip" id="tip" hidden></div>
 <aside class="aviso" id="aviso" hidden></aside>
+<section class="inicio" id="inicio" aria-label="Início" hidden>
+  <div class="in-fundo"></div>
+  <div class="in-cab"><h1 class="in-marca in-anima">Pneus<span>BR</span></h1><p class="in-frase in-anima">Pneus e autopeças.<br>Teófilo Otoni.</p></div>
+  <div class="in-palco"><div class="in-carro">
+<svg class="cp" viewBox="0 0 1000 380" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="cp-pintura" x1="0" y1="72" x2="0" y2="272" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d9dde1"/>
+      <stop offset=".2" stop-color="#f2f4f6"/>
+      <stop offset=".39" stop-color="#fdfdfd"/>
+      <stop offset=".46" stop-color="#cfd3d8"/>
+      <stop offset=".58" stop-color="#7b8188"/>
+      <stop offset=".66" stop-color="#9ea3a9"/>
+      <stop offset=".82" stop-color="#c6cacf"/>
+      <stop offset=".92" stop-color="#7c8188"/>
+      <stop offset="1" stop-color="#34383d"/>
+    </linearGradient>
+    <linearGradient id="cp-luz" x1="50" y1="0" x2="960" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#000" stop-opacity=".30"/>
+      <stop offset=".25" stop-color="#000" stop-opacity=".06"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".04"/>
+      <stop offset=".85" stop-color="#fff" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".22"/>
+    </linearGradient>
+    <linearGradient id="cp-vidro" x1="0" y1="80" x2="0" y2="142" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#454c55"/>
+      <stop offset=".45" stop-color="#1c2026"/>
+      <stop offset="1" stop-color="#0c0e11"/>
+    </linearGradient>
+    <linearGradient id="cp-reflexo" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="cp-saia" x1="0" y1="244" x2="0" y2="272" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#26292e" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#1a1c20" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#0b0c0e"/>
+    </linearGradient>
+    <linearGradient id="cp-farol" x1="890" y1="0" x2="950" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8e99a5"/>
+      <stop offset=".55" stop-color="#e9f1f8"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="cp-lanterna" x1="62" y1="0" x2="96" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff7074"/>
+      <stop offset=".55" stop-color="#cf2a31"/>
+      <stop offset="1" stop-color="#7a0f14"/>
+    </linearGradient>
+    <radialGradient id="cp-pneu" cx="0" cy="0" r="68" gradientUnits="userSpaceOnUse">
+      <stop offset=".74" stop-color="#2b2e32"/>
+      <stop offset=".88" stop-color="#17191c"/>
+      <stop offset=".98" stop-color="#0a0b0d"/>
+      <stop offset="1" stop-color="#040405"/>
+    </radialGradient>
+    <radialGradient id="cp-aro" cx="-14" cy="-16" r="66" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".42" stop-color="#d7dbe0"/>
+      <stop offset="1" stop-color="#737980"/>
+    </radialGradient>
+    <radialGradient id="cp-disco" cx="0" cy="0" r="44" gradientUnits="userSpaceOnUse">
+      <stop offset=".32" stop-color="#4d5157"/>
+      <stop offset=".78" stop-color="#8f949b"/>
+      <stop offset="1" stop-color="#5a5f65"/>
+    </radialGradient>
+    <radialGradient id="cp-giro" cx="0" cy="0" r="50" gradientUnits="userSpaceOnUse">
+      <stop offset=".2" stop-color="#a7adb3" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#bfc4ca" stop-opacity=".9"/>
+      <stop offset=".9" stop-color="#8d939a" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#6c7178" stop-opacity=".95"/>
+    </radialGradient>
+    <filter id="cp-sombra" x="-20%" y="-300%" width="140%" height="700%"><feGaussianBlur stdDeviation="10"/></filter>
+    <filter id="cp-sombra2" x="-20%" y="-300%" width="140%" height="700%"><feGaussianBlur stdDeviation="3.5"/></filter>
+    <clipPath id="cp-corpo-clip"><path d="M76 264C66 258 61 244 62 228C63 210 66 192 74 178C78 170 82 164 86 160C90 158 96 157 104 156C170 146 250 120 330 98C400 80 460 72 520 73C570 74 606 84 640 106C664 121 682 134 704 140C770 150 850 160 902 172C928 178 945 190 951 206C956 222 954 240 948 254C943 264 934 270 918 272L841 270A77 77 0 1 0 707 270L305 270A77 77 0 1 0 171 270L124 268C100 268 86 267 76 264Z"/></clipPath>
+    <clipPath id="cp-caixa-clip"><rect x="0" y="0" width="1000" height="270"/></clipPath>
+
+    <g id="cp-raio">
+      <path d="M-3.4 -12.5 L-10.4 -45.6 Q-6.6 -48.8 -2.6 -48.9 L0.7 -13.4 Z" fill="url(#cp-aro)"/>
+      <path d="M3.4 -12.5 L10.4 -45.6 Q6.6 -48.8 2.6 -48.9 L-0.7 -13.4 Z" fill="url(#cp-aro)"/>
+      <path d="M-2.4 -14.5 L-9 -45.8 M2.4 -14.5 L9 -45.8" stroke="#ffffff" stroke-opacity=".6" stroke-width="1" fill="none"/>
+    </g>
+    <linearGradient id="cp-masc-g" x1="0" y1="300" x2="0" y2="362" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <mask id="cp-mascara" maskUnits="userSpaceOnUse" x="-400" y="296" width="1800" height="90"><rect x="-400" y="300" width="1800" height="70" fill="url(#cp-masc-g)"/></mask>
+  </defs>
+  <g class="cp-vento" opacity="0" stroke-linecap="round" fill="none">
+    <path d="M-330 112H40" stroke="#ffffff" stroke-opacity=".75" stroke-width="2"/>
+    <path d="M-250 150H30" stroke="#8d9299" stroke-opacity=".55" stroke-width="1.6"/>
+    <path d="M-380 190H20" stroke="#ffffff" stroke-opacity=".65" stroke-width="2.4"/>
+    <path d="M-220 226H50" stroke="#8d9299" stroke-opacity=".5" stroke-width="1.6"/>
+    <path d="M-300 262H120" stroke="#ffffff" stroke-opacity=".55" stroke-width="2"/>
+  </g>
+  <ellipse cx="505" cy="300" rx="460" ry="13" fill="#000" opacity=".45" filter="url(#cp-sombra)"/>
+  <ellipse cx="238" cy="299" rx="64" ry="5" fill="#000" opacity=".75" filter="url(#cp-sombra2)"/>
+  <ellipse cx="774" cy="299" rx="64" ry="5" fill="#000" opacity=".75" filter="url(#cp-sombra2)"/>
+  <g mask="url(#cp-mascara)" opacity=".2"><use href="#cp-carro" transform="matrix(1 0 0 -1 0 600)"/></g>
+  <g id="cp-carro">
+  <g class="cp-corpo">
+    <!--interior das caixas de roda-->
+    <g clip-path="url(#cp-caixa-clip)" fill="#0a0b0d">
+      <circle cx="238" cy="232" r="76"/>
+      <circle cx="774" cy="232" r="76"/>
+    </g>
+
+    <!--lataria-->
+    <path d="M76 264C66 258 61 244 62 228C63 210 66 192 74 178C78 170 82 164 86 160C90 158 96 157 104 156C170 146 250 120 330 98C400 80 460 72 520 73C570 74 606 84 640 106C664 121 682 134 704 140C770 150 850 160 902 172C928 178 945 190 951 206C956 222 954 240 948 254C943 264 934 270 918 272L841 270A77 77 0 1 0 707 270L305 270A77 77 0 1 0 171 270L124 268C100 268 86 267 76 264Z" fill="url(#cp-pintura)"/>
+    <g clip-path="url(#cp-corpo-clip)">
+      <rect x="40" y="60" width="930" height="230" fill="url(#cp-luz)"/>
+      <path d="M40 244 L970 244 L970 290 L40 290 Z" fill="url(#cp-saia)"/>
+      <!--vinco do ombro: sobe sobre a roda traseira e desce até o farol-->
+      <path d="M90 166C150 158 200 147 254 147C334 147 424 159 524 159C624 159 702 157 762 163C840 171 900 181 944 200" fill="none" stroke="#ffffff" stroke-opacity=".95" stroke-width="2.4"/>
+      <path d="M90 170C150 162 200 151 254 151C334 151 424 163 524 163C624 163 702 161 762 167C840 175 900 185 944 204" fill="none" stroke="#565c63" stroke-opacity=".4" stroke-width="2.2"/>
+      <ellipse cx="780" cy="168" rx="92" ry="16" fill="#ffffff" opacity=".22"/>
+      <ellipse cx="236" cy="156" rx="96" ry="15" fill="#ffffff" opacity=".2"/>
+      <!--reflexo baixo das portas-->
+      <path d="M326 232C450 228 590 226 700 229" fill="none" stroke="#ffffff" stroke-opacity=".6" stroke-width="1.6"/>
+      <path d="M326 236C450 232 590 230 700 233" fill="none" stroke="#272b30" stroke-opacity=".38" stroke-width="1.4"/>
+      <!--brilho que passa pela lataria-->
+      <rect class="cp-brilho" x="-300" y="40" width="190" height="260" fill="url(#cp-reflexo)" transform="skewX(-24)" opacity="0"/>
+    </g>
+
+    <!--vidros-->
+    <path d="M318 124C380 98 440 84 515 82C560 82 594 92 618 110C630 120 640 130 646 137L644 141C560 141 420 141 330 141C316 141 310 133 318 124Z" fill="url(#cp-vidro)"/>
+    <path d="M352 122C404 100 456 89 504 88L478 124Z" fill="#ffffff" opacity=".07"/>
+    <path d="M318 124C380 98 440 84 515 82C560 82 594 92 618 110C630 120 640 130 646 137" fill="none" stroke="#cfd3d8" stroke-width="2"/>
+    <path d="M526 83 L520 141" stroke="#08090b" stroke-width="5.5"/>
+    <path d="M322 142C440 142 570 142 648 141" fill="none" stroke="#eceff2" stroke-width="2.4"/>
+
+    <!--porta, maçaneta e retrovisor-->
+    <path d="M658 146C664 186 664 234 658 266" fill="none" stroke="#3c4147" stroke-opacity=".7" stroke-width="1.6"/>
+    <path d="M394 144C387 184 387 234 394 266" fill="none" stroke="#3c4147" stroke-opacity=".7" stroke-width="1.6"/>
+    <rect x="466" y="170" width="42" height="5.6" rx="2.8" fill="#596067"/>
+    <rect x="466" y="169.4" width="42" height="2.2" rx="1.1" fill="#ffffff" opacity=".75"/>
+    <path d="M608 138C610 126 622 120 640 121C648 122 652 128 650 136C644 142 620 143 608 138Z" fill="url(#cp-pintura)"/>
+    <path d="M610 137C624 141 642 140 650 135" fill="none" stroke="#1b1e22" stroke-width="2.4"/>
+    <path d="M614 128C624 123 638 122 646 124" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.4"/>
+
+    <!--respiro atrás da roda dianteira-->
+    <path d="M694 196C700 194 710 194 718 196L714 200C707 199 700 199 694 200Z" fill="#24272b"/>
+
+    <!--frente: farol e entrada de ar-->
+    <path d="M896 183C916 184 934 191 948 204L945 210C930 200 912 194 892 191Z" fill="url(#cp-farol)"/>
+    <path d="M902 187C918 188 932 194 944 205" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+    <path d="M906 228C922 226 940 228 953 234L949 252C935 258 917 258 902 254C900 244 901 236 906 228Z" fill="#101215"/>
+    <path d="M909 236C924 235 938 237 950 241M907 244C922 244 936 246 949 249M907 251C920 252 933 253 946 255" stroke="#3a3e44" stroke-width="1.6" fill="none"/>
+    <path d="M884 271L950 265" stroke="#0c0d0f" stroke-width="5" stroke-linecap="round"/>
+
+    <!--traseira: lanterna e difusor-->
+    <path d="M64 186C69 175 77 167 90 162L94 167C82 172 75 180 70 191Z" fill="url(#cp-lanterna)"/>
+    <path d="M67 184C72 175 79 169 89 165" fill="none" stroke="#ffb7b9" stroke-width="1" opacity=".85"/>
+    <path d="M64 240C76 245 100 247 134 247L130 268C104 268 86 267 76 264C68 258 64 250 64 240Z" fill="#131417"/>
+    <rect x="82" y="254" width="22" height="7" rx="3.5" fill="#3a3e44"/>
+  </g>
+    <g class="cp-roda" transform="translate(238 232)">
+      <circle r="68" fill="url(#cp-pneu)"/>
+      <circle r="65.5" fill="none" stroke="#373b40" stroke-width="1.2"/>
+      <circle r="53" fill="#1b1e22"/>
+      <g class="cp-gira">
+        <circle r="44" fill="url(#cp-disco)"/>
+        <circle r="44" fill="none" stroke="#44484e" stroke-width="2"/>
+        <g fill="#3a3e43">
+          <circle cx="0" cy="-34" r="1.7"/><circle cx="24" cy="-24" r="1.7"/><circle cx="34" cy="0" r="1.7"/><circle cx="24" cy="24" r="1.7"/>
+          <circle cx="0" cy="34" r="1.7"/><circle cx="-24" cy="24" r="1.7"/><circle cx="-34" cy="0" r="1.7"/><circle cx="-24" cy="-24" r="1.7"/>
+        </g>
+      </g>
+      <path d="M-38.5 -24 A46 46 0 0 1 -6.5 -45.5 L-5.4 -36 A36.5 36.5 0 0 0 -30.6 -19 Z" fill="#b4393e"/>
+      <path d="M-33 -26.5 A42 42 0 0 1 -13 -39.5" fill="none" stroke="#ec8286" stroke-width="1.7" stroke-linecap="round"/>
+      <g class="cp-gira">
+        <use href="#cp-raio"/>
+        <use href="#cp-raio" transform="rotate(60)"/>
+        <use href="#cp-raio" transform="rotate(120)"/>
+        <use href="#cp-raio" transform="rotate(180)"/>
+        <use href="#cp-raio" transform="rotate(240)"/>
+        <use href="#cp-raio" transform="rotate(300)"/>
+        <circle r="50" fill="none" stroke="url(#cp-aro)" stroke-width="4.4"/>
+        <circle r="52.6" fill="none" stroke="#0b0c0e" stroke-width="1.2"/>
+        <circle r="13.6" fill="url(#cp-aro)"/>
+        <circle r="13.6" fill="none" stroke="#596067" stroke-width="1"/>
+        <circle r="5.6" fill="#24272b"/>
+        <circle r="2.4" fill="#b4393e"/>
+      </g>
+      <circle class="cp-borrao" r="50" fill="url(#cp-giro)" opacity="0"/>
+      <path d="M-62 -28 A68 68 0 0 1 -20 -65" fill="none" stroke="#ffffff" stroke-opacity=".09" stroke-width="3"/>
+    </g>
+    <g class="cp-roda" transform="translate(774 232)">
+      <circle r="68" fill="url(#cp-pneu)"/>
+      <circle r="65.5" fill="none" stroke="#373b40" stroke-width="1.2"/>
+      <circle r="53" fill="#1b1e22"/>
+      <g class="cp-gira">
+        <circle r="44" fill="url(#cp-disco)"/>
+        <circle r="44" fill="none" stroke="#44484e" stroke-width="2"/>
+        <g fill="#3a3e43">
+          <circle cx="0" cy="-34" r="1.7"/><circle cx="24" cy="-24" r="1.7"/><circle cx="34" cy="0" r="1.7"/><circle cx="24" cy="24" r="1.7"/>
+          <circle cx="0" cy="34" r="1.7"/><circle cx="-24" cy="24" r="1.7"/><circle cx="-34" cy="0" r="1.7"/><circle cx="-24" cy="-24" r="1.7"/>
+        </g>
+      </g>
+      <path d="M-38.5 -24 A46 46 0 0 1 -6.5 -45.5 L-5.4 -36 A36.5 36.5 0 0 0 -30.6 -19 Z" fill="#b4393e"/>
+      <path d="M-33 -26.5 A42 42 0 0 1 -13 -39.5" fill="none" stroke="#ec8286" stroke-width="1.7" stroke-linecap="round"/>
+      <g class="cp-gira">
+        <use href="#cp-raio"/>
+        <use href="#cp-raio" transform="rotate(60)"/>
+        <use href="#cp-raio" transform="rotate(120)"/>
+        <use href="#cp-raio" transform="rotate(180)"/>
+        <use href="#cp-raio" transform="rotate(240)"/>
+        <use href="#cp-raio" transform="rotate(300)"/>
+        <circle r="50" fill="none" stroke="url(#cp-aro)" stroke-width="4.4"/>
+        <circle r="52.6" fill="none" stroke="#0b0c0e" stroke-width="1.2"/>
+        <circle r="13.6" fill="url(#cp-aro)"/>
+        <circle r="13.6" fill="none" stroke="#596067" stroke-width="1"/>
+        <circle r="5.6" fill="#24272b"/>
+        <circle r="2.4" fill="#b4393e"/>
+      </g>
+      <circle class="cp-borrao" r="50" fill="url(#cp-giro)" opacity="0"/>
+      <path d="M-62 -28 A68 68 0 0 1 -20 -65" fill="none" stroke="#ffffff" stroke-opacity=".09" stroke-width="3"/>
+    </g>
+  </g>
+</svg>
+  </div></div>
+  <nav class="in-atalhos in-anima" aria-label="Atalhos"><a href="#registrar"><svg class="i"><use href="#ic-scan"/></svg>Registrar</a><a href="#produtos"><svg class="i"><use href="#ic-box"/></svg>Produtos</a><a href="#servicos"><svg class="i"><use href="#ic-wrench"/></svg>Serviços</a><a href="#movimentacoes"><svg class="i"><use href="#ic-swap"/></svg>Movimentações</a><a href="#pagar"><svg class="i"><use href="#ic-docout"/></svg>Notas a pagar</a><a href="#receber"><svg class="i"><use href="#ic-docin"/></svg>Notas a receber</a><a href="#retornos"><svg class="i"><use href="#ic-person"/></svg>Clientes</a></nav>
+</section>
 
 <div class="app">
 <main class="wrap">
@@ -1049,10 +1317,10 @@ body.tem-aviso .topo .status{margin-right:52px}
 .login{position:fixed;inset:0;z-index:90;background:var(--bar);color:var(--bar-ink);display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));overflow:auto}
 .login-card{width:min(400px,100%);background:var(--surface);color:var(--ink);border-radius:16px;padding:28px 26px;display:grid;gap:16px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .login-marca{display:flex;align-items:center;gap:12px}
-.login-marca .bars{display:inline-flex;align-items:stretch;gap:2px;height:26px;color:var(--ink)}
-.login-marca .bars i{display:block;background:currentColor;width:2px}
-.login-marca .bars i:nth-child(2){width:1px}.login-marca .bars i:nth-child(3){width:3px}.login-marca .bars i:nth-child(5){width:1px}
-.login-marca .bars i:last-child{background:var(--red);width:3px}
+.login-marca svg{width:34px;height:34px;display:block;color:var(--ink)}
+.login-marca .pn,.login-marca .aro,.login-marca .sulco{fill:none;stroke:currentColor}
+.login-marca .sulco{stroke:var(--surface)}
+.login-marca .cubo{fill:var(--red)}
 .login-marca b{font-size:24px;font-weight:700;letter-spacing:-.03em}
 .login-marca b span{color:var(--red)}
 .login-card h2{margin:0;font-size:18px;letter-spacing:-.01em}
@@ -1068,7 +1336,7 @@ body.tem-aviso .topo .status{margin-right:52px}
 </style>
 <div class="login" id="login">
   <div class="login-card">
-    <div class="login-marca"><span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Pneus<span>BR</span></b></div>
+    <div class="login-marca"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle class="pn" cx="16" cy="16" r="12.4" stroke-width="4.4"/><circle class="sulco" cx="16" cy="16" r="14.1" stroke-width="1.3" stroke-dasharray="1.6 2.1"/><circle class="aro" cx="16" cy="16" r="8.2" stroke-width="1.3"/><path class="aro" d="M16 13.4V7.8M18.47 15.2l5.33-1.73M17.53 18.1l3.29 4.53M14.47 18.1l-3.29 4.53M13.53 15.2l-5.33-1.73" stroke-width="1.6" stroke-linecap="round"/><circle class="cubo" cx="16" cy="16" r="2.5"/></svg><b>Pneus<span>BR</span></b></div>
     <div id="login-carregando"><p>Conectando…</p></div>
     <form id="f-entrar" hidden autocomplete="on">
       <h2>Entrar</h2>
@@ -2587,7 +2855,7 @@ function renderAviso() {
   const el = $('#aviso'); if (!el) return;
   const its = avisoItens(), cls = avisoClientes();
   if (!its.length && !cls.length) { if (!el.hidden || avisoHtml) { el.hidden = true; el.innerHTML = ''; avisoHtml = ''; } document.body.classList.remove('tem-aviso'); return; }
-  const min = ls.get('aviso-min', '') === avisoChave(its, cls), h = hoje();
+  const min = (S.tab === 'inicio' && !S.avisoInicio) || ls.get('aviso-min', '') === avisoChave(its, cls), h = hoje();
   const hj = its.filter(x => x.st === 'hoje'), at = its.filter(x => x.st === 'vencida');
   const soma = a => a.reduce((t, x) => t + restParc(x.pc), 0);
   const resumo = [hj.length ? `${hj.length} vence${hj.length > 1 ? 'm' : ''} hoje` : '', at.length ? `${at.length} atrasada${at.length > 1 ? 's' : ''}` : '', cls.length ? `${cls.length} cliente${cls.length > 1 ? 's' : ''} para chamar` : ''].filter(Boolean).join(' · ');
@@ -4456,7 +4724,8 @@ function abrirAjustes() {
     </nav></section>
     <section><h3>Aparência</h3><div class="tema-opts" role="radiogroup" aria-label="Tema">
       ${[['auto', 'Automático'], ['claro', 'Modo claro'], ['escuro', 'Modo noturno']].map(([v, n]) => `<button type="button" role="radio" data-acao="tema" data-v="${v}" aria-pressed="${tema === v}" aria-checked="${tema === v}"><span class="amostra ${v}"><i></i><span></span></span>${n}</button>`).join('')}
-    </div><p class="muted" style="margin:0;font-size:13px">Automático segue o tema do seu aparelho. A escolha vale para este navegador.</p></section>
+    </div><p class="muted" style="margin:0;font-size:13px">Automático segue o tema do seu aparelho. A escolha vale para este navegador.</p>
+      <label class="chk"><input type="checkbox" id="a-anim" ${ls.get('anim-carro', true) !== false ? 'checked' : ''}>Animação do carro na tela de início (vale para este aparelho)</label></section>
     <section><h3>Loja</h3><label class="f">Nome que aparece no topo<input class="inp" id="a-loja" value="${esc(S.config.loja || '')}" placeholder="Ex.: PneusBR Centro" ${podeConfig() ? '' : 'disabled title="Só o dono muda"'}></label></section>
     <section><h3>Leitor</h3><label class="chk"><input type="checkbox" id="a-som" ${ls.get('som', true) ? 'checked' : ''}>Bipe ao registrar (agudo na entrada, grave na saída, longo quando o código não existe)</label>
       <p class="muted" style="margin:0;font-size:13.5px">Funciona com qualquer leitor USB ou Bluetooth no modo teclado (o padrão de fábrica), que envie Enter ao final. Na tela Registrar, a leitura vai para o campo mesmo sem clicar nele. Nas telas de notas, ler um boleto ou nota fiscal abre uma nota nova já preenchida.</p></section>
@@ -5056,18 +5325,89 @@ function montarAlinhadores() {
 function ligarTip(el) { el.addEventListener('mouseenter', () => mostrarTip(el)); el.addEventListener('mouseleave', esconderTip); el.addEventListener('focus', () => mostrarTip(el)); el.addEventListener('blur', esconderTip); }
 function esconderTip() { $('#tip').hidden = true; }
 
+
+/* ================= início (pedido do dono em 16/11/2026) =================
+   Tela de entrada só estética. Ao entrar, o carro chega pela esquerda como quem deu uma volta e para no lugar;
+   ao ir para outra aba, ele arranca para a direita e a tela nova aparece. O leitor continua na tela Registrar.
+   A animação pode ser desligada nas Configurações (vale para este aparelho) e some sozinha com "reduzir movimento". */
+const animCarro = () => ls.get('anim-carro', true) !== false && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const INI = { anims: [], idle: [] };
+function iniParar(lista) { for (const a of INI[lista]) { try { a.cancel(); } catch { } } INI[lista] = []; }
+function iniPartes() {
+  const el = $('#inicio'), svg = el.querySelector('svg.cp');
+  return { el, svg, fundo: el.querySelector('.in-fundo'), corpo: svg.querySelector('#cp-carro .cp-corpo'), gira: [...svg.querySelectorAll('#cp-carro .cp-gira')], borrao: [...svg.querySelectorAll('#cp-carro .cp-borrao')], vento: svg.querySelector('.cp-vento'), brilho: svg.querySelector('#cp-carro .cp-brilho'), textos: [...el.querySelectorAll('.in-anima')] };
+}
+function iniAnim(alvo, kf, op, lista = 'anims') { if (!alvo || typeof alvo.animate !== 'function') return null; const a = alvo.animate(kf, op); INI[lista].push(a); return a; }
+// graus que a roda gira para o carro andar d pixels na tela (pneu de raio 68 num desenho de 1000 de largura): a roda não "patina"
+const iniGraus = (svg, d) => d / (svg.getBoundingClientRect().width / 1000) / (2 * Math.PI * 68) * 360;
+function iniParado() {
+  iniParar('idle'); if (!animCarro() || $('#inicio').hidden) return;
+  const p = iniPartes();
+  iniAnim(p.corpo, [{ transform: 'translateY(0px)' }, { transform: 'translateY(-0.8px)' }, { transform: 'translateY(0px)' }], { duration: 1150, iterations: Infinity, easing: 'ease-in-out' }, 'idle');
+  iniAnim(p.brilho, [{ transform: 'translateX(0px) skewX(-24deg)', opacity: 0 }, { transform: 'translateX(90px) skewX(-24deg)', opacity: 1, offset: .05 }, { transform: 'translateX(1500px) skewX(-24deg)', opacity: 1, offset: .34 }, { transform: 'translateX(1500px) skewX(-24deg)', opacity: 0, offset: .35 }, { transform: 'translateX(1500px) skewX(-24deg)', opacity: 0 }], { duration: 7000, delay: 700, iterations: Infinity, easing: 'ease-in-out' }, 'idle');
+}
+function iniEntrar() {
+  const p = iniPartes(); iniParar('anims'); iniParar('idle');
+  p.el.hidden = false; p.el.classList.remove('saindo'); p.corpo.style.transformOrigin = '';
+  if (!animCarro()) { iniParado(); return; }
+  const dist = p.svg.getBoundingClientRect().right + 40, T = 1700, ease = 'cubic-bezier(.14,.72,.22,1)', g = iniGraus(p.svg, dist);
+  const a = iniAnim(p.svg, [{ transform: `translateX(${-dist}px)` }, { transform: 'translateX(0px)' }], { duration: T, easing: ease });
+  p.gira.forEach(w => iniAnim(w, [{ transform: `rotate(${-g}deg)` }, { transform: 'rotate(0deg)' }], { duration: T, easing: ease }));
+  // freada: a frente abaixa um pouco e volta
+  iniAnim(p.corpo, [{ transform: 'rotate(0deg)' }, { transform: 'rotate(0deg)', offset: .6 }, { transform: 'rotate(.7deg)', offset: .8 }, { transform: 'rotate(-.2deg)', offset: .92 }, { transform: 'rotate(0deg)' }], { duration: T, easing: 'ease-out' });
+  p.borrao.forEach(b => iniAnim(b, [{ opacity: .9 }, { opacity: .7, offset: .35 }, { opacity: 0, offset: .72 }, { opacity: 0 }], { duration: T }));
+  iniAnim(p.vento, [{ opacity: .8 }, { opacity: .45, offset: .3 }, { opacity: 0, offset: .55 }, { opacity: 0 }], { duration: T });
+  p.textos.forEach((t, i) => iniAnim(t, [{ opacity: 0, transform: 'translateY(22px)' }, { opacity: 1, transform: 'translateY(0px)' }], { duration: 700, delay: 280 + i * 120, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'backwards' }));
+  a.finished.then(() => { iniParar('anims'); iniParado(); }, () => { });
+}
+function iniSair() {
+  const p = iniPartes(); if (p.el.hidden) return;
+  iniParar('idle'); iniParar('anims'); p.el.classList.add('saindo');
+  if (!animCarro()) { const f = iniAnim(p.el, [{ opacity: 1 }, { opacity: 0 }], { duration: 160, easing: 'ease-out', fill: 'forwards' }); f.finished.then(() => { p.el.hidden = true; iniParar('anims'); }, () => { }); return; }
+  const r = p.svg.getBoundingClientRect(), dist = p.el.getBoundingClientRect().right - r.left + 60;
+  const T = 1000, re = 8, off = .14, acel = 'cubic-bezier(.42,0,.72,.2)', gRe = iniGraus(p.svg, re), g = iniGraus(p.svg, dist);
+  // recua um pouquinho, a traseira abaixa e o carro arranca acelerando para a direita
+  const a = iniAnim(p.svg, [{ transform: 'translateX(0px)', easing: 'ease-out' }, { transform: `translateX(${-re}px)`, offset: off, easing: acel }, { transform: `translateX(${dist}px)` }], { duration: T, fill: 'forwards' });
+  p.gira.forEach(w => iniAnim(w, [{ transform: 'rotate(0deg)', easing: 'ease-out' }, { transform: `rotate(${-gRe}deg)`, offset: off, easing: acel }, { transform: `rotate(${g}deg)` }], { duration: T, fill: 'forwards' }));
+  p.corpo.style.transformOrigin = '774px 232px';
+  iniAnim(p.corpo, [{ transform: 'rotate(0deg)' }, { transform: 'rotate(-1.1deg)', offset: off }, { transform: 'rotate(-.6deg)', offset: .5 }, { transform: 'rotate(-.2deg)' }], { duration: T, fill: 'forwards' });
+  p.borrao.forEach(b => iniAnim(b, [{ opacity: 0 }, { opacity: 0, offset: .3 }, { opacity: .9, offset: .6 }, { opacity: .95 }], { duration: T, fill: 'forwards' }));
+  iniAnim(p.vento, [{ opacity: 0 }, { opacity: 0, offset: .28 }, { opacity: .85, offset: .55 }, { opacity: .85 }], { duration: T, fill: 'forwards' });
+  iniAnim(p.fundo, [{ opacity: 1 }, { opacity: 1, offset: .5 }, { opacity: 0 }], { duration: T, fill: 'forwards' });
+  p.textos.forEach(t => iniAnim(t, [{ opacity: 1 }, { opacity: 0 }], { duration: 280, easing: 'ease-in', fill: 'forwards' }));
+  a.finished.then(() => { p.el.hidden = true; iniParar('anims'); p.corpo.style.transformOrigin = ''; }, () => { });
+}
+// no site, a tela de login fica por cima: o carro só chega quando ela sai (e de novo a cada entrada no sistema)
+let iniLoginObs = null;
+function iniMostrar() {
+  const el = $('#inicio'); el.hidden = false; el.classList.remove('saindo');
+  const login = document.getElementById('login');
+  if (login && !iniLoginObs) {
+    let visivel = !login.hidden;
+    iniLoginObs = new MutationObserver(() => { const v = !login.hidden; if (visivel && !v && S.tab === 'inicio') iniEntrar(); visivel = v; });
+    iniLoginObs.observe(login, { attributes: true, attributeFilter: ['hidden'] });
+  }
+  if (login && !login.hidden) { iniParar('anims'); iniParar('idle'); return; }
+  iniEntrar();
+}
+
 /* ================= eventos ================= */
 // Caixa, Faturamento, Balanço e Preços: só desenham depois da senha
 for (const tab of TELAS_SENHA) { const f = VIEWS[tab]; VIEWS[tab] = (...a) => travada(tab) ? undefined : f(...a); }
-const ROTAS = ['registrar', 'produtos', 'servicos', 'precificacao', 'movimentacoes', 'caixa', 'faturamento', 'balanco', 'pagar', 'receber', 'retornos', 'rotina', 'integrantes', 'nfse'];
+const ROTAS = ['inicio', 'registrar', 'produtos', 'servicos', 'precificacao', 'movimentacoes', 'caixa', 'faturamento', 'balanco', 'pagar', 'receber', 'retornos', 'rotina', 'integrantes', 'nfse'];
 function aplicarRota() {
-  const h = (location.hash || '').replace('#', '');
-  S.tab = ROTAS.includes(h) ? h : 'registrar';
+  const h = (location.hash || '').replace('#', ''), ant = S.tab;
+  S.tab = ROTAS.includes(h) ? h : 'inicio';
   const tv = travada(S.tab);
   $$('[data-view]').forEach(s => s.hidden = s.dataset.view !== (tv ? 'trava' : S.tab));
   if (tv) { $('#trava-titulo').textContent = TELAS_CONFIG.find(t => t[0] === S.tab)?.[2] || 'Tela protegida'; $('#trava-erro').hidden = true; $('#trava-senha').value = ''; setTimeout(() => { if (!$('#trava-senha').closest('[hidden]')) $('#trava-senha').focus(); }, 40); }
   $$('.rail a[data-tab]').forEach(a => { if (a.dataset.tab === S.tab) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   const g = $('#btn-ajustes'); if (ehTelaConfig(S.tab)) g.setAttribute('aria-current', 'page'); else g.removeAttribute('aria-current');
+  const ini = S.tab === 'inicio', mc = $('.rail .marca');
+  document.body.classList.toggle('em-inicio', ini);
+  if (ini) mc.setAttribute('aria-current', 'page'); else mc.removeAttribute('aria-current');
+  if (ini !== (ant === 'inicio')) { S.avisoInicio = false; renderAviso(); }
+  if (ini && ant !== 'inicio') iniMostrar(); else if (!ini && ant === 'inicio') iniSair();
 }
 function ligarUI() {
   const perOpts = PERIODOS.map(([v, n]) => `<option value="${v}">${n}</option>`).join('');
@@ -5171,7 +5511,7 @@ function ligarUI() {
       'var-del': () => { if (!podeConfig()) return avisoSoDono(); S.config.variaveis = S.config.variaveis.filter((_, i) => i !== Number(a.dataset.i)); mudarConfig({}); renderParamForm(); },
       'fat-real': () => { mudarConfig({ faturamento: parseNum(a.dataset.v) || 0 }); renderParamForm(); },
       'tema': () => { const v = a.dataset.v; ls.set('tema', v); aplicarTema(v); $$('[data-acao="tema"]').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.v === v)); b.setAttribute('aria-checked', String(b.dataset.v === v)); }); },
-      'salvar-ajustes': () => { ls.set('som', $('#a-som').checked); mudarConfig({ loja: $('#a-loja').value.trim() }); fecharDrawer(); render(); toast('Configurações salvas.'); },
+      'salvar-ajustes': () => { ls.set('som', $('#a-som').checked); ls.set('anim-carro', $('#a-anim') ? $('#a-anim').checked : true); mudarConfig({ loja: $('#a-loja').value.trim() }); fecharDrawer(); render(); toast('Configurações salvas.'); },
       'abrir-config': () => abrirAjustes(),
       'caixa-comecar': () => { if (!podeConfig()) return avisoSoDono(); S.caixaConfirma = true; render(); },
       'caixa-comecar-nao': () => { S.caixaConfirma = false; render(); },
@@ -5279,7 +5619,7 @@ function ligarUI() {
       'abat-desfazer': () => { if (!a.dataset.confirm) { a.dataset.confirm = '1'; a.textContent = 'Confirmar'; a.classList.add('red'); return; } desfazerAbatimento(a.dataset.col, a.dataset.id, a.dataset.ab); if (drawerAberto?.tipo === 'nota') abrirNota(a.dataset.col, a.dataset.id); },
       'abrir-nota': () => abrirNota(a.dataset.col, a.dataset.id),
       'aviso-min': () => { ls.set('aviso-min', avisoChave(avisoItens())); renderAviso(); $('#aviso .aviso-bola')?.focus(); },
-      'aviso-abrir': () => { ls.set('aviso-min', ''); renderAviso(); $('#aviso [data-acao="aviso-min"]')?.focus(); },
+      'aviso-abrir': () => { ls.set('aviso-min', ''); if (S.tab === 'inicio') S.avisoInicio = true; renderAviso(); $('#aviso [data-acao="aviso-min"]')?.focus(); },
       'aviso-nota': () => { const id = a.dataset.id; if (S.tab !== 'pagar') location.hash = '#pagar'; setTimeout(() => abrirNota('pagar', id), 60); },
       'aviso-cliente': () => { const id = a.dataset.id; if (S.tab !== 'retornos') location.hash = '#retornos'; setTimeout(() => abrirRetorno(id), 60); },
       'dsc-abrir': () => abrirDescontos(),
@@ -5564,6 +5904,7 @@ function assinar() {
   assinarCaixaDia();
 }
 async function iniciar() {
+  if (location.hash !== '#inicio') { try { history.replaceState(null, '', location.pathname + location.search + '#inicio'); } catch { location.hash = '#inicio'; } }
   ligarUI(); aplicarRota(); render();
   if (S.tab === 'registrar') $('#scan').focus();
   const C = window.claude;

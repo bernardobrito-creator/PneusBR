@@ -56,7 +56,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   const ir = async h => { await A.evaluate(x => { location.hash = x; }, h); await A.waitForTimeout(350); };
   await A.goto('http://127.0.0.1:8779/'); await A.waitForTimeout(700);
   await A.fill('#lc-nome', 'Bernardo'); await A.fill('#lc-email', 'loja@pneusbr.com'); await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
 
   /* ---------- 1) aviso aberto na entrada, em todas as telas ---------- */
   out.c.entrada = await aviso();
@@ -192,7 +192,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   M.on('pageerror', e => out.errors.push('celular: ' + e.message));
   await M.goto('http://127.0.0.1:8779/'); await M.waitForTimeout(700);
   await M.fill('#lc-nome', 'Bernardo'); await M.fill('#lc-email', 'loja@pneusbr.com'); await M.fill('#lc-senha', 'senha-forte-1'); await M.fill('#lc-senha2', 'senha-forte-1');
-  await M.click('#f-criar button[type=submit]'); await M.waitForTimeout(3000);
+  await M.click('#f-criar button[type=submit]'); await M.waitForTimeout(3000); await M.evaluate(() => { location.hash = '#registrar'; }); await M.waitForTimeout(1200);
   out.c.cel = await M.evaluate(() => { const c = document.querySelector('.aviso-card')?.getBoundingClientRect(); return { card: c && [Math.round(c.left), Math.round(c.right)], vw: innerWidth, rolaLado: document.documentElement.scrollWidth > innerWidth }; });
   ok(out.c.cel.card && out.c.cel.card[0] >= 0 && out.c.cel.card[1] <= out.c.cel.vw, 'no celular o aviso cabe na tela', out);
   ok(!out.c.cel.rolaLado, 'no celular não há rolagem lateral', out);

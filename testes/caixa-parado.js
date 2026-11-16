@@ -31,7 +31,7 @@ const dec = s => String(s || '').replace(/R\$(\s?)([STREPNIAYK][STREPNIAYK.,]*)/
   A.on('pageerror', e => out.errors.push(e.message)); A.on('console', m => { if (m.type() === 'error' && !/ERR_FAILED|net::/.test(m.text())) out.errors.push(m.text()); });
   await A.goto('http://127.0.0.1:8784/'); await A.waitForTimeout(600);
   await A.fill('#lc-nome', 'Bernardo'); await A.fill('#lc-email', 'loja@pneusbr.com'); await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
   const destravar = async () => { if (await A.evaluate(() => !document.querySelector('[data-view="trava"]').hidden)) { await A.fill('#trava-senha', 'trepniayks'); await A.press('#trava-senha', 'Enter'); await A.waitForTimeout(400); } };
   const itensCaixa = () => A.evaluate(() => { const S = window.__api.S, l = []; for (const L of S.ledgers.values()) for (const x of L.itens || []) if (x.k === 'caixa') l.push({ id: x.id, valor: x.valor, nota: x.nota || null, pag: x.pag || null }); return l; });
 

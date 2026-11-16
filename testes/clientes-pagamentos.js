@@ -41,7 +41,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   const caixaItens = async () => (await col('lancamentos')).flatMap(L => L.itens.map(it => ({ ...it, _d: L.data })));
   await A.goto('http://127.0.0.1:8778/'); await A.waitForTimeout(700);
   await A.fill('#lc-nome', 'Bernardo'); await A.fill('#lc-email', 'loja@pneusbr.com'); await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
 
   /* ---------- 1) Serviços de suspensão sem preço ---------- */
   await A.evaluate(() => { location.hash = '#servicos'; }); await A.waitForTimeout(400);
