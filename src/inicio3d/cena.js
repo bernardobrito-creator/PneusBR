@@ -50,10 +50,10 @@ export async function criarCena(palco, { url = 'carro.glb', cor = '#C40A0A' } = 
   function redimensionar() {
     const w = palco.clientWidth || 1, h = palco.clientHeight || 1;
     renderer.setSize(w, h, false); aspecto = w / h; camera.aspect = aspecto;
-    distancia = Math.max(1, 1.45 / aspecto); camera.updateProjectionMatrix();
+    distancia = aspecto < 1 ? 1.45 / aspecto : Math.max(1.06, 1.75 / aspecto); // tela deitada: o carro inteiro com folga nas bordas camera.updateProjectionMatrix();
   }
   redimensionar();
-  const ro = new ResizeObserver(redimensionar); ro.observe(palco);
+  const ro = new ResizeObserver(() => { redimensionar(); if (!E.rodando && E.modo === 'parado') { E.rodando = true; quadro(); } }); ro.observe(palco);
 
   // ---------- estado e animações ----------
   const E = { modo: 'parado', t0: 0, dist: 0, prontoSaida: null, rodando: false, tempo: 0 };
@@ -103,6 +103,7 @@ export async function criarCena(palco, { url = 'carro.glb', cor = '#C40A0A' } = 
     const d = DIR.clone().multiplyScalar(distancia).applyAxisAngle(new THREE.Vector3(0, 1, 0), ang);
     camera.position.copy(ALVO).add(d).add(new THREE.Vector3(0, alt, 0)); camera.lookAt(ALVO);
     renderer.render(cena, camera);
+    if (E.estatico && E.modo === 'parado') E.rodando = false; // sem animação: um quadro só, sem gastar o computador
   }
   function rodar() { if (!E.rodando) { E.rodando = true; requestAnimationFrame(quadro); } }
 
@@ -110,12 +111,13 @@ export async function criarCena(palco, { url = 'carro.glb', cor = '#C40A0A' } = 
     entrar(animar = true) {
       if (E.prontoSaida) { E.prontoSaida(); E.prontoSaida = null; }
       poseParada(); girarRodas(0);
+      E.estatico = !animar;
       if (animar) { E.modo = 'chegando'; E.t0 = relogio(); const p = noCaminho(0); mover.position.set(p.x, 0, p.z); mover.rotation.y = p.dir; }
       else E.modo = 'parado';
       rodar();
     },
     sair() {
-      return new Promise(res => { E.modo = 'saindo'; E.t0 = relogio(); E.prontoSaida = res; rodar(); });
+      return new Promise(res => { E.estatico = false; E.modo = 'saindo'; E.t0 = relogio(); E.prontoSaida = res; rodar(); });
     },
     parar() { E.rodando = false; },
     estado: () => E.modo,

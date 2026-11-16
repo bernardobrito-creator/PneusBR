@@ -84,7 +84,8 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   out.c.semAnim = await A.evaluate(() => !document.getElementById('inicio').hidden);
   await A.click('#btn-ajustes'); await A.waitForTimeout(300);
   await A.evaluate(() => document.querySelector('[data-acao="fechar-drawer"]')?.click()); await A.waitForTimeout(200);
-  await A.evaluate(() => { location.hash = '#servicos'; }); await A.waitForTimeout(700);
+  await A.evaluate(() => { location.hash = '#servicos'; });
+  await A.waitForFunction(() => document.getElementById('inicio').hidden, null, { timeout: 15000 }).catch(() => { });
   out.c.semAnimSai = await A.evaluate(() => document.getElementById('inicio').hidden);
   ok(out.c.semAnim && out.c.semAnimSai, 'sem animação: início aparece e some', out);
 
