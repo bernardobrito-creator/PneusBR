@@ -1,6 +1,6 @@
 // Teste (16/11/2026, ajustado em 17/11/2026): tela de início com o carro 3D. Abre no início; o carro (docs/inicio3d.js +
 // docs/carro.glb) carrega quando a tela de login sai, já parado (sem chegada); nome PneusBR pequeno no alto à direita,
-// com "BR" em vermelho escuro, e sem a frase Pneus e autopeças / Teófilo Otoni; no início não há barra lateral, só a
+// todo na cor platina dos ícones, e sem a frase Pneus e autopeças / Teófilo Otoni; no início não há barra lateral, só a
 // engrenagem embaixo à esquerda;
 // sino sem a bola vermelha; ao ir para outra aba o início some e o menu volta; o leitor vai para Registrar; a animação
 // pode ser desligada; celular sem rolagem lateral. Dados fictícios.
@@ -44,7 +44,8 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
     const r = el.getBoundingClientRect();
     return { visivel: !el.hidden, x: r.left, canvas: !!cv, cw: cv && cv.width, corpo: document.body.classList.contains('em-inicio'),
       menuLinks: vis('.rail a[data-tab="produtos"]'), marca: vis('.rail .marca'), engrenagem: vis('#btn-ajustes'),
-      titulo: (() => { const h = el.querySelector('.in-marca'), q = h && h.getBoundingClientRect(); return h ? { txt: h.textContent, dir: innerWidth - q.right, topo: q.top, alt: q.height, br: getComputedStyle(h.querySelector('span')).color } : null; })(),
+      titulo: (() => { const h = el.querySelector('.in-marca'), q = h && h.getBoundingClientRect(); return h ? { txt: h.textContent, dir: innerWidth - q.right, topo: q.top, alt: q.height, cor: getComputedStyle(h).color, br: getComputedStyle(h.querySelector('span')).color } : null; })(),
+      fundoTopo: getComputedStyle(el.querySelector('.in-fundo')).backgroundImage.slice(0, 60),
       frase: /Teófilo Otoni|autopeças/.test(el.innerText), estado: window.__api.INI.cena ? window.__api.INI.cena.estado() : null, atalhos: [...el.querySelectorAll('.in-atalhos a')].map(a => a.textContent.trim()),
       bola: getComputedStyle(document.querySelector('#aviso .aviso-bola') || document.body).backgroundColor,
       gearX: document.getElementById('btn-ajustes').getBoundingClientRect().left, gearY: document.getElementById('btn-ajustes').getBoundingClientRect().bottom };
@@ -55,7 +56,8 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   ok(out.c.inicio.gearX < 60 && out.c.inicio.gearY > 740, 'engrenagem no canto de baixo à esquerda', out);
   ok(out.c.inicio.estado === 'parado', 'carro já parado ao abrir (sem a chegada)', out);
   const T = out.c.inicio.titulo;
-  ok(T && T.txt === 'PneusBR' && T.dir < 90 && T.topo < 130 && T.alt < 45 && T.br === 'rgb(90, 10, 19)', 'PneusBR pequeno no alto à direita, BR vermelho escuro', out);
+  ok(T && T.txt === 'PneusBR' && T.dir < 90 && T.topo < 130 && T.alt < 45 && T.cor === 'rgb(229, 228, 226)' && T.br === T.cor, 'PneusBR pequeno no alto à direita, na cor platina dos ícones', out);
+  ok(/^linear-gradient\(rgb\(10, 10, 11\) 0%/.test(out.c.inicio.fundoTopo), 'degradê começa preto no alto', out);
   ok(!out.c.inicio.frase, 'sem a frase Pneus e autopeças / Teófilo Otoni', out);
   ok(out.c.inicio.atalhos.join('|') === 'Registrar|Produtos|Serviços|Movimentações|Notas a pagar|Notas a receber|Clientes', 'sete atalhos', out);
   ok(out.c.inicio.bola === 'rgba(0, 0, 0, 0)', 'aviso sem a bola vermelha no início', out);
@@ -104,6 +106,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   if (await M.evaluate(() => !document.getElementById('login').hidden && !document.getElementById('f-entrar').hidden)) { await M.fill('#le-email', 'loja@pneusbr.com'); await M.fill('#le-senha', 'senha-forte-1'); await M.click('#f-entrar button[type=submit]'); }
   await M.waitForTimeout(3000);
   await M.waitForFunction(() => { const n = document.querySelector('.in-atalhos'); return n && n.getAnimations().length === 0; }, null, { timeout: 20000 }).catch(() => { }); // a entrada dos atalhos (sobem 22px) já terminou
+  await M.screenshot({ path: path.join(SP, 'teste/in3-celular.png'), timeout: 120000 });
   out.c.cel = await M.evaluate(() => {
     const g = document.getElementById('btn-ajustes').getBoundingClientRect();
     const as = [...document.querySelectorAll('.in-atalhos a')].map(a => a.getBoundingClientRect());
