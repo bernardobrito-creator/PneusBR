@@ -91,11 +91,11 @@ svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-widt
 /* ---------- início (16/11/2026): tela de entrada só estética, com o carro; o leitor fica na tela Registrar ---------- */
 .inicio{position:fixed;z-index:20;top:0;bottom:0;right:0;left:0;overflow:hidden;color:#161314;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:calc(env(safe-area-inset-top,0px) + 66px) clamp(18px,4.2vw,72px) calc(env(safe-area-inset-bottom,0px) + 30px)}
 .inicio.saindo{pointer-events:none}
-.in-fundo{position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,#9B111E 0%,#9A1520 12%,#8E2C35 26%,#7E4A50 40%,#76666A 52%,#727377 64%,#696B70 80%,#5F6166 100%)}
-/* nome PneusBR pequeno no alto, à direita (pedido do dono em 17/11/2026) */
+.in-fundo{position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,#0A0A0B 0%,#101012 12%,#1F2023 26%,#3A3B3F 40%,#585A5E 52%,#6C6D71 64%,#696B70 80%,#5F6166 100%)}
+/* nome PneusBR pequeno no alto, à direita, na cor platina dos ícones (pedido do dono em 17/11/2026) */
 .in-cab{display:flex;justify-content:flex-end}
-.in-marca{margin:0;font-weight:700;font-size:clamp(22px,2.3vw,34px);line-height:1;letter-spacing:-.045em;white-space:nowrap}
-.in-marca span{color:#5A0A13}
+.in-marca{margin:0;font-weight:700;font-size:clamp(22px,2.3vw,34px);line-height:1;letter-spacing:-.045em;white-space:nowrap;color:#E5E4E2;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35))}
+.in-marca span{color:inherit}
 .in-palco{position:absolute;inset:0;z-index:-1;pointer-events:none}
 .in-palco canvas.cp3d{display:block;width:100%;height:100%}
 .in-cab,.in-atalhos{position:relative}
@@ -117,7 +117,7 @@ body.em-inicio .rail hr{display:none}
 body.em-inicio .marca .cubo{fill:#E5E4E2}
 body.em-inicio .marca .sulco{stroke:#34373B}
 body.em-inicio .rail .badge{background:none;color:#E5E4E2;font-size:10.5px}
-body.em-inicio .rail .sdot{background:#E5E4E2;border-color:#9B111E}
+body.em-inicio .rail .sdot{background:#E5E4E2;border-color:#0A0A0B}
 body.em-inicio .topo{position:relative;z-index:21}
 body.em-inicio .topo .marca-txt{visibility:hidden}
 body.em-inicio #banner{display:none}
