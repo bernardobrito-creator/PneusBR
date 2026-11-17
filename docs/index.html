@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-3xNhwTXfcxjH781TWXHf6QBo3Y/0o2NVO/+r25nEEFE=' 'sha256-89zbKmzXy3ybTuiIAA/XC98t2TJlptdA+pMzF4C/FpA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-3xNhwTXfcxjH781TWXHf6QBo3Y/0o2NVO/+r25nEEFE=' 'sha256-/aaYJnYXf4U778ixzcVUXrQfVRgz8W3rWvuEftxGhtI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <style id="sem-moldura">html{display:none!important}</style>
 <script>if (window.top === window.self) document.getElementById('sem-moldura').remove();</script>
@@ -318,7 +318,7 @@ table.t td .undo{display:inline-flex}
 .bloco h3{font-size:12px;margin:4px 0 0;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
 .bloco p{margin:0;font-size:13.5px;color:var(--ink-2)}
 .plan-st{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13.5px}
-.cnt{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.cnt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
 .cnt div{background:var(--surface);padding:10px 12px}
 .cnt b{display:block;font-size:20px;font-variant-numeric:tabular-nums}
 .cnt small{color:var(--muted);font-size:12px}
@@ -326,6 +326,8 @@ table.t td .undo{display:inline-flex}
 .form-g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .var-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 32px;gap:8px;align-items:center}
 .cat-row{display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:10px;align-items:center;font-size:14px}
+.cat-row small{color:var(--muted);font-size:12.5px;margin-left:6px}
+.cat-row .mk-pl{text-align:right;font-weight:650;font-variant-numeric:tabular-nums;padding-right:12px}
 .formula{background:var(--surface-2);border-radius:10px;padding:12px 14px;font-size:14px;display:grid;gap:6px}
 .formula .mono{font-size:13.5px}
 .formula .big{font-size:20px;font-weight:650;letter-spacing:-.01em}
@@ -718,7 +720,7 @@ body.tem-aviso .topo .status{margin-right:52px}
   .modo button{font-size:15px;padding:11px 6px}
   .modo kbd{display:none}
   .u-total{font-size:26px}
-  .cnt{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cnt{grid-template-columns:repeat(3,minmax(0,1fr))}
   .novo-lanc .campos,.caixa-dia{grid-template-columns:minmax(0,1fr)}
   .destaques{grid-template-columns:minmax(0,1fr)}
   .sec-h h1{font-size:22px}
@@ -878,7 +880,7 @@ body.tem-aviso .topo .status{margin-right:52px}
   <!-- PREÇOS -->
   <section data-view="precificacao" hidden>
     <div class="sec-h">
-      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Preços e markup</h1><p>O preço de venda vem da planilha de precificação (preço de custo × markup do mês). Quando a planilha não traz o preço de venda, o sistema calcula custo × markup; sem custo, usa a média de mercado.</p></div>
+      <div><button class="migalha" type="button" data-acao="abrir-config"><svg class="i"><use href="#ic-gear"/></svg>Configurações</button><h1>Preços e markup</h1><p>O preço de venda vem da planilha de precificação (preço de custo × markup do setor). Quando a planilha não traz o preço de venda, o sistema calcula custo × markup. Só valem os preços das notas e os postos na planilha: a pesquisa de preços na internet não entra.</p></div>
       <div class="toolbar"><button class="btn ghost" type="button" data-acao="bloquear"><svg class="i"><use href="#ic-lock"/></svg>Bloquear</button></div>
     </div>
     <div class="grid2">
@@ -891,10 +893,10 @@ body.tem-aviso .topo .status{margin-right:52px}
     <div class="toolbar mb">
       <input class="inp" id="pr-q" type="search" placeholder="Buscar produto" style="flex:1;min-width:200px">
       <select class="inp" id="pr-base" aria-label="Base do preço">
-        <option value="todos">Todas as bases</option><option value="planilha">Preço de venda da planilha</option><option value="custo">Custo × markup</option><option value="mercado">Média de mercado</option><option value="manual">Preço manual</option><option value="sem">Sem preço</option>
+        <option value="todos">Todas as bases</option><option value="planilha">Preço de venda da planilha</option><option value="custo">Custo × markup</option><option value="manual">Preço manual</option><option value="sem">Sem preço</option>
       </select>
     </div>
-    <div class="tabela-wrap"><table class="t" id="pr-tab"><thead><tr><th>Produto</th><th class="num">Preço de compra</th><th class="num">Markup</th><th class="num">Custo × markup</th><th class="num">Média de mercado</th><th class="num">Preço de venda</th><th>Origem do valor</th></tr></thead><tbody></tbody></table></div>
+    <div class="tabela-wrap"><table class="t" id="pr-tab"><thead><tr><th>Produto</th><th class="num">Preço de compra</th><th class="num">Markup</th><th class="num">Custo × markup</th><th class="num">Preço de venda</th><th>Origem do valor</th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <!-- MOVIMENTAÇÕES -->
@@ -1485,9 +1487,13 @@ const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/
 const PDFJS_WORKER = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/pdf.worker.min.mjs';
 const ZXING_URL = 'https://cdn.jsdelivr.net/npm/zxing-wasm@3.1.5/dist/iife/reader/index.js';
 const ZXING_WASM = 'https://cdn.jsdelivr.net/npm/zxing-wasm@3.1.5/dist/reader/';
-const GRUPOS = ['Pneus', 'Peças', 'Filtros', 'Óleos e fluidos', 'Ferramentas', 'Avulsos'];
+/* setores dos produtos (pedido do dono, 17/11/2026): os mesmos da coluna Setor e da aba "Markup por setor" da planilha;
+   Avulsos = cadastrados só no sistema. Óleos e Fluidos eram um setor só ("Óleos e fluidos") até 17/11/2026. */
+const GRUPOS = ['Pneus', 'Peças', 'Filtros', 'Óleos', 'Fluidos', 'Ferramentas', 'Acessórios', 'Avulsos'];
+const SETOR_ANTIGO = { 'Óleos': 'Óleos e fluidos', 'Fluidos': 'Óleos e fluidos' };
+const SETOR_UM = { Pneus: 'Pneu', 'Peças': 'Peça', Filtros: 'Filtro', 'Óleos': 'Óleo', Fluidos: 'Fluido', Ferramentas: 'Ferramenta', 'Acessórios': 'Acessório' };
 const CFG_PADRAO = {
-  loja: '', markupModo: 'planilha', markup: 1.43, markupCat: {}, faturamento: 0, margem: 30, ajusteMercado: 0, arredondar: 'centavo', metaMensal: 0,
+  loja: '', markupModo: 'planilha', markup: 1.43, markupCat: {}, faturamento: 0, margem: 30, arredondar: 'centavo', metaMensal: 0,
   variaveis: [{ id: 'imp', nome: 'Impostos sobre a venda', pct: 0 }, { id: 'maq', nome: 'Taxa da maquininha / cartão', pct: 0 }]
 };
 const MOTIVOS = {
@@ -1563,7 +1569,7 @@ function telasLivres() { return livresMem; }
 function liberarTelas(sim) { livresMem = sim; try { if (sim) sessionStorage.setItem('pbr.livre', '1'); else sessionStorage.removeItem('pbr.livre'); } catch { } }
 const travada = tab => TELAS_SENHA.includes(tab) && !telasLivres();
 function pendentesRotinaHoje() { const l = rotinaLista().filter(i => i.freq === 'dia'); return Math.max(0, l.length - l.filter(i => rotinaFeito(i)).length); }
-const BASE_NOME = { custo: 'Custo × markup', 'custo-compra': 'Última compra × markup', mercado: 'Média de mercado', planilha: 'Preço de venda da planilha', manual: 'Preço manual', sem: 'Sem preço' };
+const BASE_NOME = { custo: 'Custo × markup', 'custo-compra': 'Última compra × markup', planilha: 'Preço de venda da planilha', manual: 'Preço manual', sem: 'Sem preço' };
 const SERV_SUGEST = ['Montagem de pneu', 'Balanceamento', 'Alinhamento', 'Rodízio de pneus', 'Conserto de pneu (remendo)', 'Troca de óleo (mão de obra)', 'Troca de pastilhas', 'Troca de amortecedor', 'Cambagem', 'Calibragem com nitrogênio'];
 const BANCOS = { '001': 'Banco do Brasil', '033': 'Santander', '246': 'ABC Brasil', '104': 'Caixa', '237': 'Bradesco', '341': 'Itaú', '756': 'Sicoob', '748': 'Sicredi', '077': 'Inter', '260': 'Nubank', '336': 'C6 Bank', '212': 'Banco Original', '422': 'Safra', '041': 'Banrisul', '004': 'Banco do Nordeste', '070': 'BRB', '085': 'Ailos', '136': 'Unicred', '208': 'BTG Pactual', '290': 'PagBank', '323': 'Mercado Pago', '380': 'PicPay', '403': 'Cora', '197': 'Stone', '655': 'Votorantim', '745': 'Citibank', '399': 'HSBC', '633': 'Rendimento', '707': 'Daycoval', '746': 'Modal', '021': 'Banestes', '037': 'Banpará' };
 const UFS = { 11: 'RO', 12: 'AC', 13: 'AM', 14: 'RR', 15: 'PA', 16: 'AP', 17: 'TO', 21: 'MA', 22: 'PI', 23: 'CE', 24: 'RN', 25: 'PB', 26: 'PE', 27: 'AL', 28: 'SE', 29: 'BA', 31: 'MG', 32: 'ES', 33: 'RJ', 35: 'SP', 41: 'PR', 42: 'SC', 43: 'RS', 50: 'MS', 51: 'MT', 52: 'GO', 53: 'DF' };
@@ -1586,7 +1592,7 @@ const ROTINA_PADRAO = [
   { id: 'm4', freq: 'mes', texto: 'Enviar notas fiscais e extratos para o contador' },
   { id: 'm5', freq: 'mes', texto: 'Conferir o extrato do banco com o caixa', tab: 'caixa' },
   { id: 'm6', freq: 'mes', texto: 'Contar os itens que mais vendem (inventário rápido)', tab: 'produtos' },
-  { id: 'm7', freq: 'mes', texto: 'Atualizar custos fixos e pesquisa de mercado na planilha', tab: 'precificacao' },
+  { id: 'm7', freq: 'mes', texto: 'Atualizar custos fixos e markup por setor na planilha', tab: 'precificacao' },
   { id: 'a1', freq: 'ano', texto: 'Inventário completo do estoque', tab: 'produtos' },
   { id: 'a2', freq: 'ano', texto: 'Declaração anual do Simples (DEFIS) com o contador' },
   { id: 'a3', freq: 'ano', texto: 'Renovar alvará, licença ambiental, bombeiros (AVCB) e certificado digital' },
@@ -1633,6 +1639,8 @@ function parseNum(s) {
   return parseFloat(t);
 }
 const valorPos = v => { const n = parseNum(v); return isFinite(n) && n > 0 ? r2(n) : null; };
+// "Origem do valor" que fala da pesquisa na internet não aparece mais (o valor da pesquisa não é usado; pedido do dono, 17/11/2026)
+const origemValida = s => { const t = String(s ?? '').trim(); return /mercado livre|anuncio|media de mercado|pesquisa de mercado/.test(norm(t)) ? '' : t; };
 const fmtIn = v => v == null || v === '' || !isFinite(v) ? '' : String(v).replace('.', ',');
 const fmtMoneyIn = v => v == null || !isFinite(v) || !v ? '' : Number(v).toFixed(2).replace('.', ',');
 const pad = n => String(n).padStart(2, '0');
@@ -1736,13 +1744,31 @@ function erroDb(e, path) {
 }
 
 /* ================= produtos e preços ================= */
+// setor pelo nome: só para produto sem Setor na planilha (avulso, fora da planilha ou célula vazia); segue a mesma divisão da planilha
 function grupoDe(nome) {
   const n = norm(nome);
   if (n.startsWith('pneu')) return 'Pneus';
+  if (/^(chave|extrator|ferramenta)/.test(n)) return 'Ferramentas';
   if (n.includes('filtro')) return 'Filtros';
-  if (/lubrificante|fluido|oleo|protecao superior/.test(n)) return 'Óleos e fluidos';
-  if (/^chave|extrator|ferramenta/.test(n)) return 'Ferramentas';
+  if (/^(calota|palheta)/.test(n)) return 'Acessórios';
+  if (/^(oleo|graxa|protecao superior)|^lubrificante (hibrido|multiaditivado|para motor|syntium)/.test(n)) return 'Óleos';
+  if (/^(aditivo|agua|fluido|solucao arrefecedora|cola|formador de junta|descarbonizante|desengripante|limpa|lubrificante)/.test(n)) return 'Fluidos';
   return 'Peças';
+}
+// setores em uso: os da aba "Markup por setor" da planilha (na ordem dela); sem a aba, os do sistema
+function setores() {
+  const ms = S.planilha.meta?.markupSetor;
+  const l = ms && typeof ms === 'object' ? Object.keys(ms) : [];
+  return l.length ? l : GRUPOS.filter(g => g !== 'Avulsos');
+}
+// setor escrito na coluna Setor da planilha ("Pneus"; o antigo "Pneu" também vale); vazio ou desconhecido = null
+function setorDaPlanilha(tipo) {
+  const t = norm(tipo); if (!t) return null;
+  return setores().find(s => { const n = norm(s); return n === t || n === t + 's'; }) || null;
+}
+function markupSetor(g) {
+  const v = Number(S.planilha.meta?.markupSetor?.[g]);
+  return v > 0 ? r3(v) : null;
 }
 function taxas() {
   const c = S.config, m = S.planilha.meta;
@@ -1760,12 +1786,21 @@ function taxas() {
   const impPct = parseNum((c.variaveis || []).find(v => v.id === 'imp')?.pct) || 0;
   return { fixosTotal, fat, fixosPct, varPct, margem, soma, divisor, mkCalc, mkDireto, mkPlanilha, geral, impPct };
 }
-function markupDe(p, T) {
-  if (p.markup > 0) return { v: p.markup, de: 'produto' };
-  const c = parseNum(S.config.markupCat?.[p.avulso ? 'Avulsos' : p.grupo]);
+// markup do produto: o do próprio produto → avulso: o de Avulsos (Configurações) → o do setor na planilha (aba "Markup por setor")
+// → o do setor salvo no sistema (antes de a planilha ter a aba) → o geral
+function markupPadrao(p, T) {
+  if (p.avulso) { const a = parseNum(S.config.markupCat?.Avulsos); if (a > 0) return { v: a, de: 'avulsos' }; }
+  const s = markupSetor(p.grupo); if (s) return { v: s, de: 'setor' };
+  const mc = S.config.markupCat || {};
+  const c = parseNum(mc[p.grupo]) > 0 ? parseNum(mc[p.grupo]) : parseNum(mc[SETOR_ANTIGO[p.grupo]]);
   if (c > 0) return { v: c, de: 'categoria' };
   return { v: T.geral, de: 'geral' };
 }
+function markupDe(p, T) {
+  if (p.markup > 0) return { v: p.markup, de: 'produto' };
+  return markupPadrao(p, T);
+}
+const MK_DE = { produto: 'do produto', avulsos: 'de Avulsos', setor: 'do setor (planilha)', categoria: 'do setor', geral: 'geral' };
 function arredondar(v) {
   const m = S.config.arredondar || 'centavo';
   if (m === 'inteiro') return Math.ceil(v - 1e-9);
@@ -1779,7 +1814,7 @@ function calcPreco(p, T) {
   let sug = null, base = 'sem';
   if (p.precoPl > 0) { sug = p.precoPl; base = 'planilha'; }
   else if (custoRef > 0 && M.v > 0) { sug = custoRef * M.v; base = 'custo'; }
-  else if (p.mercado > 0) { sug = p.mercado * (1 + (parseNum(S.config.ajusteMercado) || 0) / 100); base = 'mercado'; }
+  // a pesquisa de preços na internet (média de mercado) não entra no preço (pedido do dono, 17/11/2026): só o que veio das notas ou foi posto na planilha
   else if (!p.avulso && p.custoManual > 0 && M.v > 0) { sug = p.custoManual * M.v; base = 'custo-compra'; }
   p.sugerido = sug == null ? null : base === 'planilha' ? r2(sug) : arredondar(sug);
   p.base = base;
@@ -1794,12 +1829,12 @@ function reconstruir() {
   const prods = new Map();
   for (const l of linhas) {
     if (!l || !l.k || prods.has(l.k)) continue;
-    prods.set(l.k, { k: l.k, nome: l.nome, modelo: l.modelo || '', marca: l.marca || '', cod: l.cod || '', custoPl: l.custo ?? null, mercado: l.mercado ?? null, precoPl: l.preco ?? null, eanPl: l.ean || '', tipo: l.tipo || '', codId: l.codId || '', origem: l.origem || '', aba: l.aba, anuncios: l.anuncios || null, busca: l.busca || '', naPlanilha: true });
+    prods.set(l.k, { k: l.k, nome: l.nome, modelo: l.modelo || '', marca: l.marca || '', cod: l.cod || '', custoPl: l.custo ?? null, precoPl: l.preco ?? null, eanPl: l.ean || '', tipo: l.tipo || '', codId: l.codId || '', origem: origemValida(l.origem), aba: l.aba, naPlanilha: true });
   }
   for (const [k, d] of S.produtosDoc) {
     let p = prods.get(k);
     if (!p) {
-      p = { k, nome: d.nome || '(sem nome)', modelo: d.modelo || '', marca: d.marca || '', cod: d.cod || '', custoPl: null, mercado: null, precoPl: null, eanPl: '', tipo: '', codId: '', naPlanilha: false, avulso: !!d.avulso, origem: d.avulso ? 'Cadastrado no sistema' : 'Não está mais na planilha', aba: d.avulso ? 'avulso' : 'fora' };
+      p = { k, nome: d.nome || '(sem nome)', modelo: d.modelo || '', marca: d.marca || '', cod: d.cod || '', custoPl: null, precoPl: null, eanPl: '', tipo: '', codId: '', naPlanilha: false, avulso: !!d.avulso, origem: d.avulso ? 'Cadastrado no sistema' : 'Não está mais na planilha', aba: d.avulso ? 'avulso' : 'fora' };
       prods.set(k, p);
     }
     p.doc = d;
@@ -1813,7 +1848,7 @@ function reconstruir() {
     p.precoManual = typeof d.precoManual === 'number' ? d.precoManual : null;
     p.custoManual = typeof d.custoManual === 'number' ? d.custoManual : null;
     p.markup = typeof d.markup === 'number' && d.markup > 0 ? d.markup : null;
-    p.grupo = grupoDe(p.nome);
+    p.grupo = (!p.avulso && setorDaPlanilha(p.tipo)) || grupoDe(p.nome);
     p.hay = norm([p.nome, p.modelo, p.marca, p.cod, p.codigos.join(' '), p.eanPl, p.codId, codIdSolto(p.codId), p.tipo, p.grupo].join(' '));
     calcPreco(p, T);
   }
@@ -1823,8 +1858,8 @@ function reconstruir() {
   for (const p of prods.values()) { if (p.eanPl) for (const e of p.eanPl.split(' ')) add(e, p.k); if (p.cod) add(p.cod, p.k); }
   // código de identificação do fabricante (ex.: BA-8003) também acha o produto, se for só dele; medida de pneu não entra
   const contaId = new Map();
-  for (const p of prods.values()) if (p.codId && normCod(p.tipo) !== 'PNEU' && normCod(p.codId).length >= 4) for (const c of new Set([normCod(p.codId), normCod(codIdSolto(p.codId))])) contaId.set(c, (contaId.get(c) || 0) + 1);
-  for (const p of prods.values()) if (p.codId && normCod(p.tipo) !== 'PNEU') for (const c of new Set([normCod(p.codId), normCod(codIdSolto(p.codId))])) if (contaId.get(c) === 1) add(c, p.k);
+  for (const p of prods.values()) if (p.codId && p.grupo !== 'Pneus' && normCod(p.codId).length >= 4) for (const c of new Set([normCod(p.codId), normCod(codIdSolto(p.codId))])) contaId.set(c, (contaId.get(c) || 0) + 1);
+  for (const p of prods.values()) if (p.codId && p.grupo !== 'Pneus') for (const c of new Set([normCod(p.codId), normCod(codIdSolto(p.codId))])) if (contaId.get(c) === 1) add(c, p.k);
   S.produtos = prods; S.indice = idx;
   S.lista = [...prods.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR') || a.modelo.localeCompare(b.modelo, 'pt-BR'));
   const is = new Map(); for (const [id, s] of S.servicos) if (s.cod) is.set(normCod(s.cod), id); S.indServ = is;
@@ -1855,7 +1890,7 @@ const codIdSolto = c => String(c || '').replace(/[^0-9A-Za-z]+/g, '');
 // código de barras que aparece na lista: o da planilha primeiro, depois os vinculados no sistema
 const barrasDe = p => [...new Set([...(p.eanPl ? p.eanPl.split(' ') : []), ...(p.codigos || [])].filter(Boolean))];
 // linha de identificação: tipo, código do fabricante e modelo/marca, sem repetir
-const identDe = p => { const nc = nomeCurto(p); return [p.tipo, p.codId && !normCod(nc).includes(normCod(p.codId)) ? p.codId : '', nc].filter(Boolean).join(' · '); };
+const identDe = p => { const nc = nomeCurto(p); return [p.tipo ? SETOR_UM[p.grupo] || p.tipo : '', p.codId && !normCod(nc).includes(normCod(p.codId)) ? p.codId : '', nc].filter(Boolean).join(' · '); };
 const servicosAtivos = () => [...S.servicos.entries()].filter(([, s]) => s.ativo !== false).map(([id, s]) => ({ id, ...s })).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
 
 /* ================= lançamentos ================= */
@@ -2332,8 +2367,8 @@ function lerXlsx(b64) {
   return interpretar(abas, 'xlsx');
 }
 function interpretar(abas, metodo) {
-  const linhas = [], fixos = [], chaves = new Set(), pesquisa = new Map(), tabelas = [];
-  let markupMes = null, taxasCartao = null;
+  const linhas = [], fixos = [], chaves = new Set(), tabelas = [];
+  let markupMes = null, taxasCartao = null, mkSetor = null;
   const cel = (r, i) => i >= 0 && r ? String(r[i] ?? '').trim() : '';
   const header = (rows, pred) => rows.findIndex(r => Array.isArray(r) && r.some(c => pred(norm(c))));
   const colDe = H => f => H.findIndex(h => typeof f === 'function' ? f(h) : f.test(h));
@@ -2351,21 +2386,20 @@ function interpretar(abas, metodo) {
     return null;
   };
   for (const nome of Object.keys(abas)) {
-    if (!/pesquisa/.test(norm(nome))) continue;
-    const rows = abas[nome]; const hi = header(rows, h => /^cod.*estoque/.test(h)); if (hi < 0) continue;
-    const H = rows[hi].map(norm);
-    const cC = H.findIndex(h => /cod.*estoque/.test(h));
-    const cA = [1, 2, 3].map(n => H.findIndex(h => h.startsWith('anuncio ' + n)));
-    const cL = H.findIndex(h => /titulos|links/.test(h));
-    for (let i = hi + 1; i < rows.length; i++) {
-      const r = rows[i]; const cod = cel(r, cC).replace(/\.0$/, ''); if (!cod) continue;
-      const urls = (cel(r, cL).match(/https?:\/\/[^\s|"]+/g) || []);
-      pesquisa.set(cod, { anuncios: cA.map(c => valorPos(r?.[c])).filter(v => v != null), busca: urls[0] || '' });
-    }
-  }
-  for (const nome of Object.keys(abas)) {
     const rows = abas[nome] || []; const nn = norm(nome);
+    // a aba "Pesquisa de Mercado" (preços de anúncios na internet) fica só na planilha: o sistema não usa (pedido do dono, 17/11/2026)
     if (/pesquisa/.test(nn)) continue;
+    // aba "Markup por setor": Setor | Markup, um markup para cada setor da coluna Setor da Tabela de preços
+    const hiS = rows.findIndex(r => Array.isArray(r) && r.some(c => norm(c) === 'setor') && r.some(c => norm(c) === 'markup') && !r.some(c => /^(produto|nome|descricao)$/.test(norm(c))));
+    if (hiS >= 0) {
+      const H = rows[hiS].map(norm), cS = H.indexOf('setor'), cMk = H.indexOf('markup');
+      for (let i = hiS + 1; i < rows.length; i++) {
+        const st = cel(rows[i], cS); if (!st || st.length > 40) continue;
+        const v = parseNum(rows[i]?.[cMk]); if (!(isFinite(v) && v > 0 && v < 20)) continue;
+        mkSetor = mkSetor || {}; if (!(st in mkSetor)) mkSetor[st] = r3(v);
+      }
+      continue;
+    }
     if (/custo/.test(nn) && /fixo/.test(nn)) {
       const hi = header(rows, h => /^valor mensal/.test(h)); if (hi < 0) continue;
       const H = rows[hi].map(norm);
@@ -2393,7 +2427,7 @@ function interpretar(abas, metodo) {
     const H = rows[hi].map(norm);
     const col = colDe(H);
     const cP = col(/^produto$/), cM = col(/^modelo/), cB = col(/^marca/), cC = col(/cod.*estoque|^codigo( interno)?$/),
-      cCu = col(h => /custo/.test(h) && !/venda/.test(h)), cMe = col(/media.*mercado/), cV = col(/^valor/), cPr = col(/preco.*(venda|final|sugerido)|(custo|valor) de venda/),
+      cCu = col(h => /custo/.test(h) && !/venda/.test(h)), cPr = col(/preco.*(venda|final|sugerido)|(custo|valor) de venda/),
       cE = col(/\bean\b|barras|gtin/), cO = col(/origem|motivo/);
     const aba = /nao encontrad/.test(nn) ? 'nao_encontrados' : 'produtos';
     for (let i = hi + 1; i < rows.length; i++) {
@@ -2403,11 +2437,9 @@ function interpretar(abas, metodo) {
       const cod = cel(r, cC).replace(/\.0$/, '');
       const modelo = cel(r, cM), marca = cel(r, cB);
       const k = novaChave(cod ? 'e' + segOk(cod) : 's' + hash36(norm(nomeP) + '|' + norm(modelo) + '|' + norm(marca)));
-      const l = { k, nome: nomeP, modelo, marca, cod, custo: valorPos(r?.[cCu]), mercado: valorPos(r?.[cMe]), origem: cel(r, cO), aba };
-      if (aba === 'nao_encontrados' && l.mercado == null && cV >= 0) { const v = valorPos(r?.[cV]); if (v != null) { l.mercado = v; l.origem = 'Valor informado na aba Não encontrados'; } }
+      const l = { k, nome: nomeP, modelo, marca, cod, custo: valorPos(r?.[cCu]), origem: origemValida(cel(r, cO)), aba };
       if (cPr >= 0) { const v = valorPos(r?.[cPr]); if (v != null) l.preco = v; }
       if (cE >= 0) { const e = codsCel(cel(r, cE)); if (e) l.ean = e; }
-      const ps = cod && pesquisa.get(cod); if (ps && (ps.anuncios.length || ps.busca)) { l.anuncios = ps.anuncios; l.busca = ps.busca; }
       for (const key of Object.keys(l)) if (l[key] == null || l[key] === '') delete l[key];
       l.k = k; l.nome = nomeP; l.aba = aba;
       linhas.push(l);
@@ -2424,7 +2456,7 @@ function interpretar(abas, metodo) {
     const col = colDe(t.rows[t.hi].map(norm));
     const cN = col(/^(produto|nome|descricao)/), cC = col(/cod.*estoque/), cE = col(h => /barras|\bean\b|gtin/.test(h) || h === 'codigo'),
       cPr = col(/venda/), cCu = col(h => /custo|compra/.test(h) && !/venda/.test(h)),
-      cT = col(/^tipo\b/), cI = col(/identifica|^cod.*fabricante/);
+      cT = col(/^(setor|tipo)\b/), cI = col(/identifica|^cod.*fabricante/);
     if (cN < 0) continue;
     for (let i = t.hi + 1; i < t.rows.length; i++) {
       const r = t.rows[i], nomeP = cel(r, cN); if (!nomeP || /^total/.test(norm(nomeP))) continue;
@@ -2447,8 +2479,8 @@ function interpretar(abas, metodo) {
   }
   if (!linhas.length) throw { code: 'formato', message: 'Não encontrei a coluna "Produto" em nenhuma aba da planilha.' };
   const totalFixos = r2(fixos.reduce((a, f) => a + f.valor, 0));
-  const contagem = { venda: linhas.filter(l => l.preco).length, custo: linhas.filter(l => l.custo).length, mercado: linhas.filter(l => !l.custo && l.mercado).length, sem: linhas.filter(l => !l.custo && !l.mercado && !l.preco).length };
-  return { linhas, fixos, totalFixos, contagem, metodo, markupMes, taxasCartao, abaPrecos: tabelas.map(t => t.nome).join(', ') || null, nTabela };
+  const contagem = { venda: linhas.filter(l => l.preco).length, custo: linhas.filter(l => l.custo).length, sem: linhas.filter(l => !l.custo && !l.preco).length };
+  return { linhas, fixos, totalFixos, contagem, metodo, markupMes, markupSetor: mkSetor, taxasCartao, abaPrecos: tabelas.map(t => t.nome).join(', ') || null, nTabela };
 }
 function acharBase64(o, d = 0) {
   if (o == null || d > 6) return null;
@@ -2523,12 +2555,12 @@ async function sincronizar(manual) {
   } finally { S.sync.rodando = false; render(); }
 }
 async function gravarPlanilha(dados) {
-  const assinatura = hash36(JSON.stringify([dados.linhas, dados.fixos, dados.markupMes || null, dados.taxasCartao || null]));
+  const assinatura = hash36(JSON.stringify([dados.linhas, dados.fixos, dados.markupMes || null, dados.taxasCartao || null, dados.markupSetor || null]));
   const meta0 = S.planilha.meta;
   const TAM = 250, partes = [];
   for (let i = 0; i < dados.linhas.length; i += TAM) partes.push(dados.linhas.slice(i, i + TAM));
   const mudou = !meta0 || meta0.assinatura !== assinatura;
-  const meta = { lidaEm: Date.now(), assinatura, partes: partes.length, fixos: dados.fixos, totalFixos: dados.totalFixos, nLinhas: dados.linhas.length, contagem: dados.contagem, metodo: dados.metodo, markupMes: dados.markupMes || null, taxasCartao: dados.taxasCartao || null, abaPrecos: dados.abaPrecos || null, nTabela: dados.nTabela || 0, fonte: planilhaId() || 'servidor', mudouEm: mudou ? Date.now() : (meta0?.mudouEm || Date.now()) };
+  const meta = { lidaEm: Date.now(), assinatura, partes: partes.length, fixos: dados.fixos, totalFixos: dados.totalFixos, nLinhas: dados.linhas.length, contagem: dados.contagem, metodo: dados.metodo, markupMes: dados.markupMes || null, markupSetor: dados.markupSetor || null, taxasCartao: dados.taxasCartao || null, abaPrecos: dados.abaPrecos || null, nTabela: dados.nTabela || 0, fonte: planilhaId() || 'servidor', mudouEm: mudou ? Date.now() : (meta0?.mudouEm || Date.now()) };
   if (S.db) {
     if (mudou) {
       for (let i = 0; i < partes.length; i++) await tentar(() => S.db.doc('planilha/p' + i).set({ linhas: partes[i] }));
@@ -2712,7 +2744,7 @@ function renderUltimo() {
     box.innerHTML = `<div class="ultimo alerta">
       <div class="u-tags"><span class="pill red">Sem preço de venda</span></div>
       <h2 class="u-nome">${esc(p?.nome || s?.nome)}</h2><div class="u-sub">${esc(p ? nomeCurto(p) : 'Serviço')}</div>
-      <p class="u-sub" style="margin-top:10px">${s ? 'Este serviço ainda não tem preço. Informe o valor: ele fica salvo no cadastro do serviço.' : `Este item não tem custo nem média de mercado na planilha${p?.aba === 'nao_encontrados' ? ' (está na aba "Não encontrados")' : ''}. Informe o preço desta venda. Ele fica salvo como preço manual do produto até a planilha ganhar um valor.`}</p>
+      <p class="u-sub" style="margin-top:10px">${s ? 'Este serviço ainda não tem preço. Informe o valor: ele fica salvo no cadastro do serviço.' : `Este item não tem custo nem preço de venda na planilha${p?.aba === 'nao_encontrados' ? ' (está na aba "Não encontrados")' : ''}. Informe o preço desta venda. Ele fica salvo como preço manual do produto até a planilha ganhar um valor.`}</p>
       <div class="u-acoes" style="border:0;padding-top:4px"><label class="f">Preço unitário (R$)<input class="inp num" id="sp-preco" inputmode="decimal" placeholder="0,00"></label><button class="btn red" type="button" data-acao="confirmar-sem-preco">Registrar venda</button><button class="btn ghost" type="button" data-acao="cancelar-pend">Cancelar</button></div></div>`;
     return;
   }
@@ -2825,12 +2857,12 @@ function pillBase(p) {
   const f = p.fonte;
   if (f === 'sem') return '<span class="pill red">Sem preço</span>';
   if (f === 'manual') return '<span class="pill ink">Manual</span>';
-  if (f === 'mercado') return '<span class="pill">Média de mercado</span>';
   if (f === 'custo' || f === 'custo-compra') return `<span class="pill soft">Custo ${mk(p.mk)}</span>`;
   return '<span class="pill soft">Planilha</span>';
 }
 VIEWS.produtos = () => {
-  const grupos = ['Todos', ...GRUPOS.filter(g => g !== 'Avulsos')];
+  const grupos = ['Todos', ...setores()];
+  for (const p of S.produtos.values()) if (!grupos.includes(p.grupo)) grupos.push(p.grupo);
   if ([...S.produtos.values()].some(p => p.avulso)) grupos.push('Avulsos');
   $('#p-grupos').innerHTML = grupos.map(g => `<button type="button" class="chip" data-grupo="${esc(g)}" aria-pressed="${S.pGrupo === g}">${esc(g)}</button>`).join('');
   const l = filtrarProdutos(), tb = $('#p-tab tbody');
@@ -2888,8 +2920,9 @@ function renderPlanCard() {
       <div class="toolbar">${planilhaUrl() ? `<a class="btn sm" href="${esc(planilhaUrl())}" target="_blank" rel="noopener noreferrer">${ico('link')}Abrir</a>` : ''}<button class="btn sm primary" type="button" data-acao="sincronizar" ${S.sync.rodando || !S.podeEscrever ? 'disabled' : ''}>${ico('sync')}${S.sync.rodando ? 'Lendo…' : 'Ler planilha agora'}</button></div></div>
     <div class="plan-st">${m ? `<span>Última leitura: <b>${esc(fmtQuando(m.lidaEm))}</b></span><span>Mudou: <b>${esc(fmtQuando(m.mudouEm || m.lidaEm))}</b></span>` : '<span>Ainda não lida.</span>'}</div>
     ${S.sync.erro ? `<p class="erro-txt">${esc(msgErroPlanilha(S.sync.erro))}</p>` : ''}
-    <div class="cnt"><div><b>${c.venda ?? '—'}</b><small>com preço de venda</small></div><div><b>${c.custo ?? '—'}</b><small>com preço de compra</small></div><div><b>${c.mercado ?? '—'}</b><small>só média de mercado</small></div><div><b>${c.sem ?? '—'}</b><small>sem valor</small></div></div>
-    ${m ? (m.abaPrecos ? `<p>Aba de preços: <b>${esc(m.abaPrecos)}</b> (${m.nTabela || 0} linhas). Markup do mês: <b>${m.markupMes ? mk(m.markupMes) : 'não encontrado'}</b>.</p>`
+    <div class="cnt"><div><b>${c.venda ?? '—'}</b><small>com preço de venda</small></div><div><b>${c.custo ?? '—'}</b><small>com preço de compra</small></div><div><b>${c.sem ?? '—'}</b><small>sem valor</small></div></div>
+    ${m ? (m.abaPrecos ? `<p>Aba de preços: <b>${esc(m.abaPrecos)}</b> (${m.nTabela || 0} linhas). Markup do mês: <b>${m.markupMes ? mk(m.markupMes) : 'não encontrado'}</b>.</p>
+      <p>Markup por setor: ${m.markupSetor && Object.keys(m.markupSetor).length ? Object.entries(m.markupSetor).map(([g, v]) => `${esc(g)} <b>${mk(v)}</b>`).join(' · ') : '<b>aba "Markup por setor" não encontrada</b> (vale o markup salvo em Configurações)'}.</p>`
       : `<p class="muted">A planilha ainda não tem a aba de preços (Código de barras, Produto, Preço de custo, Preço de venda). Até ela existir, o preço de venda é calculado aqui.</p>`) : ''}
     <div><div class="eyebrow" style="margin-bottom:6px">Custos fixos mensais (aba Custos Fixos)</div>
       ${fixosNZ.length ? `<ul class="fixos-list">${fixosNZ.map(f => `<li><span>${esc(f.nome)}</span><span class="num">${money(f.valor)}</span></li>`).join('')}</ul>` : `<p class="muted">Todos em R$ 0,00 na planilha. Preencha a coluna "Valor mensal" para que entrem no markup calculado.</p>`}
@@ -2898,6 +2931,9 @@ function renderPlanCard() {
 function renderParamForm() {
   const c = S.config, T = S.T || taxas(), modo = c.markupModo === 'calculado' ? 'calculado' : c.markupModo === 'planilha' ? 'planilha' : 'direto';
   const catVal = g => fmtIn(c.markupCat?.[g]);
+  const msPl = S.planilha.meta?.markupSetor && Object.keys(S.planilha.meta.markupSetor).length ? S.planilha.meta.markupSetor : null;
+  const nSetor = g => { let n = 0; for (const p of S.produtos.values()) if (!p.avulso && p.grupo === g) n++; return n; };
+  const phCat = g => phMarkupCat(g, T);
   const campoMk = rot => `<label class="f">${rot}<input class="inp num" id="c-mk" data-cfg="markup" inputmode="decimal" value="${esc(fmtIn(c.markup))}" placeholder="Ex.: 1,80" style="font-size:20px;font-weight:650"></label>`;
   $('#param-card').innerHTML = `<h2>Markup</h2>
     <div class="seg" role="group" aria-label="Como definir o markup">${[['planilha', 'Markup do mês (planilha)'], ['direto', 'Informar aqui'], ['calculado', 'Calcular pelos custos']].map(([v, n]) => `<button type="button" data-acao="mk-modo" data-v="${v}" aria-pressed="${modo === v}">${n}</button>`).join('')}</div>
@@ -2909,11 +2945,13 @@ function renderParamForm() {
       <div><div class="eyebrow" style="margin-bottom:6px">Custos variáveis sobre a venda (%)</div><div style="display:grid;gap:6px">${(c.variaveis || []).map((v, i) => `<div class="var-row"><input class="inp" data-var="${i}" data-campo="nome" value="${esc(v.nome)}" aria-label="Nome do custo"><input class="inp num" data-var="${i}" data-campo="pct" inputmode="decimal" value="${esc(fmtIn(v.pct ?? 0))}" aria-label="Percentual"><button class="btn sm ghost" type="button" data-acao="var-del" data-i="${i}" aria-label="Remover">${ico('x')}</button></div>`).join('')}</div>
       <button class="btn sm ghost" type="button" data-acao="var-add" style="margin-top:6px">${ico('plus')}Adicionar custo variável</button></div>`}
     <div class="formula" id="formula"></div>
-    <h3>Markup por categoria</h3>
-    <p class="muted" style="font-size:13px">Deixe vazio para usar o markup geral. O markup de um produto específico se define na ficha do produto.</p>
-    <div style="display:grid;gap:6px">${GRUPOS.map(g => `<div class="cat-row"><span>${esc(g)}</span><input class="inp num" data-mkcat="${esc(g)}" inputmode="decimal" value="${esc(catVal(g))}" placeholder="${esc(T.geral ? fmtIn(r3(T.geral)) : '—')}" aria-label="Markup de ${esc(g)}"></div>`).join('')}</div>
+    <h3>Markup por setor</h3>
+    ${msPl ? `<p class="muted" style="font-size:13px">Vem da aba <b>Markup por setor</b> da planilha: é o mesmo markup que a planilha usa no preço de venda de cada setor. Para mudar, altere a aba e clique em "Ler planilha agora". O markup de um produto específico se define na ficha do produto.</p>
+    <div style="display:grid;gap:6px">${setores().map(g => `<div class="cat-row" data-setor="${esc(g)}"><span>${esc(g)}<small>${nSetor(g)} produto(s)</small></span><span class="mk-pl">${mk(msPl[g])}</span></div>`).join('')}</div>`
+    : `<p class="muted" style="font-size:13px">A planilha ainda não tem a aba Markup por setor; enquanto isso vale o markup salvo aqui. Deixe vazio para usar o markup geral. O markup de um produto específico se define na ficha do produto.</p>
+    <div style="display:grid;gap:6px">${setores().map(g => `<div class="cat-row"><span>${esc(g)}<small>${nSetor(g)} produto(s)</small></span><input class="inp num" data-mkcat="${esc(g)}" inputmode="decimal" value="${esc(catVal(g))}" placeholder="${esc(phCat(g))}" aria-label="Markup de ${esc(g)}"></div>`).join('')}</div>`}
+    <div class="cat-row" style="margin-top:6px"><span>Avulsos<small>cadastrados só no sistema</small></span><input class="inp num" data-mkcat="Avulsos" inputmode="decimal" value="${esc(catVal('Avulsos'))}" placeholder="${esc(T.geral ? fmtIn(r3(T.geral)) : '—')}" aria-label="Markup de Avulsos"></div>
     <div class="form-g">
-      <label class="f">Ajuste sobre a média de mercado (%)<input class="inp num" data-cfg="ajusteMercado" inputmode="decimal" value="${esc(fmtIn(c.ajusteMercado ?? 0))}"></label>
       <label class="f">Arredondar preços<select class="inp" data-cfg="arredondar">${[['centavo', 'Centavos (sem arredondar)'], ['90', 'Terminar em ,90'], ['50', 'Múltiplos de R$ 0,50'], ['inteiro', 'Real inteiro acima']].map(([v, n]) => `<option value="${v}" ${c.arredondar === v ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
     </div>
     <h3 id="taxas-cartao">Taxas da maquininha</h3>
@@ -2934,11 +2972,19 @@ function atualizarFormula() {
   const f = v => (v / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
   const ex = T.geral ? `<div class="muted">Ex.: um item que custou ${money(100)} sai por <b style="color:var(--ink)">${money(arredondar(100 * T.geral))}</b>. Margem bruta sobre o preço: ${pctC(r2((1 - 1 / T.geral) * 100))}.</div>` : '';
   const doMes = S.config.markupModo === 'planilha';
-  if (direto) el.innerHTML = T.geral ? `<div class="mono">Preço de venda = custo × markup${doMes ? ' do mês' : ''}</div><div class="big">= custo ${mk(T.geral)}</div>${doMes ? `<div class="muted">${T.mkPlanilha ? 'Markup do mês lido da planilha.' : 'Markup informado aqui (a planilha ainda não tem o do mês).'}</div>` : ''}${ex}` : `<div class="erro-txt">Informe um markup maior que zero (ex.: 1,80).</div>`;
+  const msPl = S.planilha.meta?.markupSetor && Object.keys(S.planilha.meta.markupSetor).length;
+  if (direto && msPl) el.innerHTML = `<div class="mono">Preço de venda = custo × markup do setor</div><div class="muted">Cada setor tem o seu markup (lista abaixo, da aba Markup por setor da planilha). O markup ${doMes ? 'do mês' : 'geral'}${T.geral ? ` (${mk(T.geral)})` : ''} vale só para produto de setor que não está na lista.</div>`;
+  else if (direto) el.innerHTML = T.geral ? `<div class="mono">Preço de venda = custo × markup${doMes ? ' do mês' : ''}</div><div class="big">= custo ${mk(T.geral)}</div>${doMes ? `<div class="muted">${T.mkPlanilha ? 'Markup do mês lido da planilha.' : 'Markup informado aqui (a planilha ainda não tem o do mês).'}</div>` : ''}${ex}` : `<div class="erro-txt">Informe um markup maior que zero (ex.: 1,80).</div>`;
   else el.innerHTML = `<div class="mono">Markup = 1 ÷ (1 − fixos − variáveis − margem)</div><div class="mono">= 1 ÷ (1 − ${cod(f(T.fixosPct))} − ${cod(f(T.varPct))} − ${cod(f(T.margem))})</div>${T.mkCalc ? `<div class="big">Preço = custo ${mk(T.mkCalc)}</div>${ex}<div class="muted">Custos fixos = ${pct(T.fixosPct)} do faturamento${T.fat ? '' : ' (informe o faturamento para incluí-los)'}.</div>` : `<div class="erro-txt">Fixos + variáveis + margem somam ${pct(T.soma)}. Precisa ficar abaixo de 95%.</div>`}`;
   const b = $('#fat-real');
   if (b) { const tt = totais(soCaixa(itensPeriodo(addDays(hoje(), -29), hoje()))); b.textContent = tt.fat > 0 ? `Usar o faturamento real dos últimos 30 dias (${money(tt.fat)})` : ''; b.hidden = !(tt.fat > 0); b.dataset.v = String(r2(tt.fat)); }
-  $$('[data-mkcat]').forEach(i => i.placeholder = T.geral ? fmtIn(r3(T.geral)) : '—');
+  $$('[data-mkcat]').forEach(i => i.placeholder = phMarkupCat(i.dataset.mkcat, T));
+}
+// o que vale quando o campo do markup do setor fica vazio: o antigo "Óleos e fluidos" (para Óleos e Fluidos) ou o geral
+function phMarkupCat(g, T) {
+  const ant = parseNum(S.config.markupCat?.[SETOR_ANTIGO[g]]);
+  const v = ant > 0 ? ant : T.geral;
+  return v ? fmtIn(r3(v)) : '—';
 }
 function renderCalc() {
   const el = $('#calc-card'); if (!el || el.dataset.pronto) return;
@@ -2984,14 +3030,12 @@ function renderTabelaPrecos() {
   let l = q ? S.lista.filter(p => norm(q).split(' ').every(t => p.hay.includes(t))) : S.lista;
   if (b === 'custo') l = l.filter(p => p.fonte === 'custo' || p.fonte === 'custo-compra');
   else if (b !== 'todos') l = l.filter(p => p.fonte === b);
-  if (!l.length) { tb.innerHTML = `<tr><td colspan="7" class="vazio-t">${S.produtos.size ? 'Nenhum produto com esse filtro.' : 'Leia a planilha para ver os preços.'}</td></tr>`; return; }
+  if (!l.length) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">${S.produtos.size ? 'Nenhum produto com esse filtro.' : 'Leia a planilha para ver os preços.'}</td></tr>`; return; }
   tb.innerHTML = l.map(p => {
-    const vsM = p.custoXmk && p.mercado ? (p.custoXmk / p.mercado - 1) * 100 : null;
     return `<tr class="click" data-acao="abrir-produto" data-k="${esc(p.k)}"><td class="nome"><b>${esc(p.nome)}</b><span class="sub">${esc(nomeCurto(p) || '—')}${p.cod ? ' · cód. ' + esc(p.cod) : ''}</span></td>
     <td class="num">${money(p.custo)}${p.custo && !p.custoPl ? '<span class="sub">últ. compra</span>' : ''}</td>
-    <td class="num">${mk(p.mk)}<span class="sub">${p.mkDe === 'produto' ? 'do produto' : p.mkDe === 'categoria' ? 'da categoria' : 'geral'}</span></td>
+    <td class="num">${mk(p.mk)}<span class="sub">${esc(MK_DE[p.mkDe] || 'geral')}${p.mkDe === 'setor' || p.mkDe === 'categoria' ? ' · ' + esc(p.grupo) : ''}</span></td>
     <td class="num">${money(p.custoXmk)}</td>
-    <td class="num">${money(p.mercado)}${vsM != null ? `<span class="sub">${vsM >= 0 ? '+' : ''}${pctC(r2(vsM))} vs mercado</span>` : ''}</td>
     <td class="num"><b>${moneyV(p.preco)}</b><span class="sub">${pillBase(p)}</span></td>
     <td><span class="sub" style="margin:0;max-width:300px">${esc(p.origem || '—')}</span></td></tr>`;
   }).join('');
@@ -4401,7 +4445,7 @@ function abrirProduto(k, novo) {
   const av = novo || p?.avulso;
   const codLido = novo && novo.codigo ? novo.codigo : '';
   const T = S.T || taxas();
-  const mkPadrao = p ? (parseNum(S.config.markupCat?.[p.avulso ? 'Avulsos' : p.grupo]) || T.geral) : T.geral;
+  const mkPadrao = p ? markupPadrao(p, T).v : markupPadrao({ avulso: true, grupo: 'Peças' }, T).v;
   const html = `<div class="pn-h"><div>${p ? `<h2>${esc(p.nome)}</h2><div class="sub">${esc(identDe(p) || '')}${p.cod ? ' · cód. estoque <span class="mono">' + esc(p.cod) + '</span>' : ''}</div>` : '<h2>Produto avulso</h2><div class="sub">Para itens que ainda não estão na planilha.</div>'}</div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
     ${av ? `<section><h3>Identificação</h3><label class="f">Nome<input class="inp" id="d-nome" value="${esc(p?.nome || '')}" required></label><div class="form-g"><label class="f">Modelo / medida<input class="inp" id="d-modelo" value="${esc(p?.modelo || '')}"></label><label class="f">Marca<input class="inp" id="d-marca" value="${esc(p?.marca || '')}"></label></div><label class="f">Código de estoque<input class="inp mono" id="d-cod" value="${esc(p?.cod || '')}"></label></section>` : ''}
     <section><h3>Códigos de barras</h3>
@@ -4416,7 +4460,6 @@ function abrirProduto(k, novo) {
       <div class="form-g">${av ? `<label class="f">Custo de compra (R$)<input class="inp num" id="d-custo" inputmode="decimal" value="${esc(fmtMoneyIn(p?.custoManual))}" placeholder="0,00"></label>` : ''}
       <label class="f">Markup deste produto<input class="inp num" id="d-mk" inputmode="decimal" value="${esc(fmtIn(p?.markup))}" placeholder="${esc(mkPadrao ? fmtIn(r3(mkPadrao)) : '—')} (padrão)"></label></div>
       <dl class="dl" id="d-calc"></dl>
-      ${p?.anuncios?.length ? `<div class="anuncios">Pesquisa de mercado: ${p.anuncios.map(money).join(' · ')}${safeUrl(p.busca) ? ` · <a href="${esc(safeUrl(p.busca))}" target="_blank" rel="noopener noreferrer">ver busca no Mercado Livre</a>` : ''}</div>` : ''}
       <label class="f">Preço de venda manual (R$)<input class="inp num" id="d-manual" inputmode="decimal" value="${esc(fmtMoneyIn(p?.precoManual))}" placeholder="vazio = preço de venda da planilha"></label>
     </section>
     <div class="pn-acoes">${p?.avulso ? `<button class="btn ghost" type="button" data-acao="excluir-avulso" data-k="${esc(p.k)}">Excluir</button>` : ''}<span class="sp"></span><button class="btn ghost" type="button" data-acao="fechar-drawer">Cancelar</button><button class="btn primary" type="button" data-acao="salvar-produto" ${S.podeEscrever ? '' : 'disabled'}>${novo && novo.registrar ? 'Salvar e registrar' : 'Salvar'}</button></div>`;
@@ -4432,7 +4475,7 @@ function renderCodChips() {
 function atualizarDrawerCalc() {
   const el = $('#d-calc'); if (!el || !drawerAberto || drawerAberto.tipo !== 'produto') return;
   const p0 = drawerAberto.k ? S.produtos.get(drawerAberto.k) : null;
-  const p = Object.assign({ custoPl: null, mercado: null, precoPl: null, grupo: 'Peças' }, p0 || {}, { avulso: p0 ? !!p0.avulso : true });
+  const p = Object.assign({ custoPl: null, precoPl: null, grupo: 'Peças' }, p0 || {}, { avulso: p0 ? !!p0.avulso : true });
   if (p.avulso && $('#d-custo')) { const c = parseNum($('#d-custo').value); p.custoManual = c > 0 ? c : null; }
   const man = parseNum($('#d-manual')?.value); p.precoManual = man > 0 ? r2(man) : null;
   const mki = parseNum($('#d-mk')?.value); p.markup = mki > 0 ? mki : null;
@@ -4441,11 +4484,9 @@ function atualizarDrawerCalc() {
   if (p.custoPl) linhas.push(['Preço de compra (planilha)', money(p.custoPl)]);
   if (!p.custoPl && p.custoManual) linhas.push([p.avulso ? 'Preço de compra' : 'Preço da última compra', money(p.custoManual)]);
   if (p.precoPl) linhas.push(['Preço de venda (planilha)', moneyV(p.precoPl)]);
-  if (p.mercado) linhas.push(['Média de mercado (planilha)', money(p.mercado)]);
-  linhas.push(['Markup em uso', `${mk(p.mk)} <span class="muted">(${p.mkDe === 'produto' ? 'deste produto' : p.mkDe === 'categoria' ? 'da categoria' : 'geral'})</span>`]);
+  linhas.push(['Markup em uso', `${mk(p.mk)} <span class="muted">(${p.mkDe === 'produto' ? 'deste produto' : p.mkDe === 'setor' ? 'do setor ' + esc(p.grupo) + ', aba Markup por setor da planilha' : p.mkDe === 'categoria' ? 'do setor ' + esc(p.grupo) : esc(MK_DE[p.mkDe] || 'geral')})</span>`]);
   if (p.custoXmk) linhas.push(['Custo × markup', money(p.custoXmk)]);
   linhas.push(['Preço de venda', `<b>${moneyV(p.sugerido)}</b>`], ['Base', esc(BASE_NOME[p.base])]);
-  if (p.base === 'mercado' && p.mk) linhas.push(['Custo máximo para manter o markup', money(p.mercado / p.mk)]);
   if (p.precoManual != null) linhas.push(['Preço de venda em uso (manual)', `<b>${moneyV(p.precoManual)}</b>`]);
   if (p.custo && p.preco) linhas.push(['Lucro bruto por unidade', `${money(p.preco - p.custo)} (${pctC(r2((p.preco - p.custo) / p.preco * 100))})`]);
   if (p0?.origem) linhas.push(['Origem do valor', `<span style="font-size:12.5px">${esc(p0.origem)}</span>`]);
@@ -4537,8 +4578,8 @@ async function salvarArquivo(nome, conteudo) {
 }
 function exportarProdutos() {
   const l = filtrarProdutos();
-  const linhas = [['Produto', 'Modelo', 'Marca', 'Cód. estoque', 'Códigos de barras', 'Estoque', 'Mínimo', 'Preço de compra', 'Markup', 'Custo x markup', 'Média de mercado', 'Preço de venda', 'Base do preço'].join(';')];
-  for (const p of l) linhas.push([p.nome, p.modelo, p.marca, p.cod, p.codigos.join(' '), qn(p.estoque), p.min ?? '', csvNum(p.custo), p.mk ? String(r3(p.mk)).replace('.', ',') : '', csvNum(p.custoXmk), csvNum(p.mercado), csvNum(p.preco), BASE_NOME[p.fonte]].map(csvCel).join(';'));
+  const linhas = [['Produto', 'Modelo', 'Marca', 'Cód. estoque', 'Códigos de barras', 'Estoque', 'Mínimo', 'Setor', 'Preço de compra', 'Markup', 'Custo x markup', 'Preço de venda', 'Base do preço'].join(';')];
+  for (const p of l) linhas.push([p.nome, p.modelo, p.marca, p.cod, p.codigos.join(' '), qn(p.estoque), p.min ?? '', p.avulso ? 'Avulsos' : p.grupo, csvNum(p.custo), p.mk ? String(r3(p.mk)).replace('.', ',') : '', csvNum(p.custoXmk), csvNum(p.preco), BASE_NOME[p.fonte]].map(csvCel).join(';'));
   salvarArquivo(`produtos-${hoje()}.csv`, '﻿' + linhas.join('\r\n'));
 }
 function exportarMovs() {
