@@ -5,7 +5,6 @@
 import * as THREE from 'three';
 import { Brush, Evaluator, SUBTRACTION } from 'three-bvh-csg';
 import { toCreasedNormals, mergeVertices, mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { LETRAS } from './letras.js';
 
 const PI = Math.PI;
 const curva = pts => {
@@ -304,26 +303,3 @@ export function montarCarro() {
   return raiz;
 }
 
-// ---------- letreiro "PneusBR" em letras 3D (fonte Anton, alta e estreita), em pé no chão ----------
-// Medidas em "em" (a cena escala para caber na tela). Centro embaixo no meio do texto, frente virada para +Z.
-// "Pneus" em preto e "BR" em vermelho escuro; frente e laterais separadas para o brilho marcar as quinas.
-export const LETREIRO = { largura: LETRAS.largura, altura: LETRAS.capH, fundo: 0.2 };
-export function montarLetreiro() {
-  const raiz = new THREE.Group(); raiz.name = 'letreiro';
-  const partes = { 'letra': [], 'letra-lado': [], 'br': [], 'br-lado': [] };
-  LETRAS.letras.forEach((L, i) => {
-    const sp = new THREE.ShapePath();
-    for (const c of L.cmds) {
-      if (c[0] === 'M') sp.moveTo(c[1], c[2]);
-      else if (c[0] === 'L') sp.lineTo(c[1], c[2]);
-      else if (c[0] === 'Q') sp.quadraticCurveTo(c[1], c[2], c[3], c[4]);
-      else if (c[0] === 'C') sp.bezierCurveTo(c[1], c[2], c[3], c[4], c[5], c[6]);
-    }
-    const g = new THREE.ExtrudeGeometry(sp.toShapes(false), { depth: LETREIRO.fundo, bevelEnabled: true, bevelThickness: 0.012, bevelSize: 0.0085, bevelSegments: 3, curveSegments: 10 });
-    g.translate(L.x - LETRAS.largura / 2, 0.0085, -LETREIRO.fundo / 2);
-    const [frente, lados] = porGrupo(g), br = i >= 5;
-    partes[br ? 'br' : 'letra'].push(frente); partes[br ? 'br-lado' : 'letra-lado'].push(lados);
-  });
-  for (const [nome, gs] of Object.entries(partes)) raiz.add(malha(mergeGeometries(gs), nome));
-  return raiz;
-}

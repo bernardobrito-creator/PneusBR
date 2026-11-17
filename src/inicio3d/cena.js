@@ -1,7 +1,6 @@
 // Tela de início (17/11/2026): o carro 3D (desenho próprio da PneusBR) parado na diagonal, como o jato do site de
-// referência, num piso de galpão vitrificado que reflete o carro; atrás dele, o letreiro "PneusBR" gigante em letras 3D
-// em pé no chão. Parado, a câmera flutua de leve; ao trocar de aba, o carro recua, a traseira abaixa e ele arranca.
-// O modelo e o letreiro vêm de carro.glb (gerado por modelo.js). Este arquivo vira docs/inicio3d.js (esbuild) e é
+// referência, num piso de galpão vitrificado que reflete o carro. Parado, a câmera flutua de leve; ao trocar de aba, o
+// carro recua, a traseira abaixa e ele arranca. O modelo vem de carro.glb (gerado por modelo.js). Este arquivo vira docs/inicio3d.js (esbuild) e é
 // carregado só quando a tela de início aparece.
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -10,10 +9,9 @@ import { Reflector } from 'three/addons/objects/Reflector.js';
 import { materiais, vestir, estudio, nomeBase } from './materiais.js';
 
 const RAIO = 0.35;
-const LARG_LETREIRO = 3.39, ALT_LETREIRO = 0.86;   // em "em" (ver letras.js)
 
-// piso vitrificado: transparente (a cor vem do degradê da página por trás); só acrescenta o reflexo do carro e do
-// letreiro (mais forte quando se olha rasante, um pouco desfocado) e as juntas das placas, que somem no fundo
+// piso vitrificado: transparente (a cor vem do degradê da página por trás); só acrescenta o reflexo do carro (mais forte
+// quando se olha rasante, um pouco desfocado) e as juntas das placas, que somem no fundo
 const PISO = {
   name: 'PisoVitrificado',
   uniforms: {
@@ -73,8 +71,7 @@ export async function criarCena(palco, { url = 'carro.glb', cor } = {}) {
   const loader = new GLTFLoader(); loader.setMeshoptDecoder(MeshoptDecoder);
   const gltf = await loader.loadAsync(url);
   const carro = gltf.scene.getObjectByName('carro') || gltf.scene;
-  const letreiro = gltf.scene.getObjectByName('letreiro');
-  const { por } = materiais(cor); vestir(carro, por); if (letreiro) vestir(letreiro, por);
+  const { por } = materiais(cor); vestir(carro, por);
   const corpo = carro.getObjectByName('corpo');
   const rodas = ['roda-dd', 'roda-de', 'roda-td', 'roda-te'].map(n => carro.getObjectByName(n)).filter(Boolean);
   const acha = (raiz, nome) => { let x = null; raiz.traverse(o => { if (!x && nomeBase(o.name) === nome) x = o; }); return x; };
@@ -92,25 +89,17 @@ export async function criarCena(palco, { url = 'carro.glb', cor } = {}) {
   for (const r of rodas) manchas(mover, 0.9, 0.42, 0.85, r.position.x, r.position.z);
 
   // câmera: diagonal de cima, como a foto de estúdio
-  const ALVO = new THREE.Vector3(0.15, 0.72, 0), DIR = new THREE.Vector3(5.2, 2.55, 6.2).multiplyScalar(0.86);
+  const ALVO = new THREE.Vector3(0.15, 0.5, 0), DIR = new THREE.Vector3(5.2, 2.55, 6.2).multiplyScalar(0.86);
   const H = new THREE.Vector3(DIR.x, 0, DIR.z).normalize();            // do carro para a câmera, no chão
   const ANG = Math.atan2(H.x, H.z);
 
-  // letreiro em pé atrás do carro, de frente para a câmera (um pouco girado, para as laterais das letras aparecerem)
-  const ATRAS = 4.6, GIRO = 0.12;
-  if (letreiro) {
-    letreiro.rotation.y = ANG - GIRO;
-    letreiro.position.set(ALVO.x - H.x * ATRAS, 0, ALVO.z - H.z * ATRAS);
-    manchas(letreiro, LARG_LETREIRO * 1.04, 0.42, 0.75);
-    cena.add(letreiro);
-  }
-
-  // piso vitrificado
+  // piso vitrificado: as placas ficam quase de frente para a câmera e o piso some a uns 10 m atrás do carro
+  const FUNDO = 4.6, GIRO = 0.12;
   const piso = new Reflector(new THREE.PlaneGeometry(90, 90), { textureWidth: 512, textureHeight: 512, clipBias: 0.002, shader: PISO, multisample: 0 });
   piso.rotation.x = -Math.PI / 2; piso.renderOrder = 1;
   Object.assign(piso.material, { transparent: true, depthWrite: false });
   const U = piso.material.uniforms;
-  U.uCentro.value.set(ALVO.x, ALVO.z); U.uDir.value.set(H.x, H.z); U.uAng.value = ANG - GIRO; U.uFim.value.set(ATRAS + 0.8, ATRAS + 5.5);
+  U.uCentro.value.set(ALVO.x, ALVO.z); U.uDir.value.set(H.x, H.z); U.uAng.value = ANG - GIRO; U.uFim.value.set(FUNDO + 0.8, FUNDO + 5.5);
   cena.add(piso);
 
   let aspecto = 1, distancia = 1;
@@ -121,14 +110,6 @@ export async function criarCena(palco, { url = 'carro.glb', cor } = {}) {
     // a câmera se afasta conforme a largura da tela, para o carro inteiro caber com folga nas bordas (em pé ou deitada)
     distancia = Math.max(1.06, 1.75 / aspecto);
     camera.updateProjectionMatrix();
-    // o letreiro ocupa quase toda a largura visível na distância em que está, sem passar do alto da tela
-    if (letreiro) {
-      const meioFov = THREE.MathUtils.degToRad(camera.fov / 2), horiz = Math.hypot(DIR.x, DIR.z);
-      const vis = 2 * (DIR.length() * distancia + ATRAS) * Math.tan(meioFov) * aspecto;
-      const camY = ALVO.y + DIR.y * distancia - 0.1, chao = horiz * distancia + ATRAS;
-      const topo = Math.atan2(DIR.y, horiz) - meioFov + 2 * meioFov * 0.11;     // 11% abaixo do alto da tela
-      letreiro.scale.setScalar(Math.min(0.88 * vis / LARG_LETREIRO, (camY - Math.tan(topo) * chao) / ALT_LETREIRO));
-    }
     renderer.getDrawingBufferSize(tamanho);
     const rw = Math.max(64, Math.round(tamanho.x * 0.5)), rh = Math.max(64, Math.round(tamanho.y * 0.5));
     piso.getRenderTarget().setSize(rw, rh); U.uTexel.value.set(1 / rw, 1 / rh);

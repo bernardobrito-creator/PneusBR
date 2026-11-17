@@ -77,12 +77,13 @@ svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-widt
 .inicio{position:fixed;z-index:20;top:0;bottom:0;right:0;left:0;overflow:hidden;color:#161314;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:calc(env(safe-area-inset-top,0px) + 66px) clamp(18px,4.2vw,72px) calc(env(safe-area-inset-bottom,0px) + 30px)}
 .inicio.saindo{pointer-events:none}
 .in-fundo{position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,#9B111E 0%,#9A1520 12%,#8E2C35 26%,#7E4A50 40%,#76666A 52%,#727377 64%,#696B70 80%,#5F6166 100%)}
-/* o nome PneusBR aparece no letreiro 3D atrás do carro; o título fica só para leitores de tela */
-.in-cab{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.in-cab h1{margin:0;font-size:1em}
+/* nome PneusBR pequeno no alto, à direita (pedido do dono em 17/11/2026) */
+.in-cab{display:flex;justify-content:flex-end}
+.in-marca{margin:0;font-weight:700;font-size:clamp(22px,2.3vw,34px);line-height:1;letter-spacing:-.045em;white-space:nowrap}
+.in-marca span{color:#5A0A13}
 .in-palco{position:absolute;inset:0;z-index:-1;pointer-events:none}
 .in-palco canvas.cp3d{display:block;width:100%;height:100%}
-.in-atalhos{position:relative}
+.in-cab,.in-atalhos{position:relative}
 .in-atalhos{grid-row:3;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px;padding-inline:calc(var(--rail) - 4px)}
 .in-atalhos a{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px 0 14px;border-radius:999px;background:#161314;border:1px solid rgba(229,228,226,.16);color:#F3F0F0;text-decoration:none;font-weight:600;font-size:14.5px;white-space:nowrap;transition:background .2s,transform .2s}
 .in-atalhos a:hover{background:#2C2729;border-color:rgba(229,228,226,.34);transform:translateY(-1px)}
@@ -773,7 +774,7 @@ body.tem-aviso .topo .status{margin-right:52px}
 <aside class="aviso" id="aviso" hidden></aside>
 <section class="inicio" id="inicio" aria-label="Início" hidden>
   <div class="in-fundo"></div>
-  <div class="in-cab"><h1>PneusBR</h1></div>
+  <div class="in-cab"><h1 class="in-marca in-anima">Pneus<span>BR</span></h1></div>
   <div class="in-palco" id="in-palco3d" aria-hidden="true"></div>
   <nav class="in-atalhos in-anima" aria-label="Atalhos"><a href="#registrar"><svg class="i"><use href="#ic-scan"/></svg>Registrar</a><a href="#produtos"><svg class="i"><use href="#ic-box"/></svg>Produtos</a><a href="#servicos"><svg class="i"><use href="#ic-wrench"/></svg>Serviços</a><a href="#movimentacoes"><svg class="i"><use href="#ic-swap"/></svg>Movimentações</a><a href="#pagar"><svg class="i"><use href="#ic-docout"/></svg>Notas a pagar</a><a href="#receber"><svg class="i"><use href="#ic-docin"/></svg>Notas a receber</a><a href="#retornos"><svg class="i"><use href="#ic-person"/></svg>Clientes</a></nav>
 </section>
@@ -4719,7 +4720,7 @@ function esconderTip() { $('#tip').hidden = true; }
 
 /* ================= início (pedido do dono em 16/11/2026, ajustado em 17/11/2026) =================
    Tela de entrada só estética: o carro 3D (desenho próprio, vermelho metálico) parado na diagonal num piso de galpão
-   vitrificado, com o letreiro PneusBR gigante em letras 3D atrás. Não há chegada: o carro já aparece parado; ao ir para
+   vitrificado, com o nome PneusBR pequeno no alto à direita. Não há chegada: o carro já aparece parado; ao ir para
    outra aba, ele arranca para a frente e a tela nova aparece. O leitor continua na tela Registrar. A cena (docs/inicio3d.js + docs/carro.glb) só carrega quando o início aparece. A animação pode ser
    desligada nas Configurações (vale para este aparelho) e não corre com "reduzir movimento". */
 const animCarro = () => ls.get('anim-carro', true) !== false && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;

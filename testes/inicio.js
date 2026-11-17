@@ -1,7 +1,7 @@
-// Teste (16/11/2026, ajustado em 17/11/2026): tela de início com o carro 3D. Abre no início; o carro e o letreiro 3D
-// (docs/inicio3d.js + docs/carro.glb) carregam quando a tela de login sai, com o carro já parado (sem chegada); o nome
-// e a frase em texto não aparecem (só o título para leitores de tela); no início não há barra lateral, só a engrenagem
-// embaixo à esquerda;
+// Teste (16/11/2026, ajustado em 17/11/2026): tela de início com o carro 3D. Abre no início; o carro (docs/inicio3d.js +
+// docs/carro.glb) carrega quando a tela de login sai, já parado (sem chegada); nome PneusBR pequeno no alto à direita,
+// com "BR" em vermelho escuro, e sem a frase Pneus e autopeças / Teófilo Otoni; no início não há barra lateral, só a
+// engrenagem embaixo à esquerda;
 // sino sem a bola vermelha; ao ir para outra aba o início some e o menu volta; o leitor vai para Registrar; a animação
 // pode ser desligada; celular sem rolagem lateral. Dados fictícios.
 // Uso: ./testes/preparar-site.sh <rascunho> && cp docs/inicio3d.js docs/carro.glb <rascunho>/site/ && node testes/inicio.js <rascunho>
@@ -44,7 +44,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
     const r = el.getBoundingClientRect();
     return { visivel: !el.hidden, x: r.left, canvas: !!cv, cw: cv && cv.width, corpo: document.body.classList.contains('em-inicio'),
       menuLinks: vis('.rail a[data-tab="produtos"]'), marca: vis('.rail .marca'), engrenagem: vis('#btn-ajustes'),
-      titulo: (() => { const h = el.querySelector('.in-cab h1'), q = el.querySelector('.in-cab').getBoundingClientRect(); return h ? { txt: h.textContent, w: q.width, h: q.height } : null; })(),
+      titulo: (() => { const h = el.querySelector('.in-marca'), q = h && h.getBoundingClientRect(); return h ? { txt: h.textContent, dir: innerWidth - q.right, topo: q.top, alt: q.height, br: getComputedStyle(h.querySelector('span')).color } : null; })(),
       frase: /Teófilo Otoni|autopeças/.test(el.innerText), estado: window.__api.INI.cena ? window.__api.INI.cena.estado() : null, atalhos: [...el.querySelectorAll('.in-atalhos a')].map(a => a.textContent.trim()),
       bola: getComputedStyle(document.querySelector('#aviso .aviso-bola') || document.body).backgroundColor,
       gearX: document.getElementById('btn-ajustes').getBoundingClientRect().left, gearY: document.getElementById('btn-ajustes').getBoundingClientRect().bottom };
@@ -54,7 +54,8 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   ok(!out.c.inicio.menuLinks && !out.c.inicio.marca && out.c.inicio.engrenagem, 'sem barra lateral: só a engrenagem', out);
   ok(out.c.inicio.gearX < 60 && out.c.inicio.gearY > 740, 'engrenagem no canto de baixo à esquerda', out);
   ok(out.c.inicio.estado === 'parado', 'carro já parado ao abrir (sem a chegada)', out);
-  ok(out.c.inicio.titulo && out.c.inicio.titulo.txt === 'PneusBR' && out.c.inicio.titulo.w <= 1 && out.c.inicio.titulo.h <= 1, 'título só para leitores de tela', out);
+  const T = out.c.inicio.titulo;
+  ok(T && T.txt === 'PneusBR' && T.dir < 90 && T.topo < 130 && T.alt < 45 && T.br === 'rgb(90, 10, 19)', 'PneusBR pequeno no alto à direita, BR vermelho escuro', out);
   ok(!out.c.inicio.frase, 'sem a frase Pneus e autopeças / Teófilo Otoni', out);
   ok(out.c.inicio.atalhos.join('|') === 'Registrar|Produtos|Serviços|Movimentações|Notas a pagar|Notas a receber|Clientes', 'sete atalhos', out);
   ok(out.c.inicio.bola === 'rgba(0, 0, 0, 0)', 'aviso sem a bola vermelha no início', out);
@@ -102,6 +103,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   await M.goto('http://127.0.0.1:8786/'); await M.waitForTimeout(600);
   if (await M.evaluate(() => !document.getElementById('login').hidden && !document.getElementById('f-entrar').hidden)) { await M.fill('#le-email', 'loja@pneusbr.com'); await M.fill('#le-senha', 'senha-forte-1'); await M.click('#f-entrar button[type=submit]'); }
   await M.waitForTimeout(3000);
+  await M.waitForFunction(() => { const n = document.querySelector('.in-atalhos'); return n && n.getAnimations().length === 0; }, null, { timeout: 20000 }).catch(() => { }); // a entrada dos atalhos (sobem 22px) já terminou
   out.c.cel = await M.evaluate(() => {
     const g = document.getElementById('btn-ajustes').getBoundingClientRect();
     const as = [...document.querySelectorAll('.in-atalhos a')].map(a => a.getBoundingClientRect());
