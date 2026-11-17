@@ -3918,12 +3918,14 @@ varying vec3 vDisco;`).replace("#include <roughnessmap_fragment>",`#include <rou
     uniform sampler2D tDiffuse; uniform vec2 uCentro, uDir, uFim, uTexel; uniform float uPlaca, uAng;
     varying vec4 vUv; varying vec3 vMundo;
     void main() {
+      // desfoque 3x3 (gaussiano); cada amostra \xE9 limitada a 1 para pontos muito brilhantes (far\xF3is, flocos) n\xE3o virarem "+"
       vec2 uv = vUv.xy / vUv.w;
-      vec4 r = texture2D(tDiffuse, uv) * 0.36;
-      r += texture2D(tDiffuse, uv + vec2(uTexel.x, 0.0) * 1.6) * 0.16;
-      r += texture2D(tDiffuse, uv - vec2(uTexel.x, 0.0) * 1.6) * 0.16;
-      r += texture2D(tDiffuse, uv + vec2(0.0, uTexel.y) * 1.6) * 0.16;
-      r += texture2D(tDiffuse, uv - vec2(0.0, uTexel.y) * 1.6) * 0.16;
+      vec4 r = vec4(0.0);
+      for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
+        vec4 c = texture2D(tDiffuse, uv + vec2(float(i), float(j)) * uTexel * 1.4);
+        c.rgb = min(c.rgb, vec3(c.a));
+        r += c * ((i == 0 ? 2.0 : 1.0) * (j == 0 ? 2.0 : 1.0) / 16.0);
+      }
       vec2 p = vMundo.xz - uCentro;
       float atras = dot(p, -uDir);
       float fim = 1.0 - smoothstep(uFim.x, uFim.y, atras);
