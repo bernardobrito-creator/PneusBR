@@ -33,7 +33,7 @@ const ok = (cond, msg, out) => { if (!cond) out.falhas.push(msg); };
   const A = await nova(ctx);
   await A.goto('http://127.0.0.1:8768/'); await A.waitForTimeout(600);
   await A.fill('#lc-nome', 'Bernardo'); await A.fill('#lc-email', 'loja@pneusbr.com'); await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForFunction(() => window.__api && window.__api.S.planilha && window.__api.S.planilha.meta, null, { timeout: 30000 }).catch(() => { }); await A.waitForTimeout(1200); // espera a planilha (com o carro 3D desenhado sem placa de vídeo ela demora mais)
   const db = () => A.evaluate(() => JSON.parse(localStorage.getItem('mock-sb-db')).docs);
   const scan = async v => { await A.fill('#scan', v); await A.press('#scan', 'Enter'); await A.waitForTimeout(250); };
   const ultimoItem = () => A.evaluate(() => { const S = window.__api.S; const f = [...S.ledgers.values()].flatMap(L => L.itens).filter(i => i.k !== 'estorno').sort((a, b) => b.t - a.t)[0]; return f && { k: f.k, nome: f.nome, quem: f.quem || null, id: f.id }; });

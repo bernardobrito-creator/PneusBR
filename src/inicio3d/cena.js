@@ -127,10 +127,19 @@ export async function criarCena(palco, { url = 'carro.glb', cor } = {}) {
   function poseParada() { mover.position.set(0, 0, 0); mover.rotation.set(0, 0, 0); corpo.rotation.set(0, 0, 0); corpo.position.set(0, 0, 0); for (const r of dianteiras) r.rotation.y = 0; }
   function girarRodas(d) { for (const gr of giros) gr.rotation.z = -d / RAIO; }
   const T_SAI = 1150;
+  // carro parado: no máximo 30 quadros por segundo; se o computador sofre para desenhar (sem placa de vídeo), desenha
+  // bem menos vezes, para não pesar no resto do sistema (a câmera anda devagar, quase não se nota). A saída é sempre fluida.
+  const P = { ultimo: -1e9, custo: 16, tAnt: 0, desenhou: false };
 
   function quadro() {
     if (!E.rodando) return;
     requestAnimationFrame(quadro);
+    const real = performance.now();
+    if (P.desenhou) { P.custo = P.custo * 0.7 + Math.min(1000, real - P.tAnt) * 0.3; P.desenhou = false; }
+    P.tAnt = real;
+    const pesado = P.custo > 45;
+    if (E.modo === 'parado' && !E.estatico && real - P.ultimo < (pesado ? Math.min(400, P.custo * 4) : 31)) return;
+    P.ultimo = real; P.desenhou = true;
     const agora = relogio(), t = agora / 1000; E.tempo = t;
     if (E.modo === 'saindo') {
       const u = (agora - E.t0) / T_SAI, off = 0.15;
@@ -141,7 +150,7 @@ export async function criarCena(palco, { url = 'carro.glb', cor } = {}) {
       corpo.rotation.z = corpoZ; corpo.rotation.x = 0; girarRodas(x);
       if (u >= 1) { E.modo = 'fora'; if (E.prontoSaida) { E.prontoSaida(); E.prontoSaida = null; } }
     } else if (E.modo === 'parado') {
-      corpo.position.y = 0.0016 * Math.sin(t * 31) * 0.5 + 0.001 * Math.sin(t * 2.3); // motor ligado
+      corpo.position.y = pesado ? 0 : 0.0016 * Math.sin(t * 31) * 0.5 + 0.001 * Math.sin(t * 2.3); // motor ligado
     }
     // a câmera flutua devagar em volta do carro (como o jato do site)
     const ang = 0.05 * Math.sin(t / 9) + 0.02 * Math.sin(t / 4.1), alt = 0.10 * Math.sin(t / 13);

@@ -56,7 +56,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   const ir = async h => { await A.evaluate(x => { location.hash = x; }, h); await A.waitForTimeout(350); };
   await A.goto('http://127.0.0.1:8779/'); await A.waitForTimeout(700);
   await A.fill('#lc-nome', 'Bernardo'); await A.fill('#lc-email', 'loja@pneusbr.com'); await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForFunction(() => window.__api && window.__api.S.planilha && window.__api.S.planilha.meta, null, { timeout: 30000 }).catch(() => { }); await A.waitForTimeout(1200); // espera a planilha (com o carro 3D desenhado sem placa de vídeo ela demora mais)
 
   /* ---------- 1) aviso aberto na entrada, em todas as telas ---------- */
   out.c.entrada = await aviso();
@@ -81,12 +81,12 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   ok(out.c.geo.bola[2] > out.c.geo.vw - 60 && out.c.geo.bola[1] < 60, 'bolinha fica no canto superior direito', out);
   await A.screenshot({ path: path.join(SP, 'teste/av2-bolinha.png') });
   // continua minimizado ao recarregar no mesmo dia
-  await A.reload(); await A.waitForTimeout(2500); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
+  await A.reload(); await A.waitForTimeout(2500); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForFunction(() => window.__api && window.__api.S.planilha && window.__api.S.planilha.meta, null, { timeout: 30000 }).catch(() => { }); await A.waitForTimeout(1200); // espera a planilha (com o carro 3D desenhado sem placa de vídeo ela demora mais)
   out.c.recarga = await aviso();
   ok(out.c.recarga.bola && !out.c.recarga.aberto, 'continua minimizado ao recarregar no mesmo dia', out);
   // dia seguinte (a chave guardada é de outro dia): abre sozinho
   await A.evaluate(() => { const k = JSON.parse(localStorage.getItem('pbr.aviso-min')); localStorage.setItem('pbr.aviso-min', JSON.stringify(k.replace(/^\d{4}-\d{2}-\d{2}/, '2000-01-01'))); });
-  await A.reload(); await A.waitForTimeout(2500); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
+  await A.reload(); await A.waitForTimeout(2500); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForFunction(() => window.__api && window.__api.S.planilha && window.__api.S.planilha.meta, null, { timeout: 30000 }).catch(() => { }); await A.waitForTimeout(1200); // espera a planilha (com o carro 3D desenhado sem placa de vídeo ela demora mais)
   out.c.outroDia = await aviso();
   ok(out.c.outroDia.aberto, 'no dia seguinte o aviso abre sozinho', out);
   // minimiza e entra nota nova vencendo hoje: abre sozinho

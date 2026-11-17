@@ -13,7 +13,7 @@ const SP = process.argv[2], xlsx = fs.readFileSync(process.argv[3], 'utf8');
   const A = await ctx.newPage(); A.on('pageerror', e => errs.push(e.message));
   await A.goto('http://127.0.0.1:8768/'); await A.waitForTimeout(600);
   await A.fill('#lc-nome', 'B'); await A.fill('#lc-email', 'a@b.com'); await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3500); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3500); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForFunction(() => window.__api && window.__api.S.planilha && window.__api.S.planilha.meta, null, { timeout: 30000 }).catch(() => { }); await A.waitForTimeout(1200); // espera a planilha (com o carro 3D desenhado sem placa de vídeo ela demora mais)
   const r = await A.evaluate(() => { const S = window.__api.S, m = S.planilha.meta, P = [...S.produtos.values()];
     const pick = n => { const p = P.find(p => (p.nome + ' ' + p.modelo).startsWith(n)); return p && { custo: p.custo, preco: p.preco, fonte: p.fonte }; };
     return { total: P.size, markupMes: m.markupMes, aba: m.abaPrecos, nTabela: m.nTabela, contagem: m.contagem, geral: S.T.geral,

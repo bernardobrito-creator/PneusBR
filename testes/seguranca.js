@@ -58,7 +58,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(300);
   out.c.senhaFraca = await A.textContent('#lc-erro'); ok(/letras e números/.test(out.c.senhaFraca), 'senha só com letras recusada', out);
   await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForFunction(() => window.__api && window.__api.S.planilha && window.__api.S.planilha.meta, null, { timeout: 30000 }).catch(() => { }); await A.waitForTimeout(1200); // espera a planilha (com o carro 3D desenhado sem placa de vídeo ela demora mais)
   ok(await A.evaluate(() => document.querySelector('#login').hidden), 'dono entrou', out);
 
   // 2) CSP no ar: script injetado e eval bloqueados
@@ -165,7 +165,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   out.c.limiteLogin = await A.textContent('#le-erro');
   ok(/Muitas tentativas/.test(out.c.limiteLogin), 'limite de tentativas no login', out);
   await A.evaluate(() => localStorage.removeItem('pbr.login.tent'));
-  await A.fill('#le-senha', 'ana-12345'); await A.click('#f-entrar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
+  await A.fill('#le-senha', 'ana-12345'); await A.click('#f-entrar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForFunction(() => window.__api && window.__api.S.planilha && window.__api.S.planilha.meta, null, { timeout: 30000 }).catch(() => { }); await A.waitForTimeout(1200); // espera a planilha (com o carro 3D desenhado sem placa de vídeo ela demora mais)
   ok(await A.evaluate(() => document.querySelector('#login').hidden), 'Ana entrou', out);
   await A.evaluate(() => { location.hash = '#precificacao'; }); await A.waitForTimeout(400);
   out.c.travadaAposTrocarPessoa = await A.evaluate(() => !document.querySelector('[data-view="trava"]').hidden);

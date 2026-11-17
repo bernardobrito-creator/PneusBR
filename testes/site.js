@@ -21,7 +21,7 @@ const migr = {
   out.c.primeiroAcesso = await A.evaluate(() => ({ criar: !document.querySelector('#f-criar').hidden, entrar: !document.querySelector('#f-entrar').hidden }));
   await A.screenshot({ path: path.join(SP, 'teste/s-login.png') });
   await A.fill('#lc-nome', 'Bernardo'); await A.fill('#lc-email', 'loja@pneusbr.com'); await A.fill('#lc-senha', 'senha-forte-1'); await A.fill('#lc-senha2', 'senha-forte-1');
-  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
+  await A.click('#f-criar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForFunction(() => window.__api && window.__api.S.planilha && window.__api.S.planilha.meta, null, { timeout: 30000 }).catch(() => { }); await A.waitForTimeout(1200); // espera a planilha (com o carro 3D desenhado sem placa de vídeo ela demora mais)
   out.c.posLogin = await A.evaluate(() => ({ overlay: !document.querySelector('#login').hidden, produtos: window.__api.S.produtos.size, e12071: window.__api.S.produtos.get('e12071')?.preco, servicos: [...window.__api.S.servicos.values()].map(s => s.nome), planilhaDoc: !!JSON.parse(localStorage.getItem('mock-sb-db')).docs['planilha/meta'], status: document.querySelector('#st-sync-txt').textContent }));
   const B = await nova();
   await B.goto('http://127.0.0.1:8765/#produtos'); await B.waitForTimeout(1500); await B.evaluate(() => { location.hash = '#produtos'; }); await B.waitForTimeout(1200);
@@ -55,7 +55,7 @@ const migr = {
   out.c.aposSair = await A.evaluate(() => ({ entrar: !document.querySelector('#f-entrar').hidden }));
   await A.fill('#le-email', 'ana@pneusbr.com'); await A.fill('#le-senha', 'errada'); await A.click('#f-entrar button[type=submit]'); await A.waitForTimeout(300);
   out.c.senhaErrada = await A.evaluate(() => document.querySelector('#le-erro').textContent);
-  await A.fill('#le-senha', 'ana-12345'); await A.click('#f-entrar button[type=submit]'); await A.waitForTimeout(2000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForTimeout(1200);
+  await A.fill('#le-senha', 'ana-12345'); await A.click('#f-entrar button[type=submit]'); await A.waitForTimeout(2000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForFunction(() => window.__api && window.__api.S.planilha && window.__api.S.planilha.meta, null, { timeout: 30000 }).catch(() => { }); await A.waitForTimeout(1200); // espera a planilha (com o carro 3D desenhado sem placa de vídeo ela demora mais)
   await A.click('#btn-ajustes'); await A.waitForTimeout(400);
   out.c.func = await A.evaluate(() => ({ overlay: !document.querySelector('#login').hidden, conta: document.querySelector('#a-conta').innerText.split('\n')[0], equipeVisivel: !document.querySelector('#a-equipe').closest('section').hidden, estoque12077: window.__api.S.produtos.get('e12077')?.estoque }));
   // celular
