@@ -97,10 +97,15 @@ export function materiais(cor = '#B3070F') {
     aroLabio: new THREE.MeshStandardMaterial({ color: '#f2f4f6', roughness: 0.08, metalness: 1.0, envMapIntensity: 2.6 }),
     aroCubo: new THREE.MeshStandardMaterial({ color: '#16171a', roughness: 0.3, metalness: 0.6 }),
     pinca: new THREE.MeshPhysicalMaterial({ color: '#c3121b', roughness: 0.32, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.06 }),
+    // letreiro PneusBR: laca preta com verniz (as quinas acendem com a luz) e o BR em vermelho escuro
+    letra: new THREE.MeshPhysicalMaterial({ color: '#0b0b0d', roughness: 0.28, metalness: 0.0, clearcoat: 1, clearcoatRoughness: 0.035, envMapIntensity: 1.2 }),
+    letraLado: new THREE.MeshPhysicalMaterial({ color: '#141416', roughness: 0.4, metalness: 0.0, clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 1.1 }),
+    br: new THREE.MeshPhysicalMaterial({ color: '#5A0A13', roughness: 0.32, metalness: 0.25, clearcoat: 1, clearcoatRoughness: 0.035, envMapIntensity: 1.2 }),
+    brLado: new THREE.MeshPhysicalMaterial({ color: '#3d060c', roughness: 0.42, metalness: 0.2, clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 1.1 }),
     cromo: new THREE.MeshStandardMaterial({ color: '#e9ecef', roughness: 0.1, metalness: 1.0 }),
     ponteira: new THREE.MeshStandardMaterial({ color: '#d6d9dd', roughness: 0.18, metalness: 1.0, side: THREE.DoubleSide })
   };
-  const por = { 'pintura': M.pintura, 'vidro': M.vidro, 'caixa-roda': M.caixa, 'preto-fosco': M.pretoFosco, 'preto-brilho': M.pretoBrilho, 'grade': M.grade, 'fresta': M.fresta, 'farol-lente': M.farolLente, 'farol-luz': M.farolLuz, 'lanterna': M.lanterna, 'lanterna-lente': M.lanternaLente, 'pneu': M.pneu, 'roda-fundo': M.rodaFundo, 'disco': M.disco, 'aro': M.aro, 'aro-lado': M.aroLado, 'aro-barril': M.aroBarril, 'aro-labio': M.aroLabio, 'aro-cubo': M.aroCubo, 'pinca': M.pinca, 'ponteira': M.ponteira, 'cromo': M.cromo, 'interior': M.interior, 'banco': M.banco, 'banco-friso': M.bancoFriso, 'teto': M.teto };
+  const por = { 'pintura': M.pintura, 'vidro': M.vidro, 'caixa-roda': M.caixa, 'preto-fosco': M.pretoFosco, 'preto-brilho': M.pretoBrilho, 'grade': M.grade, 'fresta': M.fresta, 'farol-lente': M.farolLente, 'farol-luz': M.farolLuz, 'lanterna': M.lanterna, 'lanterna-lente': M.lanternaLente, 'pneu': M.pneu, 'roda-fundo': M.rodaFundo, 'disco': M.disco, 'aro': M.aro, 'aro-lado': M.aroLado, 'aro-barril': M.aroBarril, 'aro-labio': M.aroLabio, 'aro-cubo': M.aroCubo, 'pinca': M.pinca, 'ponteira': M.ponteira, 'cromo': M.cromo, 'letra': M.letra, 'letra-lado': M.letraLado, 'br': M.br, 'br-lado': M.brLado, 'interior': M.interior, 'banco': M.banco, 'banco-friso': M.bancoFriso, 'teto': M.teto };
   return { M, por };
 }
 // o GLTFLoader acrescenta _1, _2... em nomes repetidos: a peça vale pelo nome sem esse final

@@ -1,16 +1,62 @@
-// Tela de início (16/11/2026): o carro 3D (desenho próprio da PneusBR, vermelho Ferrari) visto na diagonal, como o jato
-// do site de referência. Chega pela esquerda fazendo a curva e para; parado, a câmera flutua de leve; ao trocar de aba,
-// recua, a traseira abaixa e ele arranca para a frente. O modelo vem de carro.glb (gerado por modelo.js).
-// Este arquivo vira docs/inicio3d.js (esbuild) e é carregado só quando a tela de início aparece.
+// Tela de início (17/11/2026): o carro 3D (desenho próprio da PneusBR) parado na diagonal, como o jato do site de
+// referência, num piso de galpão vitrificado que reflete o carro; atrás dele, o letreiro "PneusBR" gigante em letras 3D
+// em pé no chão. Parado, a câmera flutua de leve; ao trocar de aba, o carro recua, a traseira abaixa e ele arranca.
+// O modelo e o letreiro vêm de carro.glb (gerado por modelo.js). Este arquivo vira docs/inicio3d.js (esbuild) e é
+// carregado só quando a tela de início aparece.
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+import { Reflector } from 'three/addons/objects/Reflector.js';
 import { materiais, vestir, estudio, nomeBase } from './materiais.js';
 
-const RAIO = 0.35, ENTRE_EIXOS = 2.76;
-const suave = (a, b, t) => a + (b - a) * t;
-const saida = t => 1 - Math.pow(1 - t, 3);        // desacelera
-const bez = (p0, p1, p2, p3, t) => { const u = 1 - t; return p0 * u * u * u + 3 * p1 * u * u * t + 3 * p2 * u * t * t + p3 * t * t * t; };
+const RAIO = 0.35;
+const LARG_LETREIRO = 3.39, ALT_LETREIRO = 0.86;   // em "em" (ver letras.js)
+
+// piso vitrificado: transparente (a cor vem do degradê da página por trás); só acrescenta o reflexo do carro e do
+// letreiro (mais forte quando se olha rasante, um pouco desfocado) e as juntas das placas, que somem no fundo
+const PISO = {
+  name: 'PisoVitrificado',
+  uniforms: {
+    color: { value: null }, tDiffuse: { value: null }, textureMatrix: { value: null },
+    uCentro: { value: new THREE.Vector2() }, uDir: { value: new THREE.Vector2(0, 1) }, uFim: { value: new THREE.Vector2(6, 11) },
+    uPlaca: { value: 2.5 }, uAng: { value: 0 }, uTexel: { value: new THREE.Vector2(1 / 512, 1 / 512) }
+  },
+  vertexShader: `
+    uniform mat4 textureMatrix; varying vec4 vUv; varying vec3 vMundo;
+    void main() {
+      vUv = textureMatrix * vec4(position, 1.0);
+      vec4 w = modelMatrix * vec4(position, 1.0); vMundo = w.xyz;
+      gl_Position = projectionMatrix * viewMatrix * w;
+    }`,
+  fragmentShader: `
+    uniform sampler2D tDiffuse; uniform vec2 uCentro, uDir, uFim, uTexel; uniform float uPlaca, uAng;
+    varying vec4 vUv; varying vec3 vMundo;
+    void main() {
+      vec2 uv = vUv.xy / vUv.w;
+      vec4 r = texture2D(tDiffuse, uv) * 0.36;
+      r += texture2D(tDiffuse, uv + vec2(uTexel.x, 0.0) * 1.6) * 0.16;
+      r += texture2D(tDiffuse, uv - vec2(uTexel.x, 0.0) * 1.6) * 0.16;
+      r += texture2D(tDiffuse, uv + vec2(0.0, uTexel.y) * 1.6) * 0.16;
+      r += texture2D(tDiffuse, uv - vec2(0.0, uTexel.y) * 1.6) * 0.16;
+      vec2 p = vMundo.xz - uCentro;
+      float atras = dot(p, -uDir);
+      float fim = 1.0 - smoothstep(uFim.x, uFim.y, atras);
+      vec3 vista = normalize(cameraPosition - vMundo);
+      float fres = mix(0.2, 0.62, pow(1.0 - vista.y, 3.0));
+      float ar = clamp(r.a, 0.0, 1.0) * fres * fim;
+      vec3 rc = r.a > 0.001 ? r.rgb / r.a : vec3(0.0);
+      float c = cos(uAng), s = sin(uAng);
+      vec2 q = vec2(c * p.x - s * p.y, s * p.x + c * p.y) / uPlaca;
+      vec2 g = abs(fract(q + 0.5) - 0.5), fw = fwidth(q);
+      vec2 l = 1.0 - smoothstep(fw * 0.4, fw * 1.4, g);
+      float junta = max(l.x, l.y) * 0.12 * fim * (1.0 - smoothstep(0.04, 0.14, max(fw.x, fw.y)));
+      float a = ar + junta * (1.0 - ar);
+      vec3 cor = a > 0.001 ? (rc * ar + vec3(0.012) * junta * (1.0 - ar)) / a : vec3(0.0);
+      gl_FragColor = vec4(cor, a);
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+    }`
+};
 
 export async function criarCena(palco, { url = 'carro.glb', cor } = {}) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -22,74 +68,88 @@ export async function criarCena(palco, { url = 'carro.glb', cor } = {}) {
 
   const cena = new THREE.Scene();
   cena.environment = estudio(renderer);
-  const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 200);
+  const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 400);
 
   const loader = new GLTFLoader(); loader.setMeshoptDecoder(MeshoptDecoder);
   const gltf = await loader.loadAsync(url);
   const carro = gltf.scene.getObjectByName('carro') || gltf.scene;
-  const { por } = materiais(cor); vestir(carro, por);
+  const letreiro = gltf.scene.getObjectByName('letreiro');
+  const { por } = materiais(cor); vestir(carro, por); if (letreiro) vestir(letreiro, por);
   const corpo = carro.getObjectByName('corpo');
   const rodas = ['roda-dd', 'roda-de', 'roda-td', 'roda-te'].map(n => carro.getObjectByName(n)).filter(Boolean);
   const acha = (raiz, nome) => { let x = null; raiz.traverse(o => { if (!x && nomeBase(o.name) === nome) x = o; }); return x; };
   const giros = rodas.map(r => acha(r, 'gira')).filter(Boolean);
   const dianteiras = rodas.filter(r => /roda-d/.test(r.name));
 
-  // o carro anda dentro de um "mover" (posição e direção); a sombra vai junto
+  // sombras de contato (manchas suaves embaixo do carro e de cada roda)
   const mover = new THREE.Group(); mover.add(carro); cena.add(mover);
   const tela = document.createElement('canvas'); tela.width = tela.height = 256; const g = tela.getContext('2d');
   const rg = g.createRadialGradient(128, 128, 6, 128, 128, 128); rg.addColorStop(0, 'rgba(0,0,0,0.75)'); rg.addColorStop(0.5, 'rgba(0,0,0,0.38)'); rg.addColorStop(1, 'rgba(0,0,0,0)');
   g.fillStyle = rg; g.fillRect(0, 0, 256, 256);
   const texSombra = new THREE.CanvasTexture(tela);
-  const sombra = new THREE.Mesh(new THREE.PlaneGeometry(5.7, 2.75), new THREE.MeshBasicMaterial({ map: texSombra, transparent: true, depthWrite: false, opacity: 0.9 }));
-  sombra.rotation.x = -Math.PI / 2; sombra.position.y = 0.003; mover.add(sombra);
-  for (const r of rodas) { const s = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.42), new THREE.MeshBasicMaterial({ map: texSombra, transparent: true, depthWrite: false, opacity: 0.85 })); s.rotation.x = -Math.PI / 2; s.position.set(r.position.x, 0.004, r.position.z); mover.add(s); }
+  const manchas = (dono, w, d, op, x = 0, z = 0) => { const s = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ map: texSombra, transparent: true, depthWrite: false, opacity: op })); s.rotation.x = -Math.PI / 2; s.position.set(x, 0.004, z); s.renderOrder = 2; dono.add(s); return s; };
+  manchas(mover, 5.7, 2.75, 0.9);
+  for (const r of rodas) manchas(mover, 0.9, 0.42, 0.85, r.position.x, r.position.z);
 
-  // câmera: diagonal de cima, como a foto de estúdio; no celular (tela em pé) ela se afasta para o carro caber
-  const ALVO = new THREE.Vector3(0.15, 0.5, 0), DIR = new THREE.Vector3(5.2, 2.55, 6.2).multiplyScalar(0.86);
+  // câmera: diagonal de cima, como a foto de estúdio
+  const ALVO = new THREE.Vector3(0.15, 0.72, 0), DIR = new THREE.Vector3(5.2, 2.55, 6.2).multiplyScalar(0.86);
+  const H = new THREE.Vector3(DIR.x, 0, DIR.z).normalize();            // do carro para a câmera, no chão
+  const ANG = Math.atan2(H.x, H.z);
+
+  // letreiro em pé atrás do carro, de frente para a câmera (um pouco girado, para as laterais das letras aparecerem)
+  const ATRAS = 4.6, GIRO = 0.12;
+  if (letreiro) {
+    letreiro.rotation.y = ANG - GIRO;
+    letreiro.position.set(ALVO.x - H.x * ATRAS, 0, ALVO.z - H.z * ATRAS);
+    manchas(letreiro, LARG_LETREIRO * 1.04, 0.42, 0.75);
+    cena.add(letreiro);
+  }
+
+  // piso vitrificado
+  const piso = new Reflector(new THREE.PlaneGeometry(90, 90), { textureWidth: 512, textureHeight: 512, clipBias: 0.002, shader: PISO, multisample: 0 });
+  piso.rotation.x = -Math.PI / 2; piso.renderOrder = 1;
+  Object.assign(piso.material, { transparent: true, depthWrite: false });
+  const U = piso.material.uniforms;
+  U.uCentro.value.set(ALVO.x, ALVO.z); U.uDir.value.set(H.x, H.z); U.uAng.value = ANG - GIRO; U.uFim.value.set(ATRAS + 0.8, ATRAS + 5.5);
+  cena.add(piso);
+
   let aspecto = 1, distancia = 1;
+  const tamanho = new THREE.Vector2();
   function redimensionar() {
     const w = palco.clientWidth || 1, h = palco.clientHeight || 1;
     renderer.setSize(w, h, false); aspecto = w / h; camera.aspect = aspecto;
     // a câmera se afasta conforme a largura da tela, para o carro inteiro caber com folga nas bordas (em pé ou deitada)
     distancia = Math.max(1.06, 1.75 / aspecto);
     camera.updateProjectionMatrix();
+    // o letreiro ocupa quase toda a largura visível na distância em que está, sem passar do alto da tela
+    if (letreiro) {
+      const meioFov = THREE.MathUtils.degToRad(camera.fov / 2), horiz = Math.hypot(DIR.x, DIR.z);
+      const vis = 2 * (DIR.length() * distancia + ATRAS) * Math.tan(meioFov) * aspecto;
+      const camY = ALVO.y + DIR.y * distancia - 0.1, chao = horiz * distancia + ATRAS;
+      const topo = Math.atan2(DIR.y, horiz) - meioFov + 2 * meioFov * 0.11;     // 11% abaixo do alto da tela
+      letreiro.scale.setScalar(Math.min(0.88 * vis / LARG_LETREIRO, (camY - Math.tan(topo) * chao) / ALT_LETREIRO));
+    }
+    renderer.getDrawingBufferSize(tamanho);
+    const rw = Math.max(64, Math.round(tamanho.x * 0.5)), rh = Math.max(64, Math.round(tamanho.y * 0.5));
+    piso.getRenderTarget().setSize(rw, rh); U.uTexel.value.set(1 / rw, 1 / rh);
   }
   redimensionar();
   const ro = new ResizeObserver(() => { redimensionar(); if (!E.rodando && E.modo === 'parado') { E.rodando = true; quadro(); } }); ro.observe(palco);
 
   // ---------- estado e animações ----------
-  const E = { modo: 'parado', t0: 0, dist: 0, prontoSaida: null, rodando: false, tempo: 0 };
+  const E = { modo: 'parado', t0: 0, prontoSaida: null, rodando: false, tempo: 0 };
   // relógio da cena (nos testes dá para desacelerar, para gravar o vídeo num computador sem placa de vídeo)
   let real0 = performance.now(), virt = real0;
   const relogio = () => { const r = performance.now(); virt += (r - real0) * (window.__velocidadeCena || 1); real0 = r; return virt; };
   function poseParada() { mover.position.set(0, 0, 0); mover.rotation.set(0, 0, 0); corpo.rotation.set(0, 0, 0); corpo.position.set(0, 0, 0); for (const r of dianteiras) r.rotation.y = 0; }
   function girarRodas(d) { for (const gr of giros) gr.rotation.z = -d / RAIO; }
-
-  // chegada: curva de Bézier vindo da esquerda (perto da câmera) até parar no lugar, já virado para a frente
-  const P = [[-11, 0, 8.5], [-5.5, 0, 5.2], [-2.8, 0, 0.25], [0, 0, 0]];
-  const amostras = []; { let L = 0, ant = null; for (let i = 0; i <= 200; i++) { const t = i / 200, x = bez(P[0][0], P[1][0], P[2][0], P[3][0], t), z = bez(P[0][2], P[1][2], P[2][2], P[3][2], t); if (ant) L += Math.hypot(x - ant[0], z - ant[1]); amostras.push({ t, L, x, z }); ant = [x, z]; } }
-  const COMPR = amostras[amostras.length - 1].L;
-  const noCaminho = s => { // posição e direção a "s" metros do começo
-    let i = 1; while (i < amostras.length - 1 && amostras[i].L < s) i++;
-    const a = amostras[i - 1], b = amostras[i], k = (s - a.L) / Math.max(1e-6, b.L - a.L);
-    const x = suave(a.x, b.x, k), z = suave(a.z, b.z, k), dx = b.x - a.x, dz = b.z - a.z;
-    return { x, z, dir: Math.atan2(-dz, dx) };
-  };
-  const T_CHEGA = 2500, T_SAI = 1150;
+  const T_SAI = 1150;
 
   function quadro() {
     if (!E.rodando) return;
     requestAnimationFrame(quadro);
     const agora = relogio(), t = agora / 1000; E.tempo = t;
-    if (E.modo === 'chegando') {
-      const k = Math.min(1, (agora - E.t0) / T_CHEGA), s = COMPR * saida(k), p = noCaminho(s), p2 = noCaminho(Math.min(COMPR, s + 0.6));
-      mover.position.set(p.x, 0, p.z); mover.rotation.y = p.dir; girarRodas(s - COMPR);
-      let dd = p2.dir - p.dir; const curv = dd / 0.6; for (const r of dianteiras) r.rotation.y = Math.max(-0.45, Math.min(0.45, Math.atan(ENTRE_EIXOS * curv)));
-      const v = 3 * Math.pow(1 - k, 2) * COMPR / (T_CHEGA / 1000);           // m/s
-      corpo.rotation.x = Math.max(-0.035, Math.min(0.035, -curv * v * v * 0.0016)); // inclina na curva
-      corpo.rotation.z = -0.012 * Math.sin(Math.min(1, Math.max(0, (k - 0.72) / 0.28)) * Math.PI) * 1.4; // freada: a frente abaixa e volta
-      if (k >= 1) { E.modo = 'parado'; poseParada(); E.tParado = agora; }
-    } else if (E.modo === 'saindo') {
+    if (E.modo === 'saindo') {
       const u = (agora - E.t0) / T_SAI, off = 0.15;
       let x, corpoZ;
       if (u < off) { const q = u / off; x = -0.12 * Math.sin(q * Math.PI / 2); corpoZ = 0.018 * q; }
@@ -110,12 +170,12 @@ export async function criarCena(palco, { url = 'carro.glb', cor } = {}) {
   function rodar() { if (!E.rodando) { E.rodando = true; requestAnimationFrame(quadro); } }
 
   return {
+    // o carro já aparece parado (sem a chegada); com animação, a cena surge num esmaecer curto
     entrar(animar = true) {
       if (E.prontoSaida) { E.prontoSaida(); E.prontoSaida = null; }
       poseParada(); girarRodas(0);
-      E.estatico = !animar;
-      if (animar) { E.modo = 'chegando'; E.t0 = relogio(); const p = noCaminho(0); mover.position.set(p.x, 0, p.z); mover.rotation.y = p.dir; }
-      else E.modo = 'parado';
+      E.estatico = !animar; E.modo = 'parado';
+      if (animar && renderer.domElement.animate) renderer.domElement.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 650, easing: 'ease-out' });
       rodar();
     },
     sair() {
@@ -123,6 +183,6 @@ export async function criarCena(palco, { url = 'carro.glb', cor } = {}) {
     },
     parar() { E.rodando = false; },
     estado: () => E.modo,
-    destruir() { E.rodando = false; ro.disconnect(); renderer.dispose(); renderer.domElement.remove(); }
+    destruir() { E.rodando = false; ro.disconnect(); piso.dispose(); renderer.dispose(); renderer.domElement.remove(); }
   };
 }
