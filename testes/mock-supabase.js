@@ -24,7 +24,7 @@
         lt(c, v) { st.filtros.push([c, '<', v]); return b; }, lte(c, v) { st.filtros.push([c, '<=', v]); return b; },
         order() { return b; }, limit(n) { st.ate = st.de + n - 1; return b; },
         range(a, z) { st.de = a; st.ate = z; return b; }, maybeSingle() { st.single = true; return b; },
-        upsert(obj) { st.op = 'upsert'; st.obj = obj; return b; },
+        upsert(obj) { st.op = 'upsert'; st.obj = obj; return b; }, insert(obj) { st.op = 'insert'; st.obj = obj; return b; },
         delete() { st.op = 'delete'; return b; },
         then(ok, fail) { return Promise.resolve().then(executar).then(ok, fail); }
       };
@@ -37,6 +37,18 @@
           const rows = membro() ? Object.entries(db.membros).map(([user_id, m]) => ({ user_id, ...m })) : [];
           const f = rows.filter(r => st.filtros.every(([c, op, v]) => OPS[op](valor(r, c), v)));
           return st.single ? { data: f[0] || null, error: null } : { data: f.slice(st.de, st.ate + 1), error: null };
+        }
+        // aceite do termo de uso: só inclusão; quem e quando vêm do "servidor"; cada um vê o seu, o dono vê todos
+        if (tabela === 'termo_aceites') {
+          const m = membro(); db.termo = db.termo || [];
+          if (st.op === 'insert') {
+            if (!m) return { data: null, error: { code: '42501', message: 'new row violates row-level security policy for table "termo_aceites"' } };
+            if (db.termo.some(t => t.user_id === sessao.user.id && t.versao === st.obj.versao)) return { data: null, error: { code: '23505', message: 'duplicate key value violates unique constraint "termo_aceites_pkey"' } };
+            db.termo.push({ user_id: sessao.user.id, versao: st.obj.versao, aceito_em: new Date().toISOString(), nome: m.nome, email: sessao.user.email }); save(db);
+            return { data: null, error: null };
+          }
+          const rows = !m ? [] : db.termo.filter(t => m.papel === 'dono' || t.user_id === sessao.user.id).filter(r => st.filtros.every(([c, op, v]) => OPS[op](valor(r, c), v)));
+          return st.single ? { data: rows[0] || null, error: null } : { data: rows.slice(st.de, st.ate + 1), error: null };
         }
         if (!membro()) {
           if (st.op === 'select') return { data: [], error: null };
@@ -77,6 +89,7 @@
         if (body.acao === 'criar-dono') return temDono ? erroFn('O acesso da loja já foi criado. Entre com o e-mail e a senha.', 409) : criarUser('dono');
         const eu = sessao && db.membros[sessao.user.id];
         if (!eu) return erroFn('Entre no sistema primeiro.', 401);
+        if (db.trava === undefined) db.trava = 'TREPNIAYKS';
         if (body.acao === 'trava-status') return { data: { configurada: !!db.trava }, error: null };
         if (body.acao === 'trava-conferir') {
           db.travaTent = (db.travaTent || 0) + 1; save(db);

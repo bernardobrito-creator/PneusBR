@@ -3,7 +3,7 @@
 // - XSS: textos maliciosos em notas, clientes, serviços, produtos e integrantes aparecem como texto, nunca rodam
 // - links "javascript:" bloqueados; CSV sem fórmulas
 // - funcionário não muda configurações e não apaga notas, mas continua registrando
-// - senha das telas conferida no servidor, com limite de tentativas; senha antiga deixa de valer
+// - senha das telas conferida só no servidor, com limite de tentativas; ao trocar, a anterior deixa de valer
 // - limite de tentativas no login; página não abre dentro de outro site; gancho de teste só no computador local
 // Uso: ./testes/preparar-site.sh <rascunho> && node testes/seguranca.js <rascunho>
 const { chromium } = require('playwright'); const fs = require('fs'); const path = require('path'); const { spawn } = require('child_process');
@@ -132,16 +132,16 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   // 6) senha das telas: dono cria a nova no servidor; a antiga deixa de valer
   await A.evaluate(() => document.querySelector('[data-acao="abrir-config"]')?.click()); await A.waitForTimeout(800);
   out.c.travaAviso = await A.evaluate(() => document.querySelector('#a-trava')?.innerText || '');
-  ok(/senha antiga/.test(out.c.travaAviso), 'aviso de senha antiga para o dono', out);
+  ok(/Senha das telas ativa/.test(out.c.travaAviso), 'senha das telas já criada no servidor', out);
   await A.fill('#a-trava-1', 'novasenha9'); await A.fill('#a-trava-2', 'NOVASENHA9'); await A.click('[data-acao="pbr-trava"]'); await A.waitForTimeout(600);
   out.c.travaDepois = await A.evaluate(() => document.querySelector('#a-trava')?.innerText || '');
-  ok(/Senha nova ativa/.test(out.c.travaDepois), 'senha nova ativa', out);
+  ok(/Senha das telas ativa/.test(out.c.travaDepois), 'senha das telas trocada', out);
   await A.keyboard.press('Escape');
   const B = await nova(ctx); // nova aba: precisa da senha de novo
   await B.goto('http://127.0.0.1:8775/#caixa'); await B.waitForTimeout(2500); await B.evaluate(() => { location.hash = '#caixa'; }); await B.waitForTimeout(1200);
   await B.fill('#trava-senha', 'TREPNIAYKS'); await B.press('#trava-senha', 'Enter'); await B.waitForTimeout(500);
   out.c.antiga = await B.evaluate(() => ({ travada: !document.querySelector('[data-view="trava"]').hidden, msg: document.querySelector('#trava-erro').textContent }));
-  ok(out.c.antiga.travada && /incorreta/.test(out.c.antiga.msg), 'senha antiga não abre mais', out);
+  ok(out.c.antiga.travada && /incorreta/.test(out.c.antiga.msg), 'senha anterior não abre mais', out);
   await B.fill('#trava-senha', 'novasenha9'); await B.press('#trava-senha', 'Enter'); await B.waitForTimeout(600);
   out.c.nova = await B.evaluate(() => document.querySelector('[data-view="trava"]').hidden);
   ok(out.c.nova, 'senha nova abre o Caixa', out);
@@ -165,7 +165,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
   out.c.limiteLogin = await A.textContent('#le-erro');
   ok(/Muitas tentativas/.test(out.c.limiteLogin), 'limite de tentativas no login', out);
   await A.evaluate(() => localStorage.removeItem('pbr.login.tent'));
-  await A.fill('#le-senha', 'ana-12345'); await A.click('#f-entrar button[type=submit]'); await A.waitForTimeout(3000); await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForFunction(() => window.__api && window.__api.S.planilha && window.__api.S.planilha.meta, null, { timeout: 30000 }).catch(() => { }); await A.waitForTimeout(1200); // espera a planilha (com o carro 3D desenhado sem placa de vídeo ela demora mais)
+  await A.fill('#le-senha', 'ana-12345'); await A.click('#f-entrar button[type=submit]'); await A.waitForTimeout(3000); if (await A.evaluate(() => !document.querySelector('#f-termo').hidden)) { await A.check('#lt-ok'); await A.click('#f-termo button[type=submit]'); await A.waitForTimeout(2500); } // termo de uso no primeiro acesso await A.evaluate(() => { location.hash = '#registrar'; }); await A.waitForFunction(() => window.__api && window.__api.S.planilha && window.__api.S.planilha.meta, null, { timeout: 30000 }).catch(() => { }); await A.waitForTimeout(1200); // espera a planilha (com o carro 3D desenhado sem placa de vídeo ela demora mais)
   ok(await A.evaluate(() => document.querySelector('#login').hidden), 'Ana entrou', out);
   await A.evaluate(() => { location.hash = '#precificacao'; }); await A.waitForTimeout(400);
   out.c.travadaAposTrocarPessoa = await A.evaluate(() => !document.querySelector('[data-view="trava"]').hidden);

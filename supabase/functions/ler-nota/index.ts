@@ -6,7 +6,8 @@ const SB_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 /* ---------- segurança comum ---------- */
-const ORIGENS = ["https://bernardobrito-creator.github.io"];
+// endereço novo (pneusbr.github.io, pedido do dono em 19/11/2026) e o antigo, enquanto a troca não termina
+const ORIGENS = ["https://pneusbr.github.io", "https://bernardobrito-creator.github.io"];
 function cabecalhos(req: Request): Record<string, string> {
   const o = req.headers.get("Origin") || "";
   const h: Record<string, string> = {

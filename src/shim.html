@@ -1,6 +1,9 @@
 <style>
 /* ---------- tela de entrada (somente no site) ---------- */
-.login{position:fixed;inset:0;z-index:90;background:var(--bar);color:var(--bar-ink);display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));overflow:auto}
+.login{position:fixed;inset:0;z-index:90;background:var(--bar);color:var(--bar-ink);display:grid;place-items:start center;padding:max(24px,10vh) max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));overflow:auto}
+/* o cartão fica preso no alto (não centralizado) e o rodapé vai para cima: trocar "Conectando…" pelo formulário não empurra nada na tela */
+.login-card .login-marca{order:-2}
+.login-card .login-rodape{order:-1;margin-top:-8px;text-align:left}
 .login-card{width:min(400px,100%);background:var(--surface);color:var(--ink);border-radius:16px;padding:28px 26px;display:grid;gap:16px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .login-marca{display:flex;align-items:center;gap:12px}
 .login-marca svg{width:34px;height:34px;display:block;color:var(--ink)}
@@ -19,8 +22,14 @@
 .pessoa small{color:var(--muted);display:block}
 .pessoa .acoes{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
 #a-equipe .toolbar{margin-top:10px}
+.termo-texto{max-height:min(46vh,360px);overflow:auto;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5;color:var(--ink-2);background:var(--surface-2)}
+.termo-texto ol{margin:8px 0;padding-left:20px;display:grid;gap:6px}
+.termo-texto p{margin:0 0 6px;font-size:13.5px}
+.termo-texto:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.termo-ver summary{cursor:pointer;font-size:13.5px;color:var(--ink-2)}
+.termo-ver .termo-texto{margin-top:8px}
 </style>
-<div class="login" id="login">
+<div class="login" id="login" role="region" aria-label="Acesso ao sistema PneusBR">
   <div class="login-card">
     <div class="login-marca"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle class="pn" cx="16" cy="16" r="12.4" stroke-width="4.4"/><circle class="sulco" cx="16" cy="16" r="14.1" stroke-width="1.3" stroke-dasharray="1.6 2.1"/><circle class="aro" cx="16" cy="16" r="8.2" stroke-width="1.3"/><path class="aro" d="M16 13.4V7.8M18.47 15.2l5.33-1.73M17.53 18.1l3.29 4.53M14.47 18.1l-3.29 4.53M13.53 15.2l-5.33-1.73" stroke-width="1.6" stroke-linecap="round"/><circle class="cubo" cx="16" cy="16" r="2.5"/></svg><b>Pneus<span>BR</span></b></div>
     <div id="login-carregando"><p>Conectando…</p></div>
@@ -40,6 +49,15 @@
       <label class="f">Repita a senha<input class="inp" type="password" id="lc-senha2" autocomplete="new-password" minlength="8" required></label>
       <button class="btn primary" type="submit">Criar acesso e entrar</button>
       <div class="login-erro" id="lc-erro" role="alert"></div>
+    </form>
+    <form id="f-termo" hidden>
+      <h2>Termo de uso e sigilo</h2>
+      <p>Antes do primeiro acesso, leia e aceite o termo. A data e a hora do aceite ficam registradas.</p>
+      <div class="termo-texto" id="lt-texto" tabindex="0" role="region" aria-label="Texto do termo de uso e sigilo"></div>
+      <label class="chk"><input type="checkbox" id="lt-ok">Li e concordo com o termo de uso e sigilo</label>
+      <button class="btn primary" type="submit">Aceitar e entrar</button>
+      <button class="btn ghost" type="button" id="lt-sair">Não aceito (sair)</button>
+      <div class="login-erro" id="lt-erro" role="alert"></div>
     </form>
     <div id="login-falha" hidden><p id="lf-msg"></p><button class="btn" type="button" id="lf-tentar" style="margin-top:12px">Tentar de novo</button></div>
     <p class="login-rodape">Sistema de estoque, caixa e gestão da PneusBR</p>
@@ -216,6 +234,23 @@ const downloads = {
   }
 };
 
+/* ---------- termo de uso e sigilo (pedido do dono, 19/11/2026) ----------
+   Cada funcionário aceita no primeiro acesso; o servidor grava quem e quando (tabela termo_aceites, só inclusão).
+   Mudou o texto? Troque a versão: todos aceitam de novo no próximo acesso. */
+const TERMO = {
+  versao: '1 · 20/11/2026',
+  html: `<p>O sistema PneusBR é de uso interno da loja. Ao entrar, você concorda em:</p>
+<ol>
+<li>Usar o sistema só para o trabalho na loja.</li>
+<li>Manter em sigilo os preços de compra, custos, margens, valores de caixa e de faturamento, as notas e os dados de clientes e fornecedores (nomes, telefones, CPF ou CNPJ, endereços, placas). Não copiar, fotografar, imprimir nem passar essas informações para ninguém de fora da loja, também depois de deixar de trabalhar nela.</li>
+<li>Não emprestar seu e-mail e sua senha e sair da conta quando usar um aparelho que não é seu.</li>
+<li>Registrar as vendas, serviços e movimentações como aconteceram (quem fez, quantidades e valores).</li>
+<li>Avisar o dono se notar erro no sistema, acesso estranho ou vazamento de informação.</li>
+</ol>
+<p>Cada registro fica ligado à sua conta. O dono pode tirar o acesso a qualquer momento.</p>`
+};
+const quando = iso => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleDateString('pt-BR') + ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); };
+
 /* ---------- conta e equipe ---------- */
 const PBR = window.PBR = { sb, eu: null };
 let resolverPronto;
@@ -224,10 +259,11 @@ window.claude = { use: n => pronto.then(c => c[n] || null) };
 
 function tela(qual, msg) {
   $('#login').hidden = qual === null;
-  for (const id of ['login-carregando', 'f-entrar', 'f-criar', 'login-falha']) $('#' + id).hidden = id !== qual;
+  for (const id of ['login-carregando', 'f-entrar', 'f-criar', 'f-termo', 'login-falha']) $('#' + id).hidden = id !== qual;
   if (qual === 'login-falha') $('#lf-msg').textContent = msg || 'Não foi possível conectar.';
   if (qual === 'f-entrar') { $('#le-erro').textContent = msg || ''; setTimeout(() => $('#le-email').focus(), 30); }
   if (qual === 'f-criar') setTimeout(() => $('#lc-nome').focus(), 30);
+  if (qual === 'f-termo') { $('#lt-texto').innerHTML = TERMO.html; $('#lt-ok').checked = false; $('#lt-erro').textContent = msg || ''; setTimeout(() => $('#lt-texto').focus(), 30); }
 }
 async function prepararLogin(msg) {
   tela('login-carregando');
@@ -240,7 +276,17 @@ async function iniciarSessao(sessao) {
   const { data: me, error } = await sb.from('membros').select('nome,papel').eq('user_id', sessao.user.id).maybeSingle();
   if (error) { tela('login-falha', 'Não foi possível carregar o seu acesso. Confira a internet.'); return; }
   if (!me) { await sb.auth.signOut(); prepararLogin('Esta conta não tem acesso ao sistema. Peça ao dono para liberar.'); return; }
-  PBR.eu = { id: sessao.user.id, email: sessao.user.email, nome: me.nome || sessao.user.email, papel: me.papel };
+  PBR.eu = { id: sessao.user.id, email: sessao.user.email, nome: me.nome || sessao.user.email, papel: me.papel, termo: null };
+  // funcionário: só entra depois de aceitar o termo de uso e sigilo (uma vez por versão do texto)
+  if (me.papel !== 'dono') {
+    const { data: ac, error: e2 } = await sb.from('termo_aceites').select('aceito_em').eq('user_id', sessao.user.id).eq('versao', TERMO.versao).maybeSingle();
+    if (e2) { tela('login-falha', 'Não foi possível conferir o termo de uso. Confira a internet e tente de novo.'); return; }
+    if (!ac) { tela('f-termo'); return; }
+    PBR.eu.termo = ac.aceito_em;
+  }
+  entrarNoSistema();
+}
+function entrarNoSistema() {
   tela(null);
   // link da planilha vem do servidor (o ID não fica no código público)
   sb.functions.invoke('planilha', { body: { acao: 'link' } }).then(({ data }) => { if (data && data.link) PBR.planilhaLink = data.link; }).catch(() => { });
@@ -282,6 +328,18 @@ $('#f-criar').addEventListener('submit', async e => {
   iniciarSessao(data.session);
 });
 $('#lf-tentar').addEventListener('click', () => boot());
+$('#f-termo').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!$('#lt-ok').checked) { $('#lt-erro').textContent = 'Marque que leu e concorda com o termo para entrar.'; return; }
+  const btn = e.submitter || $('#f-termo button[type=submit]'); btn.disabled = true; $('#lt-erro').textContent = '';
+  // quem e quando são gravados pelo servidor; aceite repetido (outra aba) conta como aceito
+  const { error } = await sb.from('termo_aceites').insert({ versao: TERMO.versao });
+  btn.disabled = false;
+  if (error && error.code !== '23505') { $('#lt-erro').textContent = /fetch|network/i.test(String(error.message)) ? 'Sem conexão com a internet.' : 'Não foi possível registrar o aceite agora. Tente de novo.'; return; }
+  PBR.eu.termo = new Date().toISOString();
+  entrarNoSistema();
+});
+$('#lt-sair').addEventListener('click', () => PBR.sair());
 
 // leitura de nota escaneada com IA (função ler-nota do Supabase)
 PBR.lerNotaIA = async body => {
@@ -309,14 +367,17 @@ PBR.renderConta = async () => {
   const box = $('#a-conta'); if (!box || !PBR.eu) return;
   box.innerHTML = `<p style="margin:0;font-size:14px"><b>${esc(PBR.eu.nome)}</b> · ${esc(PBR.eu.email)} · ${PBR.eu.papel === 'dono' ? 'dono' : 'funcionário'}</p>
     <div class="toolbar"><input class="inp" type="password" id="a-senha-nova" placeholder="Nova senha (mín. 8)" autocomplete="new-password" style="flex:1;min-width:180px"><button class="btn sm" type="button" data-acao="pbr-senha">Trocar minha senha</button></div>
-    <div class="toolbar"><button class="btn sm ghost" type="button" data-acao="pbr-sair">Sair desta conta</button></div>`;
+    <div class="toolbar"><button class="btn sm ghost" type="button" data-acao="pbr-sair">Sair desta conta</button></div>
+    <details class="termo-ver"><summary>${PBR.eu.papel === 'dono' ? 'Termo de uso e sigilo que a equipe aceita' : 'Termo de uso e sigilo' + (PBR.eu.termo ? ' (aceito em ' + esc(quando(PBR.eu.termo)) + ')' : '')} · versão ${esc(TERMO.versao)}</summary><div class="termo-texto">${TERMO.html}</div></details>`;
   const eq = $('#a-equipe'); if (!eq) return;
   if (PBR.eu.papel !== 'dono') { eq.closest('section').hidden = true; const ts = $('#a-trava'); if (ts) ts.closest('section').hidden = true; return; }
   renderTrava();
   eq.innerHTML = '<p class="muted" style="margin:0">Carregando…</p>';
   try {
-    const { lista } = await acaoEquipe({ acao: 'listar' });
-    eq.innerHTML = (lista || []).map(p => `<div class="pessoa"><div><b>${esc(p.nome || p.email)}</b><small>${esc(p.email)} · ${p.papel === 'dono' ? 'dono' : 'funcionário'}${p.ultimo ? ' · entrou em ' + new Date(p.ultimo).toLocaleDateString('pt-BR') : ' · ainda não entrou'}</small></div>
+    const [{ lista }, aceites] = await Promise.all([acaoEquipe({ acao: 'listar' }), sb.from('termo_aceites').select('user_id,versao,aceito_em').then(r => r.data || [], () => [])]);
+    const aceite = id => aceites.filter(a => a.user_id === id && a.versao === TERMO.versao).map(a => a.aceito_em)[0];
+    const txtTermo = p => p.papel === 'dono' ? '' : aceite(p.user_id) ? ' · aceitou o termo em ' + esc(quando(aceite(p.user_id))) : ' · <span style="color:var(--red-ink)">ainda não aceitou o termo</span>';
+    eq.innerHTML = (lista || []).map(p => `<div class="pessoa"><div><b>${esc(p.nome || p.email)}</b><small>${esc(p.email)} · ${p.papel === 'dono' ? 'dono' : 'funcionário'}${p.ultimo ? ' · entrou em ' + new Date(p.ultimo).toLocaleDateString('pt-BR') : ' · ainda não entrou'}${txtTermo(p)}</small></div>
       <div class="acoes">${p.user_id !== PBR.eu.id ? `<button class="btn sm" type="button" data-acao="pbr-redef" data-id="${esc(p.user_id)}">Nova senha</button><button class="btn sm ghost" type="button" data-acao="pbr-remover" data-id="${esc(p.user_id)}">Remover</button>` : '<span class="muted" style="font-size:12.5px">você</span>'}</div></div>`).join('') +
       `<div class="form-g3" style="margin-top:10px"><label class="f">Nome<input class="inp" id="a-p-nome"></label><label class="f">E-mail<input class="inp" type="email" id="a-p-email"></label><label class="f">Senha inicial<input class="inp" type="text" id="a-p-senha" placeholder="mín. 8, letras e números" autocomplete="off"></label></div>
       <div class="toolbar"><button class="btn sm primary" type="button" data-acao="pbr-add">Dar acesso a esta pessoa</button></div>`;
@@ -328,7 +389,7 @@ async function renderTrava() {
   let configurada = null;
   try { const { data } = await sb.functions.invoke('acesso', { body: { acao: 'trava-status' } }); configurada = !!(data && data.configurada); } catch { }
   el.innerHTML = `<p style="margin:0;font-size:13.5px;color:var(--ink-2)">Caixa, Faturamento, Balanço e Preços pedem esta senha. Ela fica guardada no servidor (só o resumo, não a senha) e há limite de tentativas.</p>
-    ${configurada === false ? '<p class="erro-txt" style="margin:0">Ainda vale a senha antiga, que pode ser descoberta pelo código público do site. Crie uma senha nova.</p>' : configurada ? '<p class="muted" style="margin:0;font-size:13px">Senha nova ativa.</p>' : ''}
+    ${configurada === false ? '<p class="erro-txt" style="margin:0">A senha das telas ainda não foi criada: Caixa, Faturamento, Balanço e Preços ficam fechados até você criar.</p>' : configurada ? '<p class="muted" style="margin:0;font-size:13px">Senha das telas ativa.</p>' : ''}
     <div class="toolbar"><input class="inp" type="password" id="a-trava-1" placeholder="Nova senha (mín. 6)" autocomplete="new-password" style="flex:1;min-width:160px"><input class="inp" type="password" id="a-trava-2" placeholder="Repita" autocomplete="new-password" style="flex:1;min-width:120px"><button class="btn sm" type="button" data-acao="pbr-trava">Salvar senha das telas</button></div>`;
 }
 function aviso(msg, erro) { const el = document.createElement('div'); el.className = 'toast' + (erro ? ' err' : ''); el.textContent = msg; $('#toasts').appendChild(el); setTimeout(() => el.remove(), erro ? 7000 : 3500); }
@@ -340,7 +401,7 @@ document.addEventListener('click', async e => {
     if (acao === 'pbr-trava') {
       const a1 = $('#a-trava-1').value, a2 = $('#a-trava-2').value;
       if (a1.trim().toUpperCase() !== a2.trim().toUpperCase()) { aviso('As duas senhas não são iguais.', true); return; }
-      await PBR.travaDefinir(a1); $('#a-trava-1').value = ''; $('#a-trava-2').value = ''; aviso('Senha das telas trocada. A senha antiga não vale mais.'); renderTrava(); return;
+      await PBR.travaDefinir(a1); $('#a-trava-1').value = ''; $('#a-trava-2').value = ''; aviso('Senha das telas salva. A anterior não vale mais.'); renderTrava(); return;
     }
     if (acao === 'pbr-senha') { await PBR.trocarSenha($('#a-senha-nova').value); $('#a-senha-nova').value = ''; aviso('Senha trocada.'); return; }
     if (acao === 'pbr-add') { await acaoEquipe({ acao: 'criar-func', nome: $('#a-p-nome').value.trim(), email: $('#a-p-email').value.trim(), senha: $('#a-p-senha').value }); aviso('Acesso criado. Passe o e-mail e a senha para a pessoa.'); PBR.renderConta(); return; }

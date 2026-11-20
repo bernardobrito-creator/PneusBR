@@ -2,26 +2,39 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-3xNhwTXfcxjH781TWXHf6QBo3Y/0o2NVO/+r25nEEFE=' 'sha256-ya+DwwmqWE5sgHrlsoZvNk5PPusOLeg8nPt+Ctg9MgM='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-8DFOflmIUO5cfPenUVjHhi6i4ZwUabPsz2WNk8lCpbw=' 'sha256-vIy9r0bH544JaDnvJyp7UlTHaiFZbwSiA+haayVizGE='; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <style id="sem-moldura">html{display:none!important}</style>
 <script>if (window.top === window.self) document.getElementById('sem-moldura').remove();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#141112">
-<meta name="description" content="Sistema de estoque, caixa e gestão da PneusBR">
+<meta name="description" content="Sistema interno da PneusBR: estoque, caixa e notas. Acesso só para a equipe.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PneusBR">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="PneusBR · sistema interno">
+<meta property="og:description" content="Estoque, caixa e notas da loja. Acesso só para a equipe.">
+<meta property="og:url" content="https://pneusbr.github.io/">
+<meta property="og:image" content="https://pneusbr.github.io/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PneusBR, sistema interno da loja">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/instrument-sans-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/instrument-sans-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:100 800;font-display:swap;src:url(fonts/jetbrains-mono-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:100 800;font-display:swap;src:url(fonts/jetbrains-mono-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>PneusBR</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
 /* Balcão: trilho preto de ícones à esquerda, área de trabalho clara à direita; a "fita do dia" lembra a bobina do caixa. */
 :root,:root[data-tema="claro"][data-tema]{
-  --bg:#F3F2F2; --surface:#FFFFFF; --surface-2:#EDEBEB; --ink:#161314; --ink-2:#463F3F; --muted:#77706F;
+  --bg:#F3F2F2; --surface:#FFFFFF; --surface-2:#EDEBEB; --ink:#161314; --ink-2:#463F3F; --muted:#6B6463;
   --line:#E2DEDE; --line-2:#CFC9C9;
   --red:#B4393E; --red-ink:#9A2D32; --red-soft:#F6E7E7; --red-line:#E7C5C6; --on-red:#FFFFFF;
   --blue:#2F5FA8; --blue-ink:#244C88; --blue-soft:#E7EDF7; --blue-line:#C3D2EA;
@@ -178,13 +191,13 @@ label.chk input{margin-top:3px;accent-color:var(--red)}
 .chip{border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;display:inline-flex;gap:6px;align-items:center}
 .chip:hover{border-color:var(--ink-2)}
 .chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--surface)}
-.chip small{opacity:.7;font-variant-numeric:tabular-nums}
+.chip small{opacity:.88;font-variant-numeric:tabular-nums}
 .pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;letter-spacing:.02em;border:1px solid var(--line-2);color:var(--ink-2);white-space:nowrap;line-height:1.5}
 .pill.red{color:var(--red-ink);border-color:var(--red-line);background:var(--red-soft)}
 .pill.ink{background:var(--ink);border-color:var(--ink);color:var(--surface)}
 .pill.solid-red{background:var(--red);border-color:var(--red);color:var(--on-red)}
 .pill.soft{background:var(--surface-2);border-color:transparent}
-kbd{font-family:var(--f-mono);font-size:11px;border:1px solid currentColor;border-radius:4px;padding:0 4px;opacity:.7}
+kbd{font-family:var(--f-mono);font-size:11px;border:1px solid currentColor;border-radius:4px;padding:0 4px}
 .seg{display:inline-flex;flex-wrap:wrap;max-width:100%;background:var(--surface-2);border-radius:10px;padding:3px;gap:3px}
 .seg button{border:0;background:none;padding:6px 12px;border-radius:7px;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
 .seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
@@ -231,11 +244,12 @@ kbd{font-family:var(--f-mono);font-size:11px;border:1px solid currentColor;borde
 .sug .p,.res-lista .p{grid-row:1 / span 2;grid-column:2;align-self:center;font-variant-numeric:tabular-nums;font-weight:600}
 .res-lista{list-style:none;margin:0;padding:4px;display:grid;gap:2px;max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
 .dica{margin:0;font-size:12.5px;color:var(--muted)}
-.dica kbd{opacity:.6}
+.dica kbd{opacity:1}
 .serv-chips .chip{border-style:dashed}
 .ultimo{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 24px;align-items:start}
+.vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .ultimo.vazio{border-style:dashed;background:transparent;display:block;color:var(--muted)}
-.ultimo.vazio h3{margin:0 0 4px;color:var(--ink-2);font-size:16px}
+.ultimo.vazio h2{margin:0 0 4px;color:var(--ink-2);font-size:16px}
 .ultimo.alerta{border-color:var(--red-line);display:block}
 .ultimo.flash{animation:flash .5s ease-out}
 @keyframes flash{from{box-shadow:0 0 0 4px var(--surface-2)}to{box-shadow:0 0 0 0 transparent}}
@@ -470,7 +484,7 @@ table.t td .undo{display:inline-flex}
 .migalha svg.i{width:14px;height:14px}
 .tema-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .tema-opts button{border:1.5px solid var(--line-2);background:var(--surface);border-radius:12px;padding:12px 8px;cursor:pointer;display:grid;gap:8px;justify-items:center;font-weight:600;font-size:13.5px;color:var(--ink-2)}
-.tema-opts button[aria-pressed="true"]{border-color:var(--red);color:var(--ink)}
+.tema-opts button[aria-checked="true"]{border-color:var(--red);color:var(--ink)}
 .tema-opts .amostra{width:56px;height:36px;border-radius:7px;border:1px solid var(--line-2);display:grid;grid-template-columns:12px 1fr;overflow:hidden}
 .amostra.claro{background:#F3F2F2}.amostra.claro i{background:#141112}
 .amostra.escuro{background:#0E0C0D}.amostra.escuro i{background:#000}
@@ -521,7 +535,7 @@ details.nf-det summary{cursor:pointer;font-size:13.5px;color:var(--ink-2);font-w
 .nf-dl > div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--line)}
 .nf-dl dt{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;grid-column:1}
 .nf-dl dd{margin:0;font-size:14px;grid-column:1;overflow-wrap:anywhere;white-space:pre-wrap}
-.nf-dl .cp{grid-column:2;grid-row:1 / span 2;align-self:center}
+.nf-dl dd.cp{grid-column:2;grid-row:1 / span 2;align-self:center;white-space:normal}
 .nf-total{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .nf-total b{font-size:28px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .nf-falta{margin:0;padding-left:18px;color:var(--ink-2);font-size:13.5px;display:grid;gap:4px}
@@ -634,7 +648,7 @@ tr.grupo .preoc{margin-left:12px}
 #nf-placa{text-transform:uppercase}
 .sel-quem{width:auto;min-width:132px;padding:4px 8px}
 button.pill{cursor:pointer;font-family:inherit}
-.btn.off{opacity:.5}
+.btn.off,.btn.off:hover{background:var(--surface-2);color:var(--ink-2);border-color:var(--line-2);box-shadow:none}
 @media (max-width:1180px){ .int-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:1040px){ .nf-grid{grid-template-columns:minmax(0,1fr)} .nf-previa{position:static} }
 @media (max-width:520px){ .int-grid{grid-template-columns:minmax(0,1fr)} .nf-avulso{grid-template-columns:minmax(0,1fr) 64px} .nf-avulso .btn{grid-column:1 / -1} .pede-quem .btn{min-width:0;flex:1 1 40%} }
@@ -789,7 +803,7 @@ body.tem-aviso .topo .status{margin-right:52px}
   <a href="#receber" data-tab="receber" data-tip="Notas a receber" aria-label="Notas a receber"><svg class="i"><use href="#ic-docin"/></svg><span class="badge" id="badge-receber" hidden></span></a>
   <a href="#retornos" data-tab="retornos" data-tip="Clientes" aria-label="Clientes"><svg class="i"><use href="#ic-person"/></svg><span class="badge" id="badge-retornos" hidden></span></a>
   <div class="fim">
-    <button class="rb" type="button" id="btn-ajustes" data-tip="Configurações" aria-label="Configurações: caixa, faturamento, balanço, preços, rotina e ajustes"><svg class="i"><use href="#ic-gear"/></svg><span class="badge" id="badge-rotina" hidden></span><span class="sdot" id="rail-dot"></span></button>
+    <button class="rb" type="button" id="btn-ajustes" data-tip="Configurações"><span class="vh" id="btn-ajustes-nome">Configurações: caixa, faturamento, balanço, preços, rotina e ajustes</span><svg class="i" aria-hidden="true"><use href="#ic-gear"/></svg><span class="badge" id="badge-rotina" aria-hidden="true" hidden></span><span class="sdot" id="rail-dot"></span></button>
   </div>
 </nav>
 <div class="tip" id="tip" hidden></div>
@@ -813,7 +827,7 @@ body.tem-aviso .topo .status{margin-right:52px}
   <div id="banner"></div>
 
   <!-- REGISTRAR -->
-  <section data-view="registrar">
+  <section data-view="registrar"><h1 class="vh">Registrar entrada e saída</h1>
     <div class="reg">
       <div class="reg-main">
         <div class="kpis" id="kpis-hoje"></div>
@@ -914,7 +928,7 @@ body.tem-aviso .topo .status{margin-right:52px}
       <input class="inp" id="m-q" type="search" placeholder="Buscar produto ou descrição" style="flex:1;min-width:180px">
     </div>
     <p class="resumo" id="m-resumo"></p>
-    <div class="tabela-wrap"><table class="t" id="m-tab"><thead><tr><th>Quando</th><th>Movimento</th><th>Produto / descrição</th><th class="num">Qtd</th><th class="num">Valor unit.</th><th class="num">Total</th><th class="num">Caixa</th><th></th></tr></thead><tbody></tbody></table></div>
+    <div class="tabela-wrap"><table class="t" id="m-tab"><thead><tr><th>Quando</th><th>Movimento</th><th>Produto / descrição</th><th class="num">Qtd</th><th class="num">Valor unit.</th><th class="num">Total</th><th class="num">Caixa</th><th><span class="vh">Ações</span></th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <!-- CAIXA -->
@@ -1039,7 +1053,7 @@ body.tem-aviso .topo .status{margin-right:52px}
     <div class="mb" id="rt-hoje"></div>
     <div class="toolbar mb"><div class="seg" id="rt-visao" aria-label="Mostrar"></div><div class="seg" id="rt-filtro"></div><input class="inp" id="rt-q" type="search" placeholder="Buscar cliente, WhatsApp, veículo, placa ou serviço" style="flex:1;min-width:180px"></div>
     <div class="tabela-wrap" id="cl-wrap"><table class="t" id="cl-tab"><thead><tr><th>Cliente</th><th>Veículo</th><th class="num">Serviços</th><th>Último serviço</th><th>Próximo retorno</th></tr></thead><tbody></tbody></table></div>
-    <div class="tabela-wrap" id="rt-wrap"><table class="t" id="rt-tab"><thead><tr><th>Cliente</th><th>Serviço</th><th>Feito em</th><th>Volta em</th><th>Situação</th><th></th></tr></thead><tbody></tbody></table></div>
+    <div class="tabela-wrap" id="rt-wrap"><table class="t" id="rt-tab"><thead><tr><th>Cliente</th><th>Serviço</th><th>Feito em</th><th>Volta em</th><th>Situação</th><th><span class="vh">Ações</span></th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <!-- ROTINA -->
@@ -1102,7 +1116,10 @@ body.tem-aviso .topo .status{margin-right:52px}
 
 <style>
 /* ---------- tela de entrada (somente no site) ---------- */
-.login{position:fixed;inset:0;z-index:90;background:var(--bar);color:var(--bar-ink);display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));overflow:auto}
+.login{position:fixed;inset:0;z-index:90;background:var(--bar);color:var(--bar-ink);display:grid;place-items:start center;padding:max(24px,10vh) max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));overflow:auto}
+/* o cartão fica preso no alto (não centralizado) e o rodapé vai para cima: trocar "Conectando…" pelo formulário não empurra nada na tela */
+.login-card .login-marca{order:-2}
+.login-card .login-rodape{order:-1;margin-top:-8px;text-align:left}
 .login-card{width:min(400px,100%);background:var(--surface);color:var(--ink);border-radius:16px;padding:28px 26px;display:grid;gap:16px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .login-marca{display:flex;align-items:center;gap:12px}
 .login-marca svg{width:34px;height:34px;display:block;color:var(--ink)}
@@ -1121,8 +1138,14 @@ body.tem-aviso .topo .status{margin-right:52px}
 .pessoa small{color:var(--muted);display:block}
 .pessoa .acoes{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
 #a-equipe .toolbar{margin-top:10px}
+.termo-texto{max-height:min(46vh,360px);overflow:auto;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5;color:var(--ink-2);background:var(--surface-2)}
+.termo-texto ol{margin:8px 0;padding-left:20px;display:grid;gap:6px}
+.termo-texto p{margin:0 0 6px;font-size:13.5px}
+.termo-texto:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.termo-ver summary{cursor:pointer;font-size:13.5px;color:var(--ink-2)}
+.termo-ver .termo-texto{margin-top:8px}
 </style>
-<div class="login" id="login">
+<div class="login" id="login" role="region" aria-label="Acesso ao sistema PneusBR">
   <div class="login-card">
     <div class="login-marca"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle class="pn" cx="16" cy="16" r="12.4" stroke-width="4.4"/><circle class="sulco" cx="16" cy="16" r="14.1" stroke-width="1.3" stroke-dasharray="1.6 2.1"/><circle class="aro" cx="16" cy="16" r="8.2" stroke-width="1.3"/><path class="aro" d="M16 13.4V7.8M18.47 15.2l5.33-1.73M17.53 18.1l3.29 4.53M14.47 18.1l-3.29 4.53M13.53 15.2l-5.33-1.73" stroke-width="1.6" stroke-linecap="round"/><circle class="cubo" cx="16" cy="16" r="2.5"/></svg><b>Pneus<span>BR</span></b></div>
     <div id="login-carregando"><p>Conectando…</p></div>
@@ -1142,6 +1165,15 @@ body.tem-aviso .topo .status{margin-right:52px}
       <label class="f">Repita a senha<input class="inp" type="password" id="lc-senha2" autocomplete="new-password" minlength="8" required></label>
       <button class="btn primary" type="submit">Criar acesso e entrar</button>
       <div class="login-erro" id="lc-erro" role="alert"></div>
+    </form>
+    <form id="f-termo" hidden>
+      <h2>Termo de uso e sigilo</h2>
+      <p>Antes do primeiro acesso, leia e aceite o termo. A data e a hora do aceite ficam registradas.</p>
+      <div class="termo-texto" id="lt-texto" tabindex="0" role="region" aria-label="Texto do termo de uso e sigilo"></div>
+      <label class="chk"><input type="checkbox" id="lt-ok">Li e concordo com o termo de uso e sigilo</label>
+      <button class="btn primary" type="submit">Aceitar e entrar</button>
+      <button class="btn ghost" type="button" id="lt-sair">Não aceito (sair)</button>
+      <div class="login-erro" id="lt-erro" role="alert"></div>
     </form>
     <div id="login-falha" hidden><p id="lf-msg"></p><button class="btn" type="button" id="lf-tentar" style="margin-top:12px">Tentar de novo</button></div>
     <p class="login-rodape">Sistema de estoque, caixa e gestão da PneusBR</p>
@@ -1318,6 +1350,23 @@ const downloads = {
   }
 };
 
+/* ---------- termo de uso e sigilo (pedido do dono, 19/11/2026) ----------
+   Cada funcionário aceita no primeiro acesso; o servidor grava quem e quando (tabela termo_aceites, só inclusão).
+   Mudou o texto? Troque a versão: todos aceitam de novo no próximo acesso. */
+const TERMO = {
+  versao: '1 · 20/11/2026',
+  html: `<p>O sistema PneusBR é de uso interno da loja. Ao entrar, você concorda em:</p>
+<ol>
+<li>Usar o sistema só para o trabalho na loja.</li>
+<li>Manter em sigilo os preços de compra, custos, margens, valores de caixa e de faturamento, as notas e os dados de clientes e fornecedores (nomes, telefones, CPF ou CNPJ, endereços, placas). Não copiar, fotografar, imprimir nem passar essas informações para ninguém de fora da loja, também depois de deixar de trabalhar nela.</li>
+<li>Não emprestar seu e-mail e sua senha e sair da conta quando usar um aparelho que não é seu.</li>
+<li>Registrar as vendas, serviços e movimentações como aconteceram (quem fez, quantidades e valores).</li>
+<li>Avisar o dono se notar erro no sistema, acesso estranho ou vazamento de informação.</li>
+</ol>
+<p>Cada registro fica ligado à sua conta. O dono pode tirar o acesso a qualquer momento.</p>`
+};
+const quando = iso => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleDateString('pt-BR') + ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); };
+
 /* ---------- conta e equipe ---------- */
 const PBR = window.PBR = { sb, eu: null };
 let resolverPronto;
@@ -1326,10 +1375,11 @@ window.claude = { use: n => pronto.then(c => c[n] || null) };
 
 function tela(qual, msg) {
   $('#login').hidden = qual === null;
-  for (const id of ['login-carregando', 'f-entrar', 'f-criar', 'login-falha']) $('#' + id).hidden = id !== qual;
+  for (const id of ['login-carregando', 'f-entrar', 'f-criar', 'f-termo', 'login-falha']) $('#' + id).hidden = id !== qual;
   if (qual === 'login-falha') $('#lf-msg').textContent = msg || 'Não foi possível conectar.';
   if (qual === 'f-entrar') { $('#le-erro').textContent = msg || ''; setTimeout(() => $('#le-email').focus(), 30); }
   if (qual === 'f-criar') setTimeout(() => $('#lc-nome').focus(), 30);
+  if (qual === 'f-termo') { $('#lt-texto').innerHTML = TERMO.html; $('#lt-ok').checked = false; $('#lt-erro').textContent = msg || ''; setTimeout(() => $('#lt-texto').focus(), 30); }
 }
 async function prepararLogin(msg) {
   tela('login-carregando');
@@ -1342,7 +1392,17 @@ async function iniciarSessao(sessao) {
   const { data: me, error } = await sb.from('membros').select('nome,papel').eq('user_id', sessao.user.id).maybeSingle();
   if (error) { tela('login-falha', 'Não foi possível carregar o seu acesso. Confira a internet.'); return; }
   if (!me) { await sb.auth.signOut(); prepararLogin('Esta conta não tem acesso ao sistema. Peça ao dono para liberar.'); return; }
-  PBR.eu = { id: sessao.user.id, email: sessao.user.email, nome: me.nome || sessao.user.email, papel: me.papel };
+  PBR.eu = { id: sessao.user.id, email: sessao.user.email, nome: me.nome || sessao.user.email, papel: me.papel, termo: null };
+  // funcionário: só entra depois de aceitar o termo de uso e sigilo (uma vez por versão do texto)
+  if (me.papel !== 'dono') {
+    const { data: ac, error: e2 } = await sb.from('termo_aceites').select('aceito_em').eq('user_id', sessao.user.id).eq('versao', TERMO.versao).maybeSingle();
+    if (e2) { tela('login-falha', 'Não foi possível conferir o termo de uso. Confira a internet e tente de novo.'); return; }
+    if (!ac) { tela('f-termo'); return; }
+    PBR.eu.termo = ac.aceito_em;
+  }
+  entrarNoSistema();
+}
+function entrarNoSistema() {
   tela(null);
   // link da planilha vem do servidor (o ID não fica no código público)
   sb.functions.invoke('planilha', { body: { acao: 'link' } }).then(({ data }) => { if (data && data.link) PBR.planilhaLink = data.link; }).catch(() => { });
@@ -1384,6 +1444,18 @@ $('#f-criar').addEventListener('submit', async e => {
   iniciarSessao(data.session);
 });
 $('#lf-tentar').addEventListener('click', () => boot());
+$('#f-termo').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!$('#lt-ok').checked) { $('#lt-erro').textContent = 'Marque que leu e concorda com o termo para entrar.'; return; }
+  const btn = e.submitter || $('#f-termo button[type=submit]'); btn.disabled = true; $('#lt-erro').textContent = '';
+  // quem e quando são gravados pelo servidor; aceite repetido (outra aba) conta como aceito
+  const { error } = await sb.from('termo_aceites').insert({ versao: TERMO.versao });
+  btn.disabled = false;
+  if (error && error.code !== '23505') { $('#lt-erro').textContent = /fetch|network/i.test(String(error.message)) ? 'Sem conexão com a internet.' : 'Não foi possível registrar o aceite agora. Tente de novo.'; return; }
+  PBR.eu.termo = new Date().toISOString();
+  entrarNoSistema();
+});
+$('#lt-sair').addEventListener('click', () => PBR.sair());
 
 // leitura de nota escaneada com IA (função ler-nota do Supabase)
 PBR.lerNotaIA = async body => {
@@ -1411,14 +1483,17 @@ PBR.renderConta = async () => {
   const box = $('#a-conta'); if (!box || !PBR.eu) return;
   box.innerHTML = `<p style="margin:0;font-size:14px"><b>${esc(PBR.eu.nome)}</b> · ${esc(PBR.eu.email)} · ${PBR.eu.papel === 'dono' ? 'dono' : 'funcionário'}</p>
     <div class="toolbar"><input class="inp" type="password" id="a-senha-nova" placeholder="Nova senha (mín. 8)" autocomplete="new-password" style="flex:1;min-width:180px"><button class="btn sm" type="button" data-acao="pbr-senha">Trocar minha senha</button></div>
-    <div class="toolbar"><button class="btn sm ghost" type="button" data-acao="pbr-sair">Sair desta conta</button></div>`;
+    <div class="toolbar"><button class="btn sm ghost" type="button" data-acao="pbr-sair">Sair desta conta</button></div>
+    <details class="termo-ver"><summary>${PBR.eu.papel === 'dono' ? 'Termo de uso e sigilo que a equipe aceita' : 'Termo de uso e sigilo' + (PBR.eu.termo ? ' (aceito em ' + esc(quando(PBR.eu.termo)) + ')' : '')} · versão ${esc(TERMO.versao)}</summary><div class="termo-texto">${TERMO.html}</div></details>`;
   const eq = $('#a-equipe'); if (!eq) return;
   if (PBR.eu.papel !== 'dono') { eq.closest('section').hidden = true; const ts = $('#a-trava'); if (ts) ts.closest('section').hidden = true; return; }
   renderTrava();
   eq.innerHTML = '<p class="muted" style="margin:0">Carregando…</p>';
   try {
-    const { lista } = await acaoEquipe({ acao: 'listar' });
-    eq.innerHTML = (lista || []).map(p => `<div class="pessoa"><div><b>${esc(p.nome || p.email)}</b><small>${esc(p.email)} · ${p.papel === 'dono' ? 'dono' : 'funcionário'}${p.ultimo ? ' · entrou em ' + new Date(p.ultimo).toLocaleDateString('pt-BR') : ' · ainda não entrou'}</small></div>
+    const [{ lista }, aceites] = await Promise.all([acaoEquipe({ acao: 'listar' }), sb.from('termo_aceites').select('user_id,versao,aceito_em').then(r => r.data || [], () => [])]);
+    const aceite = id => aceites.filter(a => a.user_id === id && a.versao === TERMO.versao).map(a => a.aceito_em)[0];
+    const txtTermo = p => p.papel === 'dono' ? '' : aceite(p.user_id) ? ' · aceitou o termo em ' + esc(quando(aceite(p.user_id))) : ' · <span style="color:var(--red-ink)">ainda não aceitou o termo</span>';
+    eq.innerHTML = (lista || []).map(p => `<div class="pessoa"><div><b>${esc(p.nome || p.email)}</b><small>${esc(p.email)} · ${p.papel === 'dono' ? 'dono' : 'funcionário'}${p.ultimo ? ' · entrou em ' + new Date(p.ultimo).toLocaleDateString('pt-BR') : ' · ainda não entrou'}${txtTermo(p)}</small></div>
       <div class="acoes">${p.user_id !== PBR.eu.id ? `<button class="btn sm" type="button" data-acao="pbr-redef" data-id="${esc(p.user_id)}">Nova senha</button><button class="btn sm ghost" type="button" data-acao="pbr-remover" data-id="${esc(p.user_id)}">Remover</button>` : '<span class="muted" style="font-size:12.5px">você</span>'}</div></div>`).join('') +
       `<div class="form-g3" style="margin-top:10px"><label class="f">Nome<input class="inp" id="a-p-nome"></label><label class="f">E-mail<input class="inp" type="email" id="a-p-email"></label><label class="f">Senha inicial<input class="inp" type="text" id="a-p-senha" placeholder="mín. 8, letras e números" autocomplete="off"></label></div>
       <div class="toolbar"><button class="btn sm primary" type="button" data-acao="pbr-add">Dar acesso a esta pessoa</button></div>`;
@@ -1430,7 +1505,7 @@ async function renderTrava() {
   let configurada = null;
   try { const { data } = await sb.functions.invoke('acesso', { body: { acao: 'trava-status' } }); configurada = !!(data && data.configurada); } catch { }
   el.innerHTML = `<p style="margin:0;font-size:13.5px;color:var(--ink-2)">Caixa, Faturamento, Balanço e Preços pedem esta senha. Ela fica guardada no servidor (só o resumo, não a senha) e há limite de tentativas.</p>
-    ${configurada === false ? '<p class="erro-txt" style="margin:0">Ainda vale a senha antiga, que pode ser descoberta pelo código público do site. Crie uma senha nova.</p>' : configurada ? '<p class="muted" style="margin:0;font-size:13px">Senha nova ativa.</p>' : ''}
+    ${configurada === false ? '<p class="erro-txt" style="margin:0">A senha das telas ainda não foi criada: Caixa, Faturamento, Balanço e Preços ficam fechados até você criar.</p>' : configurada ? '<p class="muted" style="margin:0;font-size:13px">Senha das telas ativa.</p>' : ''}
     <div class="toolbar"><input class="inp" type="password" id="a-trava-1" placeholder="Nova senha (mín. 6)" autocomplete="new-password" style="flex:1;min-width:160px"><input class="inp" type="password" id="a-trava-2" placeholder="Repita" autocomplete="new-password" style="flex:1;min-width:120px"><button class="btn sm" type="button" data-acao="pbr-trava">Salvar senha das telas</button></div>`;
 }
 function aviso(msg, erro) { const el = document.createElement('div'); el.className = 'toast' + (erro ? ' err' : ''); el.textContent = msg; $('#toasts').appendChild(el); setTimeout(() => el.remove(), erro ? 7000 : 3500); }
@@ -1442,7 +1517,7 @@ document.addEventListener('click', async e => {
     if (acao === 'pbr-trava') {
       const a1 = $('#a-trava-1').value, a2 = $('#a-trava-2').value;
       if (a1.trim().toUpperCase() !== a2.trim().toUpperCase()) { aviso('As duas senhas não são iguais.', true); return; }
-      await PBR.travaDefinir(a1); $('#a-trava-1').value = ''; $('#a-trava-2').value = ''; aviso('Senha das telas trocada. A senha antiga não vale mais.'); renderTrava(); return;
+      await PBR.travaDefinir(a1); $('#a-trava-1').value = ''; $('#a-trava-2').value = ''; aviso('Senha das telas salva. A anterior não vale mais.'); renderTrava(); return;
     }
     if (acao === 'pbr-senha') { await PBR.trocarSenha($('#a-senha-nova').value); $('#a-senha-nova').value = ''; aviso('Senha trocada.'); return; }
     if (acao === 'pbr-add') { await acaoEquipe({ acao: 'criar-func', nome: $('#a-p-nome').value.trim(), email: $('#a-p-email').value.trim(), senha: $('#a-p-senha').value }); aviso('Acesso criado. Passe o e-mail e a senha para a pessoa.'); PBR.renderConta(); return; }
@@ -1542,11 +1617,10 @@ const INTEGRANTES_PADRAO = [
 const CTRIB_PADRAO = '140101'; // 14.01.01: conserto, revisão e manutenção de veículos (peças ficam no ICMS)
 const CTRIB_DESC = { '140101': 'Lubrificação, limpeza, revisão, conserto, restauração, manutenção e conservação de veículos e motores (exceto peças e partes, sujeitas ao ICMS)' };
 const EMISSOR_NFSE = 'https://www.nfse.gov.br/EmissorNacional';
-const EMISSOR_PECAS_MG = 'https://www.fazenda.mg.gov.br/servicos/empresa/nfa/emitir-nota-fiscal-avulsa-eletronica-nfa-e/';
+// nota avulsa de peças (ICMS) para MEI na Fazenda de MG; o endereço antigo saiu do ar (conferido em 20/11/2026)
+const EMISSOR_PECAS_MG = 'https://www.fazenda.mg.gov.br/empresas/documentos_fiscais/notafiscalavulsa_mei.html';
 const BRASILAPI_CNPJ = 'https://brasilapi.com.br/api/cnpj/v1/';
-// Senha das telas: no site, quem confere é o servidor (função "acesso"), com limite de tentativas; a senha nova nunca fica no código.
-// O resumo abaixo é da senha antiga e só vale enquanto o dono não criar a senha nova em Configurações.
-const SENHA_TELAS_ANTIGA = 'jm1zwz';
+// Senha das telas: quem confere é o servidor (função "acesso"), com limite de tentativas; a senha nunca fica no código.
 const TRAVA_TENT = 'pbr.trava.tent';
 function travaEspera() { try { const t = JSON.parse(localStorage.getItem(TRAVA_TENT) || 'null'); return t && t.ate > Date.now() ? Math.ceil((t.ate - Date.now()) / 1000) : 0; } catch { return 0; } }
 function travaErrou() { try { const t = JSON.parse(localStorage.getItem(TRAVA_TENT) || 'null') || { n: 0 }; t.n = (t.n || 0) + 1; t.ate = t.n >= 5 ? Date.now() + Math.min(900, 30 * 2 ** (t.n - 5)) * 1000 : 0; localStorage.setItem(TRAVA_TENT, JSON.stringify(t)); } catch { } }
@@ -1565,12 +1639,12 @@ async function destravar(texto, msg, btn) {
   if (ok) { travaZerar(); liberarTelas(true); return true; }
   travaErrou(); msg('Senha incorreta.'); return false;
 }
+// só vale a senha guardada no servidor (a antiga, que ficava no código público do site, saiu em 19/11/2026)
 async function conferirSenhaTelas(v) {
-  if (window.PBR && typeof window.PBR.travaConferir === 'function') {
-    const r = await window.PBR.travaConferir(v); // erro de rede ou excesso de tentativas sobe como exceção
-    if (r && r.configurada) return !!r.ok;
-  }
-  return hash36(v) === SENHA_TELAS_ANTIGA;
+  if (!(window.PBR && typeof window.PBR.travaConferir === 'function')) throw new Error('A senha das telas só pode ser conferida no site do sistema.');
+  const r = await window.PBR.travaConferir(v); // erro de rede ou excesso de tentativas sobe como exceção
+  if (!r || !r.configurada) throw new Error('A senha das telas ainda não foi criada. O dono cria em Configurações → Senha das telas.');
+  return !!r.ok;
 }
 let livresMem = (() => { try { return sessionStorage.getItem('pbr.livre') === '1'; } catch { return false; } })();
 function telasLivres() { return livresMem; }
@@ -2706,6 +2780,7 @@ function renderBadges() {
   const nRot = pendentesRotinaHoje();
   set('badge-rotina', nRot);
   $('#btn-ajustes').dataset.tip = nRot ? `Configurações · ${nRot} tarefa${nRot > 1 ? 's' : ''} da rotina para hoje` : 'Configurações';
+  $('#btn-ajustes-nome').textContent = 'Configurações: caixa, faturamento, balanço, preços, rotina e ajustes' + (nRot ? ` (${nRot} tarefa${nRot > 1 ? 's' : ''} da rotina para hoje)` : '');
 }
 /* aviso no canto superior direito, em todas as telas: parcelas a pagar que vencem hoje e as atrasadas (vermelho) e,
    desde 13/11/2026, clientes com retorno pendente (troca de óleo etc. com prazo vencido e ainda não chamados), em azul.
@@ -2819,7 +2894,7 @@ function renderUltimo() {
   }
   const f = S.ultimo && acharItem(S.ultimo.id);
   if (!f) {
-    box.innerHTML = `<div class="ultimo vazio"><h3>Pronto para ler</h3>Escolha <b>Entrada</b> ou <b>Saída</b>, passe o leitor no código de barras e o produto aparece aqui com o valor. Sem leitor, digite o código do fabricante (ex.: BA-8003), o código de estoque (ex.: 12071) ou o modelo e tecle Enter. Serviços ficam nos botões que aparecem no modo Saída.</div>`;
+    box.innerHTML = `<div class="ultimo vazio"><h2>Pronto para ler</h2>Escolha <b>Entrada</b> ou <b>Saída</b>, passe o leitor no código de barras e o produto aparece aqui com o valor. Sem leitor, digite o código do fabricante (ex.: BA-8003), o código de estoque (ex.: 12071) ou o modelo e tecle Enter. Serviços ficam nos botões que aparecem no modo Saída.</div>`;
     return;
   }
   const { L, it } = f, est = estornados().has(it.id);
@@ -3988,7 +4063,7 @@ function renderNovaNota() {
       <label class="f">Site (só compras online)<input class="inp" data-nd="site" list="nd-sites" value="${esc(nd.site || '')}" placeholder="Ex.: Mercado Livre"><datalist id="nd-sites">${sitesConhecidos().map(x => `<option value="${esc(x)}">`).join('')}</datalist></label>` : ''}
     </div></section>
     <section><h3>Itens da nota</h3>
-      <div class="tabela-wrap"><table class="t"><thead><tr><th>Item</th><th class="num" style="width:90px">Qtd</th><th class="num" style="width:120px">${isP ? 'Custo unit.' : 'Preço unit.'}</th><th class="num">Total</th><th></th></tr></thead><tbody id="nd-itens"></tbody></table></div>
+      <div class="tabela-wrap"><table class="t"><thead><tr><th>Item</th><th class="num" style="width:90px">Qtd</th><th class="num" style="width:120px">${isP ? 'Custo unit.' : 'Preço unit.'}</th><th class="num">Total</th><th><span class="vh">Ações</span></th></tr></thead><tbody id="nd-itens"></tbody></table></div>
       <div class="nd-quem" id="nd-quem"></div>
       <label class="chk"><input type="checkbox" data-nd="movimentar" ${nd.movimentar ? 'checked' : ''}>${isP ? 'Dar entrada destes itens no estoque agora (o caixa só muda quando a nota for paga)' : 'Dar saída destes itens agora: baixa o estoque e a venda entra no faturamento (o caixa só muda quando receber)'}</label>
     </section>
@@ -4397,7 +4472,7 @@ function abrirNota(col, id, parcAberta, modo) {
     ${n.conferir?.length && !n.cancelada && !editar ? `<div class="banner conf" style="margin:0"><div><b>Conferir com a nota de papel:</b> ${esc(n.conferir.join(' · '))}</div></div>` : ''}
     ${cab}
     ${formAbat}
-    <section><h3>Parcelas</h3><div class="tabela-wrap"><table class="t"><thead><tr><th>Parcela</th><th>${isP ? 'Vencimento' : 'Data'}</th><th class="num">Valor</th><th>Situação</th><th></th></tr></thead><tbody>
+    <section><h3>Parcelas</h3><div class="tabela-wrap"><table class="t"><thead><tr><th>Parcela</th><th>${isP ? 'Vencimento' : 'Data'}</th><th class="num">Valor</th><th>Situação</th><th><span class="vh">Ações</span></th></tr></thead><tbody>
       ${n.parcelas.map((pc, i) => { const st = n.cancelada ? 'cancelada' : statusParc(pc); const [sn, sc] = isP || st === 'cancelada' ? ST_NOME[st] : st === 'paga' ? ['Recebida', 'soft'] : ['Em aberto', '']; return `<tr><td class="mono">${pc.n}/${n.parcelas.length}</td><td class="mono">${fmtData(pc.venc)}</td><td class="num">${money(pc.valor)}${pc.pago && !pc.pago.abat ? `<span class="sub">${money(pc.pago.valor)} em ${pc.pago.data ? fmtDM(pc.pago.data) : '—'} · ${esc(PG_NOME[pc.pago.pg] || '')}${pc.pago.foraCaixa ? ' · só controle' : ''}</span>` : ''}${pc.abatido ? `<span class="sub">abatido ${money(pc.abatido)}${pc.pago ? '' : ` · falta ${money(restParc(pc))}`}</span>` : ''}</td><td><span class="pill ${sc}">${sn}</span></td><td class="num">${!pc.pago && pode ? `<button class="btn sm ${isP && (st === 'vencida' || st === 'hoje') ? 'red' : ''}" type="button" data-acao="parc-abrir" data-i="${i}">${isP ? 'Pagar' : 'Receber'}</button>` : pc.pago && !pc.pago.abat && pode ? `<button class="btn sm ghost" type="button" data-acao="parc-desfazer" data-i="${i}">Desfazer</button>` : ''}</td></tr>
         ${pc.boleto ? `<tr class="parc-bol"><td colspan="5"><div class="doc-lido">${ico('scan')}<div style="min-width:0;flex:1"><b>Boleto ${esc(pc.boleto.bancoNome || '')} da parcela ${pc.n}</b><div class="mono">${esc(pc.boleto.linha || pc.boleto.codigo)}</div></div><button class="btn sm" type="button" data-acao="copiar" data-txt="${esc(pc.boleto.linha || pc.boleto.codigo)}">${ico('copy')}Copiar</button></div></td></tr>` : ''}
         <tr class="parc-row" id="pf-${i}" ${parcAberta === i ? '' : 'hidden'}><td colspan="5"><div class="toolbar" style="align-items:flex-end"><label class="f">Data<input class="inp" type="date" id="pf-data-${i}" value="${hoje()}" max="${hoje()}"></label><label class="f">Forma<select class="inp" id="pf-pg-${i}">${FORMAS.map(([v, nn]) => `<option value="${v}" ${v === (isP ? 'banco' : 'pix') ? 'selected' : ''}>${nn}</option>`).join('')}</select></label><label class="f">Valor (R$)<input class="inp num" id="pf-valor-${i}" inputmode="decimal" value="${esc(fmtMoneyIn(restParc(pc)))}" style="width:120px"></label><button class="btn primary" type="button" data-acao="parc-ok" data-i="${i}">Confirmar</button></div>${caixaParado() ? '<p class="muted" style="margin:6px 0 0;font-size:13px">O caixa está parado a pedido do dono: fica só anotado como pago, sem mexer no caixa.</p>' : ''}</td></tr>`; }).join('')}
@@ -4480,13 +4555,13 @@ function salvarRotinaLista(lista) { S.rotinaLista = lista; fila('rotina/lista', 
 
 /* ================= drawer produto ================= */
 let drawerAberto = null;
-function abrirDrawer(html, info, largo) { const pn = $('#drawer-pn'); pn.className = 'pn' + (largo ? ' largo' : ''); pn.innerHTML = html; $('#drawer').hidden = false; drawerAberto = info; esconderTip(); }
+function abrirDrawer(html, info, largo) { const pn = $('#drawer-pn'); pn.className = 'pn' + (largo ? ' largo' : ''); pn.innerHTML = html; pn.setAttribute('aria-label', (pn.querySelector('h2')?.textContent || 'Painel').trim()); $('#drawer').hidden = false; drawerAberto = info; esconderTip(); }
 // lista de descontos dos fornecedores (só o dono muda)
 function abrirDescontos() { S.descDraft = (Array.isArray(S.config.descontosFornecedor) ? S.config.descontosFornecedor : []).map(d => ({ nome: d.nome || '', pct: Number(d.pct) || 0, naNota: !!d.naNota })); renderDescontos(); }
 function renderDescontos() {
   const l = S.descDraft || [], ed = S.podeEscrever && podeConfig(), dis = ed ? '' : 'disabled';
   abrirDrawer(`<div class="pn-h"><div><h2>Descontos dos fornecedores</h2><div class="sub">Nota a pagar nova desses fornecedores já entra com o desconto: valor da nota, desconto e valor a pagar.</div></div><button class="btn sm ghost" type="button" data-acao="fechar-drawer" aria-label="Fechar">${ico('x')}</button></div>
-    <section><div class="tabela-wrap"><table class="t"><thead><tr><th>Fornecedor</th><th class="num" style="width:120px">Desconto (%)</th><th style="width:130px">Já vem escrito na nota</th><th style="width:44px"></th></tr></thead><tbody>
+    <section><div class="tabela-wrap"><table class="t"><thead><tr><th>Fornecedor</th><th class="num" style="width:120px">Desconto (%)</th><th style="width:130px">Já vem escrito na nota</th><th style="width:44px"><span class="vh">Ações</span></th></tr></thead><tbody>
       ${l.length ? l.map((d, i) => `<tr><td><input class="inp" data-dsc="${i}" data-campo="nome" value="${esc(d.nome)}" placeholder="Ex.: Trevo" aria-label="Fornecedor" ${dis}></td><td><input class="inp num" data-dsc="${i}" data-campo="pct" inputmode="decimal" value="${d.pct ? esc(pctTxt(d.pct)) : ''}" placeholder="0" aria-label="Desconto em %" ${dis}></td><td><label class="chk" style="margin:0"><input type="checkbox" data-dsc="${i}" data-campo="naNota" ${d.naNota ? 'checked' : ''} ${dis}>sim</label></td><td>${ed ? `<button class="undo" type="button" data-acao="dsc-del" data-i="${i}" aria-label="Tirar ${esc(d.nome)}" title="Tirar">${ico('x')}</button>` : ''}</td></tr>`).join('') : '<tr><td colspan="4" class="vazio-t">Nenhum desconto cadastrado.</td></tr>'}
     </tbody></table></div>
     ${ed ? `<div><button class="btn sm" type="button" data-acao="dsc-add">${ico('plus')}Adicionar fornecedor</button></div>` : ''}
@@ -4616,7 +4691,7 @@ function abrirAjustes() {
       ${TELAS_CONFIG.map(([tab, ic, nome]) => { const dica = nome + (tab === 'rotina' && nRot ? ` · ${nRot} tarefa${nRot > 1 ? 's' : ''} para hoje` : '') + (travada(tab) ? ' · pede senha' : ''); return `<a href="#${tab}" data-acao="fechar-drawer" data-tip="${esc(dica)}" aria-label="${esc(dica)}" ${S.tab === tab ? 'aria-current="page"' : ''}>${ico(ic)}${tab === 'rotina' && nRot ? `<span class="badge">${nRot > 99 ? '99+' : nRot}</span>` : ''}${travada(tab) ? `<span class="cad">${ico('lock')}</span>` : ''}</a>`; }).join('')}
     </nav></section>
     <section><h3>Aparência</h3><div class="tema-opts" role="radiogroup" aria-label="Tema">
-      ${[['auto', 'Automático'], ['claro', 'Modo claro'], ['escuro', 'Modo noturno']].map(([v, n]) => `<button type="button" role="radio" data-acao="tema" data-v="${v}" aria-pressed="${tema === v}" aria-checked="${tema === v}"><span class="amostra ${v}"><i></i><span></span></span>${n}</button>`).join('')}
+      ${[['auto', 'Automático'], ['claro', 'Modo claro'], ['escuro', 'Modo noturno']].map(([v, n]) => `<button type="button" role="radio" data-acao="tema" data-v="${v}" aria-checked="${tema === v}"><span class="amostra ${v}"><i></i><span></span></span>${n}</button>`).join('')}
     </div><p class="muted" style="margin:0;font-size:13px">Automático segue o tema do seu aparelho. A escolha vale para este navegador.</p>
       <label class="chk"><input type="checkbox" id="a-anim" ${ls.get('anim-carro', true) !== false ? 'checked' : ''}>Animação do carro na tela de início (vale para este aparelho)</label></section>
     <section><h3>Loja</h3><label class="f">Nome que aparece no topo<input class="inp" id="a-loja" value="${esc(S.config.loja || '')}" placeholder="Ex.: PneusBR Centro" ${podeConfig() ? '' : 'disabled title="Só o dono muda"'}></label></section>
@@ -4803,7 +4878,7 @@ function renderPagamentos() {
   }).join('');
   el.innerHTML = `<div class="card pag-card"><div class="pag-h"><div><h2>Pagamentos da semana</h2><p>Vales pegos na semana + o pagamento do fim de semana = o que cada um recebeu. ${caixaParado() ? 'O caixa está parado a pedido do dono: por enquanto fica só anotado, sem sair do caixa.' : 'Tudo sai do caixa do dia.'}</p></div>
       <div class="semana-nav"><button class="btn sm" type="button" data-acao="pag-sem-ant" aria-label="Semana anterior">${ico('left')}</button><b id="pag-semana">${semanaTxt(ini)}</b><button class="btn sm" type="button" data-acao="pag-sem-prox" aria-label="Próxima semana" ${ini >= estaSem ? 'disabled' : ''}>${ico('right')}</button>${ini !== estaSem ? '<button class="btn sm ghost" type="button" data-acao="pag-sem-hoje">Esta semana</button>' : ''}</div></div>
-    <div class="tabela-wrap"><table class="t" id="pag-tab"><thead><tr><th>Colaborador</th><th>Vales</th><th class="num">Total de vales</th><th class="num">Pagamento</th><th class="num">Recebeu na semana</th><th></th></tr></thead>
+    <div class="tabela-wrap"><table class="t" id="pag-tab"><thead><tr><th>Colaborador</th><th>Vales</th><th class="num">Total de vales</th><th class="num">Pagamento</th><th class="num">Recebeu na semana</th><th><span class="vh">Ações</span></th></tr></thead>
       <tbody>${linhas || '<tr><td colspan="6" class="vazio-t">Nenhum colaborador com pagamento semanal.</td></tr>'}</tbody>
       <tfoot><tr><td><b>Total</b></td><td></td><td class="num"><b>${money(r2(tV))}</b></td><td class="num"><b>${money(r2(tP))}</b></td><td class="num"><b>${money(r2(tV + tP))}</b></td><td></td></tr></tfoot></table></div></div>
     ${integrantes().filter(x => x.socio).map(x => renderSocio(x, pags)).join('')}`;
@@ -5067,7 +5142,7 @@ function linhasNf(n) {
   return L;
 }
 const textoNf = n => [(n.tipo === 'nfe' ? 'NOTA DE VENDA DE PEÇAS' : 'NFS-e (nota de serviço)') + ' · PneusBR', ...linhasNf(n).map(([r, v]) => `${r}: ${v.replace(/\n/g, ' · ')}`)].join('\n');
-const dlNfHtml = n => `<dl class="nf-dl">${linhasNf(n).map(([r, v, c]) => `<div><dt>${esc(r)}</dt><dd>${esc(v)}</dd>${c ? `<button class="btn sm ghost cp" type="button" data-acao="copiar" data-txt="${esc(c)}" aria-label="Copiar ${esc(r)}" title="Copiar">${ico('copy')}</button>` : ''}</div>`).join('')}</dl>`;
+const dlNfHtml = n => `<dl class="nf-dl">${linhasNf(n).map(([r, v, c]) => `<div><dt>${esc(r)}</dt><dd>${esc(v)}</dd>${c ? `<dd class="cp"><button class="btn sm ghost" type="button" data-acao="copiar" data-txt="${esc(c)}" aria-label="Copiar ${esc(r)}" title="Copiar">${ico('copy')}</button></dd>` : ''}</div>`).join('')}</dl>`;
 const linkEmissor = n => n.tipo === 'nfe' ? (safeUrl(n.prestador?.linkPecas) || EMISSOR_PECAS_MG) : EMISSOR_NFSE;
 const pillNf = n => `<span class="pill ${n.status === 'emitida' ? 'ink' : n.status === 'cancelada' ? 'soft' : 'red'}">${n.status === 'emitida' ? 'Emitida' + (n.numero ? ' · nº ' + esc(n.numero) : '') : n.status === 'cancelada' ? 'Cancelada' : 'Falta emitir'}</span>`;
 function ajudaEmissor(n) {
@@ -5255,15 +5330,15 @@ function iniSair() {
 let iniLoginObs = null;
 function iniMostrar() {
   const el = $('#inicio'); el.hidden = false; el.classList.remove('saindo'); el.style.opacity = '';
-  iniCena(); // já começa a baixar o carro
   const login = document.getElementById('login');
   if (login && !iniLoginObs) {
     let visivel = !login.hidden;
     iniLoginObs = new MutationObserver(() => { const v = !login.hidden; if (visivel && !v && S.tab === 'inicio') iniEntrar(); visivel = v; });
     iniLoginObs.observe(login, { attributes: true, attributeFilter: ['hidden'] });
   }
+  // com a tela de entrada aberta o carro 3D não baixa (pedido do dono, 19/11/2026): ele só vem depois de entrar
   if (login && !login.hidden) return;
-  iniEntrar();
+  iniEntrar(); // iniEntrar baixa o carro (iniCena) se ainda não baixou
 }
 
 /* ================= eventos ================= */
