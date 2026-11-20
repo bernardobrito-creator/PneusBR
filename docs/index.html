@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-3xNhwTXfcxjH781TWXHf6QBo3Y/0o2NVO/+r25nEEFE=' 'sha256-/aaYJnYXf4U778ixzcVUXrQfVRgz8W3rWvuEftxGhtI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval' 'sha256-AGAtjBzbW4mmkFcsFMP3SnLNKnQQ3lqX5KTGV5TqOi4=' 'sha256-b958ZA8kCpjFoNg+H8FJvfWIzwMTbAcrDF0Zi6HZ+z8=' 'sha256-3xNhwTXfcxjH781TWXHf6QBo3Y/0o2NVO/+r25nEEFE=' 'sha256-ya+DwwmqWE5sgHrlsoZvNk5PPusOLeg8nPt+Ctg9MgM='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://mjojodmrckyzfhrbaswt.supabase.co wss://mjojodmrckyzfhrbaswt.supabase.co https://brasilapi.com.br https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; media-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <style id="sem-moldura">html{display:none!important}</style>
 <script>if (window.top === window.self) document.getElementById('sem-moldura').remove();</script>
@@ -250,6 +250,7 @@ kbd{font-family:var(--f-mono);font-size:11px;border:1px solid currentColor;borde
 .u-qtd{font:600 15px var(--f-mono);color:var(--ink-2)}
 .u-total{font-size:30px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:2px}
 .u-calc{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.u-calc.u-parc{color:var(--ink);font-weight:650;font-size:14px}
 .u-est{margin-top:10px;font-size:13px;color:var(--ink-2)}
 .u-est b{font-size:16px;font-variant-numeric:tabular-nums}
 .u-acoes{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;border-top:1px solid var(--line);padding-top:12px}
@@ -477,7 +478,8 @@ table.t td .undo{display:inline-flex}
 /* ---------- integrantes e nota fiscal ---------- */
 .quem-chips .chip{font-weight:600}
 .quem-chips .chip[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:var(--on-red)}
-.quem-chips .dica-quem{font-size:12px;color:var(--muted);align-self:center}
+.quem-chips .dica-quem,.pg-chips .dica-quem{font-size:12px;color:var(--muted);align-self:center}
+.pg-chips .parc-op{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;padding-left:4px;border-left:1px solid var(--line-2)}
 .pede-quem{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px}
 .pede-quem .btn{min-width:132px;padding:12px 18px;font-size:16px}
 .int-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
@@ -829,7 +831,7 @@ body.tem-aviso .topo .status{margin-right:52px}
           <ul class="sug" id="sug" role="listbox" hidden></ul>
           <div class="linha-opc" id="linha-quem"><span class="eyebrow">Quem fez</span><div class="chips quem-chips" id="quem-chips"></div></div>
           <div class="linha-opc" id="linha-serv"><span class="eyebrow">Serviços</span><div class="chips serv-chips" id="serv-chips"></div></div>
-          <div class="linha-opc" id="linha-pg"><span class="eyebrow">Pagamento</span><div class="chips" id="pagamentos"></div></div>
+          <div class="linha-opc" id="linha-pg"><span class="eyebrow">Pagamento</span><div class="chips pg-chips" id="pagamentos"></div></div>
           <p class="dica"><kbd>3*12071</kbd> registra 3 unidades · <kbd>+</kbd> ou <kbd>-</kbd> e Enter troca o modo · venda fiado: <a href="#receber">nota a receber</a></p>
         </div>
         <div id="ultimo"></div>
@@ -861,7 +863,7 @@ body.tem-aviso .topo .status{margin-right:52px}
     </div>
     <div class="chips mb" id="p-grupos"></div>
     <p class="resumo" id="p-resumo"></p>
-    <div class="tabela-wrap"><table class="t" id="p-tab"><thead><tr><th>Produto</th><th>Código de barras</th><th class="num">Estoque</th><th class="num">Preço de compra</th><th class="num">Preço de venda</th><th class="num">Em estoque (venda)</th></tr></thead><tbody></tbody></table></div>
+    <div class="tabela-wrap"><table class="t" id="p-tab"><thead><tr><th>Produto</th><th>Código de barras</th><th class="num">Estoque</th><th class="num">Preço de compra</th><th class="num">Preço de venda</th><th class="num">Preço a prazo</th><th class="num">Em estoque (venda)</th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <!-- SERVIÇOS -->
@@ -896,7 +898,7 @@ body.tem-aviso .topo .status{margin-right:52px}
         <option value="todos">Todas as bases</option><option value="planilha">Preço de venda da planilha</option><option value="custo">Custo × markup</option><option value="manual">Preço manual</option><option value="sem">Sem preço</option>
       </select>
     </div>
-    <div class="tabela-wrap"><table class="t" id="pr-tab"><thead><tr><th>Produto</th><th class="num">Preço de compra</th><th class="num">Markup</th><th class="num">Custo × markup</th><th class="num">Preço de venda</th><th>Origem do valor</th></tr></thead><tbody></tbody></table></div>
+    <div class="tabela-wrap"><table class="t" id="pr-tab"><thead><tr><th>Produto</th><th class="num">Preço de compra</th><th class="num">Markup</th><th class="num">Custo × markup</th><th class="num">Preço de venda</th><th class="num">Preço a prazo</th><th>Origem do valor</th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <!-- MOVIMENTAÇÕES -->
@@ -1503,7 +1505,13 @@ const MOTIVOS = {
 const MOTIVO_NOME = { compra: 'Compra', devolucao: 'Devolução de cliente', ajuste: 'Ajuste de inventário', venda: 'Venda', servico: 'Uso em serviço', perda: 'Perda ou avaria' };
 const PAGAMENTOS = [['dinheiro', 'Dinheiro'], ['pix', 'Pix'], ['debito', 'Débito'], ['credito', 'Crédito']];
 const FORMAS = [...PAGAMENTOS, ['banco', 'Banco / boleto']];
-const PG_NOME = { ...Object.fromEntries(FORMAS), prazo: 'A prazo' };
+// venda parcelada no cartão (pedido do dono, 19/11/2026): de 2x a 6x, com o preço a prazo (o mesmo em qualquer número de parcelas);
+// entra no caixa na hora, já sem a taxa da maquininha. Só no Registrar: as notas continuam com as formas de sempre.
+const PARCELAS = [2, 3, 4, 5, 6];
+const parcOk = n => PARCELAS.includes(Number(n)) ? Number(n) : 3;
+const FORMAS_CAIXA = [...PAGAMENTOS, ['parcelado', 'Parcelado'], ['banco', 'Banco / boleto']];
+const PG_NOME = { ...Object.fromEntries(FORMAS_CAIXA), prazo: 'A prazo' };
+const pgNome = it => it && it.pg === 'parcelado' && it.parc ? `Parcelado ${it.parc}x` : (PG_NOME[it?.pg] || '');
 const CATS = {
   receita: ['Serviço avulso', 'Venda avulsa', 'Suprimento de caixa', 'Outras receitas'],
   despesa: ['Fornecedor', 'Aluguel', 'Energia e água', 'Internet e telefone', 'Salários', 'Impostos', 'Retirada (sangria)', 'Outras despesas']
@@ -1699,7 +1707,7 @@ const S = {
   config: JSON.parse(JSON.stringify(CFG_PADRAO)), T: null,
   ledgers: new Map(), extras: new Map(), extrasDe: null, janela: addDays(hoje(), -62),
   carregado: { produtos: false, planilha: false, config: false, ledgers: false },
-  modo: ls.get('modo', 'entrada'), motivo: ls.get('motivo', { entrada: 'compra', saida: 'venda' }), pg: ls.get('pg', 'dinheiro'),
+  modo: ls.get('modo', 'entrada'), motivo: ls.get('motivo', { entrada: 'compra', saida: 'venda' }), pg: ls.get('pg', 'dinheiro'), parc: parcOk(ls.get('parc', 3)), escolheParc: false,
   tab: 'registrar', ultimo: null, pendente: null, semPreco: null,
   sync: { rodando: false, erro: null, perm: 'unknown' },
   pGrupo: 'Todos', semana: inicioSemana(hoje()), filtroNotas: { pagar: 'aberto', receber: 'aberto' }, nivelNotas: null, medAjuste: false, ordemNotas: { pagar: ls.get('ordem-pagar') || 'data', receber: ls.get('ordem-receber') || 'data' }, rotEditar: false, nd: null,
@@ -1822,19 +1830,39 @@ function calcPreco(p, T) {
   p.fonte = p.precoManual != null ? 'manual' : base;
   p.custo = (p.custoPl > 0 ? p.custoPl : null) ?? (p.custoManual > 0 ? p.custoManual : null);
   p.custoXmk = p.custo && M.v ? r2(p.custo * M.v) : null;
+  // preço a prazo (parcelado e fiado; só produtos): preço manual + acréscimo → coluna Preço a prazo da planilha → à vista + acréscimo
+  const pz = pctPrazo();
+  if (p.precoManual != null) { p.prazo = arredondar(p.precoManual * (1 + pz / 100)); p.prazoDe = 'manual'; }
+  else if (p.prazoPl > 0) { p.prazo = r2(p.prazoPl); p.prazoDe = 'planilha'; }
+  else if (p.preco > 0) { p.prazo = arredondar(p.preco * (1 + pz / 100)); p.prazoDe = 'calculado'; }
+  else { p.prazo = null; p.prazoDe = 'sem'; }
 }
+// acréscimo do preço a prazo em %: o da célula "Acréscimo a prazo" da Tabela de preços; sem a célula, os 12,6% decididos pelo dono (19/11/2026)
+const ACRESCIMO_PRAZO_PADRAO = 12.6;
+function pctPrazo() {
+  const v = S.planilha.meta?.acrescimoPrazo;
+  return typeof v === 'number' && isFinite(v) && v >= 0 ? v : ACRESCIMO_PRAZO_PADRAO;
+}
+const fmtPctPrazo = () => String(pctPrazo()).replace('.', ',') + '%';
+function prazoBase(p) {
+  if (p.prazoDe === 'planilha') return 'coluna Preço a prazo da planilha';
+  if (p.prazoDe === 'manual') return 'preço manual + ' + fmtPctPrazo();
+  if (p.prazoDe === 'calculado') return 'à vista + ' + fmtPctPrazo();
+  return 'sem preço';
+}
+const prazoCurto = p => p.prazoDe === 'planilha' ? 'planilha' : p.prazoDe === 'manual' ? 'manual + ' + fmtPctPrazo() : p.prazoDe === 'calculado' ? 'à vista + ' + fmtPctPrazo() : '';
 function reconstruir() {
   const meta = S.planilha.meta, linhas = [];
   if (meta) for (let i = 0; i < (meta.partes || 0); i++) { const pt = S.planilha.partes.get('p' + i); if (pt && Array.isArray(pt.linhas)) linhas.push(...pt.linhas); }
   const prods = new Map();
   for (const l of linhas) {
     if (!l || !l.k || prods.has(l.k)) continue;
-    prods.set(l.k, { k: l.k, nome: l.nome, modelo: l.modelo || '', marca: l.marca || '', cod: l.cod || '', custoPl: l.custo ?? null, precoPl: l.preco ?? null, eanPl: l.ean || '', tipo: l.tipo || '', codId: l.codId || '', origem: origemValida(l.origem), aba: l.aba, naPlanilha: true });
+    prods.set(l.k, { k: l.k, nome: l.nome, modelo: l.modelo || '', marca: l.marca || '', cod: l.cod || '', custoPl: l.custo ?? null, precoPl: l.preco ?? null, prazoPl: l.prazo ?? null, eanPl: l.ean || '', tipo: l.tipo || '', codId: l.codId || '', origem: origemValida(l.origem), aba: l.aba, naPlanilha: true });
   }
   for (const [k, d] of S.produtosDoc) {
     let p = prods.get(k);
     if (!p) {
-      p = { k, nome: d.nome || '(sem nome)', modelo: d.modelo || '', marca: d.marca || '', cod: d.cod || '', custoPl: null, precoPl: null, eanPl: '', tipo: '', codId: '', naPlanilha: false, avulso: !!d.avulso, origem: d.avulso ? 'Cadastrado no sistema' : 'Não está mais na planilha', aba: d.avulso ? 'avulso' : 'fora' };
+      p = { k, nome: d.nome || '(sem nome)', modelo: d.modelo || '', marca: d.marca || '', cod: d.cod || '', custoPl: null, precoPl: null, prazoPl: null, eanPl: '', tipo: '', codId: '', naPlanilha: false, avulso: !!d.avulso, origem: d.avulso ? 'Cadastrado no sistema' : 'Não está mais na planilha', aba: d.avulso ? 'avulso' : 'fora' };
       prods.set(k, p);
     }
     p.doc = d;
@@ -1974,7 +2002,10 @@ function avisoCaixaHtml() {
   return '';
 }
 // taxa da maquininha (% da venda): a do sistema (Configurações → Preços) ou a anotada na planilha (aba Custos Fixos)
+// parcelado: a taxa própria (Configurações) ou, vazia, a mesma do crédito
+const ehCartao = pg => pg === 'debito' || pg === 'credito' || pg === 'parcelado';
 function taxaCartaoPct(pg) {
+  if (pg === 'parcelado') { const v = S.config.taxaParcelado; return typeof v === 'number' && v >= 0 ? v : taxaCartaoPct('credito'); }
   if (pg !== 'debito' && pg !== 'credito') return 0;
   const v = S.config[pg === 'debito' ? 'taxaDebito' : 'taxaCredito'];
   if (typeof v === 'number' && v >= 0) return v;
@@ -1984,7 +2015,7 @@ function taxaCartaoPct(pg) {
 // venda ou recebimento no cartão: entra no caixa o valor menos a taxa; a taxa fica guardada no item
 function aplicarTaxaCartao(it, bruto, pctFixo) {
   const pct = bruto > 0 ? (pctFixo != null ? pctFixo : taxaCartaoPct(it.pg)) : 0;
-  if (pct > 0 && (it.pg === 'debito' || it.pg === 'credito')) { const tx = r2(bruto * pct / 100); it.taxa = tx; it.taxaPct = pct; it.caixa = r2(bruto - tx); }
+  if (pct > 0 && ehCartao(it.pg)) { const tx = r2(bruto * pct / 100); it.taxa = tx; it.taxaPct = pct; it.caixa = r2(bruto - tx); }
   else { delete it.taxa; delete it.taxaPct; it.caixa = bruto; }
   return it;
 }
@@ -1994,25 +2025,29 @@ function efeitoCaixa(tipo, motivo, total) {
   if (tipo === 'entrada' && (motivo === 'compra' || motivo === 'devolucao')) return -total;
   return 0;
 }
-function valorUnit(p, tipo, motivo) {
-  if (tipo === 'saida' && motivo === 'venda') return p.preco;
-  if (tipo === 'entrada' && motivo === 'devolucao') return p.preco;
+// venda (e devolução de cliente) no parcelado usa o preço a prazo; nas outras formas, o preço à vista
+function valorUnit(p, tipo, motivo, pg) {
+  if ((tipo === 'saida' && motivo === 'venda') || (tipo === 'entrada' && motivo === 'devolucao')) return pg === 'parcelado' ? p.prazo : p.preco;
   return p.custo;
 }
+// preço que aparece nas listas do Registrar: o a prazo quando a venda está no parcelado
+const precoAgora = p => S.modo === 'saida' && S.motivo.saida === 'venda' && S.pg === 'parcelado' ? p.prazo : p.preco;
 
 /* ================= registrar ================= */
 function registrar(p, qtd, opts = {}) {
   if (!S.podeEscrever) { toast('Seu acesso é só de leitura.', true); return; }
   const tipo = opts.tipo || S.modo, motivo = opts.motivo || S.motivo[tipo];
-  let vu = opts.vu != null ? opts.vu : valorUnit(p, tipo, motivo);
+  const pg = opts.pg || S.pg, parc = opts.parc || S.parc;
+  let vu = opts.vu != null ? opts.vu : valorUnit(p, tipo, motivo, pg);
   if (tipo === 'saida' && motivo === 'venda' && !(vu > 0)) {
-    S.semPreco = { k: p.k, qtd, tipo, motivo, lido: opts.lido || '' }; S.pendente = null; S.ultimo = null; S.pedeQuem = null;
+    S.semPreco = { k: p.k, qtd, tipo, motivo, lido: opts.lido || '', pg, parc }; S.pendente = null; S.ultimo = null; S.pedeQuem = null;
     bip('erro'); renderUltimo(); setTimeout(() => $('#sp-preco')?.focus(), 30); return;
   }
   vu = vu > 0 ? r2(vu) : 0;
   const total = r2(vu * qtd);
   const caixa = efeitoCaixa(tipo, motivo, total);
-  const item = { id: rid(8), t: Date.now(), k: 'mov', tipo, motivo, pk: p.k, cod: p.cod || '', lido: opts.lido || '', nome: p.nome, mod: nomeCurto(p), qtd, vu, cu: p.custo || null, total, caixa, pg: caixa ? S.pg : null, u: S.uid || null };
+  const item = { id: rid(8), t: Date.now(), k: 'mov', tipo, motivo, pk: p.k, cod: p.cod || '', lido: opts.lido || '', nome: p.nome, mod: nomeCurto(p), qtd, vu, cu: p.custo || null, total, caixa, pg: caixa ? pg : null, u: S.uid || null };
+  if (item.pg === 'parcelado') item.parc = parcOk(parc);
   if (caixa > 0) aplicarTaxaCartao(item, caixa);
   if (tipo === 'saida' && motivo === 'venda' && S.quem) item.quem = S.quem; // peça: quem atendeu é opcional
   const L = addItem(item);
@@ -2030,6 +2065,7 @@ function registrarServico(sid, qtd, vuForcado, quemForcado) {
   if (!quem && integrantesAtivos().length) { S.pedeQuem = { sid, qtd, vu: r2(vu) }; S.pendente = null; S.semPreco = null; S.ultimo = null; bip('erro'); renderUltimo(); setTimeout(() => $('.pede-quem .btn')?.focus(), 30); return; }
   const total = r2(vu * qtd);
   const item = { id: rid(8), t: Date.now(), k: 'serv', sid, nome: s.nome, cod: s.cod || '', qtd, vu: r2(vu), total, caixa: total, pg: S.pg, u: S.uid || null };
+  if (item.pg === 'parcelado') item.parc = S.parc; // serviço tem um preço só: no parcelado muda só a forma e a taxa
   aplicarTaxaCartao(item, total);
   if (quem) item.quem = quem;
   const L = addItem(item);
@@ -2087,7 +2123,7 @@ function editarUltimo(qtdNova, vuNova, salvarCusto) {
   it.qtd = qtdNova; it.vu = r2(vuNova); it.total = r2(it.vu * it.qtd);
   if (it.k === 'serv') it.caixa = it.pg === 'prazo' ? 0 : it.total;
   else it.caixa = it.pg === 'prazo' ? 0 : efeitoCaixa(it.tipo, it.motivo, it.total);
-  if (it.caixa && !it.pg) it.pg = S.pg;
+  if (it.caixa && !it.pg) { it.pg = S.pg; if (it.pg === 'parcelado') it.parc = S.parc; }
   if (it.caixa > 0) aplicarTaxaCartao(it, it.caixa, it.taxaPct ?? null); else { delete it.taxa; delete it.taxaPct; }
   salvarLedger(L);
   if (it.k === 'mov') {
@@ -2368,7 +2404,7 @@ function lerXlsx(b64) {
 }
 function interpretar(abas, metodo) {
   const linhas = [], fixos = [], chaves = new Set(), tabelas = [];
-  let markupMes = null, taxasCartao = null, mkSetor = null;
+  let markupMes = null, taxasCartao = null, mkSetor = null, acrescimoPrazo = null;
   const cel = (r, i) => i >= 0 && r ? String(r[i] ?? '').trim() : '';
   const header = (rows, pred) => rows.findIndex(r => Array.isArray(r) && r.some(c => pred(norm(c))));
   const colDe = H => f => H.findIndex(h => typeof f === 'function' ? f(h) : f.test(h));
@@ -2381,6 +2417,23 @@ function interpretar(abas, metodo) {
         if (!/^markup( do)? mes/.test(norm(r[x]))) continue;
         const cands = [r[x + 1], r[x + 2], rows[y + 1]?.[x]];
         for (const c of cands) { const v = parseNum(c); if (isFinite(v) && v > 0 && v < 20) return r3(v); }
+      }
+    }
+    return null;
+  };
+  // célula "Acréscimo a prazo" (Tabela de preços, linha do markup do mês): % que o preço a prazo soma ao à vista.
+  // No arquivo vem como fração (0,126); como texto, "12,6%". Vazia não conta (0% conta).
+  const acharPrazo = rows => {
+    for (let y = 0; y < rows.length; y++) {
+      const r = rows[y]; if (!Array.isArray(r)) continue;
+      for (let x = 0; x < r.length; x++) {
+        if (!/^acrescimo (do preco )?a prazo/.test(norm(r[x]))) continue;
+        for (const c of [r[x + 1], r[x + 2], rows[y + 1]?.[x]]) {
+          const s = String(c ?? '').trim(); if (!s) continue;
+          const v = parseNum(s); if (!isFinite(v) || v < 0) continue;
+          const pct = s.includes('%') ? v : v < 1 ? v * 100 : v;
+          if (pct < 100) return Math.round(pct * 1000) / 1000;
+        }
       }
     }
     return null;
@@ -2422,7 +2475,7 @@ function interpretar(abas, metodo) {
     }
     // aba de preços: Código de barras | Produto | Preço de custo | Preço de venda (sem coluna Modelo)
     const hiT = rows.findIndex(r => Array.isArray(r) && r.some(c => { const h = norm(c); return h.length < 40 && /^(preco|valor|custo) de venda/.test(h); }) && r.some(c => /^(produto|nome|descricao)/.test(norm(c))));
-    if (hiT >= 0 && !rows[hiT].some(c => /^modelo/.test(norm(c)))) { tabelas.push({ nome, rows, hi: hiT }); const mm = acharMarkup(rows); if (mm) markupMes = mm; continue; }
+    if (hiT >= 0 && !rows[hiT].some(c => /^modelo/.test(norm(c)))) { tabelas.push({ nome, rows, hi: hiT }); const mm = acharMarkup(rows); if (mm) markupMes = mm; const pz = acharPrazo(rows); if (pz != null) acrescimoPrazo = pz; continue; }
     const hi = header(rows, h => h === 'produto'); if (hi < 0) continue;
     const H = rows[hi].map(norm);
     const col = colDe(H);
@@ -2456,7 +2509,7 @@ function interpretar(abas, metodo) {
     const col = colDe(t.rows[t.hi].map(norm));
     const cN = col(/^(produto|nome|descricao)/), cC = col(/cod.*estoque/), cE = col(h => /barras|\bean\b|gtin/.test(h) || h === 'codigo'),
       cPr = col(/venda/), cCu = col(h => /custo|compra/.test(h) && !/venda/.test(h)),
-      cT = col(/^(setor|tipo)\b/), cI = col(/identifica|^cod.*fabricante/);
+      cT = col(/^(setor|tipo)\b/), cI = col(/identifica|^cod.*fabricante/), cPz = col(/a prazo/);
     if (cN < 0) continue;
     for (let i = t.hi + 1; i < t.rows.length; i++) {
       const r = t.rows[i], nomeP = cel(r, cN); if (!nomeP || /^total/.test(norm(nomeP))) continue;
@@ -2470,6 +2523,7 @@ function interpretar(abas, metodo) {
       const custo = valorPos(r?.[cCu]), preco = valorPos(r?.[cPr]);
       if (custo != null) l.custo = custo;
       if (preco != null) l.preco = preco;
+      const prazo = cPz >= 0 ? valorPos(r?.[cPz]) : null; if (prazo != null) l.prazo = prazo; // coluna Preço a prazo (19/11/2026)
       if (ean) { l.ean = ean; for (const e of ean.split(' ')) ixEan.set(e, l); }
       const tipoT = cel(r, cT), codIdT = cel(r, cI).replace(/\.0$/, '');
       if (tipoT) l.tipo = tipoT;
@@ -2479,8 +2533,8 @@ function interpretar(abas, metodo) {
   }
   if (!linhas.length) throw { code: 'formato', message: 'Não encontrei a coluna "Produto" em nenhuma aba da planilha.' };
   const totalFixos = r2(fixos.reduce((a, f) => a + f.valor, 0));
-  const contagem = { venda: linhas.filter(l => l.preco).length, custo: linhas.filter(l => l.custo).length, sem: linhas.filter(l => !l.custo && !l.preco).length };
-  return { linhas, fixos, totalFixos, contagem, metodo, markupMes, markupSetor: mkSetor, taxasCartao, abaPrecos: tabelas.map(t => t.nome).join(', ') || null, nTabela };
+  const contagem = { venda: linhas.filter(l => l.preco).length, custo: linhas.filter(l => l.custo).length, sem: linhas.filter(l => !l.custo && !l.preco).length, prazo: linhas.filter(l => l.prazo).length };
+  return { linhas, fixos, totalFixos, contagem, metodo, markupMes, markupSetor: mkSetor, acrescimoPrazo, taxasCartao, abaPrecos: tabelas.map(t => t.nome).join(', ') || null, nTabela };
 }
 function acharBase64(o, d = 0) {
   if (o == null || d > 6) return null;
@@ -2555,12 +2609,12 @@ async function sincronizar(manual) {
   } finally { S.sync.rodando = false; render(); }
 }
 async function gravarPlanilha(dados) {
-  const assinatura = hash36(JSON.stringify([dados.linhas, dados.fixos, dados.markupMes || null, dados.taxasCartao || null, dados.markupSetor || null]));
+  const assinatura = hash36(JSON.stringify([dados.linhas, dados.fixos, dados.markupMes || null, dados.taxasCartao || null, dados.markupSetor || null, dados.acrescimoPrazo ?? null]));
   const meta0 = S.planilha.meta;
   const TAM = 250, partes = [];
   for (let i = 0; i < dados.linhas.length; i += TAM) partes.push(dados.linhas.slice(i, i + TAM));
   const mudou = !meta0 || meta0.assinatura !== assinatura;
-  const meta = { lidaEm: Date.now(), assinatura, partes: partes.length, fixos: dados.fixos, totalFixos: dados.totalFixos, nLinhas: dados.linhas.length, contagem: dados.contagem, metodo: dados.metodo, markupMes: dados.markupMes || null, markupSetor: dados.markupSetor || null, taxasCartao: dados.taxasCartao || null, abaPrecos: dados.abaPrecos || null, nTabela: dados.nTabela || 0, fonte: planilhaId() || 'servidor', mudouEm: mudou ? Date.now() : (meta0?.mudouEm || Date.now()) };
+  const meta = { lidaEm: Date.now(), assinatura, partes: partes.length, fixos: dados.fixos, totalFixos: dados.totalFixos, nLinhas: dados.linhas.length, contagem: dados.contagem, metodo: dados.metodo, markupMes: dados.markupMes || null, markupSetor: dados.markupSetor || null, acrescimoPrazo: dados.acrescimoPrazo ?? null, taxasCartao: dados.taxasCartao || null, abaPrecos: dados.abaPrecos || null, nTabela: dados.nTabela || 0, fonte: planilhaId() || 'servidor', mudouEm: mudou ? Date.now() : (meta0?.mudouEm || Date.now()) };
   if (S.db) {
     if (mudou) {
       for (let i = 0; i < partes.length; i++) await tentar(() => S.db.doc('planilha/p' + i).set({ linhas: partes[i] }));
@@ -2723,7 +2777,11 @@ VIEWS.registrar = () => {
   $('#serv-chips').innerHTML = sv.length ? sv.map(s => `<button type="button" class="chip" data-acao="reg-serv" data-id="${esc(s.id)}">${esc(s.nome)} <small>${s.preco ? moneyV(s.preco) : 'sem preço'}</small></button>`).join('') : `<a class="chip" href="#servicos">${ico('plus')}Cadastrar serviços</a>`;
   const mexeCaixa = efeitoCaixa(S.modo, S.motivo[S.modo], 1) !== 0 || S.modo === 'saida';
   $('#linha-pg').hidden = !mexeCaixa;
-  $('#pagamentos').innerHTML = PAGAMENTOS.map(([v, n]) => `<button type="button" class="chip" data-pg="${v}" aria-pressed="${S.pg === v}">${n}</button>`).join('');
+  const parc = S.pg === 'parcelado';
+  $('#pagamentos').innerHTML = PAGAMENTOS.map(([v, n]) => `<button type="button" class="chip" data-pg="${v}" aria-pressed="${S.pg === v}">${n}</button>`).join('')
+    + `<button type="button" class="chip" data-acao="pg-parcelado" aria-pressed="${parc}" aria-expanded="${S.escolheParc}">${parc ? `Parcelado ${S.parc}x` : 'Parcelado'}</button>`
+    + (S.escolheParc ? `<span class="parc-op" role="group" aria-label="Em quantas vezes"><span class="dica-quem">em quantas vezes?</span>${PARCELAS.map(n => `<button type="button" class="chip" data-parc="${n}" aria-pressed="${parc && S.parc === n}">${n}x</button>`).join('')}</span>`
+      : parc ? `<span class="dica-quem">produtos com o preço a prazo · taxa ${esc(fmtIn(taxaCartaoPct('parcelado')))}%</span>` : '');
   $('#scan').disabled = !S.podeEscrever;
   renderUltimo(); renderFita(its, t);
 };
@@ -2741,11 +2799,12 @@ function renderUltimo() {
   }
   if (S.semPreco) {
     const sp = S.semPreco, p = sp.k ? S.produtos.get(sp.k) : null, s = sp.sid ? S.servicos.get(sp.sid) : null;
+    const spParc = !s && sp.pg === 'parcelado';
     box.innerHTML = `<div class="ultimo alerta">
-      <div class="u-tags"><span class="pill red">Sem preço de venda</span></div>
+      <div class="u-tags"><span class="pill red">Sem preço de venda</span>${spParc ? `<span class="u-hora">Parcelado ${parcOk(sp.parc)}x</span>` : ''}</div>
       <h2 class="u-nome">${esc(p?.nome || s?.nome)}</h2><div class="u-sub">${esc(p ? nomeCurto(p) : 'Serviço')}</div>
-      <p class="u-sub" style="margin-top:10px">${s ? 'Este serviço ainda não tem preço. Informe o valor: ele fica salvo no cadastro do serviço.' : `Este item não tem custo nem preço de venda na planilha${p?.aba === 'nao_encontrados' ? ' (está na aba "Não encontrados")' : ''}. Informe o preço desta venda. Ele fica salvo como preço manual do produto até a planilha ganhar um valor.`}</p>
-      <div class="u-acoes" style="border:0;padding-top:4px"><label class="f">Preço unitário (R$)<input class="inp num" id="sp-preco" inputmode="decimal" placeholder="0,00"></label><button class="btn red" type="button" data-acao="confirmar-sem-preco">Registrar venda</button><button class="btn ghost" type="button" data-acao="cancelar-pend">Cancelar</button></div></div>`;
+      <p class="u-sub" style="margin-top:10px">${s ? 'Este serviço ainda não tem preço. Informe o valor: ele fica salvo no cadastro do serviço.' : `Este item não tem custo nem preço de venda na planilha${p?.aba === 'nao_encontrados' ? ' (está na aba "Não encontrados")' : ''}. ${spParc ? 'Informe o preço a prazo desta venda parcelada. Ele vale só para esta venda: o produto continua sem preço à vista.' : 'Informe o preço desta venda. Ele fica salvo como preço manual do produto até a planilha ganhar um valor.'}`}</p>
+      <div class="u-acoes" style="border:0;padding-top:4px"><label class="f">${spParc ? 'Preço a prazo unitário (R$)' : 'Preço unitário (R$)'}<input class="inp num" id="sp-preco" inputmode="decimal" placeholder="0,00"></label><button class="btn red" type="button" data-acao="confirmar-sem-preco">Registrar venda</button><button class="btn ghost" type="button" data-acao="cancelar-pend">Cancelar</button></div></div>`;
     return;
   }
   if (S.pedeQuem) {
@@ -2778,8 +2837,8 @@ function renderUltimo() {
       <dl class="u-meta">
         ${!ehServ && it.cod ? `<div><dt>Cód. estoque</dt><dd class="mono">${esc(it.cod)}</dd></div>` : ''}
         ${it.lido && normCod(it.lido) !== normCod(it.cod) ? `<div><dt>Código lido</dt><dd class="mono">${esc(it.lido)}</dd></div>` : ''}
-        ${!ehServ && it.motivo === 'venda' && p ? `<div><dt>Base do preço</dt><dd>${esc(BASE_NOME[p.fonte] || '')}${p.fonte === 'custo' ? ' ' + mk(p.mk) : ''}</dd></div>` : ''}
-        ${it.caixa ? `<div><dt>Caixa</dt><dd>${sinal(it.caixa)} · ${esc(PG_NOME[it.pg] || '')}${it.taxa > 0 ? ' · ' + esc(txtTaxa(it)) : ''}</dd></div>` : `<div><dt>Caixa</dt><dd class="muted">não altera</dd></div>`}
+        ${!ehServ && it.motivo === 'venda' && p ? (it.pg === 'parcelado' ? `<div><dt>Base do preço</dt><dd>Preço a prazo · ${esc(it.vu === p.prazo ? prazoBase(p) : 'digitado nesta venda')}</dd></div>` : `<div><dt>Base do preço</dt><dd>${esc(BASE_NOME[p.fonte] || '')}${p.fonte === 'custo' ? ' ' + mk(p.mk) : ''}</dd></div>`) : ''}
+        ${it.caixa ? `<div><dt>Caixa</dt><dd>${sinal(it.caixa)} · ${esc(pgNome(it))}${it.taxa > 0 ? ' · ' + esc(txtTaxa(it)) : ''}</dd></div>` : `<div><dt>Caixa</dt><dd class="muted">não altera</dd></div>`}
         ${ehVenda(it) ? `<div><dt>${ehServ ? 'Feito por' : 'Atendido por'}</dt><dd>${!est && S.podeEscrever ? selQuem('u-quem', quemDe(it), !ehServ, it.id) : esc(nomeInteg(quemDe(it)) || '—')}</dd></div>` : ''}
       </dl>
       ${rtUltimoHtml(it, est)}
@@ -2788,6 +2847,7 @@ function renderUltimo() {
       <div class="u-qtd">${ehServ ? '' : (ent ? '+' : '−')}${qn(it.qtd)} ${ehServ ? 'vez(es)' : 'un.'}</div>
       <div class="u-total">${valorIt(it, it.total)}</div>
       <div class="u-calc">${qn(it.qtd)} × ${valorIt(it, it.vu)}${!it.vu ? ' · sem custo informado' : ''}</div>
+      ${it.pg === 'parcelado' && it.parc > 1 && it.total > 0 ? `<div class="u-calc u-parc">${it.parc}x de ${valorIt(it, r2(it.total / it.parc))}</div>` : ''}
       ${p ? `<div class="u-est">Estoque agora: <b>${qn(p.estoque)}</b></div>` : ''}
     </div>
     ${editavel ? `<div class="u-acoes">
@@ -2804,15 +2864,15 @@ function renderVinc(q) {
   const ul = $('#vinc-res'); if (!ul) return;
   const res = q ? buscar(q, 8) : [];
   ul.hidden = !q;
-  ul.innerHTML = res.length ? res.map(p => `<li><button type="button" data-acao="vincular" data-k="${esc(p.k)}"><b>${esc(p.nome)}</b><small>${esc(nomeCurto(p))}${p.cod ? ' · cód. ' + esc(p.cod) : ''}${p.codigos.length ? ' · já tem ' + p.codigos.length + ' código(s)' : ''}</small><span class="p">${moneyV(p.preco)}</span></button></li>`).join('')
+  ul.innerHTML = res.length ? res.map(p => `<li><button type="button" data-acao="vincular" data-k="${esc(p.k)}"><b>${esc(p.nome)}</b><small>${esc(nomeCurto(p))}${p.cod ? ' · cód. ' + esc(p.cod) : ''}${p.codigos.length ? ' · já tem ' + p.codigos.length + ' código(s)' : ''}</small><span class="p">${moneyV(precoAgora(p))}</span></button></li>`).join('')
     : (q ? `<li class="muted" style="padding:8px 10px">Nenhum produto encontrado para "${esc(q)}".</li>` : '');
 }
 function descItemFita(it) {
-  if (it.k === 'caixa') return `<span class="pill soft">${it.tipo === 'receita' ? 'Receita' : 'Despesa'}</span>${esc(it.cat || '')} · ${esc(PG_NOME[it.pg] || '')}`;
+  if (it.k === 'caixa') return `<span class="pill soft">${it.tipo === 'receita' ? 'Receita' : 'Despesa'}</span>${esc(it.cat || '')} · ${esc(pgNome(it))}`;
   const qm = nomeInteg(quemDe(it));
-  if (it.k === 'serv') return `<span class="pill solid-red">Serviço</span>${qn(it.qtd)}× · ${esc(PG_NOME[it.pg] || '')}${qm ? ' · ' + esc(qm) : ' · <span style="color:var(--red-ink)">sem quem fez</span>'}`;
+  if (it.k === 'serv') return `<span class="pill solid-red">Serviço</span>${qn(it.qtd)}× · ${esc(pgNome(it))}${qm ? ' · ' + esc(qm) : ' · <span style="color:var(--red-ink)">sem quem fez</span>'}`;
   const ent = it.tipo === 'entrada';
-  return `<span class="pill ${ent ? 'ink' : 'solid-red'}">${ent ? 'Entrada' : 'Saída'}</span>${ent ? '+' : '−'}${qn(it.qtd)} un. · ${esc(MOTIVO_NOME[it.motivo] || '')}${it.pg ? ' · ' + esc(PG_NOME[it.pg]) : ''}${qm && ehVenda(it) ? ' · ' + esc(qm) : ''}`;
+  return `<span class="pill ${ent ? 'ink' : 'solid-red'}">${ent ? 'Entrada' : 'Saída'}</span>${ent ? '+' : '−'}${qn(it.qtd)} un. · ${esc(MOTIVO_NOME[it.motivo] || '')}${it.pg ? ' · ' + esc(pgNome(it)) : ''}${qm && ehVenda(it) ? ' · ' + esc(qm) : ''}`;
 }
 function renderFita(its, t) {
   $('#fita-data').textContent = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'short' });
@@ -2827,7 +2887,7 @@ function abrirSug(q) {
   const ul = $('#sug');
   if (!q || /^\d{6,}$/.test(q.trim()) || q.trim().length < 2) { fecharSug(); return; }
   const qq = q.replace(/^\d+(?:[.,]\d+)?\s*[*xX]\s*/, '');
-  const res = [...buscarServ(qq, 3).map(s => ({ tipo: 'serv', id: s.id, nome: s.nome, sub: 'Serviço' + (s.cod ? ' · ' + s.cod : ''), preco: s.preco })), ...buscar(qq, 7).map(p => ({ tipo: 'prod', k: p.k, nome: p.nome, sub: `${identDe(p)}${barrasDe(p)[0] ? ' · ' + barrasDe(p)[0] : p.cod ? ' · cód. ' + p.cod : ''} · estoque ${qn(p.estoque)}`, preco: p.preco }))].slice(0, 8);
+  const res = [...buscarServ(qq, 3).map(s => ({ tipo: 'serv', id: s.id, nome: s.nome, sub: 'Serviço' + (s.cod ? ' · ' + s.cod : ''), preco: s.preco })), ...buscar(qq, 7).map(p => ({ tipo: 'prod', k: p.k, nome: p.nome, sub: `${identDe(p)}${barrasDe(p)[0] ? ' · ' + barrasDe(p)[0] : p.cod ? ' · cód. ' + p.cod : ''} · estoque ${qn(p.estoque)}`, preco: precoAgora(p) }))].slice(0, 8);
   sugSel.lista = res; sugSel.i = res.length ? 0 : -1;
   if (!res.length) { fecharSug(); return; }
   ul.innerHTML = res.map((r, i) => `<li><button type="button" role="option" data-acao="sug" data-i="${i}" aria-selected="${i === 0}"><b>${esc(r.nome)}</b><small>${esc(r.sub)}</small><span class="p">${moneyV(r.preco)}</span></button></li>`).join('');
@@ -2868,8 +2928,8 @@ VIEWS.produtos = () => {
   const l = filtrarProdutos(), tb = $('#p-tab tbody');
   let un = 0, venda = 0; for (const p of l) if (p.estoque > 0) { un += p.estoque; venda += p.estoque * (p.preco || 0); }
   $('#p-resumo').innerHTML = `<span><b>${l.length}</b> produtos</span><span><b>${qn(un)}</b> un. em estoque</span><span>valor a preço de venda <b>${money(venda)}</b></span>`;
-  if (!S.carregado.planilha && !S.temporario) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">Carregando produtos…</td></tr>`; return; }
-  if (!l.length) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">${S.produtos.size ? 'Nenhum produto com esse filtro.' : 'Nenhum produto ainda. Leia a planilha em Preços para trazer a lista.'}</td></tr>`; return; }
+  if (!S.carregado.planilha && !S.temporario) { tb.innerHTML = `<tr><td colspan="7" class="vazio-t">Carregando produtos…</td></tr>`; return; }
+  if (!l.length) { tb.innerHTML = `<tr><td colspan="7" class="vazio-t">${S.produtos.size ? 'Nenhum produto com esse filtro.' : 'Nenhum produto ainda. Leia a planilha em Preços para trazer a lista.'}</td></tr>`; return; }
   tb.innerHTML = l.map(p => {
     const baixo = p.estoque < 0 || (p.min != null && p.estoque <= p.min);
     const bs = barrasDe(p);
@@ -2878,6 +2938,7 @@ VIEWS.produtos = () => {
       <td class="num">${baixo ? `<span class="pill red">${qn(p.estoque)}</span>` : qn(p.estoque)}</td>
       <td class="num">${p.custo ? money(p.custo) : '<span class="muted">—</span>'}${p.custo ? `<span class="sub">${p.custoPl ? 'planilha' : 'últ. compra'}</span>` : ''}</td>
       <td class="num"><b>${moneyV(p.preco)}</b><span class="sub">${pillBase(p)}</span></td>
+      <td class="num">${moneyV(p.prazo)}${p.prazo ? `<span class="sub">${esc(prazoCurto(p))}</span>` : ''}</td>
       <td class="num">${p.estoque > 0 && p.preco ? money(p.estoque * p.preco) : '—'}</td></tr>`;
   }).join('');
 };
@@ -2922,6 +2983,7 @@ function renderPlanCard() {
     ${S.sync.erro ? `<p class="erro-txt">${esc(msgErroPlanilha(S.sync.erro))}</p>` : ''}
     <div class="cnt"><div><b>${c.venda ?? '—'}</b><small>com preço de venda</small></div><div><b>${c.custo ?? '—'}</b><small>com preço de compra</small></div><div><b>${c.sem ?? '—'}</b><small>sem valor</small></div></div>
     ${m ? (m.abaPrecos ? `<p>Aba de preços: <b>${esc(m.abaPrecos)}</b> (${m.nTabela || 0} linhas). Markup do mês: <b>${m.markupMes ? mk(m.markupMes) : 'não encontrado'}</b>.</p>
+      <p>Acréscimo a prazo: <b>${typeof m.acrescimoPrazo === 'number' ? esc(fmtPctPrazo()) : 'célula não encontrada'}</b>${typeof m.acrescimoPrazo === 'number' ? '' : ` (vale ${esc(fmtPctPrazo())})`}. Produtos com preço a prazo na planilha: <b>${c.prazo ?? '—'}</b>.</p>
       <p>Markup por setor: ${m.markupSetor && Object.keys(m.markupSetor).length ? Object.entries(m.markupSetor).map(([g, v]) => `${esc(g)} <b>${mk(v)}</b>`).join(' · ') : '<b>aba "Markup por setor" não encontrada</b> (vale o markup salvo em Configurações)'}.</p>`
       : `<p class="muted">A planilha ainda não tem a aba de preços (Código de barras, Produto, Preço de custo, Preço de venda). Até ela existir, o preço de venda é calculado aqui.</p>`) : ''}
     <div><div class="eyebrow" style="margin-bottom:6px">Custos fixos mensais (aba Custos Fixos)</div>
@@ -2954,11 +3016,14 @@ function renderParamForm() {
     <div class="form-g">
       <label class="f">Arredondar preços<select class="inp" data-cfg="arredondar">${[['centavo', 'Centavos (sem arredondar)'], ['90', 'Terminar em ,90'], ['50', 'Múltiplos de R$ 0,50'], ['inteiro', 'Real inteiro acima']].map(([v, n]) => `<option value="${v}" ${c.arredondar === v ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
     </div>
+    <h3>Preço a prazo</h3>
+    <p class="muted" style="font-size:13px">Venda no <b>Parcelado</b> (2x a 6x, no Registrar) e venda fiado (nota a receber) usam o preço a prazo dos produtos, o mesmo em qualquer número de parcelas: a coluna <b>Preço a prazo</b> da planilha; produto sem ela, o preço à vista + ${esc(fmtPctPrazo())}; com preço manual, o manual + ${esc(fmtPctPrazo())}. ${typeof S.planilha.meta?.acrescimoPrazo === 'number' ? 'O acréscimo vem da célula <b>Acréscimo a prazo</b> da Tabela de preços: para mudar, altere a planilha e clique em "Ler planilha agora".' : 'A planilha ainda não tem a célula <b>Acréscimo a prazo</b>; vale o acréscimo de 12,6% decidido pelo dono.'} Dinheiro, Pix, débito e crédito usam o preço à vista. Serviços têm um preço só.</p>
     <h3 id="taxas-cartao">Taxas da maquininha</h3>
-    <p class="muted" style="font-size:13px">Venda ou recebimento no débito ou no crédito entra no caixa já sem a taxa. Vazio = usa a taxa anotada na planilha (aba Custos Fixos)${S.planilha.meta?.taxasCartao ? `: débito ${esc(fmtIn(S.planilha.meta.taxasCartao.debito ?? 0))}%, crédito ${esc(fmtIn(S.planilha.meta.taxasCartao.credito ?? 0))}%` : ', que ainda não foi encontrada'}.</p>
+    <p class="muted" style="font-size:13px">Venda ou recebimento no débito, no crédito ou no parcelado entra no caixa já sem a taxa. Parcelado vazio = a mesma taxa do crédito. Vazio = usa a taxa anotada na planilha (aba Custos Fixos)${S.planilha.meta?.taxasCartao ? `: débito ${esc(fmtIn(S.planilha.meta.taxasCartao.debito ?? 0))}%, crédito ${esc(fmtIn(S.planilha.meta.taxasCartao.credito ?? 0))}%` : ', que ainda não foi encontrada'}.</p>
     <div class="form-g">
       <label class="f">Débito (%)<input class="inp num" data-cfg="taxaDebito" inputmode="decimal" value="${esc(typeof c.taxaDebito === 'number' ? fmtIn(c.taxaDebito) : '')}" placeholder="${esc(fmtIn(S.planilha.meta?.taxasCartao?.debito ?? 0))}"></label>
       <label class="f">Crédito (%)<input class="inp num" data-cfg="taxaCredito" inputmode="decimal" value="${esc(typeof c.taxaCredito === 'number' ? fmtIn(c.taxaCredito) : '')}" placeholder="${esc(fmtIn(S.planilha.meta?.taxasCartao?.credito ?? 0))}"></label>
+      <label class="f">Parcelado (%)<input class="inp num" data-cfg="taxaParcelado" inputmode="decimal" value="${esc(typeof c.taxaParcelado === 'number' ? fmtIn(c.taxaParcelado) : '')}" placeholder="${esc(fmtIn(taxaCartaoPct('credito')))} (= crédito)"></label>
     </div>`;
   atualizarFormula();
   if (!podeConfig()) {
@@ -3030,13 +3095,14 @@ function renderTabelaPrecos() {
   let l = q ? S.lista.filter(p => norm(q).split(' ').every(t => p.hay.includes(t))) : S.lista;
   if (b === 'custo') l = l.filter(p => p.fonte === 'custo' || p.fonte === 'custo-compra');
   else if (b !== 'todos') l = l.filter(p => p.fonte === b);
-  if (!l.length) { tb.innerHTML = `<tr><td colspan="6" class="vazio-t">${S.produtos.size ? 'Nenhum produto com esse filtro.' : 'Leia a planilha para ver os preços.'}</td></tr>`; return; }
+  if (!l.length) { tb.innerHTML = `<tr><td colspan="7" class="vazio-t">${S.produtos.size ? 'Nenhum produto com esse filtro.' : 'Leia a planilha para ver os preços.'}</td></tr>`; return; }
   tb.innerHTML = l.map(p => {
     return `<tr class="click" data-acao="abrir-produto" data-k="${esc(p.k)}"><td class="nome"><b>${esc(p.nome)}</b><span class="sub">${esc(nomeCurto(p) || '—')}${p.cod ? ' · cód. ' + esc(p.cod) : ''}</span></td>
     <td class="num">${money(p.custo)}${p.custo && !p.custoPl ? '<span class="sub">últ. compra</span>' : ''}</td>
     <td class="num">${mk(p.mk)}<span class="sub">${esc(MK_DE[p.mkDe] || 'geral')}${p.mkDe === 'setor' || p.mkDe === 'categoria' ? ' · ' + esc(p.grupo) : ''}</span></td>
     <td class="num">${money(p.custoXmk)}</td>
     <td class="num"><b>${moneyV(p.preco)}</b><span class="sub">${pillBase(p)}</span></td>
+    <td class="num">${moneyV(p.prazo)}${p.prazo ? `<span class="sub">${esc(prazoCurto(p))}</span>` : ''}</td>
     <td><span class="sub" style="margin:0;max-width:300px">${esc(p.origem || '—')}</span></td></tr>`;
   }).join('');
 }
@@ -3099,7 +3165,7 @@ VIEWS.movimentacoes = () => {
       <td class="num">${temQtd ? (it.k === 'mov' ? (ent ? '+' : '−') : '') + qn(it.qtd) : ''}</td>
       <td class="num">${temQtd ? valorIt(it, it.vu) : ''}</td>
       <td class="num">${temQtd ? valorIt(it, it.total) : money(it.valor)}</td>
-      <td class="num">${it.caixa ? sinal(it.caixa) + `<span class="sub">${esc(PG_NOME[it.pg] || '')}</span>` : '<span class="muted">—</span>'}</td>
+      <td class="num">${it.caixa ? sinal(it.caixa) + `<span class="sub">${esc(pgNome(it))}</span>` : '<span class="muted">—</span>'}</td>
       <td>${btnUndo(it)}</td></tr>`;
   }).join('');
 };
@@ -3135,10 +3201,10 @@ VIEWS.caixa = () => {
     kpi('Saldo do período', sinal(t.saldo), de === ate ? fmtData(de) : `${fmtData(de)} a ${fmtData(ate)}`, t.saldo < 0 ? 'red' : '') +
     kpi('Vendido a prazo', money(t.prazo), 'entra no caixa quando receber');
   $('#c-chart').innerHTML = grafico(l, de, ate, it => it.caixa > 0 ? it.caixa : 0, it => it.caixa < 0 ? -it.caixa : 0, 'Entrou', 'Saiu', true);
-  const pgs = FORMAS.map(([v, n]) => ({ n, ...(t.porPg[v] || { ent: 0, sai: 0 }) }));
+  const pgs = FORMAS_CAIXA.map(([v, n]) => ({ n, ...(t.porPg[v] || { ent: 0, sai: 0 }) }));
   $('#c-pg').innerHTML = `<h2>Por forma de pagamento</h2><div class="tabela-wrap" style="border:0"><table class="t"><thead><tr><th>Forma</th><th class="num">Entrou</th><th class="num">Saiu</th><th class="num">Saldo</th></tr></thead><tbody>${pgs.map(o => `<tr><td>${esc(o.n)}</td><td class="num">${money(o.ent)}</td><td class="num">${money(o.sai)}</td><td class="num"><b>${sinal(o.ent - o.sai)}</b></td></tr>`).join('')}</tbody></table></div>`;
   const cx = l.filter(it => it.caixa);
-  $('#c-tab tbody').innerHTML = cx.length ? cx.slice(0, 400).map(it => `<tr class="${it._est ? 'est' : ''}"><td class="mono" style="white-space:nowrap">${fmtDM(it._d)} ${fmtHora(it.t)}</td><td class="nome"><b>${esc(it.k === 'caixa' ? it.desc : it.nome)}</b><span class="sub">${esc(descMov(it))}${it.k !== 'caixa' ? ' · ' + qn(it.qtd) + (it.k === 'serv' ? '×' : ' un.') : ''}</span></td><td>${esc(PG_NOME[it.pg] || '—')}</td><td class="num"><b>${sinal(it.caixa)}</b>${it.taxa > 0 ? `<span class="sub">taxa ${money(it.taxa)}</span>` : ''}</td></tr>`).join('') : `<tr><td colspan="4" class="vazio-t">Nada entrou ou saiu do caixa nesse período.</td></tr>`;
+  $('#c-tab tbody').innerHTML = cx.length ? cx.slice(0, 400).map(it => `<tr class="${it._est ? 'est' : ''}"><td class="mono" style="white-space:nowrap">${fmtDM(it._d)} ${fmtHora(it.t)}</td><td class="nome"><b>${esc(it.k === 'caixa' ? it.desc : it.nome)}</b><span class="sub">${esc(descMov(it))}${it.k !== 'caixa' ? ' · ' + qn(it.qtd) + (it.k === 'serv' ? '×' : ' un.') : ''}</span></td><td>${esc(pgNome(it) || '—')}</td><td class="num"><b>${sinal(it.caixa)}</b>${it.taxa > 0 ? `<span class="sub">taxa ${money(it.taxa)}</span>` : ''}</td></tr>`).join('') : `<tr><td colspan="4" class="vazio-t">Nada entrou ou saiu do caixa nesse período.</td></tr>`;
 };
 function niceMax(v) { const e = Math.pow(10, Math.floor(Math.log10(v))); const f = v / e; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * e; }
 function grafico(itens, de, ate, fA, fB, nA, nB, espelhado) {
@@ -4026,7 +4092,7 @@ function ndAddProd(k, qtd) {
   const isP = nd.col === 'pagar';
   const ex = nd.itens.find(it => it.tipo === 'prod' && it.pk === k);
   if (ex) ex.qtd = r3((parseNum(ex.qtd) || 0) + qtd);
-  else nd.itens.push({ tipo: 'prod', pk: k, nome: p.nome, mod: nomeCurto(p), cod: p.cod || '', qtd, vu: (isP ? p.custo : p.preco) || 0 });
+  else nd.itens.push({ tipo: 'prod', pk: k, nome: p.nome, mod: nomeCurto(p), cod: p.cod || '', qtd, vu: (isP ? p.custo : p.prazo) || 0 }); // fiado: preço a prazo (pedido do dono, 19/11/2026)
   bip('entrada'); renderNdItens(); atualizarNdTotais();
   const inp = $('#nd-leitor'); if (inp) { inp.value = ''; inp.focus(); } $('#nd-res').hidden = true;
 }
@@ -4266,7 +4332,7 @@ function ndBusca(q) {
   const ul = $('#nd-res'); if (!ul) return;
   const qq = q.replace(/^\d+(?:[.,]\d+)?\s*[*xX]\s*/, '');
   if (!qq || qq.length < 2 || /^\d{6,}$/.test(qq)) { ul.hidden = true; return; }
-  const res = [...(S.nd.col === 'receber' ? buscarServ(qq, 3).map(s => ({ t: 's', id: s.id, nome: s.nome, sub: 'Serviço', preco: s.preco })) : []), ...buscar(qq, 7).map(p => ({ t: 'p', id: p.k, nome: p.nome, sub: nomeCurto(p) + (p.cod ? ' · cód. ' + p.cod : ''), preco: S.nd.col === 'pagar' ? p.custo : p.preco }))];
+  const res = [...(S.nd.col === 'receber' ? buscarServ(qq, 3).map(s => ({ t: 's', id: s.id, nome: s.nome, sub: 'Serviço', preco: s.preco })) : []), ...buscar(qq, 7).map(p => ({ t: 'p', id: p.k, nome: p.nome, sub: nomeCurto(p) + (p.cod ? ' · cód. ' + p.cod : ''), preco: S.nd.col === 'pagar' ? p.custo : p.prazo }))];
   ul.hidden = !res.length;
   ul.innerHTML = res.map(r => `<li><button type="button" data-acao="nd-add" data-t="${r.t}" data-id="${esc(r.id)}"><b>${esc(r.nome)}</b><small>${esc(r.sub)}</small><span class="p">${moneyV(r.preco)}</span></button></li>`).join('');
 }
@@ -4488,6 +4554,8 @@ function atualizarDrawerCalc() {
   if (p.custoXmk) linhas.push(['Custo × markup', money(p.custoXmk)]);
   linhas.push(['Preço de venda', `<b>${moneyV(p.sugerido)}</b>`], ['Base', esc(BASE_NOME[p.base])]);
   if (p.precoManual != null) linhas.push(['Preço de venda em uso (manual)', `<b>${moneyV(p.precoManual)}</b>`]);
+  if (p.prazoPl) linhas.push(['Preço a prazo (planilha)', moneyV(p.prazoPl)]);
+  linhas.push(['Preço a prazo (parcelado e fiado)', `<b>${moneyV(p.prazo)}</b> <span class="muted">(${esc(prazoBase(p))})</span>`]);
   if (p.custo && p.preco) linhas.push(['Lucro bruto por unidade', `${money(p.preco - p.custo)} (${pctC(r2((p.preco - p.custo) / p.preco * 100))})`]);
   if (p0?.origem) linhas.push(['Origem do valor', `<span style="font-size:12.5px">${esc(p0.origem)}</span>`]);
   el.innerHTML = linhas.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('');
@@ -4578,8 +4646,8 @@ async function salvarArquivo(nome, conteudo) {
 }
 function exportarProdutos() {
   const l = filtrarProdutos();
-  const linhas = [['Produto', 'Modelo', 'Marca', 'Cód. estoque', 'Códigos de barras', 'Estoque', 'Mínimo', 'Setor', 'Preço de compra', 'Markup', 'Custo x markup', 'Preço de venda', 'Base do preço'].join(';')];
-  for (const p of l) linhas.push([p.nome, p.modelo, p.marca, p.cod, p.codigos.join(' '), qn(p.estoque), p.min ?? '', p.avulso ? 'Avulsos' : p.grupo, csvNum(p.custo), p.mk ? String(r3(p.mk)).replace('.', ',') : '', csvNum(p.custoXmk), csvNum(p.preco), BASE_NOME[p.fonte]].map(csvCel).join(';'));
+  const linhas = [['Produto', 'Modelo', 'Marca', 'Cód. estoque', 'Códigos de barras', 'Estoque', 'Mínimo', 'Setor', 'Preço de compra', 'Markup', 'Custo x markup', 'Preço de venda', 'Base do preço', 'Preço a prazo', 'Base do preço a prazo'].join(';')];
+  for (const p of l) linhas.push([p.nome, p.modelo, p.marca, p.cod, p.codigos.join(' '), qn(p.estoque), p.min ?? '', p.avulso ? 'Avulsos' : p.grupo, csvNum(p.custo), p.mk ? String(r3(p.mk)).replace('.', ',') : '', csvNum(p.custoXmk), csvNum(p.preco), BASE_NOME[p.fonte], csvNum(p.prazo), p.prazo ? prazoBase(p) : ''].map(csvCel).join(';'));
   salvarArquivo(`produtos-${hoje()}.csv`, '﻿' + linhas.join('\r\n'));
 }
 function exportarMovs() {
@@ -4587,7 +4655,7 @@ function exportarMovs() {
   const linhas = [['Data', 'Hora', 'Movimento', 'Motivo/categoria', 'Produto/descrição', 'Modelo', 'Cód. estoque', 'Código lido', 'Qtd', 'Valor unit.', 'Total', 'Efeito no caixa', 'Pagamento', 'Taxa da maquininha', 'Quem fez / atendeu', 'Desfeito'].join(';')];
   for (const it of l.slice().reverse()) {
     const temQtd = it.k === 'mov' || it.k === 'serv';
-    linhas.push([fmtData(it._d), fmtHora(it.t), it.k === 'caixa' ? (it.tipo === 'receita' ? 'Receita' : 'Despesa') : it.k === 'serv' ? 'Serviço' : (it.tipo === 'entrada' ? 'Entrada' : 'Saída'), it.k === 'caixa' ? it.cat : it.k === 'serv' ? '' : MOTIVO_NOME[it.motivo], it.k === 'caixa' ? it.desc : it.nome, it.mod || '', it.cod || '', it.lido || '', temQtd ? String(it.qtd).replace('.', ',') : '', temQtd ? csvNum(it.vu) : '', csvNum(temQtd ? it.total : it.valor), csvNum(it.caixa || 0), PG_NOME[it.pg] || '', it.taxa > 0 ? csvNum(it.taxa) : '', ehVenda(it) ? nomeInteg(quemDe(it)) : '', it._est ? 'sim' : ''].map(csvCel).join(';'));
+    linhas.push([fmtData(it._d), fmtHora(it.t), it.k === 'caixa' ? (it.tipo === 'receita' ? 'Receita' : 'Despesa') : it.k === 'serv' ? 'Serviço' : (it.tipo === 'entrada' ? 'Entrada' : 'Saída'), it.k === 'caixa' ? it.cat : it.k === 'serv' ? '' : MOTIVO_NOME[it.motivo], it.k === 'caixa' ? it.desc : it.nome, it.mod || '', it.cod || '', it.lido || '', temQtd ? String(it.qtd).replace('.', ',') : '', temQtd ? csvNum(it.vu) : '', csvNum(temQtd ? it.total : it.valor), csvNum(it.caixa || 0), pgNome(it), it.taxa > 0 ? csvNum(it.taxa) : '', ehVenda(it) ? nomeInteg(quemDe(it)) : '', it._est ? 'sim' : ''].map(csvCel).join(';'));
   }
   salvarArquivo(`movimentacoes-${de}-a-${ate}.csv`, '﻿' + linhas.join('\r\n'));
 }
@@ -4820,7 +4888,7 @@ function exportarIntegrantes() {
   const [de, ate] = mesIntervalo(S.mesInt), refs = refsEmNota();
   const l = itensPeriodo(de, ate).filter(it => !it._est && ehVenda(it));
   const linhas = [['Data', 'Hora', 'Quem fez / atendeu', 'CNPJ', 'Tipo', 'Serviço / peça', 'Qtd', 'Valor unit.', 'Total', 'Pagamento', 'Nota fiscal'].join(';')];
-  for (const it of l.slice().reverse()) { const x = integ(quemDe(it)), n = refs.get(it.id); linhas.push([fmtData(it._d), fmtHora(it.t), x?.nome || '', x?.cnpj ? fmtDocBR(x.cnpj) : '', it.k === 'serv' ? 'Serviço' : 'Peça', it.nome, String(it.qtd).replace('.', ','), csvNum(it.vu), csvNum(it.total), PG_NOME[it.pg] || '', n ? (n.status === 'emitida' ? 'emitida ' + (n.numero || '') : 'falta emitir') : ''].map(csvCel).join(';')); }
+  for (const it of l.slice().reverse()) { const x = integ(quemDe(it)), n = refs.get(it.id); linhas.push([fmtData(it._d), fmtHora(it.t), x?.nome || '', x?.cnpj ? fmtDocBR(x.cnpj) : '', it.k === 'serv' ? 'Serviço' : 'Peça', it.nome, String(it.qtd).replace('.', ','), csvNum(it.vu), csvNum(it.total), pgNome(it), n ? (n.status === 'emitida' ? 'emitida ' + (n.numero || '') : 'falta emitir') : ''].map(csvCel).join(';')); }
   salvarArquivo(`integrantes-${S.mesInt}.csv`, '﻿' + linhas.join('\r\n'));
 }
 
@@ -5282,7 +5350,8 @@ function ligarUI() {
   document.addEventListener('click', e => {
     const m = e.target.closest('.modo button'); if (m) { setModo(m.dataset.m); return; }
     const mo = e.target.closest('[data-motivo]'); if (mo) { S.motivo[S.modo] = mo.dataset.motivo; ls.set('motivo', S.motivo); VIEWS.registrar(); $('#scan').focus(); return; }
-    const pg = e.target.closest('[data-pg]'); if (pg) { S.pg = pg.dataset.pg; ls.set('pg', S.pg); VIEWS.registrar(); $('#scan').focus(); return; }
+    const pg = e.target.closest('[data-pg]'); if (pg) { S.pg = pg.dataset.pg; S.escolheParc = false; ls.set('pg', S.pg); VIEWS.registrar(); $('#scan').focus(); return; }
+    const pc = e.target.closest('[data-parc]'); if (pc) { S.pg = 'parcelado'; S.parc = parcOk(pc.dataset.parc); S.escolheParc = false; ls.set('pg', S.pg); ls.set('parc', S.parc); VIEWS.registrar(); $('#scan').focus(); return; }
     const qb = e.target.closest('[data-quem]'); if (qb) { S.quem = S.quem === qb.dataset.quem ? null : qb.dataset.quem; VIEWS.registrar(); $('#scan').focus(); return; }
     const gr = e.target.closest('[data-grupo]'); if (gr) { S.pGrupo = gr.dataset.grupo; VIEWS.produtos(); return; }
     const rot = e.target.closest('[data-rot]'); if (rot) { marcarRotina(rot.dataset.rot, rot.checked); return; }
@@ -5291,6 +5360,8 @@ function ligarUI() {
     const acoes = {
       'sug': () => { const sel = sugSel.lista[Number(a.dataset.i)]; const pref = $('#scan').value.match(/^(\d+(?:[.,]\d+)?)\s*[*xX]/); const q = pref ? parseNum(pref[1]) : lerQtd(); $('#scan').value = ''; fecharSug(); if (sel?.tipo === 'serv') registrarServico(sel.id, q); else if (sel) registrar(S.produtos.get(sel.k), q); $('#scan').focus(); },
       'reg-serv': () => { registrarServico(a.dataset.id, lerQtd()); $('#scan').focus(); },
+      // Parcelado: pergunta em quantas vezes (2x a 6x); a escolha fica até mudar
+      'pg-parcelado': () => { S.escolheParc = !S.escolheParc; VIEWS.registrar(); if (S.escolheParc) ($(`#pagamentos [data-parc="${S.parc}"]`) || $('#pagamentos [data-parc]'))?.focus(); else $('#scan').focus(); },
       'desfazer': () => {
         if (a.dataset.confirm) { estornar(a.dataset.id); return; }
         a.dataset.confirm = '1'; if (a.classList.contains('btn')) a.innerHTML = ico('undo') + 'Confirmar desfazer'; a.title = 'Clique de novo para desfazer';
@@ -5303,7 +5374,8 @@ function ligarUI() {
       'confirmar-sem-preco': () => {
         const v = parseNum($('#sp-preco').value), sp = S.semPreco; if (!(v > 0)) { toast('Informe o preço.', true); return; }
         if (sp.sid) { salvarServico(sp.sid, { preco: r2(v) }); registrarServico(sp.sid, sp.qtd, r2(v)); }
-        else { salvarProduto(sp.k, { precoManual: r2(v) }); registrar(S.produtos.get(sp.k), sp.qtd, { tipo: sp.tipo, motivo: sp.motivo, lido: sp.lido, vu: r2(v) }); }
+        // no parcelado o valor digitado é o preço a prazo: vale só para esta venda e não vira o preço à vista do produto
+        else { if (sp.pg !== 'parcelado') salvarProduto(sp.k, { precoManual: r2(v) }); registrar(S.produtos.get(sp.k), sp.qtd, { tipo: sp.tipo, motivo: sp.motivo, lido: sp.lido, vu: r2(v), pg: sp.pg, parc: sp.parc }); }
         $('#scan').focus();
       },
       'abrir-produto': () => abrirProduto(a.dataset.k),
@@ -5549,7 +5621,7 @@ function ligarUI() {
     }
     if (drawerAberto && drawerAberto.tipo === 'produto' && ['d-manual', 'd-custo', 'd-mk'].includes(tg.id)) atualizarDrawerCalc();
     if (['k-custo', 'k-mk', 'k-preco'].includes(tg.id)) calcRapida(tg.id);
-    if (ds.cfg) { const val = ds.cfg === 'arredondar' ? tg.value : /^taxa(Debito|Credito)$/.test(ds.cfg) && !tg.value.trim() ? null : (parseNum(tg.value) || 0); mudarConfig({ [ds.cfg]: val }); if (ds.cfg === 'metaMensal' && S.tab === 'faturamento') { clearTimeout(ligarUI.tm); ligarUI.tm = setTimeout(() => { if (document.activeElement?.id !== 'f-meta-in') VIEWS.faturamento(); }, 800); } }
+    if (ds.cfg) { const val = ds.cfg === 'arredondar' ? tg.value : /^taxa(Debito|Credito|Parcelado)$/.test(ds.cfg) && !tg.value.trim() ? null : (parseNum(tg.value) || 0); mudarConfig({ [ds.cfg]: val }); if (ds.cfg === 'metaMensal' && S.tab === 'faturamento') { clearTimeout(ligarUI.tm); ligarUI.tm = setTimeout(() => { if (document.activeElement?.id !== 'f-meta-in') VIEWS.faturamento(); }, 800); } }
     if (ds.mkcat) { const v = parseNum(tg.value); const mc = { ...(S.config.markupCat || {}) }; if (v > 0) mc[ds.mkcat] = r3(v); else delete mc[ds.mkcat]; mudarConfig({ markupCat: mc }); }
     if (ds.var != null) { const i = Number(ds.var), campo = ds.campo; const vs = S.config.variaveis.map(v => ({ ...v })); vs[i][campo] = campo === 'pct' ? (parseNum(tg.value) || 0) : tg.value; S.config.variaveis = vs; mudarConfig({}); }
     if (ds.nd && S.nd) {

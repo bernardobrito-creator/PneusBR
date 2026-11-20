@@ -72,7 +72,7 @@ const ok = (c, m, out) => { if (!c) out.falhas.push(m); };
     ok(!pr.mercado && !pr.ajuste, 'tela de preços sem média de mercado', out);
     ok(pr.setoresRO.length === 7 && pr.setoresRO.some(s => /^Acessórios.*2 produto.*× 1,53$/.test(s)) && pr.setoresRO.some(s => /^Fluidos.*× 1,67$/.test(s)), 'setores mostrados da planilha', out);
     ok(JSON.stringify(pr.inputsSetor) === '["Avulsos"]', 'só Avulsos editável quando a planilha tem a aba', out);
-    ok(pr.colunas.length === 6 && !pr.colunas.some(c => /mercado/i.test(c)), 'tabela de preços sem coluna de média de mercado', out);
+    ok(pr.colunas.length === 7 && !pr.colunas.some(c => /mercado/i.test(c)), 'tabela de preços sem coluna de média de mercado (com a de preço a prazo)', out);
     ok(/Markup por setor: Pneus × 1,53 · Peças × 1,73/.test(pr.planCard), 'cartão da planilha mostra os markups por setor', out);
     await A.screenshot({ path: path.join(SP, 'teste/st1-precos.png'), fullPage: true });
     await A.fill('#pr-q', 'hidraulica'); await A.waitForTimeout(300);
